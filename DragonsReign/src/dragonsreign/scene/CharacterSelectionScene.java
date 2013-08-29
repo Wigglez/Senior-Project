@@ -18,6 +18,7 @@ import org.andengine.util.color.Color;
 
 import dragonsreign.scene.BaseScene;
 import dragonsreign.character.characterclass.WarriorClass;
+import dragonsreign.manager.ResourceManager;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
 
@@ -315,6 +316,8 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	        	return true;
 	        case PLAY_GAME:
 	        	this.disposeScene();
+	        	ResourceManager.getInstance().unloadMenuTextures();
+	        	ResourceManager.getInstance().unloadCharacterSelectGraphics();
 	        	SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_GAME);
 	            return true;
 	        default:
