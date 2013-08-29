@@ -18,8 +18,8 @@ local.properties
 
 project.properties
 gen/
-*.apk
-*.dex
+.apk
+.dex
 *.cache
 *.ap_
 BuildConfig.java
