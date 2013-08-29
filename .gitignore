@@ -18,7 +18,7 @@ local.properties
 
 project.properties
 gen\
-*.apk
+.apk
 *.dex
 *.cache
 *.ap_
