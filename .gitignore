@@ -17,8 +17,8 @@ local.properties
 .loadpath
 
 project.properties
-gen\
-.apk
+gen/
+*.apk
 *.dex
 *.cache
 *.ap_
