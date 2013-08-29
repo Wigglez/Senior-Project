@@ -2,8 +2,6 @@
  * 
  */
 package dragonsreign.character.characterclass;
-//Josh is a bitch
-//Mark is a bitch
 import dragonsreign.character.PlayerCharacter;
 
 // TODO: Auto-generated Javadoc
