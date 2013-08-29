@@ -18,12 +18,13 @@ local.properties
 
 project.properties
 gen/
-.apk
-.dex
+DragonsReign.apk
+classes.dex
 *.cache
 *.ap_
 BuildConfig.java
 *.jar
+*.class
 
 
 # External tool builders
