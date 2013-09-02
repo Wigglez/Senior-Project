@@ -1,9 +1,6 @@
 package dragonsreign.util.enums;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Enum POTIONS.
- */
+
 public enum POTIONS {
 
 	/** The minor health potion. */
@@ -36,21 +33,12 @@ public enum POTIONS {
 	/** The m potion id. */
 	private int mPotionID;
 
-	/**
-	 * Instantiates a new potions.
-	 * 
-	 * @param pPotionID
-	 *            the potion id
-	 */
+	
 	private POTIONS(int pPotionID) {
 		this.mPotionID = pPotionID;
 	}
 
-	/**
-	 * Gets the potion id.
-	 * 
-	 * @return the potion id
-	 */
+	
 	public int getPotionID() {
 		return mPotionID;
 	}

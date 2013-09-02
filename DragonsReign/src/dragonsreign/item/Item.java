@@ -1,5 +1,7 @@
 package dragonsreign.item;
 
+import org.andengine.entity.sprite.Sprite;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class Item.
@@ -13,44 +15,37 @@ public abstract class Item {
 	// Fields
 	// ===========================================================
 
-	/** The m name. */
 	protected String mName;
+	
+	protected String mDescription;
+	
+	protected Sprite mSprite;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	/**
-	 * Instantiates a new item.
-	 * 
-	 * @param pName
-	 *            the name
-	 */
-	protected Item(String pName) {
-		this.setName(pName);
+	
+	protected Item() {
+		
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
-	/**
-	 * Gets the name.
-	 * 
-	 * @return the name
-	 */
+	
 	public String getName() {
 		return mName;
 	}
+	
 
-	/**
-	 * Sets the name.
-	 * 
-	 * @param pName
-	 *            the new name
-	 */
-	public void setName(String pName) {
-		this.mName = pName;
+	public String getDescription() {
+		return mDescription;
+	}
+	
+	public Sprite getSprite(){
+		return mSprite;
 	}
 
 	// ===========================================================

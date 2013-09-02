@@ -56,6 +56,7 @@ public class Stats {
 	 * 
 	 * @param pStrength
 	 *            the new strength
+	 * @return 
 	 */
 	public void setStrength(int pStrength) {
 		this.mStrength = pStrength;

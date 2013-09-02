@@ -1,8 +1,6 @@
 package dragonsreign.item.gear;
 
 import dragonsreign.item.Gear;
-import dragonsreign.item.Item;
-import dragonsreign.util.Stats;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -22,11 +20,9 @@ public class Weapon extends Gear {
 	// Constructors
 	// ===========================================================
 
-	public Weapon(String pName, int pStrength, int pDexterity,
-			int pIntelligence, int pVitality, int pDamage, int pArmor) {
-		super(pName, pStrength, pDexterity, pIntelligence, pVitality, pDamage,
-				pArmor);
+	public Weapon(){
 		// TODO Auto-generated constructor stub
+		
 	}
 
 	// ===========================================================

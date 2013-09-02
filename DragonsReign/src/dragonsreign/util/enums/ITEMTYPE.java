@@ -1,0 +1,50 @@
+package dragonsreign.util.enums;
+
+public enum ITEMTYPE {
+	
+	//Light Armor
+	LIGHT_HEMLT,
+	
+	LIGHT_CHESTPLATE,
+	
+	LIGHT_LEGS,
+	
+	//Medium Armor
+	MEDIUM_HEMLT,
+	
+	MEDIUM_CHESTPLATE,
+	
+	MEDIUM_LEGS,
+	
+	//Heavy Armor
+	HEAVY_HEMLET,
+	
+	HEAVY_CHESTPLATE,
+	
+	HEAVYA_LEGS,
+	
+	//Weapons
+	ONE_HANDED_SWORD,
+	
+	ONE_HANDED_AXE,
+	
+	ONE_HANDED_MACE,
+	
+	TWO_HANDED_SWORD,
+	
+	TWO_HANDED_AXE,
+	
+	TWO_HANDED_MACE,
+	
+	LONGBOW,
+	
+	SHORTOBOW,
+	
+	CROSSBOW,
+	
+	WAND,
+	
+	ORB,
+	
+	STAFF;
+}
