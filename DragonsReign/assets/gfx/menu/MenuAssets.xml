@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texture version="1" file="MenuAssets.png" type="bitmap" width="1024" height="1024" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
+    <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
+    <!-- $TexturePacker:SmartUpdate:2e18abc4b5c92d02cae18d24eff50635:1/1$ -->
+    <textureregion id="0" src="AndEngineLogo.jpg" x="2" y="603" width="225" height="225" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="225" srcheight="225"/>
+    <textureregion id="1" src="Background.jpg" x="2" y="2" width="800" height="480" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="800" srcheight="480"/>
+    <textureregion id="2" src="largeMenuButton.png" x="804" y="201" width="400" height="100" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="400" srcheight="100"/>
+    <textureregion id="3" src="menuButton.png" x="804" y="2" width="200" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="200" srcheight="50"/>
+    <textureregion id="4" src="warriorCharacter.png" x="804" y="54" width="145" height="194" rotated="true" trimmed="true" srcx="31" srcy="0" srcwidth="259" srcheight="194"/>
+</texture>

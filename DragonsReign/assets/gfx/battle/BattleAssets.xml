@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texture version="1" file="BattleAssets.png" type="bitmap" width="128" height="256" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
+    <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
+    <!-- $TexturePacker:SmartUpdate:828954747d5025362166691d4e3085f9:1/1$ -->
+    <textureregion id="0" src="Enemy.png" x="54" y="101" width="72" height="97" rotated="false" trimmed="true" srcx="16" srcy="0" srcwidth="130" srcheight="97"/>
+    <textureregion id="1" src="Player.png" x="54" y="2" width="72" height="97" rotated="false" trimmed="true" srcx="42" srcy="0" srcwidth="130" srcheight="97"/>
+    <textureregion id="2" src="menuButton.png" x="2" y="2" width="200" height="50" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="200" srcheight="50"/>
+</texture>

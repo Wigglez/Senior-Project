@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texture version="1" file="GameAssets.png" type="bitmap" width="512" height="1024" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
+    <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
+    <!-- $TexturePacker:SmartUpdate:b32fad1fafab53b6efd92049ba64d3b1:1/1$ -->
+    <textureregion id="0" src="backpack.jpg" x="394" y="2" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="1" src="currentEquipmentSlots.png" x="2" y="566" width="210" height="350" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="210" srcheight="350"/>
+    <textureregion id="2" src="exitButton.png" x="460" y="2" width="32" height="32" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="32" srcheight="32"/>
+    <textureregion id="3" src="inventory.png" x="2" y="2" width="390" height="350" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="390" srcheight="350"/>
+    <textureregion id="4" src="portrait.jpg" x="394" y="257" width="60" height="60" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="60" srcheight="60"/>
+    <textureregion id="5" src="portrait2.jpg" x="394" y="195" width="60" height="60" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="60" srcheight="60"/>
+    <textureregion id="6" src="portrait3.jpg" x="394" y="133" width="60" height="60" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="60" srcheight="60"/>
+    <textureregion id="7" src="statsArea.png" x="2" y="354" width="210" height="350" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="210" srcheight="350"/>
+    <textureregion id="8" src="worldMap.jpg" x="394" y="68" width="64" height="63" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="63"/>
+</texture>

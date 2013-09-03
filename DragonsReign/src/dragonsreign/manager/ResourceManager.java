@@ -17,7 +17,16 @@ import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
+import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePack;
+import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePackLoader;
+import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePackTextureRegionLibrary;
+import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.exception.TexturePackParseException;
+
 import android.graphics.Color;
+
+import dragonsreign.texturepacker.MenuAssets;
+import dragonsreign.texturepacker.GameAssets;
+import dragonsreign.texturepacker.BattleAssets;
 
 import dragonsreign.scene.DragonsReignActivity;;
 
@@ -35,13 +44,13 @@ public class ResourceManager
     public Camera camera;
     public VertexBufferObjectManager vbom;
     
-    public ITextureRegion companySplashLogo, andEngineLogo;
-    private BitmapTextureAtlas splashTextureAtlas;
+    private TexturePackTextureRegionLibrary texturePackLibrary;
+    private TexturePack texturePack;
     
-    public ITextureRegion menuBackgroundRegion;
-    public ITextureRegion playButton, optionsButton, 
-    					  warriorButton, knightButton, 
-    					  assassinButton, engineerButton, 
+
+    public ITextureRegion menuBackgroundRegion, playButton, optionsButton, 
+    					  companySplashLogo, warriorButton, knightButton, 
+    					  andEngineLogo, assassinButton, engineerButton, 
     					  clericButton, mageButton, 
     					  rangerButton, playGameButton, 
     					  warriorCharacter, knightCharacter, 
@@ -56,11 +65,10 @@ public class ResourceManager
     					  skillThreeButton, skillFourButton, skillFiveButton,
     					  teamMember1, teamMember2, teamMember3, enemy1, enemy2, enemy3;
     
-    private BuildableBitmapTextureAtlas menuTextureAtlas, characterSelectionTextureAtlas, 
-    									gameTextureAtlas, battleTextureAtlas, inventoryTextureAtlas;
     
     public Font font, battleFont, inventoryFont;
 
+    
 
     //////////////////////////////////////////////////////////////////////////
     //Load Resources for Menu Scene
@@ -70,25 +78,27 @@ public class ResourceManager
     	loadMenuGraphics();
         loadMenuAudio();
         loadMenuFonts();
-        loadMenuTextures();
+        
     }
     private void loadMenuGraphics()
     {
-    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
-    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-    	menuBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "Background.jpg");
-    	playButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "largeMenuButton.png");
-    	optionsButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "largeMenuButton.png");
-    	       
-    	try 
+    	try
     	{
-    	    this.menuTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-    	    this.menuTextureAtlas.load();
-    	} 
-    	catch (final TextureAtlasBuilderException e)
-    	{
-    	        Debug.e(e);
+    		texturePack = new TexturePackLoader(activity.getTextureManager(), "gfx/menu/").loadFromAsset(activity.getAssets(), "MenuAssets.xml");
+            texturePack.loadTexture();
+            texturePackLibrary = texturePack.getTexturePackTextureRegionLibrary();
+    		
     	}
+    	catch(final TexturePackParseException e)
+    	{
+    		Debug.e(e);
+    	}
+    	
+    	menuBackgroundRegion = texturePackLibrary.get(MenuAssets.BACKGROUND_ID);
+    	playButton = texturePackLibrary.get(MenuAssets.LARGEMENUBUTTON_ID);
+    	optionsButton = texturePackLibrary.get(MenuAssets.LARGEMENUBUTTON_ID);
+    	
+    	
     }
     private void loadMenuAudio()
     {
@@ -102,17 +112,13 @@ public class ResourceManager
         font = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "Zwiebelfisch.ttf", 30, true, Color.BLACK, 2, Color.BLACK);
         font.load();
     }
-	private void loadMenuTextures()
-	{
-	        menuTextureAtlas.load();
-	        
-	}
+
 	//////////////////////////////////////////////////////////////////////////
     //Unload Resources for Menu Scene
     //////////////////////////////////////////////////////////////////////////    
     public void unloadMenuTextures()
     {
-        menuTextureAtlas.unload();
+       
         menuBackgroundRegion = null;
     	playButton  = null;
     	optionsButton  = null;
@@ -122,47 +128,48 @@ public class ResourceManager
     //////////////////////////////////////////////////////////////////////////
     public void loadCharacterSelectGraphics()
     {
-    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
-    	characterSelectionTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
     	
-    	/////////////////////////////////////////////////////////////////////////////
-    	//Character Selection Buttons
-    	/////////////////////////////////////////////////////////////////////////////
-    	warriorButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(characterSelectionTextureAtlas, activity, "menuButton.png");
-    	knightButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(characterSelectionTextureAtlas, activity, "menuButton.png");
-    	assassinButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(characterSelectionTextureAtlas, activity, "menuButton.png");
-    	engineerButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(characterSelectionTextureAtlas, activity, "menuButton.png");
-    	clericButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(characterSelectionTextureAtlas, activity, "menuButton.png");
-    	mageButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(characterSelectionTextureAtlas, activity, "menuButton.png");
-    	rangerButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(characterSelectionTextureAtlas, activity, "menuButton.png");
-    
-    	/////////////////////////////////////////////////////////////////////////////
-    	//Character Sprites
-    	/////////////////////////////////////////////////////////////////////////////
-    	warriorCharacter = BitmapTextureAtlasTextureRegionFactory.createFromAsset(characterSelectionTextureAtlas, activity, "warriorCharacter.png");
-    	//knightCharacter = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "knightCharacter.png");
-    	//assassinCharacter = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "assassinCharacter.png");
-    	//engineerCharacter = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "engineerCharacter.png");
-    	//clericCharacter = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "clericCharacter.png");
-    	//mageCharacter = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "mageCharacter.png");
-    	
-    	
-    	playGameButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(characterSelectionTextureAtlas, activity, "menuButton.png");
-    	try 
+    	try
     	{
-    	    characterSelectionTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-    	    
-    	} 
-    	catch (final TextureAtlasBuilderException e)
+    		texturePack = new TexturePackLoader(activity.getTextureManager(), "gfx/menu/").loadFromAsset(activity.getAssets(), "MenuAssets.xml");
+            texturePack.loadTexture();
+            texturePackLibrary = texturePack.getTexturePackTextureRegionLibrary();
+    		
+    	}
+    	catch(final TexturePackParseException e)
     	{
-    	        Debug.e(e);
+    		Debug.e(e);
     	}
     	
-    	characterSelectionTextureAtlas.load();
+    	
+		/////////////////////////////////////////////////////////////////////////////
+		//Character Selection Buttons
+		/////////////////////////////////////////////////////////////////////////////
+    	warriorButton = texturePackLibrary.get(MenuAssets.MENUBUTTON_ID);
+    	knightButton = texturePackLibrary.get(MenuAssets.MENUBUTTON_ID);
+    	assassinButton = texturePackLibrary.get(MenuAssets.MENUBUTTON_ID);
+    	engineerButton = texturePackLibrary.get(MenuAssets.MENUBUTTON_ID);
+    	clericButton = texturePackLibrary.get(MenuAssets.MENUBUTTON_ID);
+    	mageButton = texturePackLibrary.get(MenuAssets.MENUBUTTON_ID);
+    	rangerButton = texturePackLibrary.get(MenuAssets.MENUBUTTON_ID);
+    	
+    	playGameButton = texturePackLibrary.get(MenuAssets.MENUBUTTON_ID);
+    	
+		/////////////////////////////////////////////////////////////////////////////
+		//Character Sprites
+		/////////////////////////////////////////////////////////////////////////////
+    	warriorCharacter = texturePackLibrary.get(MenuAssets.WARRIORCHARACTER_ID);
+    	//knightCharacter = 
+    	//assassinCharacter = 
+    	//engineerCharacter = 
+    	//clericCharacter = 
+    	//mageCharacter = 
+    	
+    	
+    	
     }
     public void unloadCharacterSelectGraphics()
     {
-    	characterSelectionTextureAtlas.unload();
     	warriorButton = null;
     	knightButton  = null;
     	assassinButton  = null;
@@ -184,26 +191,45 @@ public class ResourceManager
     
     private void loadGameGraphics()
     {
-    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
-    	gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
     	
-
-    	backPack = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "backpack.jpg");
-    	
-    	worldMap = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "worldMap.jpg");
-    	
-    	
-    	try 
+    	try
     	{
-    	    gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-    	    
-    	} 
-    	catch (final TextureAtlasBuilderException e)
+    		texturePack = new TexturePackLoader(activity.getTextureManager(), "gfx/game/").loadFromAsset(activity.getAssets(), "GameAssets.xml");
+            texturePack.loadTexture();
+            texturePackLibrary = texturePack.getTexturePackTextureRegionLibrary();
+    		
+    	}
+    	catch(final TexturePackParseException e)
     	{
-    	        Debug.e(e);
+    		Debug.e(e);
     	}
     	
-    	gameTextureAtlas.load();
+    	
+    	
+    	backPack = texturePackLibrary.get(GameAssets.BACKPACK_ID);
+    	
+    	worldMap = texturePackLibrary.get(GameAssets.WORLDMAP_ID);
+    	
+    	//BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
+    	//gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+    	
+
+    	//backPack = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "backpack.jpg");
+    	
+    	//worldMap = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "worldMap.jpg");
+    	
+    	
+    	//try 
+    	//{
+    	   // gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
+    	    
+    	//} 
+    	//catch (final TextureAtlasBuilderException e)
+    	//{
+    	  //      Debug.e(e);
+    	//}
+    	
+    	//gameTextureAtlas.load();
     }
     
     private void loadGameFonts()
@@ -221,7 +247,7 @@ public class ResourceManager
     public void unloadGameTextures()
     {
     	//TODO: Unload Game Textures
-    	gameTextureAtlas.unload();
+    	//gameTextureAtlas.unload();
     }
     //////////////////////////////////////////////////////////////////////////
     //Load Resources for Inventory Scene
@@ -235,38 +261,36 @@ public class ResourceManager
     
     private void loadInventoryGraphics()
     {
-    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
-    	inventoryTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
     	
-    	
-    	
-    	character1Portrait = BitmapTextureAtlasTextureRegionFactory.createFromAsset(inventoryTextureAtlas, activity, "portrait.jpg");
-    	character2Portrait = BitmapTextureAtlasTextureRegionFactory.createFromAsset(inventoryTextureAtlas, activity, "portrait2.jpg");
-    	character3Portrait = BitmapTextureAtlasTextureRegionFactory.createFromAsset(inventoryTextureAtlas, activity, "portrait3.jpg");
-    	exitButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(inventoryTextureAtlas, activity, "exitButton.png");
-    	
-    	inventoryGid = BitmapTextureAtlasTextureRegionFactory.createFromAsset(inventoryTextureAtlas, activity, "inventory.png");
-    	
-    	backPack = BitmapTextureAtlasTextureRegionFactory.createFromAsset(inventoryTextureAtlas, activity, "backpack.jpg");
-    	
-    	worldMap = BitmapTextureAtlasTextureRegionFactory.createFromAsset(inventoryTextureAtlas, activity, "worldMap.jpg");
-    	
-    	equipmentArea = BitmapTextureAtlasTextureRegionFactory.createFromAsset(inventoryTextureAtlas, activity, "currentEquipmentSlots.png");
-    	
-    	statsArea = BitmapTextureAtlasTextureRegionFactory.createFromAsset(inventoryTextureAtlas, activity, "statsArea.png");
-    	
-    	
-    	try 
+    	try
     	{
-    		inventoryTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-    	    
-    	} 
-    	catch (final TextureAtlasBuilderException e)
+    		texturePack = new TexturePackLoader(activity.getTextureManager(), "gfx/game/").loadFromAsset(activity.getAssets(), "GameAssets.xml");
+            texturePack.loadTexture();
+            texturePackLibrary = texturePack.getTexturePackTextureRegionLibrary();
+    		
+    	}
+    	catch(final TexturePackParseException e)
     	{
-    	        Debug.e(e);
+    		Debug.e(e);
     	}
     	
-    	inventoryTextureAtlas.load();
+    	
+    	
+    	
+    	character1Portrait = texturePackLibrary.get(GameAssets.PORTRAIT_ID);
+    	
+    	
+    	character2Portrait = texturePackLibrary.get(GameAssets.PORTRAIT2_ID);
+    	character3Portrait = texturePackLibrary.get(GameAssets.PORTRAIT3_ID);
+    	
+    	exitButton = texturePackLibrary.get(GameAssets.EXITBUTTON_ID);
+    	inventoryGid = texturePackLibrary.get(GameAssets.INVENTORY_ID);
+    	equipmentArea = texturePackLibrary.get(GameAssets.CURRENTEQUIPMENTSLOTS_ID);
+    	statsArea = texturePackLibrary.get(GameAssets.STATSAREA_ID);
+    	
+    	
+    	
+
     }
     
     private void loadInventoryFonts()
@@ -288,7 +312,7 @@ public class ResourceManager
     public void unloadInventoryTextures()
     {
     	//TODO: Unload Game Textures
-    	inventoryTextureAtlas.unload();
+    	
     }
     //////////////////////////////////////////////////////////////////////////
     //Load Battle Scene Resources
@@ -303,44 +327,45 @@ public class ResourceManager
     
     private void loadBattleGraphics()
     {
-    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/battle/");
-    	battleTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+    	try
+    	{
+    		texturePack = new TexturePackLoader(activity.getTextureManager(), "gfx/battle/").loadFromAsset(activity.getAssets(), "BattleAssets.xml");
+            texturePack.loadTexture();
+            texturePackLibrary = texturePack.getTexturePackTextureRegionLibrary();
+    		
+    	}
+    	catch(final TexturePackParseException e)
+    	{
+    		Debug.e(e);
+    	}
+    	
+    	
     	
         //////////////////////////////////////////////////////////////////////////
         //Create Battle Menu Sprites
         //////////////////////////////////////////////////////////////////////////
-    	abilitiesButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "menuButton.png");
-    	itemsButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "menuButton.png");
-    	swapButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "menuButton.png");
-    	fleeButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "menuButton.png");
-    	basicAttackButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "menuButton.png");
-    	skillOneButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "menuButton.png");
-    	skillTwoButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "menuButton.png");
-    	skillThreeButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "menuButton.png");
-    	skillFourButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "menuButton.png");
-    	skillFiveButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "menuButton.png");
+    	abilitiesButton = texturePackLibrary.get(BattleAssets.MENUBUTTON_ID);
+    	itemsButton = texturePackLibrary.get(BattleAssets.MENUBUTTON_ID);
+    	swapButton = texturePackLibrary.get(BattleAssets.MENUBUTTON_ID);
+    	fleeButton = texturePackLibrary.get(BattleAssets.MENUBUTTON_ID);
+    	basicAttackButton = texturePackLibrary.get(BattleAssets.MENUBUTTON_ID);
+    	skillOneButton = texturePackLibrary.get(BattleAssets.MENUBUTTON_ID);
+    	skillTwoButton = texturePackLibrary.get(BattleAssets.MENUBUTTON_ID);
+    	skillThreeButton = texturePackLibrary.get(BattleAssets.MENUBUTTON_ID);
+    	skillFourButton = texturePackLibrary.get(BattleAssets.MENUBUTTON_ID);
+    	skillFiveButton = texturePackLibrary.get(BattleAssets.MENUBUTTON_ID);
     	
-        //////////////////////////////////////////////////////////////////////////
-        //Create Battle Sprites
-        //////////////////////////////////////////////////////////////////////////
-    	teamMember1 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "Player.png");
-    	teamMember2 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "Player.png");
-    	teamMember3 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "Player.png");
-    	enemy1 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "Enemy.png");
-    	enemy2 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "Enemy.png");
-    	enemy3 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(battleTextureAtlas, activity, "Enemy.png");
+    	//////////////////////////////////////////////////////////////////////////
+    	//Create Battle Sprites
+    	//////////////////////////////////////////////////////////////////////////
+    	teamMember1 = texturePackLibrary.get(BattleAssets.PLAYER_ID);
+    	teamMember2 = texturePackLibrary.get(BattleAssets.PLAYER_ID);
+    	teamMember3 = texturePackLibrary.get(BattleAssets.PLAYER_ID);
+    	enemy1 = texturePackLibrary.get(BattleAssets.ENEMY_ID);
+    	enemy2 = texturePackLibrary.get(BattleAssets.ENEMY_ID);
+    	enemy3 = texturePackLibrary.get(BattleAssets.ENEMY_ID);
     	
-    	try 
-    	{
-    		battleTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-    	    
-    	} 
-    	catch (final TextureAtlasBuilderException e)
-    	{
-    	        Debug.e(e);
-    	}
     	
-    	battleTextureAtlas.load();
     }
     
     private void loadBattleFonts()
@@ -362,24 +387,36 @@ public class ResourceManager
     public void unloadBattleTextures()
     {
     	//TODO: Unload Game Textures
-    	battleTextureAtlas.unload();
+    	
     }
     //////////////////////////////////////////////////////////////////////////
     //load Resources for Splash Scene
     //////////////////////////////////////////////////////////////////////////
     public void loadSplashScreen()
     {
-    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-    	splashTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
-    	companySplashLogo = BitmapTextureAtlasTextureRegionFactory.createFromAsset(splashTextureAtlas, activity, "splash.png", 0, 0);
-    	andEngineLogo = BitmapTextureAtlasTextureRegionFactory.createFromAsset(splashTextureAtlas, activity, "AndEngineLogo.jpg", 0, 0);
     	
-    	splashTextureAtlas.load();
+    	try
+    	{
+    		texturePack = new TexturePackLoader(activity.getTextureManager(), "gfx/menu/").loadFromAsset(activity.getAssets(), "MenuAssets.xml");
+            texturePack.loadTexture();
+            texturePackLibrary = texturePack.getTexturePackTextureRegionLibrary();
+    		
+    	}
+    	catch(final TexturePackParseException e)
+    	{
+    		Debug.e(e);
+    	}
+    	
+    	
+    	
+    	andEngineLogo = texturePackLibrary.get(MenuAssets.ANDENGINELOGO_ID);
+    	
+    	
     }
     
     public void unloadSplashScreen()
     {
-    	splashTextureAtlas.unload();
+    	//splashTextureAtlas.unload();
     	companySplashLogo = null;
     	andEngineLogo = null;
     }
