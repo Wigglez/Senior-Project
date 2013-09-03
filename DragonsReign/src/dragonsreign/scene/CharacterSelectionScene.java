@@ -17,7 +17,6 @@ import org.andengine.util.color.Color;
 
 
 import dragonsreign.scene.BaseScene;
-import dragonsreign.character.characterclass.WarriorClass;
 import dragonsreign.manager.ResourceManager;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;

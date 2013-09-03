@@ -7,13 +7,7 @@ import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
-import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
-import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
@@ -210,26 +204,6 @@ public class ResourceManager
     	
     	worldMap = texturePackLibrary.get(GameAssets.WORLDMAP_ID);
     	
-    	//BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
-    	//gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-    	
-
-    	//backPack = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "backpack.jpg");
-    	
-    	//worldMap = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "worldMap.jpg");
-    	
-    	
-    	//try 
-    	//{
-    	   // gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-    	    
-    	//} 
-    	//catch (final TextureAtlasBuilderException e)
-    	//{
-    	  //      Debug.e(e);
-    	//}
-    	
-    	//gameTextureAtlas.load();
     }
     
     private void loadGameFonts()

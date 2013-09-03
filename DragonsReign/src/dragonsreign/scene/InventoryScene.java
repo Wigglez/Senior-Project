@@ -2,8 +2,6 @@ package dragonsreign.scene;
 
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.menu.MenuScene;
-import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
-import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.text.TextOptions;
