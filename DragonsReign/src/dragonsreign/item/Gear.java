@@ -224,7 +224,12 @@ public class Gear extends Item {
 			
 			//mSprite = ResourceManager.do stuff
 			
-		case ONE_HANDED_SWORD:
+		/*TODO
+		 * figure out weapons balance
+		 * fill in weapon stats
+		 *
+		 * case ONE_HANDED_SWORD:
+		
 			//One Handed sword
 			//For Warrior, Knight, and Assassin
 			mName = "One Handed sword";
@@ -404,6 +409,9 @@ public class Gear extends Item {
 			mItemStats.setArmor(0);
 			
 			//mSprite = ResourceManager.do stuff
+		* 
+		* 
+		*/
 			
 		}
 	}
