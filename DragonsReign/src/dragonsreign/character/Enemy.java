@@ -1,12 +1,16 @@
 package dragonsreign.character;
 
-import dragonsreign.item.Item;
-import dragonsreign.util.Stats;
+import java.io.StringReader;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class Enemy.
- */
+import javax.xml.parsers.FactoryConfigurationError;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import dragonsreign.util.xml.EnemyHandler;
+import dragonsreign.util.xml.MinimizeXMLParser;
+
 public class Enemy extends Character {
 	// ===========================================================
 	// Constants
@@ -16,70 +20,41 @@ public class Enemy extends Character {
 	// Fields
 	// ===========================================================
 
-	/** The m level. */
-	protected int mLevel;
+	// Gold that the enemy gives
+	protected int mGoldReward;
 
-	/** The m base stats. */
-	protected Stats mBaseStats;
-
-	/** The m item drop. */
-	protected Item mItemDrop;
+	// Experience that the enemy gives
+	protected int mExperienceReward;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	/**
-	 * Instantiates a new enemy.
-	 */
 	public Enemy() {
-		mLevel = 0;
-
-		mBaseStats.setStrength(0);
-		mBaseStats.setArmor(0);
-		mBaseStats.setDamage(0);
+		mGoldReward = 0;
+		mExperienceReward = this.mExperience;
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
-	/**
-	 * Gets the level.
-	 * 
-	 * @return the level
-	 */
-	public int getLevel() {
-		return mLevel;
+	// Gold reward
+	public int getGoldReward() {
+		return mGoldReward;
 	}
 
-	/**
-	 * Sets the level.
-	 * 
-	 * @param pLevel
-	 *            the new level
-	 */
-	public void setLevel(int pLevel) {
-		this.mLevel = pLevel;
+	public void setGoldReward(int pGoldReward) {
+		this.mGoldReward = pGoldReward;
+	}
+	
+	// Experience reward
+	public int getExperienceReward() {
+		return mExperienceReward;
 	}
 
-	/**
-	 * Gets the item drop.
-	 * 
-	 * @return the item drop
-	 */
-	public Item getItemDrop() {
-		return mItemDrop;
-	}
-
-	/**
-	 * Sets the item drop.
-	 * 
-	 * @param pItemDrop
-	 *            the new item drop
-	 */
-	public void setItemDrop(Item pItemDrop) {
-		this.mItemDrop = pItemDrop;
+	public void setExperienceReward(int pExperienceReward) {
+		this.mExperienceReward = pExperienceReward;
 	}
 
 	// ===========================================================
@@ -89,6 +64,21 @@ public class Enemy extends Character {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	public void loadEnemies() throws Exception {
+		try {
+			MinimizeXMLParser parser = new MinimizeXMLParser();
+			parser.setElementHandler(new EnemyHandler());
+			parser.parse(new InputSource(new StringReader(
+					"assets/xml/enemies.xml")));
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (FactoryConfigurationError e) {
+			e.printStackTrace();
+		}
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

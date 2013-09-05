@@ -74,12 +74,13 @@ public class WarriorClass extends PlayerCharacter {
 		// set base stats, stamina for warrior
 		// loadWarriorSprite
 
+		/*
 		mBaseStats.setStrength(9);
 		mBaseStats.setDexterity(2);
 		mBaseStats.setIntelligence(2);
 		mBaseStats.setVitality(7);
 		mBaseStats.setDamage(0);
-		mBaseStats.setArmor(0);
+		mBaseStats.setArmor(0); */
 		
 		//mCurrentStats.setStrength(mBaseStats.getStrength());
 		//mCurrentStats.setDexterity(mBaseStats.getDexterity());

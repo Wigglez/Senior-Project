@@ -1,141 +1,190 @@
-/*
- * 
- */
 package dragonsreign.character;
 
-import dragonsreign.util.Resources;
-import dragonsreign.util.Stats;
+import dragonsreign.util.RandomInt;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class Character.
- */
 public abstract class Character {
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
+	protected final static int MAX_LEVEL = 60;
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
-	/** The m base resources. */
-	protected Resources mBaseResources;
+	// All players and enemies have an ID
+	protected int mID;
 
-	/** The m max resources. */
-	protected Resources mMaxResources;
+	// All players and enemies have a name
+	protected String mName;
 
-	/** The m base stats. */
-	protected Stats mBaseStats;
+	// All players and enemies have a level
+	protected int mLevel;
+	
+	// Decider of turn order
+	protected int mHaste;
 
-	/** The m max stats. */
-	protected Stats mMaxStats;
+	// For players, the experience that the enemy provides
+	// For enemies, the experience that is rewarded to player
+	protected int mExperience;
+
+	// Resources
+	public int mHealth;
+	public int mResource;
+	
+	// Stats
+	public int mStrength;
+	public int mDexterity;
+	public int mIntelligence;
+	public int mVitality;
+	public int mDamage;
+	public int mArmor;
+
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	/**
-	 * Instantiates a new character.
-	 */
 	public Character() {
-		mBaseResources = new Resources();
-		mBaseStats = new Stats();
-
-		mBaseResources.setHealth(0);
-		mBaseResources.setResource(0);
-
-		mBaseStats.setStrength(0);
-		mBaseStats.setDexterity(0);
-		mBaseStats.setIntelligence(0);
-		mBaseStats.setVitality(0);
-		mBaseStats.setDamage(0);
-		mBaseStats.setArmor(0);
-
-		// Sets the max to what is currently the base
-		mMaxResources = mBaseResources;
-		mMaxStats = mBaseStats;
+		mID = 0;
+		mName = "";
+		mLevel = 0;
+		mExperience = 0;
+		mHaste = 0;
+		
+		mHealth = 0;
+		mResource = 0;
+		
+		mStrength = 0;
+		mDexterity = 0;
+		mIntelligence = 0;
+		mVitality = 0;
+		mDamage = 0;
+		mArmor = 0;
 	}
+
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	/**
-	 * Gets the base resources.
-	 * 
-	 * @return the base resources
-	 */
-	public Resources getBaseResources() {
-		return mBaseResources;
+
+	// ID
+	public int getID() {
+		return mID;
 	}
 
-	/**
-	 * Sets the base resources.
-	 * 
-	 * @param pBaseResources
-	 *            the new base resources
-	 */
-	public void setBaseResources(Resources pBaseResources) {
-		this.mBaseResources = pBaseResources;
+	public void setID(int pID) {
+		this.mID = pID;
+	}
+	
+	// Name
+	public String getName() {
+		return mName;
 	}
 
-	/**
-	 * Gets the base stats.
-	 * 
-	 * @return the base stats
-	 */
-	public Stats getBaseStats() {
-		return mBaseStats;
+	public void setName(String pName) {
+		this.mName = pName;
 	}
 
-	/**
-	 * Sets the base stats.
-	 * 
-	 * @param pBaseStats
-	 *            the new base stats
-	 */
-	public void setBaseStats(Stats pBaseStats) {
-		this.mBaseStats = pBaseStats;
+	// Level
+	public int getLevel() {
+		return mLevel;
 	}
 
-	/**
-	 * Gets the max resources.
-	 * 
-	 * @return the max resources
-	 */
-	public Resources getMaxResources() {
-		return mMaxResources;
+	public void setLevel(int pLevel) {
+		this.mLevel = pLevel;
 	}
 
-	/**
-	 * Sets the max resources.
-	 * 
-	 * @param pMaxResources
-	 *            the new max resources
-	 */
-	public void setMaxResources(Resources pMaxResources) {
-		this.mMaxResources = pMaxResources;
+	// Haste
+	public int getHaste() {
+		return mHaste;
 	}
 
-	/**
-	 * Gets the max stats.
-	 * 
-	 * @return the max stats
-	 */
-	public Stats getMaxStats() {
-		return mMaxStats;
+	public void setHaste(int pHaste) {
+		this.mHaste = pHaste;
+	}
+	
+	// Experience
+	public int getExperience() {
+		return mExperience;
 	}
 
-	/**
-	 * Sets the max stats.
-	 * 
-	 * @param pMaxStats
-	 *            the new max stats
-	 */
-	public void setMaxStats(Stats pMaxStats) {
-		this.mMaxStats = pMaxStats;
+	public void setExperience(int pExperience) {
+		this.mExperience = pExperience;
+	}
+	
+	// Resource
+	public int getHealth() {
+		return mHealth;
+	}
+	
+	public void setHealth(int pHealth) {
+		this.mHealth = pHealth;
+	}
+	
+	public int getResource() {
+		return mResource;
+	}
+	
+	public void setResource(int pResource) {
+		this.mResource = pResource;
+	}
+	
+	// Stat
+	public int getStrength() {
+		return mStrength;
+	}
+	
+	public void setStrength(int pStrength) {
+		this.mStrength = pStrength;
+	}
+	
+	public int getDexterity() {
+		return mStrength;
+	}
+	
+	public void setDexterity(int pDexterity) {
+		this.mDexterity = pDexterity;
+	}
+	
+	public int getIntelligence() {
+		return mIntelligence;
+	}
+	
+	public void setIntelligence(int pIntelligence) {
+		this.mIntelligence = pIntelligence;
+	}
+	
+	public int getVitality() {
+		return mVitality;
+	}
+	
+	public void setVitality(int pVitality) {
+		this.mVitality = pVitality;
+	}
+	
+	public int getDamage() {
+		return mDamage;
+	}
+	
+	public void setDamage(int pDamage) {
+		this.mDamage = pDamage;
+	}
+	
+	public int getArmor() {
+		return mArmor;
+	}
+	
+	public void setArmor(int pArmor) {
+		this.mArmor = pArmor;
 	}
 
+	// Alive
+	public boolean getAlive() {
+		return (mHealth > 0);
+	}
+	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -143,6 +192,33 @@ public abstract class Character {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	// Compare haste to determine turn order
+	public boolean compareHasteTo(int pHaste) {
+		boolean turnDecision = false;
+
+		// If current character haste is less than the other character's haste
+		if (this.mHaste < pHaste) {
+			// Enemy goes first
+			turnDecision = false;
+		} else if (this.mHaste > pHaste) {
+			// Player goes first
+			turnDecision = true;
+		} else if (this.mHaste == pHaste) {
+			// Randomly pick a turn decision in the range
+			int randomNumber = RandomInt.generateRandomInt(1, 10);
+
+			if (randomNumber <= 5) {
+				// Player goes first
+				turnDecision = true;
+			} else if (randomNumber >= 6) {
+				// Enemy goes first
+				turnDecision = false;
+			}
+		}
+
+		return turnDecision;
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

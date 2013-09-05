@@ -75,12 +75,14 @@ public class InventoryScene extends BaseScene
             	{         	
                 	case TouchEvent.ACTION_DOWN:
                 		
+                		/*
                 		strengthText.setText("Str: " + warriorCharacter.getBaseStats().getStrength());
                 		dexterityText.setText("Dex: " + warriorCharacter.getBaseStats().getDexterity());
                 		intelligenceText.setText("Int: " + warriorCharacter.getBaseStats().getIntelligence());
                 		vitalityText.setText("Vit: " + warriorCharacter.getBaseStats().getVitality());
                 		damageText.setText("Dmg: " + warriorCharacter.getBaseStats().getDamage());
                 		armorText.setText("Armor: " + warriorCharacter.getBaseStats().getArmor());
+                		*/
                 		break;
 
                 }

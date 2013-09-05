@@ -256,6 +256,7 @@ public class DragonsReignActivity extends BaseGameActivity {
 		mPrefixStatEnergy = "Energy: ";
 		mPrefixStatStamina = "Stamina: ";
 
+		/*
 		mCharacterTest.getBaseStats().setStrength(50);
 		mCharacterTest.getBaseStats().setDexterity(45);
 		mCharacterTest.getBaseStats().setIntelligence(30);
@@ -265,6 +266,7 @@ public class DragonsReignActivity extends BaseGameActivity {
 
 		mCharacterTest.getBaseResources().setHealth(500);
 		mCharacterTest.getBaseResources().setResource(12);
+		
 		// Stats
 		mBaseStrength = String.valueOf(mCharacterTest.getBaseStats()
 				.getStrength());
@@ -292,6 +294,8 @@ public class DragonsReignActivity extends BaseGameActivity {
 
 		mResources = mPrefixResources + "\n" + mPrefixStatHealth + mBaseHealth
 				+ "\n" + mPrefixStatMana + mBaseResource;
+				
+				*/
 	}
 
 	// ===========================================================
