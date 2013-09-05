@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<enemy>
+	<id>0</id>
+	<name>Test Enemy 1</name>
+	<level>1</level>
+	<haste>101</haste>
+	<health>100</health>
+	<goldreward>5</goldreward>
+	<experiencereward>15</experiencereward>
+</enemy>
