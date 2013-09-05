@@ -19,14 +19,10 @@ public class WarriorClass extends PlayerCharacter {
 	// Fields
 	// ===========================================================
 
-	/** The m current stamina. */
-	protected int mCurrentStamina;
-
 	/** The m current skill points. */
 	protected int mCurrentSkillPoints;
 
 	// Ability levels
-
 	/** The m cleave level. */
 	protected int mCleaveLevel;
 
@@ -82,8 +78,8 @@ public class WarriorClass extends PlayerCharacter {
 		mBaseStats.setDexterity(2);
 		mBaseStats.setIntelligence(2);
 		mBaseStats.setVitality(7);
-		mBaseStats.setDamage(999);
-		mBaseStats.setArmor(999);
+		mBaseStats.setDamage(0);
+		mBaseStats.setArmor(0);
 		
 		//mCurrentStats.setStrength(mBaseStats.getStrength());
 		//mCurrentStats.setDexterity(mBaseStats.getDexterity());
@@ -122,7 +118,6 @@ public class WarriorClass extends PlayerCharacter {
 		mWarCryLevel = 0;
 
 		// Ability costs
-
 		mCleaveCost = 0;
 		mLungeCost = 0;
 		mExecuteCost = 0;

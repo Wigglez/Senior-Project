@@ -1,5 +1,8 @@
 /*
- * 
+ * Notes: Gear is not balanced properly yet
+ * Since all classes are not implemented each armor/weapon
+ * has increased stats for the implemented classes(Warrior, Ranger, Cleric)
+ * for their respected gear pieces since there is no crossover between them
  */
 package dragonsreign.item;
 
@@ -72,6 +75,9 @@ public class Gear extends Item {
 			mItemStats.setDamage(0);
 			mItemStats.setArmor(randLowStat());
 			
+			isWeapon = false;
+			isArmor = true;
+			
 			//mSprite = ResourceManager.do stuff
 			
 		case LIGHT_CHESTPLATE:
@@ -90,6 +96,9 @@ public class Gear extends Item {
 			mItemStats.setDamage(0);
 			mItemStats.setArmor(randLowStat());
 			
+			isWeapon = false;
+			isArmor = true;
+			
 			//mSprite = ResourceManager.do stuff
 		
 		case LIGHT_LEGS:
@@ -107,6 +116,9 @@ public class Gear extends Item {
 			mItemStats.setVitality(randMedStat());
 			mItemStats.setDamage(0);
 			mItemStats.setArmor(randLowStat());
+			
+			isWeapon = false;
+			isArmor = true;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -127,6 +139,9 @@ public class Gear extends Item {
 			mItemStats.setDamage(0);
 			mItemStats.setArmor(randMedStat());
 			
+			isWeapon = false;
+			isArmor = true;
+			
 			//mSprite = ResourceManager.do stuff
 			
 		case MEDIUM_CHESTPLATE:
@@ -145,6 +160,9 @@ public class Gear extends Item {
 			mItemStats.setVitality(randMedStat());
 			mItemStats.setDamage(0);
 			mItemStats.setArmor(randMedStat());
+			
+			isWeapon = false;
+			isArmor = true;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -165,7 +183,11 @@ public class Gear extends Item {
 			mItemStats.setDamage(0);
 			mItemStats.setArmor(randMedStat());
 			
+			isWeapon = false;
+			isArmor = true;
+			
 			//mSprite = ResourceManager.do stuff
+			
 		case HEAVY_HEMLET:
 			//Heavy Hemlet
 			//For Warrior & Knight
@@ -182,6 +204,9 @@ public class Gear extends Item {
 			mItemStats.setVitality(randMedStat());
 			mItemStats.setDamage(0);
 			mItemStats.setArmor(randHighStat());
+			
+			isWeapon = false;
+			isArmor = true;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -201,6 +226,9 @@ public class Gear extends Item {
 			mItemStats.setVitality(randMedStat());
 			mItemStats.setDamage(0);
 			mItemStats.setArmor(randHighStat());
+			
+			isWeapon = false;
+			isArmor = true;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -222,25 +250,27 @@ public class Gear extends Item {
 			mItemStats.setDamage(0);
 			mItemStats.setArmor(randHighStat());
 			
+			isWeapon = false;
+			isArmor = true;
+			
 			//mSprite = ResourceManager.do stuff
 			
-		/*TODO
-		 * figure out weapons balance
-		 * fill in weapon stats
-		 *
-		 * case ONE_HANDED_SWORD:
+		case ONE_HANDED_SWORD:
 		
 			//One Handed sword
 			//For Warrior, Knight, and Assassin
 			mName = "One Handed sword";
 			mDescription =  "";
 			
-			mItemStats.setStrength();
-			mItemStats.setDexterity();
-			mItemStats.setIntelligence();
-			mItemStats.setVitality();
-			mItemStats.setDamage();
+			mItemStats.setStrength(randHighStat());
+			mItemStats.setDexterity(randLowStat());
+			mItemStats.setIntelligence(randLowStat());
+			mItemStats.setVitality(randMedStat());
+			mItemStats.setDamage(randHighStat());
 			mItemStats.setArmor(0);
+			
+			isWeapon = true;
+			isArmor = false;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -250,12 +280,15 @@ public class Gear extends Item {
 			mName = "One handed axe";
 			mDescription =  "";
 			
-			mItemStats.setStrength();
-			mItemStats.setDexterity();
-			mItemStats.setIntelligence();
-			mItemStats.setVitality();
-			mItemStats.setDamage();
+			mItemStats.setStrength(randHighStat());
+			mItemStats.setDexterity(randLowStat());
+			mItemStats.setIntelligence(randLowStat());
+			mItemStats.setVitality(randMedStat());
+			mItemStats.setDamage(randHighStat());
 			mItemStats.setArmor(0);
+			
+			isWeapon = true;
+			isArmor = false;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -265,12 +298,15 @@ public class Gear extends Item {
 			mName = "One Handed Mace";
 			mDescription =  "";
 			
-			mItemStats.setStrength();
-			mItemStats.setDexterity();
-			mItemStats.setIntelligence();
-			mItemStats.setVitality();
-			mItemStats.setDamage();
+			mItemStats.setStrength(randHighStat());
+			mItemStats.setDexterity(randLowStat());
+			mItemStats.setIntelligence(randLowStat());
+			mItemStats.setVitality(randMedStat());
+			mItemStats.setDamage(randHighStat());
 			mItemStats.setArmor(0);
+			
+			isWeapon = true;
+			isArmor = false;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -280,12 +316,15 @@ public class Gear extends Item {
 			mName = "Two Handed Sword"; 
 			mDescription = "";
 			
-			mItemStats.setStrength();
-			mItemStats.setDexterity();
-			mItemStats.setIntelligence();
-			mItemStats.setVitality();
-			mItemStats.setDamage();
+			mItemStats.setStrength(randHighStat());
+			mItemStats.setDexterity(randLowStat());
+			mItemStats.setIntelligence(randLowStat());
+			mItemStats.setVitality(randMedStat());
+			mItemStats.setDamage(randHighStat());
 			mItemStats.setArmor(0);
+			
+			isWeapon = true;
+			isArmor = false;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -295,12 +334,15 @@ public class Gear extends Item {
 			mName = "Two Handed Axe";
 			mDescription = "";
 			
-			mItemStats.setStrength();
-			mItemStats.setDexterity();
-			mItemStats.setIntelligence();
-			mItemStats.setVitality();
-			mItemStats.setDamage();
+			mItemStats.setStrength(randHighStat());
+			mItemStats.setDexterity(randLowStat());
+			mItemStats.setIntelligence(randLowStat());
+			mItemStats.setVitality(randMedStat());
+			mItemStats.setDamage(randHighStat());
 			mItemStats.setArmor(0);
+			
+			isWeapon = true;
+			isArmor = false;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -310,12 +352,15 @@ public class Gear extends Item {
 			mName = "Two Handed Maces";
 			mDescription = "";
 			
-			mItemStats.setStrength();
-			mItemStats.setDexterity();
-			mItemStats.setIntelligence();
-			mItemStats.setVitality();
-			mItemStats.setDamage();
+			mItemStats.setStrength(randHighStat());
+			mItemStats.setDexterity(randLowStat());
+			mItemStats.setIntelligence(randLowStat());
+			mItemStats.setVitality(randMedStat());
+			mItemStats.setDamage(randHighStat());
 			mItemStats.setArmor(0);
+			
+			isWeapon = true;
+			isArmor = false;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -325,12 +370,15 @@ public class Gear extends Item {
 			mName = "Longbow";
 			mDescription = "";
 			
-			mItemStats.setStrength();
-			mItemStats.setDexterity();
-			mItemStats.setIntelligence();
-			mItemStats.setVitality();
-			mItemStats.setDamage();
+			mItemStats.setStrength(randLowStat());
+			mItemStats.setDexterity(randHighStat());
+			mItemStats.setIntelligence(randLowStat());
+			mItemStats.setVitality(randMedStat());
+			mItemStats.setDamage(randHighStat());
 			mItemStats.setArmor(0);
+			
+			isWeapon = true;
+			isArmor = false;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -341,12 +389,15 @@ public class Gear extends Item {
 			mName = "Shortbow";
 			mDescription = "";
 			
-			mItemStats.setStrength();
-			mItemStats.setDexterity();
-			mItemStats.setIntelligence();
-			mItemStats.setVitality();
-			mItemStats.setDamage();
+			mItemStats.setStrength(randLowStat());
+			mItemStats.setDexterity(randHighStat());
+			mItemStats.setIntelligence(randLowStat());
+			mItemStats.setVitality(randMedStat());
+			mItemStats.setDamage(randHighStat());
 			mItemStats.setArmor(0);
+			
+			isWeapon = true;
+			isArmor = false;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -356,12 +407,15 @@ public class Gear extends Item {
 			mName = "";
 			mDescription = "";
 			
-			mItemStats.setStrength();
-			mItemStats.setDexterity();
-			mItemStats.setIntelligence();
-			mItemStats.setVitality();
-			mItemStats.setDamage();
+			mItemStats.setStrength(randLowStat());
+			mItemStats.setDexterity(randHighStat());
+			mItemStats.setIntelligence(randLowStat());
+			mItemStats.setVitality(randMedStat());
+			mItemStats.setDamage(randHighStat());
 			mItemStats.setArmor(0);
+			
+			isWeapon = true;
+			isArmor = false;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -371,12 +425,15 @@ public class Gear extends Item {
 			mName = "";
 			mDescription = "";
 			
-			mItemStats.setStrength();
-			mItemStats.setDexterity();
-			mItemStats.setIntelligence();
-			mItemStats.setVitality();
-			mItemStats.setDamage();
+			mItemStats.setStrength(randLowStat());
+			mItemStats.setDexterity(randLowStat());
+			mItemStats.setIntelligence(randHighStat());
+			mItemStats.setVitality(randMedStat());
+			mItemStats.setDamage(randLowStat());
 			mItemStats.setArmor(0);
+			
+			isWeapon = true;
+			isArmor = false;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -386,12 +443,15 @@ public class Gear extends Item {
 			mName = "";
 			mDescription = "";
 			
-			mItemStats.setStrength();
-			mItemStats.setDexterity();
-			mItemStats.setIntelligence();
-			mItemStats.setVitality();
-			mItemStats.setDamage();
+			mItemStats.setStrength(randLowStat());
+			mItemStats.setDexterity(randLowStat());
+			mItemStats.setIntelligence(randHighStat());
+			mItemStats.setVitality(randMedStat());
+			mItemStats.setDamage(randLowStat());
 			mItemStats.setArmor(0);
+			
+			isWeapon = true;
+			isArmor = false;
 			
 			//mSprite = ResourceManager.do stuff
 			
@@ -401,18 +461,18 @@ public class Gear extends Item {
 			mName = "";
 			mDescription = "";
 			
-			mItemStats.setStrength();
-			mItemStats.setDexterity();
-			mItemStats.setIntelligence();
-			mItemStats.setVitality();
-			mItemStats.setDamage();
+			mItemStats.setStrength(randLowStat());
+			mItemStats.setDexterity(randLowStat());
+			mItemStats.setIntelligence(randHighStat());
+			mItemStats.setVitality(randMedStat());
+			mItemStats.setDamage(randLowStat());
 			mItemStats.setArmor(0);
 			
-			//mSprite = ResourceManager.do stuff
-		* 
-		* 
-		*/
+			isWeapon = true;
+			isArmor = false;
 			
+			//mSprite = ResourceManager.do stuff
+				
 		}
 	}
 
@@ -423,8 +483,14 @@ public class Gear extends Item {
 	public Stats getItemStats() {
 		return mItemStats;
 	}
+		
+	public boolean isArmor(){
+		return isArmor;
+	}
 
-	
+	public boolean IsWeapon(){
+		return isWeapon;
+	}	
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
