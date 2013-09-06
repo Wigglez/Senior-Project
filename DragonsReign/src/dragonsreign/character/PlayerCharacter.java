@@ -19,14 +19,6 @@ public abstract class PlayerCharacter extends Character {
 	// Fields
 	// ===========================================================
 
-	// Job
-	protected String mJobName;
-	protected int mJobFlag;
-
-	// Sprites
-	protected Sprite mBattleSprite;
-	protected Sprite mPortraitSprite;
-
 	// Experience
 	protected int mCurrentExperience;
 
@@ -53,23 +45,6 @@ public abstract class PlayerCharacter extends Character {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
-	// Sprites
-	public Sprite getBattleSprite() {
-		return mBattleSprite;
-	}
-
-	public void setBattleSprite(Sprite pBattleSprite) {
-		this.mBattleSprite = pBattleSprite;
-	}
-
-	public Sprite getPortraitSprite() {
-		return mPortraitSprite;
-	}
-
-	public void setPortraitSprite(Sprite pPortraitSprite) {
-		this.mPortraitSprite = pPortraitSprite;
-	}
 
 	// Experience
 	public int getCurrentExperience() {
@@ -135,16 +110,6 @@ public abstract class PlayerCharacter extends Character {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	public void CreateJob(String pJobName) {
-		mJobName = pJobName;
-
-		if (mJobName == "Warrior") {
-			new WarriorClass(0);
-		} else if (mJobName == "Ranger") {
-		} else if (mJobName == "Cleric") {
-		}
-	}
 
 	public void updateCurrentStats() {
 		mCurrentStats.setStrength(this.getCurrentStats().getStrength()

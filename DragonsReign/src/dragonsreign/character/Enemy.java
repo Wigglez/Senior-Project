@@ -65,6 +65,7 @@ public class Enemy extends Character {
 	// Methods
 	// ===========================================================
 
+	// Currently unused, should be referenced for items
 	public void loadEnemies() throws Exception {
 		try {
 			MinimizeXMLParser parser = new MinimizeXMLParser();
