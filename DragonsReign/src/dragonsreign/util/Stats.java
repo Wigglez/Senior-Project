@@ -1,12 +1,5 @@
-/*
- * 
- */
 package dragonsreign.util;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class Stats.
- */
 public class Stats {
 	// ===========================================================
 	// Constants
@@ -16,143 +9,90 @@ public class Stats {
 	// Fields
 	// ===========================================================
 
-	/** The m strength. */
 	protected int mStrength;
-
-	/** The m dexterity. */
 	protected int mDexterity;
-
-	/** The m intelligence. */
 	protected int mIntelligence;
-
-	/** The m vitality. */
 	protected int mVitality;
-
-	/** The m damage. */
 	protected int mDamage;
-
-	/** The m armor. */
 	protected int mArmor;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
+	public Stats() {
+		mStrength = 0;
+		mDexterity = 0;
+		mIntelligence = 0;
+		mVitality = 0;
+		mDamage = 0;
+		mArmor = 0;
+	}
+
+	public Stats(int pStrength, int pDexterity, int pIntelligence,
+			int pVitality, int pDamage, int pArmor) {
+		mStrength = pStrength;
+		mDexterity = pDexterity;
+		mIntelligence = pIntelligence;
+		mVitality = pVitality;
+		mDamage = pDamage;
+		mArmor = pArmor;
+	}
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
-	/**
-	 * Gets the strength.
-	 * 
-	 * @return the strength
-	 */
+	// Strength
 	public int getStrength() {
 		return mStrength;
 	}
 
-	/**
-	 * Sets the strength.
-	 * 
-	 * @param pStrength
-	 *            the new strength
-	 * @return 
-	 */
 	public void setStrength(int pStrength) {
 		this.mStrength = pStrength;
 	}
 
-	/**
-	 * Gets the dexterity.
-	 * 
-	 * @return the dexterity
-	 */
+	// Dexterity
 	public int getDexterity() {
 		return mDexterity;
 	}
 
-	/**
-	 * Sets the dexterity.
-	 * 
-	 * @param pDexterity
-	 *            the new dexterity
-	 */
 	public void setDexterity(int pDexterity) {
 		this.mDexterity = pDexterity;
 	}
 
-	/**
-	 * Gets the intelligence.
-	 * 
-	 * @return the intelligence
-	 */
+	// Intelligence
 	public int getIntelligence() {
 		return mIntelligence;
 	}
 
-	/**
-	 * Sets the intelligence.
-	 * 
-	 * @param pIntelligence
-	 *            the new intelligence
-	 */
 	public void setIntelligence(int pIntelligence) {
 		this.mIntelligence = pIntelligence;
 	}
 
-	/**
-	 * Gets the vitality.
-	 * 
-	 * @return the vitality
-	 */
+	// Vitality
 	public int getVitality() {
 		return mVitality;
 	}
 
-	/**
-	 * Sets the vitality.
-	 * 
-	 * @param pVitality
-	 *            the new vitality
-	 */
 	public void setVitality(int pVitality) {
 		this.mVitality = pVitality;
 	}
 
-	/**
-	 * Gets the damage.
-	 * 
-	 * @return the damage
-	 */
+	// Damage
 	public int getDamage() {
 		return mDamage;
 	}
 
-	/**
-	 * Sets the damage.
-	 * 
-	 * @param pDamage
-	 *            the new damage
-	 */
 	public void setDamage(int pDamage) {
 		this.mDamage = pDamage;
 	}
 
-	/**
-	 * Gets the armor.
-	 * 
-	 * @return the armor
-	 */
+	// Armor
 	public int getArmor() {
 		return mArmor;
 	}
 
-	/**
-	 * Sets the armor.
-	 * 
-	 * @param pArmor
-	 *            the new armor
-	 */
 	public void setArmor(int pArmor) {
 		this.mArmor = pArmor;
 	}
