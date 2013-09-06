@@ -127,7 +127,27 @@ public class WarriorClass extends PlayerCharacter {
 	}
 
 	@Override
-	public void useAbility(int abilityIdx) {
+	public void useAbility(int pAbilityIdx) {
+		switch(pAbilityIdx) {
+		case 0:
+			BasicAttack();
+			break;
+		case 1:
+			Cleave();
+			break;
+		case 2:
+			Lunge();
+			break;
+		case 3:
+			Execute();
+			break;
+		case 4:
+			Rend();
+			break;
+		case 5:
+			WarCry();
+			break;
+		}
 	}
 
 	// ===========================================================
