@@ -41,6 +41,8 @@ public class ClericClass extends PlayerCharacter {
 		// TODO
 		// set base stats, mana for cleric
 		// loadClericSprite
+		
+		// level up - 1 dex, 2 vita, 3 int, 1 str
 
 		mBaseStats.setStrength(2);
 		mBaseStats.setDexterity(2);

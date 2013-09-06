@@ -46,6 +46,8 @@ public class RangerClass extends PlayerCharacter {
 		// TODO
 		// set base stats, energy for ranger
 		// loadRangerSprite
+		
+		// level up - 3 dex, 2 vita, 1 int, 1 str
 
 		mBaseStats.setStrength(2);
 		mBaseStats.setDexterity(9);

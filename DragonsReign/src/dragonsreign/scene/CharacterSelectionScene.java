@@ -71,16 +71,16 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	private int warriorVit;
 	
 	//ranger
-	private int rangerStr = 9;
-	private int rangerDex = 6;
-	private int rangerInt = 4;
-	private int rangerVit = 4;
+	private int rangerStr;
+	private int rangerDex;
+	private int rangerInt;
+	private int rangerVit;
 
 	//cleric
-	private int clericStr = 9;
-	private int clericDex = 3;
-	private int clericInt = 6;
-	private int clericVit = 4;
+	private int clericStr;
+	private int clericDex;
+	private int clericInt;
+	private int clericVit;
 
 	
 	private void createMenuChildScene()
