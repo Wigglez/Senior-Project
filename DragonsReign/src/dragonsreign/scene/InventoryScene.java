@@ -10,6 +10,7 @@ import org.andengine.util.HorizontalAlign;
 
 
 import dragonsreign.scene.BaseScene;
+import dragonsreign.character.PlayerCharacter;
 import dragonsreign.character.characterclass.WarriorClass;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
@@ -35,13 +36,14 @@ public class InventoryScene extends BaseScene
 				 vitalityText, damageText, armorText;
 
 
-	private WarriorClass warriorCharacter;
+	
+	private PlayerCharacter player;
 	
 	@Override
 	public void createScene() 
 	{
 		inventoryChildScene = new MenuScene(camera);
-		warriorCharacter = new WarriorClass();
+		
 		
 		health = 100;
 		mana = 50;
@@ -59,6 +61,7 @@ public class InventoryScene extends BaseScene
                 	case TouchEvent.ACTION_DOWN:
                 		
                 		break;
+                	
 
                 }
                 return true;
@@ -73,16 +76,12 @@ public class InventoryScene extends BaseScene
             {
             	switch (pSceneTouchEvent.getAction()) 
             	{         	
-                	case TouchEvent.ACTION_DOWN:
+                	case TouchEvent.ACTION_MOVE:
                 		
-                		/*
-                		strengthText.setText("Str: " + warriorCharacter.getBaseStats().getStrength());
-                		dexterityText.setText("Dex: " + warriorCharacter.getBaseStats().getDexterity());
-                		intelligenceText.setText("Int: " + warriorCharacter.getBaseStats().getIntelligence());
-                		vitalityText.setText("Vit: " + warriorCharacter.getBaseStats().getVitality());
-                		damageText.setText("Dmg: " + warriorCharacter.getBaseStats().getDamage());
-                		armorText.setText("Armor: " + warriorCharacter.getBaseStats().getArmor());
-                		*/
+                		
+                		strengthText.setText("Str: " + 555);
+                	
+                		
                 		break;
 
                 }
