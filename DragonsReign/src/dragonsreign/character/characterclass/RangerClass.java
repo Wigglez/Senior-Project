@@ -18,40 +18,20 @@ public class RangerClass extends PlayerCharacter {
 	// Fields
 	// ===========================================================
 
-	/** The current energy. */
 	protected int mCurrentEnergy;
 
-	/** The m current skill points. */
 	protected int mCurrentSkillPoints;
 
-	/** The fire arrow level. */
 	protected int mFireArrowLevel;
-
-	/** The poison arrow level. */
 	protected int mPoisonArrowLevel;
-
-	/** The spread shot level. */
 	protected int mSpreadShotLevel;
-
-	/** The charged shot level. */
 	protected int mChargedShotLevel;
-
-	/** The stun arrow level. */
 	protected int mStunArrowLevel;
 
-	/** The fire arrow cost. */
 	protected int mFireArrowCost;
-
-	/** The poison arrow cost. */
 	protected int mPoisonArrowCost;
-
-	/** The spread shot cost. */
 	protected int mSpreadShotCost;
-
-	/** The charged shot cost. */
 	protected int mChargedShotCost;
-
-	/** The stun arrow cost. */
 	protected int mStunArrowCost;
 
 	// M_Helm Helm;
@@ -62,14 +42,31 @@ public class RangerClass extends PlayerCharacter {
 	// Constructors
 	// ===========================================================
 
-	/**
-	 * Instantiates a new ranger class.
-	 */
 	public RangerClass() {
 		// TODO
 		// set base stats, energy for ranger
 		// loadRangerSprite
 
+		mBaseStats.setStrength(2);
+		mBaseStats.setDexterity(9);
+		mBaseStats.setIntelligence(2);
+		mBaseStats.setVitality(7);
+		mBaseStats.setDamage(0);
+		mBaseStats.setArmor(0);
+
+		mCurrentStats.setStrength(mBaseStats.getStrength());
+		mCurrentStats.setDexterity(mBaseStats.getDexterity());
+		mCurrentStats.setIntelligence(mBaseStats.getIntelligence());
+		mCurrentStats.setVitality(mBaseStats.getVitality());
+		mCurrentStats.setDamage(mBaseStats.getDamage());
+		mCurrentStats.setArmor(mBaseStats.getArmor());
+
+		mBaseResources.setHealth(10 * mCurrentStats.getVitality());
+		mBaseResources.setResource(100);
+
+		mCurrentResources.setHealth(mBaseResources.getHealth());
+		mCurrentResources.setResource(mBaseResources.getResource());
+		
 		// mCurrentEnergy = this.getCurrentResources().getEnergy();
 
 		mAbility[0] = "Attack";

@@ -17,6 +17,9 @@ import org.andengine.util.color.Color;
 
 
 import dragonsreign.scene.BaseScene;
+import dragonsreign.character.characterclass.ClericClass;
+import dragonsreign.character.characterclass.RangerClass;
+import dragonsreign.character.characterclass.WarriorClass;
 import dragonsreign.manager.ResourceManager;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
@@ -39,6 +42,10 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	private MenuScene characterChildScene;
 	private Sprite warrior;
 	
+	private WarriorClass mWarriorClass = new WarriorClass();
+	private RangerClass mRangerClass = new RangerClass();
+	private ClericClass mClericClass = new ClericClass();
+	
 	private IMenuItem warriorMenuItem, knightMenuItem, 
     				  assassinMenuItem, clericMenuItem, 
     				  engineerMenuItem ,mageMenuItem,
@@ -56,11 +63,12 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	
 	private static final float AUTOWRAP_WIDTH = 525;
 	
+	
 	//warrior
-	private int warriorStr = 9;
-	private int warriorDex = 2;
-	private int warriorInt = 2;
-	private int warriorVit = 7;
+	private int warriorStr;
+	private int warriorDex;
+	private int warriorInt;
+	private int warriorVit;
 	
 	//ranger
 	private int rangerStr = 9;
@@ -340,6 +348,10 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	    intelligenceStatText.setVisible(true);
 	    vitalityStatText.setVisible(true);
 
+	    warriorStr = mWarriorClass.getBaseStats().getStrength();
+	    warriorDex = mWarriorClass.getBaseStats().getDexterity();
+	    warriorInt = mWarriorClass.getBaseStats().getIntelligence();
+	    warriorVit = mWarriorClass.getBaseStats().getVitality();
 	    
 	    strengthStatText.setText("Strength: " + warriorStr);
 	    dexterityStatText.setText("Dexterity: " + warriorDex);
@@ -477,6 +489,11 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	    dexterityStatText.setVisible(true);
 	    strengthStatText.setVisible(true);
 	    
+	    clericStr = mClericClass.getBaseStats().getStrength();
+	    clericDex = mClericClass.getBaseStats().getDexterity();
+	    clericInt = mClericClass.getBaseStats().getIntelligence();
+	    clericVit = mClericClass.getBaseStats().getVitality();
+	    
 	    strengthStatText.setText("Strength: " + clericStr);
 	    dexterityStatText.setText("Dexterity: " + clericDex);
 	    intelligenceStatText.setText("Intelligence: " + clericInt);
@@ -606,6 +623,11 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 		dexterityStatText.setVisible(true);
 		strengthStatText.setVisible(true);
 		
+		rangerStr = mRangerClass.getBaseStats().getStrength();
+		rangerDex = mRangerClass.getBaseStats().getDexterity();
+		rangerInt = mRangerClass.getBaseStats().getIntelligence();
+		rangerVit = mRangerClass.getBaseStats().getVitality();
+	    
 	    strengthStatText.setText("Strength: " + rangerStr);
 	    dexterityStatText.setText("Dexterity: " + rangerDex);
 	    intelligenceStatText.setText("Intelligence: " + rangerInt);

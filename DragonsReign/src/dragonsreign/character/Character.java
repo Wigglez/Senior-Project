@@ -51,7 +51,12 @@ public abstract class Character {
 		mHaste = 0;
 
 		mBaseResources = new Resources();
+		mCurrentResources = new Resources();
+		mMaxResources = new Resources();
+		
 		mBaseStats = new Stats();
+		mCurrentStats = new Stats();
+		mMaxStats = new Stats();
 
 		mBaseResources.setHealth(0);
 		mBaseResources.setResource(0);

@@ -4,10 +4,6 @@
 package dragonsreign.character.characterclass;
 import dragonsreign.character.PlayerCharacter;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class Cleric.
- */
 public class ClericClass extends PlayerCharacter {
 	// ===========================================================
 	// Constants
@@ -17,40 +13,20 @@ public class ClericClass extends PlayerCharacter {
 	// Fields
 	// ===========================================================
 
-	/** The m current mana. */
 	protected int mCurrentMana;
-
-	/** The heal life syphon level. */
+	
 	protected int mHealLifeSyphonLevel;
-
-	/** The heal life syphon cost. */
-	protected int mHealLifeSyphonCost;
-
-	/** The revive level. */
 	protected int mReviveLevel;
-
-	/** The revive cost. */
-	protected int mReviveCost;
-
-	/** The healing chant level. */
 	protected int mHealingChantLevel;
-
-	/** The healing chant cost. */
-	protected int mHealingChantCost;
-
-	/** The empower level. */
 	protected int mEmpowerLevel;
-
-	/** The empower cost. */
-	protected int mEmpowerCost;
-
-	/** The mend level. */
 	protected int mMendLevel;
-
-	/** The mend cost. */
+	
+	protected int mHealLifeSyphonCost;
+	protected int mReviveCost;
+	protected int mHealingChantCost;
+	protected int mEmpowerCost;
 	protected int mMendCost;
-
-	/** The m current skill points. */
+	
 	protected int mCurrentSkillPoints;
 
 	// L_Helm Helm;
@@ -61,14 +37,31 @@ public class ClericClass extends PlayerCharacter {
 	// Constructors
 	// ===========================================================
 
-	/**
-	 * Instantiates a new cleric.
-	 */
 	public ClericClass() {
 		// TODO
 		// set base stats, mana for cleric
 		// loadClericSprite
 
+		mBaseStats.setStrength(2);
+		mBaseStats.setDexterity(2);
+		mBaseStats.setIntelligence(9);
+		mBaseStats.setVitality(7);
+		mBaseStats.setDamage(0);
+		mBaseStats.setArmor(0);
+
+		mCurrentStats.setStrength(mBaseStats.getStrength());
+		mCurrentStats.setDexterity(mBaseStats.getDexterity());
+		mCurrentStats.setIntelligence(mBaseStats.getIntelligence());
+		mCurrentStats.setVitality(mBaseStats.getVitality());
+		mCurrentStats.setDamage(mBaseStats.getDamage());
+		mCurrentStats.setArmor(mBaseStats.getArmor());
+
+		mBaseResources.setHealth(10 * mCurrentStats.getVitality());
+		mBaseResources.setResource(100);
+
+		mCurrentResources.setHealth(mBaseResources.getHealth());
+		mCurrentResources.setResource(mBaseResources.getResource());
+		
 		mAbility[0] = "Attack";
 		mAbility[1] = "Heal/Life Syphon";
 		mAbility[2] = "Revive";

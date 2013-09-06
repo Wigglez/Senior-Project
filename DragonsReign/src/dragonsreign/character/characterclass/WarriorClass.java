@@ -46,16 +46,11 @@ public class WarriorClass extends PlayerCharacter {
 	// ===========================================================
 
 	public WarriorClass() {
-
-	}
-
-	public WarriorClass(int pID) {
 		// TODO
 		// set base stats, stamina for warrior
 		// loadWarriorSprite
 
 		// Our ID is 0 since we are a warrior
-		mID = pID;
 
 		mBaseStats.setStrength(9);
 		mBaseStats.setDexterity(2);
@@ -128,7 +123,7 @@ public class WarriorClass extends PlayerCharacter {
 
 	@Override
 	public void useAbility(int pAbilityIdx) {
-		switch(pAbilityIdx) {
+		switch (pAbilityIdx) {
 		case 0:
 			BasicAttack();
 			break;
