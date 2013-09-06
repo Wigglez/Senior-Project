@@ -116,7 +116,8 @@ public class InventoryScene extends BaseScene
             	{
                 	case TouchEvent.ACTION_DOWN:
                 		onBackKeyPressed();
-                		break;
+                		
+					break;
 
                 }
                 return true;
@@ -183,7 +184,8 @@ public class InventoryScene extends BaseScene
 		character3ManaBar.setPosition(560, 70);
 		character3XpBar.setPosition(560, 90);
 		
-		exitButton.setPosition(768, 0);
+		exitButton.setPosition(-12,-12);
+		exitButton.setScale(0.5f);
 		////////////////////////////////////////////////////////////////////////////////////
 		//Attach Sprites
 		////////////////////////////////////////////////////////////////////////////////////

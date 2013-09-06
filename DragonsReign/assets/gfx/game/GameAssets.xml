@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <texture version="1" file="GameAssets.png" type="bitmap" width="512" height="1024" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
     <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
-    <!-- $TexturePacker:SmartUpdate:b32fad1fafab53b6efd92049ba64d3b1:1/1$ -->
-    <textureregion id="0" src="backpack.jpg" x="394" y="2" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
-    <textureregion id="1" src="currentEquipmentSlots.png" x="2" y="566" width="210" height="350" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="210" srcheight="350"/>
-    <textureregion id="2" src="exitButton.png" x="460" y="2" width="32" height="32" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="32" srcheight="32"/>
-    <textureregion id="3" src="inventory.png" x="2" y="2" width="390" height="350" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="390" srcheight="350"/>
-    <textureregion id="4" src="portrait.jpg" x="394" y="257" width="60" height="60" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="60" srcheight="60"/>
-    <textureregion id="5" src="portrait2.jpg" x="394" y="195" width="60" height="60" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="60" srcheight="60"/>
-    <textureregion id="6" src="portrait3.jpg" x="394" y="133" width="60" height="60" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="60" srcheight="60"/>
-    <textureregion id="7" src="statsArea.png" x="2" y="354" width="210" height="350" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="210" srcheight="350"/>
-    <textureregion id="8" src="worldMap.jpg" x="394" y="68" width="64" height="63" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="63"/>
+    <!-- $TexturePacker:SmartUpdate:a3977a309073fae1159361bc2d3782b3:1/1$ -->
+    <textureregion id="0" src="armor/amulet.png" x="460" y="132" width="48" height="60" rotated="false" trimmed="true" srcx="6" srcy="1" srcwidth="64" srcheight="64"/>
+    <textureregion id="1" src="armor/heavyHelm.png" x="66" y="817" width="58" height="64" rotated="false" trimmed="true" srcx="2" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="2" src="armor/heavyLower.png" x="354" y="728" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="3" src="armor/heavyUpper.png" x="2" y="817" width="62" height="64" rotated="false" trimmed="true" srcx="1" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="4" src="armor/lightHelm.png" x="2" y="883" width="60" height="64" rotated="false" trimmed="true" srcx="2" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="5" src="armor/lightLower.png" x="420" y="686" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="6" src="armor/lightUpper.png" x="354" y="662" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="7" src="armor/mediumHelm.png" x="420" y="620" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="8" src="armor/mediumLower.png" x="354" y="596" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="9" src="armor/mediumUpper.png" x="420" y="554" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="10" src="armor/ring.png" x="460" y="2" width="62" height="50" rotated="true" trimmed="true" srcx="1" srcy="6" srcwidth="64" srcheight="64"/>
+    <textureregion id="11" src="armor/shield.png" x="64" y="883" width="58" height="64" rotated="false" trimmed="true" srcx="2" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="12" src="backpack.png" x="354" y="530" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="13" src="currentEquipmentSlots.png" x="2" y="566" width="210" height="350" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="210" srcheight="350"/>
+    <textureregion id="14" src="exit.png" x="420" y="488" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="15" src="inventory.png" x="2" y="2" width="390" height="350" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="390" srcheight="350"/>
+    <textureregion id="16" src="portrait.jpg" x="241" y="941" width="60" height="60" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="60" srcheight="60"/>
+    <textureregion id="17" src="portrait2.jpg" x="188" y="817" width="60" height="60" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="60" srcheight="60"/>
+    <textureregion id="18" src="portrait3.jpg" x="186" y="879" width="60" height="60" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="60" srcheight="60"/>
+    <textureregion id="19" src="potions/fullRevive.png" x="460" y="194" width="34" height="62" rotated="false" trimmed="true" srcx="14" srcy="1" srcwidth="64" srcheight="64"/>
+    <textureregion id="20" src="potions/halfRevive.png" x="460" y="290" width="28" height="64" rotated="false" trimmed="true" srcx="18" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="21" src="potions/majorHealth.png" x="354" y="464" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="22" src="potions/majorResource.png" x="446" y="422" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="23" src="potions/minorHealth.png" x="380" y="398" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="24" src="potions/minorResource.png" x="394" y="332" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="25" src="potions/superiorResource.png" x="394" y="266" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="26" src="potions/supieriorHealth.png" x="394" y="200" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="27" src="statsArea.png" x="2" y="354" width="210" height="350" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="210" srcheight="350"/>
+    <textureregion id="28" src="weapons/1hAxe.png" x="248" y="879" width="56" height="52" rotated="true" trimmed="true" srcx="4" srcy="8" srcwidth="64" srcheight="64"/>
+    <textureregion id="29" src="weapons/1hMace.png" x="354" y="354" width="64" height="24" rotated="true" trimmed="true" srcx="0" srcy="19" srcwidth="64" srcheight="64"/>
+    <textureregion id="30" src="weapons/1hSword.png" x="179" y="947" width="60" height="60" rotated="false" trimmed="true" srcx="2" srcy="2" srcwidth="64" srcheight="64"/>
+    <textureregion id="31" src="weapons/2hAxe.png" x="394" y="134" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="32" src="weapons/2hMace.png" x="126" y="817" width="60" height="60" rotated="false" trimmed="true" srcx="2" srcy="2" srcwidth="64" srcheight="64"/>
+    <textureregion id="33" src="weapons/2hSword.png" x="124" y="883" width="60" height="62" rotated="false" trimmed="true" srcx="3" srcy="1" srcwidth="64" srcheight="64"/>
+    <textureregion id="34" src="weapons/LongBow1.png" x="496" y="194" width="64" height="12" rotated="true" trimmed="true" srcx="0" srcy="25" srcwidth="64" srcheight="64"/>
+    <textureregion id="35" src="weapons/arrow.png" x="490" y="326" width="64" height="16" rotated="true" trimmed="true" srcx="0" srcy="23" srcwidth="64" srcheight="64"/>
+    <textureregion id="36" src="weapons/bolt.png" x="123" y="949" width="64" height="54" rotated="true" trimmed="true" srcx="0" srcy="5" srcwidth="64" srcheight="64"/>
+    <textureregion id="37" src="weapons/crossbow.png" x="460" y="66" width="64" height="48" rotated="true" trimmed="true" srcx="0" srcy="8" srcwidth="64" srcheight="64"/>
+    <textureregion id="38" src="weapons/dagger.png" x="460" y="258" width="30" height="30" rotated="false" trimmed="true" srcx="16" srcy="17" srcwidth="64" srcheight="64"/>
+    <textureregion id="39" src="weapons/longBow.png" x="460" y="356" width="26" height="64" rotated="false" trimmed="true" srcx="19" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="40" src="weapons/orb.png" x="2" y="949" width="64" height="59" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="59"/>
+    <textureregion id="41" src="weapons/quiver.png" x="63" y="949" width="58" height="64" rotated="false" trimmed="true" srcx="2" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="42" src="weapons/shortBow.png" x="492" y="260" width="64" height="18" rotated="true" trimmed="true" srcx="0" srcy="23" srcwidth="64" srcheight="64"/>
+    <textureregion id="43" src="weapons/staff.png" x="394" y="68" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="44" src="weapons/wand.png" x="394" y="2" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="45" src="worldMap.png" x="420" y="752" width="64" height="63" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="63"/>
 </texture>

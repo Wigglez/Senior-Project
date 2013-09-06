@@ -257,7 +257,7 @@ public class ResourceManager
     	character2Portrait = texturePackLibrary.get(GameAssets.PORTRAIT2_ID);
     	character3Portrait = texturePackLibrary.get(GameAssets.PORTRAIT3_ID);
     	
-    	exitButton = texturePackLibrary.get(GameAssets.EXITBUTTON_ID);
+    	exitButton = texturePackLibrary.get(GameAssets.EXIT_ID);
     	inventoryGid = texturePackLibrary.get(GameAssets.INVENTORY_ID);
     	equipmentArea = texturePackLibrary.get(GameAssets.CURRENTEQUIPMENTSLOTS_ID);
     	statsArea = texturePackLibrary.get(GameAssets.STATSAREA_ID);
