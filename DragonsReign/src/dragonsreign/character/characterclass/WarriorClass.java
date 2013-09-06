@@ -52,6 +52,8 @@ public class WarriorClass extends PlayerCharacter {
 
 		// Our ID is 0 since we are a warrior
 
+		// level up - 1 dex, 2 vita, 1 int, 3 str
+		
 		mBaseStats.setStrength(9);
 		mBaseStats.setDexterity(2);
 		mBaseStats.setIntelligence(2);

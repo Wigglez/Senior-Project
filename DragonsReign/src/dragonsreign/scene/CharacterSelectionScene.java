@@ -347,7 +347,7 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	    dexterityStatText.setVisible(true);
 	    intelligenceStatText.setVisible(true);
 	    vitalityStatText.setVisible(true);
-
+	    
 	    warriorStr = mWarriorClass.getBaseStats().getStrength();
 	    warriorDex = mWarriorClass.getBaseStats().getDexterity();
 	    warriorInt = mWarriorClass.getBaseStats().getIntelligence();

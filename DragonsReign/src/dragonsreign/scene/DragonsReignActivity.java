@@ -25,12 +25,10 @@ import dragonsreign.manager.ResourceManager;
 
 
 import android.view.KeyEvent;
+import dragonsreign.character.characterclass.ClericClass;
+import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class DragonsReignActivity.
- */
 public class DragonsReignActivity extends BaseGameActivity {
 	// ===========================================================
 	// Constants
@@ -47,81 +45,12 @@ public class DragonsReignActivity extends BaseGameActivity {
 	// ===========================================================
 
 
-	protected ResourceManager resourceManager;
-	/** The m camera. */
-	protected Camera mCamera;
+	private WarriorClass mWarriorClass = new WarriorClass();
+	private RangerClass mRangerClass = new RangerClass();
+	private ClericClass mClericClass = new ClericClass();
 
-	/** The m font. */
-	protected Font mFont;
-
-	/** The m character test. */
-	protected WarriorClass mCharacterTest;
-
-	/** The m base health. */
-	protected String mBaseHealth;
-
-	/** The m base mana. */
-	protected String mBaseResource;
-
-	/** The m prefix warrior stats. */
-	protected String mPrefixStats;
-
-	/** The m prefix stat health. */
-	protected String mPrefixStatHealth;
-
-	/** The m prefix stat mana. */
-	protected String mPrefixStatMana;
-
-	/** The m prefix stat energy. */
-	protected String mPrefixStatEnergy;
-
-	/** The m prefix stat stamina. */
-	protected String mPrefixStatStamina;
-
-	/** The m prefix warrior resources. */
-	protected String mPrefixResources;
-
-	/** The m prefix stat strength. */
-	protected String mPrefixStatStrength;
-
-	/** The m prefix stat dexterity. */
-	protected String mPrefixStatDexterity;
-
-	/** The m prefix stat intelligence. */
-	protected String mPrefixStatIntelligence;
-
-	/** The m prefix stat vitality. */
-	protected String mPrefixStatVitality;
-
-	/** The m prefix stat damage. */
-	protected String mPrefixStatDamage;
-
-	/** The m prefix stat armor. */
-	protected String mPrefixStatArmor;
-
-	/** The m warrior stats. */
-	protected String mStats;
-
-	/** The m warrior resources. */
-	protected String mResources;
-
-	/** The m base strength. */
-	protected String mBaseStrength;
-
-	/** The m base dexterity. */
-	protected String mBaseDexterity;
-
-	/** The m base vitality. */
-	protected String mBaseVitality;
-
-	/** The m base intelligence. */
-	protected String mBaseIntelligence;
-
-	/** The m base damage. */
-	protected String mBaseDamage;
-
-	/** The m base armor. */
-	protected String mBaseArmor;
+	private Camera mCamera;
+	private ResourceManager resourceManager;
 
 	// ===========================================================
 	// Constructors
@@ -139,6 +68,30 @@ public class DragonsReignActivity extends BaseGameActivity {
 	// Getter & Setter
 	// ===========================================================
 
+	public WarriorClass getWarriorClass() {
+		return mWarriorClass;
+	}
+
+	public void setWarriorClass(WarriorClass pWarriorClass) {
+		this.mWarriorClass = pWarriorClass;
+	}
+
+	public RangerClass getRangerClass() {
+		return mRangerClass;
+	}
+
+	public void setRangerClass(RangerClass pRangerClass) {
+		this.mRangerClass = pRangerClass;
+	}
+
+	public ClericClass getClericClass() {
+		return mClericClass;
+	}
+
+	public void setClericClass(ClericClass pClericClass) {
+		this.mClericClass = pClericClass;
+	}
+	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -236,67 +189,7 @@ public class DragonsReignActivity extends BaseGameActivity {
             System.exit(0);    
         }
     }
-	/**
-	 * Creates the test.
-	 */
-	public void createTest() {
-		mCharacterTest = new WarriorClass();
-
-		mPrefixStats = "Base Stats: ";
-		mPrefixStatStrength = "Strength: ";
-		mPrefixStatDexterity = "Dexterity: ";
-		mPrefixStatIntelligence = "Intelligence: ";
-		mPrefixStatVitality = "Vitality: ";
-		mPrefixStatDamage = "Damage: ";
-		mPrefixStatArmor = "Armor: ";
-
-		mPrefixResources = "Base Resources: ";
-		mPrefixStatHealth = "Health: ";
-		mPrefixStatMana = "Mana: ";
-		mPrefixStatEnergy = "Energy: ";
-		mPrefixStatStamina = "Stamina: ";
-
-		/*
-		mCharacterTest.getBaseStats().setStrength(50);
-		mCharacterTest.getBaseStats().setDexterity(45);
-		mCharacterTest.getBaseStats().setIntelligence(30);
-		mCharacterTest.getBaseStats().setVitality(25);
-		mCharacterTest.getBaseStats().setDamage(20);
-		mCharacterTest.getBaseStats().setArmor(15);
-
-		mCharacterTest.getBaseResources().setHealth(500);
-		mCharacterTest.getBaseResources().setResource(12);
-		
-		// Stats
-		mBaseStrength = String.valueOf(mCharacterTest.getBaseStats()
-				.getStrength());
-		mBaseDexterity = String.valueOf(mCharacterTest.getBaseStats()
-				.getDexterity());
-		mBaseIntelligence = String.valueOf(mCharacterTest.getBaseStats()
-				.getIntelligence());
-		mBaseVitality = String.valueOf(mCharacterTest.getBaseStats()
-				.getVitality());
-		mBaseDamage = String.valueOf(mCharacterTest.getBaseStats().getDamage());
-		mBaseArmor = String.valueOf(mCharacterTest.getBaseStats().getArmor());
-
-		// Resources
-		mBaseHealth = String.valueOf(mCharacterTest.getBaseResources()
-				.getHealth());
-		mBaseResource = String.valueOf(mCharacterTest.getBaseResources()
-				.getResource());
-
-		mStats = mPrefixStats + "\n" + mPrefixStatStrength + mBaseStrength
-				+ "\n" + mPrefixStatDexterity + mBaseDexterity + "\n"
-				+ mPrefixStatIntelligence + mBaseIntelligence + "\n"
-				+ mPrefixStatVitality + mBaseVitality + "\n"
-				+ mPrefixStatDamage + mBaseDamage + "\n" + mPrefixStatArmor
-				+ mBaseArmor;
-
-		mResources = mPrefixResources + "\n" + mPrefixStatHealth + mBaseHealth
-				+ "\n" + mPrefixStatMana + mBaseResource;
-				
-				*/
-	}
+	
 
 	// ===========================================================
 	// Inner and Anonymous Classes
