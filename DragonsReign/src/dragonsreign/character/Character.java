@@ -1,6 +1,8 @@
 package dragonsreign.character;
 
 import dragonsreign.util.RandomInt;
+import dragonsreign.util.Resources;
+import dragonsreign.util.Stats;
 
 public abstract class Character {
 	// ===========================================================
@@ -21,7 +23,7 @@ public abstract class Character {
 
 	// All players and enemies have a level
 	protected int mLevel;
-	
+
 	// Decider of turn order
 	protected int mHaste;
 
@@ -29,18 +31,13 @@ public abstract class Character {
 	// For enemies, the experience that is rewarded to player
 	protected int mExperience;
 
-	// Resources
-	public int mHealth;
-	public int mResource;
-	
-	// Stats
-	public int mStrength;
-	public int mDexterity;
-	public int mIntelligence;
-	public int mVitality;
-	public int mDamage;
-	public int mArmor;
+	protected Resources mBaseResources;
+	protected Resources mCurrentResources;
+	protected Resources mMaxResources;
 
+	protected Stats mBaseStats;
+	protected Stats mCurrentStats;
+	protected Stats mMaxStats;
 
 	// ===========================================================
 	// Constructors
@@ -52,18 +49,27 @@ public abstract class Character {
 		mLevel = 0;
 		mExperience = 0;
 		mHaste = 0;
-		
-		mHealth = 0;
-		mResource = 0;
-		
-		mStrength = 0;
-		mDexterity = 0;
-		mIntelligence = 0;
-		mVitality = 0;
-		mDamage = 0;
-		mArmor = 0;
-	}
 
+		mBaseResources = new Resources();
+		mBaseStats = new Stats();
+
+		mBaseResources.setHealth(0);
+		mBaseResources.setResource(0);
+
+		mBaseStats.setStrength(0);
+		mBaseStats.setDexterity(0);
+		mBaseStats.setIntelligence(0);
+		mBaseStats.setVitality(0);
+		mBaseStats.setDamage(0);
+		mBaseStats.setArmor(0);
+
+		// Sets the current and max to the base to have initial values
+		mCurrentResources = mBaseResources;
+		mCurrentStats = mBaseStats;
+
+		mMaxResources = mBaseResources;
+		mMaxStats = mBaseStats;
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -77,7 +83,7 @@ public abstract class Character {
 	public void setID(int pID) {
 		this.mID = pID;
 	}
-	
+
 	// Name
 	public String getName() {
 		return mName;
@@ -104,7 +110,7 @@ public abstract class Character {
 	public void setHaste(int pHaste) {
 		this.mHaste = pHaste;
 	}
-	
+
 	// Experience
 	public int getExperience() {
 		return mExperience;
@@ -113,78 +119,63 @@ public abstract class Character {
 	public void setExperience(int pExperience) {
 		this.mExperience = pExperience;
 	}
-	
-	// Resource
-	public int getHealth() {
-		return mHealth;
+
+	// Resources
+	public Resources getBaseResources() {
+		return mBaseResources;
+	}
+
+	public void setBaseResources(Resources pBaseResources) {
+		this.mBaseResources = pBaseResources;
+	}
+
+	public Resources getCurrentResources() {
+		return mCurrentResources;
+	}
+
+	public void setCurrentResources(Resources pCurrentResources) {
+		this.mCurrentResources = pCurrentResources;
+	}
+
+	public Resources getMaxResources() {
+		return mMaxResources;
+	}
+
+	public void setMaxResources(Resources pMaxResources) {
+		this.mMaxResources = pMaxResources;
 	}
 	
-	public void setHealth(int pHealth) {
-		this.mHealth = pHealth;
+	
+	// Stats
+	public Stats getBaseStats() {
+		return mBaseStats;
+	}
+
+	public void setBaseStats(Stats pBaseStats) {
+		this.mBaseStats = pBaseStats;
 	}
 	
-	public int getResource() {
-		return mResource;
+	public Stats getCurrentStats() {
+		return mCurrentStats;
 	}
-	
-	public void setResource(int pResource) {
-		this.mResource = pResource;
+
+	public void setCurrentStats(Stats pCurrentStats) {
+		this.mCurrentStats = pCurrentStats;
 	}
-	
-	// Stat
-	public int getStrength() {
-		return mStrength;
+
+	public Stats getMaxStats() {
+		return mMaxStats;
 	}
-	
-	public void setStrength(int pStrength) {
-		this.mStrength = pStrength;
-	}
-	
-	public int getDexterity() {
-		return mStrength;
-	}
-	
-	public void setDexterity(int pDexterity) {
-		this.mDexterity = pDexterity;
-	}
-	
-	public int getIntelligence() {
-		return mIntelligence;
-	}
-	
-	public void setIntelligence(int pIntelligence) {
-		this.mIntelligence = pIntelligence;
-	}
-	
-	public int getVitality() {
-		return mVitality;
-	}
-	
-	public void setVitality(int pVitality) {
-		this.mVitality = pVitality;
-	}
-	
-	public int getDamage() {
-		return mDamage;
-	}
-	
-	public void setDamage(int pDamage) {
-		this.mDamage = pDamage;
-	}
-	
-	public int getArmor() {
-		return mArmor;
-	}
-	
-	public void setArmor(int pArmor) {
-		this.mArmor = pArmor;
+
+	public void setMaxStats(Stats pMaxStats) {
+		this.mMaxStats = pMaxStats;
 	}
 
 	// Alive
-	public boolean getAlive() {
-		return (mHealth > 0);
+	public boolean isDead() {
+		return (this.getCurrentResources().getHealth() < 0);
 	}
-	
+
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================

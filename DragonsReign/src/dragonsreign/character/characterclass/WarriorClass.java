@@ -19,44 +19,23 @@ public class WarriorClass extends PlayerCharacter {
 	// Fields
 	// ===========================================================
 
-	/** The m current skill points. */
 	protected int mCurrentSkillPoints;
 
 	// Ability levels
-	/** The m cleave level. */
 	protected int mCleaveLevel;
-
-	/** The m lunge level. */
 	protected int mLungeLevel;
-
-	/** The m execute level. */
 	protected int mExecuteLevel;
-
-	/** The m rend level. */
 	protected int mRendLevel;
-
-	/** The m war cry level. */
 	protected int mWarCryLevel;
 
 	// Ability costs
-
-	/** The m cleave cost. */
 	protected int mCleaveCost;
-
-	/** The m lunge cost. */
 	protected int mLungeCost;
-
-	/** The m execute cost. */
 	protected int mExecuteCost;
-
-	/** The m rend cost. */
 	protected int mRendCost;
-
-	/** The m war cry cost. */
 	protected int mWarCryCost;
 
-	/** The m apply battle effect. */
-	protected BattleEffects mApplyBattleEffect;
+	protected BattleEffects mBattleEffects;
 
 	// H_Helm Helm;
 	// H_Upper upper;
@@ -66,36 +45,37 @@ public class WarriorClass extends PlayerCharacter {
 	// Constructors
 	// ===========================================================
 
-	/**
-	 * Instantiates a new warrior.
-	 */
 	public WarriorClass() {
+
+	}
+
+	public WarriorClass(int pID) {
 		// TODO
 		// set base stats, stamina for warrior
 		// loadWarriorSprite
 
-		/*
+		// Our ID is 0 since we are a warrior
+		mID = pID;
+
 		mBaseStats.setStrength(9);
 		mBaseStats.setDexterity(2);
 		mBaseStats.setIntelligence(2);
 		mBaseStats.setVitality(7);
 		mBaseStats.setDamage(0);
-		mBaseStats.setArmor(0); */
-		
-		//mCurrentStats.setStrength(mBaseStats.getStrength());
-		//mCurrentStats.setDexterity(mBaseStats.getDexterity());
-		//mCurrentStats.setIntelligence(mBaseStats.getIntelligence());
-		//mCurrentStats.setVitality(mBaseStats.getVitality());
-		//mCurrentStats.setDamage(mBaseStats.getDamage());
-		//mCurrentStats.setArmor(mBaseStats.getArmor());
+		mBaseStats.setArmor(0);
 
-		//mBaseResources.setHealth(10 * mCurrentStats.getVitality());
-		//mBaseResources.setResource(100);
-		
-		//mCurrentResources.setHealth(mBaseResources.getHealth());
-		//mCurrentResources.setResource(mBaseResources.getResource());
-		
-		//mCurrentStamina = mCurrentResources.getResource();
+		mCurrentStats.setStrength(mBaseStats.getStrength());
+		mCurrentStats.setDexterity(mBaseStats.getDexterity());
+		mCurrentStats.setIntelligence(mBaseStats.getIntelligence());
+		mCurrentStats.setVitality(mBaseStats.getVitality());
+		mCurrentStats.setDamage(mBaseStats.getDamage());
+		mCurrentStats.setArmor(mBaseStats.getArmor());
+
+		mBaseResources.setHealth(10 * mCurrentStats.getVitality());
+		mBaseResources.setResource(100);
+
+		mCurrentResources.setHealth(mBaseResources.getHealth());
+		mCurrentResources.setResource(mBaseResources.getResource());
 
 		mAbility[0] = "Attack";
 		mAbility[1] = "Cleave";
@@ -134,58 +114,26 @@ public class WarriorClass extends PlayerCharacter {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dragonsreign.character.PlayerCharacter#levelUp()
-	 */
 	@Override
 	public void levelUp() {
-		// TODO Auto-generated method stub
-
 		// Figure levels that you learn abilities
 		// Determine increment of base stats
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dragonsreign.character.PlayerCharacter#EquipItem()
-	 */
-	/**
-	 * Equip item.
-	 */
 	@Override
 	public void equipItem() {
-		// TODO Auto-generated method stub
-
 		// Create item/gear classes
 		// on equip alter gearStats, sum of gear pieces
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dragonsreign.character.PlayerCharacter#useAbility(int)
-	 */
 	@Override
 	public void useAbility(int abilityIdx) {
-		// TODO Auto-generated method stub
-
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 
-	/**
-	 * Load character.
-	 * 
-	 * @param pLevel
-	 *            the level
-	 * @param pCurrentExperience
-	 *            the current experience
-	 */
 	public void LoadCharacter(int pLevel, int pCurrentExperience /*
 																 * helm, upper,
 																 * lower
@@ -197,19 +145,13 @@ public class WarriorClass extends PlayerCharacter {
 		}
 	}
 
-	/**
-	 * Basic attack.
-	 */
 	public void BasicAttack() {
 		// weapon dmg
-
+		mCurrentStats.getDamage();
 	}
 
-	/**
-	 * Cleave.
-	 */
 	public void Cleave() {
-		if (mCurrentStamina > mCleaveCost) {
+		if (this.getCurrentResources().getResource() > mCleaveCost) {
 			// do stuff
 			if (mCleaveLevel == 1) {
 				// attacks all enemies for 40% base dmg
@@ -219,40 +161,34 @@ public class WarriorClass extends PlayerCharacter {
 				// attacks all enemies for 75% base dmg
 			}
 
-			mCurrentStamina -= mCleaveCost;
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mCleaveCost);
 		}
-
 	}
 
-	/**
-	 * Lunge.
-	 */
 	public void Lunge() {
-		if (mCurrentStamina > mLungeCost) {
+		if (mCurrentResources.getResource() > mLungeCost) {
 			if (mLungeLevel == 1) {
 				// attacks selected enemy target and stuns
-				mApplyBattleEffect.setStunned(true);
-				mApplyBattleEffect.setStunTurns(2);
+				mBattleEffects.setStunned(true);
+				mBattleEffects.setStunTurns(2);
 			} else if (mLungeLevel == 2) {
 				// attacks selected enemy target and stuns
-				mApplyBattleEffect.setStunned(true);
-				mApplyBattleEffect.setStunTurns(2);
+				mBattleEffects.setStunned(true);
+				mBattleEffects.setStunTurns(2);
 			} else if (mLungeLevel == 3) {
 				// attacks selected enemy target and stuns
-				mApplyBattleEffect.setStunned(true);
-				mApplyBattleEffect.setStunTurns(2);
+				mBattleEffects.setStunned(true);
+				mBattleEffects.setStunTurns(2);
 			}
 
-			mCurrentStamina -= mLungeCost;
-
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mLungeCost);
 		}
 	}
 
-	/**
-	 * Execute.
-	 */
 	public void Execute() {
-		if (mCurrentStamina > mExecuteCost) {
+		if (mCurrentResources.getResource() > mExecuteCost) {
 			// do stuff
 			if (mExecuteLevel == 1) {
 				// Completely drains stamina increased dmg based on amount of
@@ -265,45 +201,40 @@ public class WarriorClass extends PlayerCharacter {
 				// stamina drained
 			}
 
-			mCurrentStamina -= mExecuteCost;
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mExecuteCost);
 		}
 	}
 
-	/**
-	 * Rend.
-	 */
 	public void Rend() {
-		if (mCurrentStamina > mRendCost) {
+		if (mCurrentResources.getResource() > mRendCost) {
 			if (mRendLevel == 1) {
 				// bleeds the target for 100% weapon dmg over 3 turns
-				mApplyBattleEffect.setBleeding(true);
-				mApplyBattleEffect.setBleedDamage(1.0f * this.getCurrentStats()
+				mBattleEffects.setBleeding(true);
+				mBattleEffects.setBleedDamage(1.0f * this.getCurrentStats()
 						.getDamage());
-				mApplyBattleEffect.setBleedTurns(3);
+				mBattleEffects.setBleedTurns(3);
 			} else if (mRendLevel == 2) {
 				// bleeds the target for 125% weapon dmg over 3 turns
-				mApplyBattleEffect.setBleeding(true);
-				mApplyBattleEffect.setBleedDamage(1.25f * this
-						.getCurrentStats().getDamage());
-				mApplyBattleEffect.setBleedTurns(3);
+				mBattleEffects.setBleeding(true);
+				mBattleEffects.setBleedDamage(1.25f * this.getCurrentStats()
+						.getDamage());
+				mBattleEffects.setBleedTurns(3);
 			} else if (mRendLevel == 3) {
 				// bleeds the target for 150% weapon dmg over 3 turns
-				mApplyBattleEffect.setBleeding(true);
-				mApplyBattleEffect.setBleedDamage(1.5f * this.getCurrentStats()
+				mBattleEffects.setBleeding(true);
+				mBattleEffects.setBleedDamage(1.5f * this.getCurrentStats()
 						.getDamage());
-				mApplyBattleEffect.setBleedTurns(3);
+				mBattleEffects.setBleedTurns(3);
 			}
 
-			mCurrentStamina -= mRendCost;
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mRendCost);
 		}
-
 	}
 
-	/**
-	 * War cry.
-	 */
 	public void WarCry() {
-		if (mCurrentStamina > mWarCryCost) {
+		if (mCurrentResources.getResource() > mWarCryCost) {
 			if (mWarCryLevel == 1) {
 				// increase party dmg by 15% depletes 50% stamina
 			} else if (mWarCryLevel == 2) {
@@ -312,66 +243,54 @@ public class WarriorClass extends PlayerCharacter {
 				// increase party dmg by 30% depletes 50% stamina
 			}
 
-			mCurrentStamina -= mWarCryCost;
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mWarCryCost);
 		}
 
 	}
 
-	/**
-	 * Level up_ cleave.
-	 */
 	public void LevelUp_Cleave() {
 		if (mCurrentSkillPoints > 0) {
 
 			mCleaveLevel += 1;
 
+			mCurrentSkillPoints -= 1;
 		}
-
 	}
 
-	/**
-	 * Level up_ lunge.
-	 */
 	public void LevelUp_Lunge() {
 		if (mCurrentSkillPoints > 0) {
 
 			mLungeLevel += 1;
 
+			mCurrentSkillPoints -= 1;
 		}
 	}
 
-	/**
-	 * Level up_ execute.
-	 */
 	public void LevelUp_Execute() {
 		if (mCurrentSkillPoints > 0) {
 
 			mExecuteLevel += 1;
 
+			mCurrentSkillPoints -= 1;
 		}
-
 	}
 
-	/**
-	 * Level up_ rend.
-	 */
 	public void LevelUp_Rend() {
 		if (mCurrentSkillPoints > 0) {
 
 			mRendLevel += 1;
 
+			mCurrentSkillPoints -= 1;
 		}
-
 	}
 
-	/**
-	 * Level up_ war cry.
-	 */
 	public void LevelUp_WarCry() {
 		if (mCurrentSkillPoints > 0) {
 
 			mWarCryLevel += 1;
 
+			mCurrentSkillPoints -= 1;
 		}
 	}
 

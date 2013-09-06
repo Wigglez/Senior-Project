@@ -1,36 +1,28 @@
 package dragonsreign.character;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import org.andengine.entity.sprite.Sprite;
 
+import dragonsreign.character.characterclass.ClericClass;
+import dragonsreign.character.characterclass.RangerClass;
+import dragonsreign.character.characterclass.WarriorClass;
 import dragonsreign.item.Item;
+import dragonsreign.util.Stats;
 
 public abstract class PlayerCharacter extends Character {
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	// All defined jobs are available in the jobs directory
-	@SuppressWarnings("serial")
-	public static final ArrayList<String> AVAILABLEJOBS = new ArrayList<String>() {
-		{
-			for(String s : new File("data/characters/jobs").list()) {
-				if(new File("data/characters/jobs/" + s + "/jobs.xml").exists()) {
-					this.add(s);
-				}
-			}
-		}
-	};
-	
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
 	// Job
 	protected String mJobName;
-	
+	protected int mJobFlag;
+
 	// Sprites
 	protected Sprite mBattleSprite;
 	protected Sprite mPortraitSprite;
@@ -47,6 +39,7 @@ public abstract class PlayerCharacter extends Character {
 
 	// Items
 	protected ArrayList<Item> mEquippedItems = new ArrayList<Item>();
+	protected Stats mItemStats;
 
 	// ===========================================================
 	// Constructors
@@ -143,39 +136,30 @@ public abstract class PlayerCharacter extends Character {
 	// Methods
 	// ===========================================================
 
-	public void loadJob(String pJobName) {
+	public void CreateJob(String pJobName) {
 		mJobName = pJobName;
-		
-		if(mLevel == 1) {
-			try {
-				if(mJobName == "warrior") {
-					
-				} else if(mJobName == "ranger") {
-					
-				} else if(mJobName == "cleric") {
-					
-				} 
-			} catch(Exception e) {
-				System.err.println("Cannot find file: " + "data/characters/jobs/" + mJobName + "Job.xml" + "\n" + "Job not loaded.");
-			}
+
+		if (mJobName == "Warrior") {
+			new WarriorClass(0);
+		} else if (mJobName == "Ranger") {
+		} else if (mJobName == "Cleric") {
 		}
 	}
-	
-	/*
+
 	public void updateCurrentStats() {
-		mCurrentStats.setStrength(this.getBaseStats().getStrength()
+		mCurrentStats.setStrength(this.getCurrentStats().getStrength()
 				+ mItemStats.getStrength());
-		mCurrentStats.setDexterity(this.getBaseStats().getDexterity()
+		mCurrentStats.setDexterity(this.getCurrentStats().getDexterity()
 				+ mItemStats.getDexterity());
-		mCurrentStats.setIntelligence(this.getBaseStats().getIntelligence()
+		mCurrentStats.setIntelligence(this.getCurrentStats().getIntelligence()
 				+ mItemStats.getIntelligence());
-		mCurrentStats.setVitality(this.getBaseStats().getVitality()
+		mCurrentStats.setVitality(this.getCurrentStats().getVitality()
 				+ mItemStats.getVitality());
-		mCurrentStats.setDamage(this.getBaseStats().getDamage()
+		mCurrentStats.setDamage(this.getCurrentStats().getDamage()
 				+ mItemStats.getDamage());
-		mCurrentStats.setArmor(this.getBaseStats().getArmor()
+		mCurrentStats.setArmor(this.getCurrentStats().getArmor()
 				+ mItemStats.getArmor());
-	} */
+	}
 
 	public boolean abilityUnlocked(int pAbilityIndex) {
 		if (mUnlockedAbility[pAbilityIndex])
