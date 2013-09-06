@@ -60,7 +60,11 @@ public class Enemy extends Character {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+	@Override
+	public void useAbility(int pAbilityIndex) {
+		// TODO Auto-generated method stub
 
+	}
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -80,6 +84,8 @@ public class Enemy extends Character {
 			e.printStackTrace();
 		}
 	}
+
+	
 
 	// ===========================================================
 	// Inner and Anonymous Classes

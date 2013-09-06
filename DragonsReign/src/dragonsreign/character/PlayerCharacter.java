@@ -26,7 +26,6 @@ public abstract class PlayerCharacter extends Character {
 
 	protected int mAbilityLevel;
 	protected int mAbilityCost;
-	protected String[] mAbility;
 	protected boolean[] mUnlockedAbility;
 
 	// Items
@@ -81,13 +80,7 @@ public abstract class PlayerCharacter extends Character {
 		this.mAbilityCost = pAbilityCost;
 	}
 
-	public String[] getAbility() {
-		return mAbility;
-	}
-
-	public void setAbility(String[] pAbility) {
-		this.mAbility = pAbility;
-	}
+	
 
 	public boolean[] getUnlockedAbility() {
 		return mUnlockedAbility;
@@ -105,7 +98,6 @@ public abstract class PlayerCharacter extends Character {
 
 	public abstract void equipItem(/* Item pEquipItem */);
 
-	public abstract void useAbility(int pAbilityIndex);
 
 	// ===========================================================
 	// Methods

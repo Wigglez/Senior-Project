@@ -26,6 +26,9 @@ public abstract class Character {
 
 	// Decider of turn order
 	protected int mHaste;
+	
+	//Ability names
+	protected String[] mAbility;
 
 	// For players, the experience that the enemy provides
 	// For enemies, the experience that is rewarded to player
@@ -180,10 +183,21 @@ public abstract class Character {
 	public boolean isDead() {
 		return (this.getCurrentResources().getHealth() < 0);
 	}
+	
+	//Abilities
+	public String[] getAbility() {
+		return mAbility;
+	}
+
+	public void setAbility(String[] pAbility) {
+		this.mAbility = pAbility;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+
+	public abstract void useAbility(int pAbilityIndex);
 
 	// ===========================================================
 	// Methods
