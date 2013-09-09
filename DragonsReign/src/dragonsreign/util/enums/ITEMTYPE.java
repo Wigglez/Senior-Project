@@ -3,25 +3,25 @@ package dragonsreign.util.enums;
 public enum ITEMTYPE {
 	
 	//Light Armor
-	LIGHT_HEMLT,
+	LIGHT_HELMET,
 	
 	LIGHT_CHESTPLATE,
 	
 	LIGHT_LEGS,
 	
 	//Medium Armor
-	MEDIUM_HEMLT,
+	MEDIUM_HELMET,
 	
 	MEDIUM_CHESTPLATE,
 	
 	MEDIUM_LEGS,
 	
 	//Heavy Armor
-	HEAVY_HEMLET,
+	HEAVY_HELMET,
 	
 	HEAVY_CHESTPLATE,
 	
-	HEAVYA_LEGS,
+	HEAVY_LEGS,
 	
 	//Weapons
 	ONE_HANDED_SWORD,

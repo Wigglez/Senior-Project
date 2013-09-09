@@ -4,6 +4,7 @@
 package dragonsreign.character.characterclass;
 
 import dragonsreign.character.PlayerCharacter;
+import dragonsreign.item.Gear;
 import dragonsreign.util.BattleEffects;
 
 // TODO: Auto-generated Javadoc
@@ -52,7 +53,7 @@ public class WarriorClass extends PlayerCharacter {
 
 		// Our ID is 0 since we are a warrior
 
-		// level up - 1 dex, 2 vita, 1 int, 3 str
+		
 		
 		mBaseStats.setStrength(9);
 		mBaseStats.setDexterity(2);
@@ -115,10 +116,12 @@ public class WarriorClass extends PlayerCharacter {
 	public void levelUp() {
 		// Figure levels that you learn abilities
 		// Determine increment of base stats
+		
+		// level up - 1 dex, 2 vita, 1 int, 3 str
 	}
 
 	@Override
-	public void equipItem() {
+	public void equipItem(Gear pGearPiece) {
 		// Create item/gear classes
 		// on equip alter gearStats, sum of gear pieces
 	}

@@ -4,6 +4,7 @@
 package dragonsreign.character.characterclass;
 
 import dragonsreign.character.PlayerCharacter;
+import dragonsreign.item.Gear;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -126,7 +127,7 @@ public class RangerClass extends PlayerCharacter {
 	 * @see dragonsreign.character.PlayerCharacter#equipItem()
 	 */
 	@Override
-	public void equipItem() {
+	public void equipItem(Gear pGearPiece) {
 		// TODO Auto-generated method stub
 
 	}

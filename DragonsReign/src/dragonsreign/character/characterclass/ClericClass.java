@@ -3,6 +3,7 @@
  */
 package dragonsreign.character.characterclass;
 import dragonsreign.character.PlayerCharacter;
+import dragonsreign.item.Gear;
 
 public class ClericClass extends PlayerCharacter {
 	// ===========================================================
@@ -119,7 +120,7 @@ public class ClericClass extends PlayerCharacter {
 	 * @see dragonsreign.character.PlayerCharacter#equipItem()
 	 */
 	@Override
-	public void equipItem() {
+	public void equipItem(Gear pGearPiece) {
 		// TODO Auto-generated method stub
 
 	}

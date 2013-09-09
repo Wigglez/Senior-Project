@@ -11,10 +11,6 @@ import java.util.Random;
 import dragonsreign.util.Stats;
 import dragonsreign.util.enums.ITEMTYPE;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class Gear.
- */
 public class Gear extends Item {
 	// ===========================================================
 	// Constants
@@ -24,7 +20,6 @@ public class Gear extends Item {
 	// Fields
 	// ===========================================================
 
-	/** The m stats. */
 	protected Stats mItemStats;
 	
 	private ITEMTYPE mItemType;
@@ -59,7 +54,7 @@ public class Gear extends Item {
 		
 		switch(mItemType){
 		
-		case LIGHT_HEMLT:
+		case LIGHT_HELMET:
 			//Light Helmet
 			//For Cleric & Mage
 			//Primary Int, Normal Vit, Low Str/Dex
@@ -122,7 +117,7 @@ public class Gear extends Item {
 			
 			//mSprite = ResourceManager.do stuff
 			
-		case MEDIUM_HEMLT:
+		case MEDIUM_HELMET:
 			//Medium Helmet
 			//For Ranger, Assassin, and Engineer
 			//Ranger:
@@ -188,14 +183,14 @@ public class Gear extends Item {
 			
 			//mSprite = ResourceManager.do stuff
 			
-		case HEAVY_HEMLET:
-			//Heavy Hemlet
+		case HEAVY_HELMET:
+			//Heavy Helmet
 			//For Warrior & Knight
 			//Warrior:
 			//Primary Str, Normal Vit, Low Dex/Int
 			//No Damage(Armor Piece)
 			//High Armor range b/c its a Heavy piece
-			mName = "Heavy Hemlet";
+			mName = "Heavy Helmet";
 			mDescription = "";
 			
 			mItemStats.setStrength(randHighStat());
@@ -233,7 +228,7 @@ public class Gear extends Item {
 			//mSprite = ResourceManager.do stuff
 			
 			
-		case HEAVYA_LEGS:
+		case HEAVY_LEGS:
 			//Heavy Leg Armor
 			//For Warrior & Knight
 			//Warrior:
