@@ -18,6 +18,7 @@ public abstract class PlayerCharacter extends Character {
 
 	// Experience
 	protected int mCurrentExperience;
+	protected int mExperienceToNextLevel;
 
 	protected int mSkillPoints;
 
@@ -28,6 +29,12 @@ public abstract class PlayerCharacter extends Character {
 	// Items
 	protected ArrayList<Item> mEquippedItems = new ArrayList<Item>();
 	protected Stats mItemStats;
+	
+	protected Item helmet;
+	protected Item chestArmor;
+	protected Item legArmor;
+	protected Item weaponHand1;
+	protected Item weaponHand2;
 
 	// ===========================================================
 	// Constructors
@@ -91,7 +98,7 @@ public abstract class PlayerCharacter extends Character {
 
 	public abstract void levelUp();
 
-	public abstract void equipItem(Gear pGearPiece);
+	public abstract boolean equipItem(Gear pGearPiece);
 
 	// ===========================================================
 	// Methods

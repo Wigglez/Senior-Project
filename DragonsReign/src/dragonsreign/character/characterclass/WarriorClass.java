@@ -121,9 +121,40 @@ public class WarriorClass extends PlayerCharacter {
 	}
 
 	@Override
-	public void equipItem(Gear pGearPiece) {
-		// Create item/gear classes
-		// on equip alter gearStats, sum of gear pieces
+	public boolean equipItem(Gear pGearPiece) {
+		
+		switch (pGearPiece.getItemType()){
+		case HEAVY_HELMET:
+			//unequip helmet
+			helmet = pGearPiece;
+		case HEAVY_CHESTPLATE:
+			//unequip chest piece
+			chestArmor = pGearPiece;
+		case HEAVY_LEGS:
+			//Unequip legs
+			legArmor = pGearPiece;
+		case ONE_HANDED_SWORD: case ONE_HANDED_AXE: case ONE_HANDED_MACE:
+			
+			if(weaponHand1.equals(null)){
+				
+				weaponHand1 = pGearPiece;
+				
+			}else if(weaponHand2.equals(null)){
+				
+				weaponHand2 = pGearPiece;
+				
+			}else{
+				
+				//unequip weaponHand1
+				weaponHand1 = pGearPiece;
+				
+			}
+			
+		case TWO_HANDED_SWORD: case TWO_HANDED_AXE: case TWO_HANDED_MACE:
+			
+			
+		}
+		return false;
 	}
 
 	@Override
