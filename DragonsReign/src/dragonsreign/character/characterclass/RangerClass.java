@@ -127,7 +127,8 @@ public class RangerClass extends PlayerCharacter {
 	 * @see dragonsreign.character.PlayerCharacter#equipItem()
 	 */
 	@Override
-	public void equipItem(Gear pGearPiece) {
+	public boolean equipItem(Gear pGearPiece) {
+		return false;
 		// TODO Auto-generated method stub
 
 	}

@@ -130,7 +130,7 @@ public abstract class PlayerCharacter extends Character {
 	// TODO
 	public boolean useItem(Potion pPotion) {
 
-		switch (pPotion.getmPotionID()) {
+		switch (pPotion.getPotionID()) {
 		case MINOR_HEALTH_POTION:
 		case MAJOR_HEALTH_POTION:
 		case SUPERIOR_HEALTH_POTION:
@@ -141,7 +141,7 @@ public abstract class PlayerCharacter extends Character {
 				// of max health)
 				mCurrentResources.setHealth((int) (mCurrentResources
 						.getHealth() + mMaxResources.getHealth()
-						* pPotion.getmAmountRestored()));
+						* pPotion.getAmountRestored()));
 
 				// Double check currentHealt doesn't exced maxHealth
 				if (mCurrentResources.getHealth() < mMaxResources.getHealth()) {
@@ -162,7 +162,7 @@ public abstract class PlayerCharacter extends Character {
 				// AmountRestored(% of maxResource)
 				mCurrentResources.setResource((int) (mCurrentResources
 						.getResource() + mMaxResources.getResource()
-						* pPotion.getmAmountRestored()));
+						* pPotion.getAmountRestored()));
 
 				// Double check currentResource doesn't exced maxResource
 				if (mCurrentResources.getResource() < mMaxResources
@@ -188,12 +188,12 @@ public abstract class PlayerCharacter extends Character {
 				// 50 or 100%
 				mCurrentResources
 						.setHealth((int) (mMaxResources.getHealth() * pPotion
-								.getmAmountRestored()));
+								.getAmountRestored()));
 
 				// currentResource = maxResource * AmountRestored(% of
 				// maxResource) : 50 or 100%
 				mCurrentResources.setResource((int) (mMaxResources
-						.getResource() * pPotion.getmAmountRestored()));
+						.getResource() * pPotion.getAmountRestored()));
 
 				return true;
 			} else

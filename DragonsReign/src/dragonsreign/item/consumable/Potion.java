@@ -124,11 +124,11 @@ public class Potion extends Item {
 	// Getter & Setter
 	// ===========================================================
 	
-	public POTIONS getmPotionID() {
+	public POTIONS getPotionID() {
 		return mPotionID;
 	}
 	
-	public float getmAmountRestored() {
+	public float getAmountRestored() {
 		return mAmountRestored;
 	}
 
