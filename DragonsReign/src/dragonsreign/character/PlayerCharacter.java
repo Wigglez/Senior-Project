@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import dragonsreign.item.Gear;
 import dragonsreign.item.Item;
 import dragonsreign.item.consumable.Potion;
+import dragonsreign.util.RandomInt;
 import dragonsreign.util.Stats;
 
 public abstract class PlayerCharacter extends Character {
@@ -29,7 +30,7 @@ public abstract class PlayerCharacter extends Character {
 	// Items
 	protected ArrayList<Item> mEquippedItems = new ArrayList<Item>();
 	protected Stats mItemStats;
-	
+
 	protected Item helmet;
 	protected Item chestArmor;
 	protected Item legArmor;
@@ -130,63 +131,112 @@ public abstract class PlayerCharacter extends Character {
 	public boolean useItem(Potion pPotion) {
 
 		switch (pPotion.getmPotionID()) {
-		case MINOR_HEALTH_POTION: case MAJOR_HEALTH_POTION: case SUPERIOR_HEALTH_POTION:
-			
-			//Check to make sure character isn't at full health
-			if(mCurrentResources.getHealth() < mMaxResources.getHealth()){
-				//currentHealth = currentHealth + maxHealth * AmountRestored(% of max health)
-				mCurrentResources.setHealth((int) (mCurrentResources.getHealth() + mMaxResources.getHealth()*pPotion.getmAmountRestored()));
-				
-				//Double check currentHealt doesn't exced maxHealth
-				if(mCurrentResources.getHealth() < mMaxResources.getHealth()){
-					//If it does then set currentHealth to maxHealth
+		case MINOR_HEALTH_POTION:
+		case MAJOR_HEALTH_POTION:
+		case SUPERIOR_HEALTH_POTION:
+
+			// Check to make sure character isn't at full health
+			if (mCurrentResources.getHealth() < mMaxResources.getHealth()) {
+				// currentHealth = currentHealth + maxHealth * AmountRestored(%
+				// of max health)
+				mCurrentResources.setHealth((int) (mCurrentResources
+						.getHealth() + mMaxResources.getHealth()
+						* pPotion.getmAmountRestored()));
+
+				// Double check currentHealt doesn't exced maxHealth
+				if (mCurrentResources.getHealth() < mMaxResources.getHealth()) {
+					// If it does then set currentHealth to maxHealth
 					mCurrentResources.setHealth(mMaxResources.getHealth());
 				}
-				
-				return true;				
-			}
-			else
+
+				return true;
+			} else
 				return false;
-		case MINOR_RESOURCE_POTION: case MAJOR_RESOURCE_POTION: case SUPERIOR_RESOURCE_POTION:
-			
-			//Check to make sure character isn't at full Resource
-			if(mCurrentResources.getResource() < mMaxResources.getResource()){
-				//currentResource = currentResource + maxResource * AmountRestored(% of maxResource)
-				mCurrentResources.setResource((int) (mCurrentResources.getResource() + mMaxResources.getResource()*pPotion.getmAmountRestored()));
-				
-				//Double check currentResource doesn't exced maxResource
-				if(mCurrentResources.getResource() < mMaxResources.getResource()){
-					//If it does then set currentResource to maxResource
+		case MINOR_RESOURCE_POTION:
+		case MAJOR_RESOURCE_POTION:
+		case SUPERIOR_RESOURCE_POTION:
+
+			// Check to make sure character isn't at full Resource
+			if (mCurrentResources.getResource() < mMaxResources.getResource()) {
+				// currentResource = currentResource + maxResource *
+				// AmountRestored(% of maxResource)
+				mCurrentResources.setResource((int) (mCurrentResources
+						.getResource() + mMaxResources.getResource()
+						* pPotion.getmAmountRestored()));
+
+				// Double check currentResource doesn't exced maxResource
+				if (mCurrentResources.getResource() < mMaxResources
+						.getResource()) {
+					// If it does then set currentResource to maxResource
 					mCurrentResources.setResource(mMaxResources.getResource());
 				}
-				
-				return true;				
-			}
-			else
+
+				return true;
+			} else
 				return false;
 
 		case ANTIDOTE_POTION:
-			//TODO send it to battle System
+			// TODO send it to battle System
 
-		case BASIC_REVIVE_POTION: case FULL_REVIVE_POTION:
-			
-			//Character must be dead to use revive
-			if(isDead()){
-				
-				//currentHealth = maxHealth * AmountRestored(% of max health) : 50 or 100%
-				mCurrentResources.setHealth((int) (mMaxResources.getHealth()*pPotion.getmAmountRestored()));
-				
-				//currentResource = maxResource * AmountRestored(% of maxResource) : 50 or 100%
-				mCurrentResources.setResource((int) (mMaxResources.getResource()*pPotion.getmAmountRestored()));
-				
+		case BASIC_REVIVE_POTION:
+		case FULL_REVIVE_POTION:
+
+			// Character must be dead to use revive
+			if (isDead()) {
+
+				// currentHealth = maxHealth * AmountRestored(% of max health) :
+				// 50 or 100%
+				mCurrentResources
+						.setHealth((int) (mMaxResources.getHealth() * pPotion
+								.getmAmountRestored()));
+
+				// currentResource = maxResource * AmountRestored(% of
+				// maxResource) : 50 or 100%
+				mCurrentResources.setResource((int) (mMaxResources
+						.getResource() * pPotion.getmAmountRestored()));
+
 				return true;
-			}
-			else
+			} else
 				return false;
 		}
 
 		return true;
 
+	}
+
+	// Compare haste to determine turn order
+	public boolean compareHasteToEnemy(Enemy pEnemy) {
+		// A false turn decision means the enemy goes first
+		// A true turn decision means the player goes first
+		boolean turnDecision = false;
+
+		switch (pEnemy.getHaste()) {
+		case HASTE_TYPE_FAST:
+			// Enemy goes first
+			turnDecision = false;
+
+			break;
+		case HASTE_TYPE_NORMAL:
+			// Randomly pick a turn decision in the range
+			int randomNumber = RandomInt.generateRandomInt(1, 10);
+
+			if (randomNumber <= 5) {
+				// Player goes first
+				turnDecision = true;
+			} else if (randomNumber >= 6) {
+				// Enemy goes first
+				turnDecision = false;
+			}
+
+			break;
+		case HASTE_TYPE_SLOW:
+			// Player goes first
+			turnDecision = true;
+
+			break;
+		}
+
+		return turnDecision;
 	}
 
 	// ===========================================================

@@ -46,7 +46,7 @@ public class EnemyHandler extends TagHandler {
 		mEnemy.setID(getIntegerAttribute("id"));
 		mEnemy.setName(getStringAttribute("name"));
 		mEnemy.setLevel(getIntegerAttribute("level"));
-		mEnemy.setHaste(getIntegerAttribute("haste"));
+		//mEnemy.setHaste(getIntegerAttribute("haste"));
 		mEnemy.getBaseResources().setHealth(getIntegerAttribute("health"));
 		mEnemy.setGoldReward(getIntegerAttribute("goldreward"));
 		mEnemy.setExperience(getIntegerAttribute("experiencereward"));

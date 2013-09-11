@@ -1,8 +1,8 @@
 package dragonsreign.character;
 
-import dragonsreign.util.RandomInt;
 import dragonsreign.util.Resources;
 import dragonsreign.util.Stats;
+import dragonsreign.util.enums.HASTE;
 
 public abstract class Character {
 	// ===========================================================
@@ -25,7 +25,7 @@ public abstract class Character {
 	protected int mLevel;
 
 	// Decider of turn order
-	protected int mHaste;
+	protected HASTE mHaste;
 	
 	//Ability names
 	protected String[] mAbility;
@@ -51,7 +51,7 @@ public abstract class Character {
 		mName = "";
 		mLevel = 0;
 		mExperience = 0;
-		mHaste = 0;
+		mHaste = HASTE.HASTE_TYPE_NORMAL;
 
 		mBaseResources = new Resources();
 		mCurrentResources = new Resources();
@@ -111,19 +111,18 @@ public abstract class Character {
 	}
 
 	// Haste
-	public int getHaste() {
+	public HASTE getHaste() {
 		return mHaste;
 	}
 
-	public void setHaste(int pHaste) {
+	public void setHaste(HASTE pHaste) {
 		this.mHaste = pHaste;
 	}
-
+	
 	// Experience
 	public int getExperience() {
 		return mExperience;
 	}
-
 	public void setExperience(int pExperience) {
 		this.mExperience = pExperience;
 	}
@@ -202,33 +201,6 @@ public abstract class Character {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	// Compare haste to determine turn order
-	public boolean compareHasteTo(int pHaste) {
-		boolean turnDecision = false;
-
-		// If current character haste is less than the other character's haste
-		if (this.mHaste < pHaste) {
-			// Enemy goes first
-			turnDecision = false;
-		} else if (this.mHaste > pHaste) {
-			// Player goes first
-			turnDecision = true;
-		} else if (this.mHaste == pHaste) {
-			// Randomly pick a turn decision in the range
-			int randomNumber = RandomInt.generateRandomInt(1, 10);
-
-			if (randomNumber <= 5) {
-				// Player goes first
-				turnDecision = true;
-			} else if (randomNumber >= 6) {
-				// Enemy goes first
-				turnDecision = false;
-			}
-		}
-
-		return turnDecision;
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
