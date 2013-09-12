@@ -31,11 +31,11 @@ public abstract class PlayerCharacter extends Character {
 	protected ArrayList<Item> mEquippedItems = new ArrayList<Item>();
 	protected Stats mItemStats;
 
-	protected Item helmet;
-	protected Item chestArmor;
-	protected Item legArmor;
-	protected Item weaponHand1;
-	protected Item weaponHand2;
+	protected Gear helmet;
+	protected Gear chestArmor;
+	protected Gear legArmor;
+	protected Gear weaponHand1;
+	protected Gear weaponHand2;
 
 	// ===========================================================
 	// Constructors
@@ -105,18 +105,72 @@ public abstract class PlayerCharacter extends Character {
 	// Methods
 	// ===========================================================
 
+	public void updateItemStats() {
+
+		mItemStats.setStrength(helmet.getItemStats().getStrength()
+				+ chestArmor.getItemStats().getStrength()
+				+ legArmor.getItemStats().getStrength()
+				+ weaponHand1.getItemStats().getStrength());
+
+		mItemStats.setDexterity(helmet.getItemStats().getDexterity()
+				+ chestArmor.getItemStats().getDexterity()
+				+ legArmor.getItemStats().getDexterity()
+				+ weaponHand1.getItemStats().getDexterity());
+
+		mItemStats.setIntelligence(helmet.getItemStats().getIntelligence()
+				+ chestArmor.getItemStats().getIntelligence()
+				+ legArmor.getItemStats().getIntelligence()
+				+ weaponHand1.getItemStats().getIntelligence());
+
+		mItemStats.setVitality(helmet.getItemStats().getVitality()
+				+ chestArmor.getItemStats().getVitality()
+				+ legArmor.getItemStats().getVitality()
+				+ weaponHand1.getItemStats().getVitality());
+		
+		mItemStats.setDamage(helmet.getItemStats().getDamage()
+				+ chestArmor.getItemStats().getDamage()
+				+ legArmor.getItemStats().getDamage()
+				+ weaponHand1.getItemStats().getDamage());
+
+		mItemStats.setArmor(helmet.getItemStats().getArmor()
+				+ chestArmor.getItemStats().getArmor()
+				+ legArmor.getItemStats().getArmor()
+				+ weaponHand1.getItemStats().getArmor());
+
+		if (weaponHand2 != null) {
+
+			mItemStats.setStrength(mItemStats.getStrength()
+					+ weaponHand2.getItemStats().getStrength());
+
+			mItemStats.setDexterity(mItemStats.getDexterity()
+					+ weaponHand2.getItemStats().getDexterity());
+
+			mItemStats.setIntelligence(mItemStats.getIntelligence()
+					+ weaponHand2.getItemStats().getIntelligence());
+
+			mItemStats.setVitality(mItemStats.getVitality()
+					+ weaponHand2.getItemStats().getVitality());
+
+			mItemStats.setDamage(mItemStats.getDamage()
+					+ weaponHand2.getItemStats().getDamage());
+
+			mItemStats.setArmor(mItemStats.getArmor()
+					+ weaponHand2.getItemStats().getArmor());
+		}
+	}
+
 	public void updateCurrentStats() {
-		mCurrentStats.setStrength(this.getBaseStats().getStrength()
+		mCurrentStats.setStrength(getBaseStats().getStrength()
 				+ mItemStats.getStrength());
-		mCurrentStats.setDexterity(this.getBaseStats().getDexterity()
+		mCurrentStats.setDexterity(getBaseStats().getDexterity()
 				+ mItemStats.getDexterity());
-		mCurrentStats.setIntelligence(this.getBaseStats().getIntelligence()
+		mCurrentStats.setIntelligence(getBaseStats().getIntelligence()
 				+ mItemStats.getIntelligence());
-		mCurrentStats.setVitality(this.getBaseStats().getVitality()
+		mCurrentStats.setVitality(getBaseStats().getVitality()
 				+ mItemStats.getVitality());
-		mCurrentStats.setDamage(this.getBaseStats().getDamage()
+		mCurrentStats.setDamage(getBaseStats().getDamage()
 				+ mItemStats.getDamage());
-		mCurrentStats.setArmor(this.getBaseStats().getArmor()
+		mCurrentStats.setArmor(getBaseStats().getArmor()
 				+ mItemStats.getArmor());
 	}
 

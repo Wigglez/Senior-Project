@@ -5,12 +5,10 @@ package dragonsreign.character.characterclass;
 
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.item.Gear;
+import dragonsreign.item.Item;
 import dragonsreign.util.BattleEffects;
+import dragonsreign.util.enums.ITEMTYPE;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class Warrior.
- */
 public class WarriorClass extends PlayerCharacter {
 	// ===========================================================
 	// Constants
@@ -36,11 +34,6 @@ public class WarriorClass extends PlayerCharacter {
 	protected int mRendCost;
 	protected int mWarCryCost;
 
-	protected BattleEffects mBattleEffects;
-
-	// H_Helm Helm;
-	// H_Upper upper;
-	// H_Lower lower;
 
 	// ===========================================================
 	// Constructors
@@ -48,10 +41,8 @@ public class WarriorClass extends PlayerCharacter {
 
 	public WarriorClass() {
 		// TODO
-		// set base stats, stamina for warrior
 		// loadWarriorSprite
 
-		// Our ID is 0 since we are a warrior
 
 		
 		
@@ -102,6 +93,16 @@ public class WarriorClass extends PlayerCharacter {
 		mExecuteCost = 0;
 		mRendCost = 0;
 		mWarCryCost = 0;
+		
+		//Starter Gear
+		helmet = new Gear(ITEMTYPE.HEAVY_HELMET, 1, 10, 3, 2, 4, 0, 11, false);
+		chestArmor = new Gear(ITEMTYPE.HEAVY_CHESTPLATE, 1, 8, 1, 0, 3, 0, 15, false);
+		legArmor = new Gear(ITEMTYPE.HEAVY_LEGS, 1, 5, 5, 3, 4, 0, 9, false);
+		weaponHand1 = new Gear(ITEMTYPE.ONE_HANDED_SWORD, 1, 13, 2, 6, 3, 23, 0, true);
+		weaponHand2 = null;
+		
+		updateItemStats();
+		updateCurrentStats();
 	}
 
 	// ===========================================================

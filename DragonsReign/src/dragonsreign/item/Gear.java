@@ -394,7 +394,7 @@ public class Gear extends Item {
 		case CROSSBOW:
 			// Crossbow
 			// For Ranger
-			mName = "";
+			mName = "Crossbow";
 			mDescription = "";
 
 			mItemStats.setStrength(randLowStat());
@@ -412,7 +412,7 @@ public class Gear extends Item {
 		case WAND:
 			// Wand
 			// For Cleric & Mage
-			mName = "";
+			mName = "Wand";
 			mDescription = "";
 
 			mItemStats.setStrength(randLowStat());
@@ -430,7 +430,7 @@ public class Gear extends Item {
 		case ORB:
 			// Orb
 			// For Cleric & Mage
-			mName = "";
+			mName = "Orb";
 			mDescription = "";
 
 			mItemStats.setStrength(randLowStat());
@@ -448,7 +448,7 @@ public class Gear extends Item {
 		case STAFF:
 			// Staff
 			// For Cleric & Mage
-			mName = "";
+			mName = "Staff";
 			mDescription = "";
 
 			mItemStats.setStrength(randLowStat());
@@ -565,19 +565,19 @@ public class Gear extends Item {
 			mDescription = "";
 
 		case CROSSBOW:
-			mName = "";
+			mName = "Crossbow";
 			mDescription = "";
 
 		case WAND:
-			mName = "";
+			mName = "Wand";
 			mDescription = "";
 
 		case ORB:
-			mName = "";
+			mName = "Orb";
 			mDescription = "";
 
 		case STAFF:
-			mName = "";
+			mName = "Staff";
 			mDescription = "";
 		}
 		
