@@ -1,6 +1,8 @@
 package dragonsreign.character;
 
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Random;
 
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,7 +26,7 @@ public class Enemy extends Character {
 	// ===========================================================
 
 	// Enemies enumeration
-	protected ENEMIES mEnemy;
+	protected ENEMIES mEnemies;
 
 	// The amount of enemies in a battle
 	protected int mEnemyCount;
@@ -35,6 +37,11 @@ public class Enemy extends Character {
 	// Experience that the enemy gives
 	protected int mExperienceReward;
 
+	protected ArrayList<ENEMIES> mPlainsEnemyList;
+	protected ArrayList<ENEMIES> mMountainsEnemyList;
+
+	protected Random randomGenerator;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -43,13 +50,20 @@ public class Enemy extends Character {
 		mEnemyCount = 0;
 		mGoldReward = 0;
 		mExperienceReward = 0;
+
+		mPlainsEnemyList = new ArrayList<ENEMIES>();
+		mMountainsEnemyList = new ArrayList<ENEMIES>();
+
+		randomGenerator = new Random();
 	}
 
-	public Enemy(int pPlayerLevel) {
+	public Enemy(int pPlayerLevel, ENEMIES pEnemies) {
 		// TODO
 		// Figure out goldreward and experiencereward scaling
 
-		switch (mEnemy) {
+		mEnemies = pEnemies;
+
+		switch (mEnemies) {
 		// PLAINS [0-19]
 		case ENEMY_TRIBESMAN:
 			mID = 0;
@@ -60,6 +74,8 @@ public class Enemy extends Character {
 			mAbility[0] = "Basic Attack";
 			mAbility[1] = "Spear Toss";
 			mBaseResources.setHealth(50);
+
+			mPlainsEnemyList.add(ENEMIES.ENEMY_TRIBESMAN);
 
 			break;
 
@@ -73,6 +89,8 @@ public class Enemy extends Character {
 			mAbility[1] = "Bite";
 			mBaseResources.setHealth(50);
 
+			mPlainsEnemyList.add(ENEMIES.ENEMY_MAGGOT);
+
 			break;
 
 		case ENEMY_LION:
@@ -84,6 +102,8 @@ public class Enemy extends Character {
 			mAbility[0] = "Basic Attack";
 			mAbility[1] = "Maul"; // Applies a bleed effect
 			mBaseResources.setHealth(50);
+
+			mPlainsEnemyList.add(ENEMIES.ENEMY_LION);
 
 			break;
 
@@ -97,6 +117,8 @@ public class Enemy extends Character {
 			mAbility[1] = "Pounce"; // Applies a daze effect
 			mBaseResources.setHealth(50);
 
+			mPlainsEnemyList.add(ENEMIES.ENEMY_CHEETAH);
+
 			break;
 
 		case ENEMY_RHINO:
@@ -108,6 +130,8 @@ public class Enemy extends Character {
 			mAbility[0] = "Basic Attack";
 			mAbility[1] = "Charge"; // Applies a stun effect
 			mBaseResources.setHealth(50);
+
+			mPlainsEnemyList.add(ENEMIES.ENEMY_RHINO);
 
 			break;
 
@@ -121,6 +145,8 @@ public class Enemy extends Character {
 			mAbility[1] = "Sting"; // Applies a poison effect
 			mBaseResources.setHealth(50);
 
+			mPlainsEnemyList.add(ENEMIES.ENEMY_WASP);
+
 			break;
 
 		case ENEMY_AIR_ELEMENTAL:
@@ -132,6 +158,8 @@ public class Enemy extends Character {
 			mAbility[0] = "Basic Attack";
 			mAbility[1] = "Gust"; // Applies a daze effect
 			mBaseResources.setHealth(50);
+
+			mPlainsEnemyList.add(ENEMIES.ENEMY_AIR_ELEMENTAL);
 
 			break;
 
@@ -146,6 +174,8 @@ public class Enemy extends Character {
 			mAbility[1] = "UNDETERMINED"; // GDD has no skill available
 			mBaseResources.setHealth(50);
 
+			mMountainsEnemyList.add(ENEMIES.ENEMY_ESKIMO);
+
 			break;
 
 		case ENEMY_YETI:
@@ -157,6 +187,8 @@ public class Enemy extends Character {
 			mAbility[0] = "Basic Attack";
 			mAbility[1] = "Snowball"; // Applies a chill effect
 			mBaseResources.setHealth(50);
+
+			mMountainsEnemyList.add(ENEMIES.ENEMY_YETI);
 
 			break;
 
@@ -170,6 +202,8 @@ public class Enemy extends Character {
 			mAbility[1] = "Charge"; // Applies a stun effect
 			mBaseResources.setHealth(50);
 
+			mMountainsEnemyList.add(ENEMIES.ENEMY_MAMMOTH);
+
 			break;
 
 		case ENEMY_DIRE_WOLF:
@@ -181,6 +215,8 @@ public class Enemy extends Character {
 			mAbility[0] = "Basic Attack";
 			mAbility[1] = "Go for the Throat"; // Applies a bleed effect
 			mBaseResources.setHealth(50);
+
+			mMountainsEnemyList.add(ENEMIES.ENEMY_DIRE_WOLF);
 
 			break;
 
@@ -194,6 +230,8 @@ public class Enemy extends Character {
 			mAbility[1] = "Axe Toss";
 			mBaseResources.setHealth(50);
 
+			mMountainsEnemyList.add(ENEMIES.ENEMY_DWARF);
+
 			break;
 
 		case ENEMY_RAM:
@@ -205,6 +243,8 @@ public class Enemy extends Character {
 			mAbility[0] = "Basic Attack";
 			mAbility[1] = "Headbutt"; // Applies a daze effect
 			mBaseResources.setHealth(50);
+
+			mMountainsEnemyList.add(ENEMIES.ENEMY_RAM);
 
 			break;
 
@@ -218,6 +258,8 @@ public class Enemy extends Character {
 			mAbility[1] = "Icicle"; // Applies a chill effect
 			mBaseResources.setHealth(50);
 
+			mMountainsEnemyList.add(ENEMIES.ENEMY_ICE_ELEMENTAL);
+
 			break;
 		}
 
@@ -228,6 +270,22 @@ public class Enemy extends Character {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+
+	public ENEMIES getPlainsEnemy() {
+		int index = randomGenerator.nextInt(mPlainsEnemyList.size());
+
+		ENEMIES enemy = mPlainsEnemyList.get(index);
+
+		return enemy;
+	}
+
+	public ENEMIES getMountainsEnemy() {
+		int index = randomGenerator.nextInt(mMountainsEnemyList.size());
+
+		ENEMIES enemy = mMountainsEnemyList.get(index);
+
+		return enemy;
+	}
 
 	// Enemy count
 	public int getEnemyCount() {
@@ -274,31 +332,31 @@ public class Enemy extends Character {
 		// Randomly pick a number of enemies in a range of 1-3
 		int randomNumber = RandomInt.generateRandomInt(1, 3);
 
-		switch (randomNumber) {
-		case 1:
-			mEnemyCount = 1;
-
-			break;
-		case 2:
-			mEnemyCount = 2;
-
-			break;
-		case 3:
-			mEnemyCount = 3;
-
-			break;
-		}
+		mEnemyCount = randomNumber;
 	}
 
 	public void randEnemy() {
 		// TODO
 		// Get player's current zone to dictate which enemies are generated
-		// if(mCurrentZone == ZONE_PLAINS)
+		// if (mCurrentZone == ZONE_PLAINS) {
 
-		// Need to finish
+		// Need zones to finish
 		switch (mEnemyCount) {
 		case 1:
+//			enemy1 = getPlainsEnemy();
 
+			break;
+		case 2:
+//			enemy1 = getPlainsEnemy();
+//			enemy2 = getPlainsEnemy();
+
+			break;
+		case 3:
+//			enemy1 = getPlainsEnemy();
+//			enemy2 = getPlainsEnemy();
+//			enemy3 = getPlainsEnemy();
+
+			break;
 		}
 	}
 
