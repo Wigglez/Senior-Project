@@ -58,6 +58,10 @@ public abstract class PlayerCharacter extends Character {
 	public void setCurrentExperience(int pCurrentExperience) {
 		this.mCurrentExperience = pCurrentExperience;
 	}
+	
+	public void gainExperience(int pExperienceGained) {
+		mCurrentExperience += pExperienceGained;
+	}
 
 	// Skill points
 	public int getSkillPoints() {
@@ -105,6 +109,7 @@ public abstract class PlayerCharacter extends Character {
 	// Methods
 	// ===========================================================
 
+	//Update item stats by summing the respected stats of each individual gear piece
 	public void updateItemStats() {
 
 		mItemStats.setStrength(helmet.getItemStats().getStrength()
@@ -137,6 +142,7 @@ public abstract class PlayerCharacter extends Character {
 				+ legArmor.getItemStats().getArmor()
 				+ weaponHand1.getItemStats().getArmor());
 
+		//Only add weaponHand2 stats if you have something equiped
 		if (weaponHand2 != null) {
 
 			mItemStats.setStrength(mItemStats.getStrength()
@@ -159,6 +165,7 @@ public abstract class PlayerCharacter extends Character {
 		}
 	}
 
+	//Update the current stats by summing character base stats with item stats
 	public void updateCurrentStats() {
 		mCurrentStats.setStrength(getBaseStats().getStrength()
 				+ mItemStats.getStrength());
@@ -174,6 +181,7 @@ public abstract class PlayerCharacter extends Character {
 				+ mItemStats.getArmor());
 	}
 
+	//Returns a bool if the ability is unlocked
 	public boolean abilityUnlocked(int pAbilityIndex) {
 		if (mUnlockedAbility[pAbilityIndex])
 			return true;
@@ -181,7 +189,8 @@ public abstract class PlayerCharacter extends Character {
 			return false;
 	}
 
-	// TODO
+	//Use Potion to add health/resource or revive players
+	//Returns a boolean if the item was used successfully
 	public boolean useItem(Potion pPotion) {
 
 		switch (pPotion.getPotionID()) {

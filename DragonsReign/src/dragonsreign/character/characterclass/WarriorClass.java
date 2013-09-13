@@ -5,8 +5,6 @@ package dragonsreign.character.characterclass;
 
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.item.Gear;
-import dragonsreign.item.Item;
-import dragonsreign.util.BattleEffects;
 import dragonsreign.util.enums.ITEMTYPE;
 
 public class WarriorClass extends PlayerCharacter {
@@ -34,7 +32,6 @@ public class WarriorClass extends PlayerCharacter {
 	protected int mRendCost;
 	protected int mWarCryCost;
 
-
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -43,9 +40,6 @@ public class WarriorClass extends PlayerCharacter {
 		// TODO
 		// loadWarriorSprite
 
-
-		
-		
 		mBaseStats.setStrength(9);
 		mBaseStats.setDexterity(2);
 		mBaseStats.setIntelligence(2);
@@ -73,11 +67,12 @@ public class WarriorClass extends PlayerCharacter {
 		mAbility[4] = "Rend";
 		mAbility[5] = "War Cry";
 
-		for (int abilityCount = 0; abilityCount < 6; abilityCount++) {
-			mUnlockedAbility[abilityCount] = false;
-		}
-
-		// mCurrentSkillPoints = this.getSkillPoints();
+		mUnlockedAbility[0] = true; // Basic Attack Unlocked at lvl 1
+		mUnlockedAbility[1] = true; // Cleave Unlocked at lvl 1
+		mUnlockedAbility[2] = false; // Lunge Unlocked at lvl 10
+		mUnlockedAbility[3] = false; // Execute Unlocked at lvl 10
+		mUnlockedAbility[4] = false; // Rend Unlocked at lvl 20
+		mUnlockedAbility[5] = false; // War Cry Unlocked at lvl 20
 
 		// Ability levels
 
@@ -93,14 +88,16 @@ public class WarriorClass extends PlayerCharacter {
 		mExecuteCost = 0;
 		mRendCost = 0;
 		mWarCryCost = 0;
-		
-		//Starter Gear
+
+		// Starter Gear
 		helmet = new Gear(ITEMTYPE.HEAVY_HELMET, 1, 10, 3, 2, 4, 0, 11, false);
-		chestArmor = new Gear(ITEMTYPE.HEAVY_CHESTPLATE, 1, 8, 1, 0, 3, 0, 15, false);
+		chestArmor = new Gear(ITEMTYPE.HEAVY_CHESTPLATE, 1, 8, 1, 0, 3, 0, 15,
+				false);
 		legArmor = new Gear(ITEMTYPE.HEAVY_LEGS, 1, 5, 5, 3, 4, 0, 9, false);
-		weaponHand1 = new Gear(ITEMTYPE.ONE_HANDED_SWORD, 1, 13, 2, 6, 3, 23, 0, true);
+		weaponHand1 = new Gear(ITEMTYPE.ONE_HANDED_SWORD, 1, 13, 2, 6, 3, 23,
+				0, true);
 		weaponHand2 = null;
-		
+
 		updateItemStats();
 		updateCurrentStats();
 	}
@@ -115,47 +112,121 @@ public class WarriorClass extends PlayerCharacter {
 
 	@Override
 	public void levelUp() {
-		// Figure levels that you learn abilities
-		// Determine increment of base stats
-		
 		// level up - 1 dex, 2 vita, 1 int, 3 str
+
+		//Test that you have leveled up
+		while (mCurrentExperience >= mExperienceToNextLevel) {
+			//increment level
+			mLevel += 1;
+
+			//Update base stats
+			mBaseStats.setStrength(mBaseStats.getStrength() + 3);
+			mBaseStats.setDexterity(mBaseStats.getDexterity() + 1);
+			mBaseStats.setIntelligence(mBaseStats.getIntelligence() + 1);
+			mBaseStats.setVitality(mBaseStats.getVitality() + 2);
+
+			//Update current stats with new base stats
+			updateCurrentStats();
+
+			//Unlock other abilities if character has reached the right level
+			if (mLevel == 10) {
+				mUnlockedAbility[2] = true;
+				mUnlockedAbility[3] = true;
+			}
+			if (mLevel == 20) {
+				mUnlockedAbility[4] = true;
+				mUnlockedAbility[5] = true;
+			}
+			
+			//Reset Experience
+			mCurrentExperience -= mExperienceToNextLevel;
+			
+			//TODO
+			//Determine what scale we are going to be using for experience: 10's 100's 1,000,000's????????
+			mExperienceToNextLevel += 4166854;		
+			
+		}
+
 	}
 
 	@Override
 	public boolean equipItem(Gear pGearPiece) {
-		
-		switch (pGearPiece.getItemType()){
+
+		boolean equipSuccess = false;
+
+		switch (pGearPiece.getItemType()) {
 		case HEAVY_HELMET:
-			//unequip helmet
+
+			// unequip helmet
 			helmet = pGearPiece;
+			equipSuccess = true;
+
+			break;
+
 		case HEAVY_CHESTPLATE:
-			//unequip chest piece
+
+			// unequip chest piece
 			chestArmor = pGearPiece;
+			equipSuccess = true;
+
+			break;
+
 		case HEAVY_LEGS:
-			//Unequip legs
+
+			// Unequip legs
 			legArmor = pGearPiece;
-		case ONE_HANDED_SWORD: case ONE_HANDED_AXE: case ONE_HANDED_MACE:
-			
-			if(weaponHand1.equals(null)){
-				
+			equipSuccess = true;
+
+			break;
+
+		case ONE_HANDED_SWORD:
+		case ONE_HANDED_AXE:
+		case ONE_HANDED_MACE:
+
+			if (weaponHand1.equals(null)) {
+
 				weaponHand1 = pGearPiece;
-				
-			}else if(weaponHand2.equals(null)){
-				
+				equipSuccess = true;
+
+			} else if (weaponHand2 == null) {
+
 				weaponHand2 = pGearPiece;
-				
-			}else{
-				
-				//unequip weaponHand1
+				equipSuccess = true;
+
+			} else {
+
+				// unequip weaponHand1
 				weaponHand1 = pGearPiece;
-				
+				equipSuccess = true;
+
 			}
-			
-		case TWO_HANDED_SWORD: case TWO_HANDED_AXE: case TWO_HANDED_MACE:
-			
-			
+
+			break;
+
+		case TWO_HANDED_SWORD:
+		case TWO_HANDED_AXE:
+		case TWO_HANDED_MACE:
+
+			if (weaponHand2 == null) {
+				// unequip weaponHand1
+				weaponHand1 = pGearPiece;
+				equipSuccess = true;
+			} else {
+				// unequip weaponHand1 & weaponHand2
+				weaponHand1 = pGearPiece;
+				equipSuccess = true;
+			}
+
+			break;
 		}
-		return false;
+
+		if (equipSuccess) {
+			updateItemStats();
+			updateCurrentStats();
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -222,16 +293,13 @@ public class WarriorClass extends PlayerCharacter {
 		if (mCurrentResources.getResource() > mLungeCost) {
 			if (mLungeLevel == 1) {
 				// attacks selected enemy target and stuns
-				mBattleEffects.setStunned(true);
-				mBattleEffects.setStunTurns(2);
+
 			} else if (mLungeLevel == 2) {
 				// attacks selected enemy target and stuns
-				mBattleEffects.setStunned(true);
-				mBattleEffects.setStunTurns(2);
+
 			} else if (mLungeLevel == 3) {
 				// attacks selected enemy target and stuns
-				mBattleEffects.setStunned(true);
-				mBattleEffects.setStunTurns(2);
+
 			}
 
 			mCurrentResources.setResource(mCurrentResources.getResource()
@@ -262,22 +330,12 @@ public class WarriorClass extends PlayerCharacter {
 		if (mCurrentResources.getResource() > mRendCost) {
 			if (mRendLevel == 1) {
 				// bleeds the target for 100% weapon dmg over 3 turns
-				mBattleEffects.setBleeding(true);
-				mBattleEffects.setBleedDamage(1.0f * this.getCurrentStats()
-						.getDamage());
-				mBattleEffects.setBleedTurns(3);
+
 			} else if (mRendLevel == 2) {
-				// bleeds the target for 125% weapon dmg over 3 turns
-				mBattleEffects.setBleeding(true);
-				mBattleEffects.setBleedDamage(1.25f * this.getCurrentStats()
-						.getDamage());
-				mBattleEffects.setBleedTurns(3);
+
 			} else if (mRendLevel == 3) {
 				// bleeds the target for 150% weapon dmg over 3 turns
-				mBattleEffects.setBleeding(true);
-				mBattleEffects.setBleedDamage(1.5f * this.getCurrentStats()
-						.getDamage());
-				mBattleEffects.setBleedTurns(3);
+
 			}
 
 			mCurrentResources.setResource(mCurrentResources.getResource()
