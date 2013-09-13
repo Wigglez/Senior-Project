@@ -57,7 +57,8 @@ public class ResourceManager
     					  swapButton, fleeButton, basicAttackButton,
     					  skillOneButton, skillTwoButton,
     					  skillThreeButton, skillFourButton, skillFiveButton,
-    					  teamMember1, teamMember2, teamMember3, enemy1, enemy2, enemy3;
+    					  teamMember1, teamMember2, teamMember3, enemy1, enemy2, enemy3, 
+    					  warriorPlayer, DPADBacking, DPADKnob;
     
     
     public Font font, battleFont, inventoryFont;
@@ -203,6 +204,17 @@ public class ResourceManager
     	backPack = texturePackLibrary.get(GameAssets.BACKPACK_ID);
     	
     	worldMap = texturePackLibrary.get(GameAssets.WORLDMAP_ID);
+    	
+    	warriorPlayer = texturePackLibrary.get(GameAssets.HERO_ID);
+    
+    	DPADBacking = texturePackLibrary.get(GameAssets.ONSCREEN_CONTROL_BASE_ID);
+    	
+    	DPADKnob = texturePackLibrary.get(GameAssets.ONSCREEN_CONTROL_KNOB_ID);
+    	
+        //////////////////////////////////////////////////////////////////////////
+        //Load TMX Stuff
+        //////////////////////////////////////////////////////////////////////////
+    	
     	
     }
     
