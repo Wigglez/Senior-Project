@@ -100,6 +100,10 @@ public class WarriorClass extends PlayerCharacter {
 
 		updateItemStats();
 		updateCurrentStats();
+		
+		//Experience
+		mCurrentExperience = 0;
+		mExperienceToNextLevel = 100;
 	}
 
 	// ===========================================================
@@ -141,9 +145,8 @@ public class WarriorClass extends PlayerCharacter {
 			//Reset Experience
 			mCurrentExperience -= mExperienceToNextLevel;
 			
-			//TODO
-			//Determine what scale we are going to be using for experience: 10's 100's 1,000,000's????????
-			mExperienceToNextLevel += 4166854;		
+			
+			mExperienceToNextLevel += mLevel * 68;		
 			
 		}
 
@@ -218,6 +221,8 @@ public class WarriorClass extends PlayerCharacter {
 			}
 
 			break;
+		default:
+			break;
 		}
 
 		if (equipSuccess) {
@@ -257,16 +262,7 @@ public class WarriorClass extends PlayerCharacter {
 	// Methods
 	// ===========================================================
 
-	public void LoadCharacter(int pLevel, int pCurrentExperience /*
-																 * helm, upper,
-																 * lower
-																 */) {
-		// equip gear
-
-		for (int currentLvl = 1; currentLvl <= pLevel; currentLvl++) {
-			levelUp();
-		}
-	}
+	
 
 	public void BasicAttack() {
 		// weapon dmg
