@@ -1,5 +1,6 @@
 package dragonsreign.manager;
 import dragonsreign.scene.CharacterSelectionScene;
+import dragonsreign.scene.DragonsReignActivity;
 import dragonsreign.scene.GameScene;
 import dragonsreign.scene.InventoryScene;
 import dragonsreign.scene.LoadingScene;
@@ -12,6 +13,7 @@ import org.andengine.engine.Engine;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
+import org.andengine.util.debug.Debug;
 
 
 public class SceneManager
@@ -23,18 +25,20 @@ public class SceneManager
     private BaseScene splashScene, menuScene, characterScene,
     				  gameScene, battleScene, loadingScene, 
     				  inventoryScene;
+    private GameScene gScene;
     
+    private DragonsReignActivity context;
     //---------------------------------------------
     // VARIABLES
     //---------------------------------------------
     
     private static final SceneManager INSTANCE = new SceneManager();
     
-    private SceneType currentSceneType = SceneType.SCENE_SPLASH;
+    private SceneType currentSceneType;
     
     private BaseScene currentScene;
     
-    private Engine engine = ResourceManager.getInstance().engine;
+    private Engine engine;
     
     public enum SceneType
     {
@@ -50,7 +54,18 @@ public class SceneManager
     //---------------------------------------------
     // CLASS LOGIC
     //---------------------------------------------
-    
+    public void Initialize(final DragonsReignActivity pMain)
+    {
+    	context = pMain;
+        currentSceneType = SceneType.SCENE_SPLASH;
+        engine = ResourceManager.getInstance().engine;
+        
+        if(context == null)
+        {
+        	Debug.e("Contex is null");
+        }
+    	
+    }
     private void setScene(BaseScene scene)
     {
         engine.setScene(scene);
@@ -199,9 +214,14 @@ public class SceneManager
                 mEngine.unregisterUpdateHandler(pTimerHandler);
                 ResourceManager.getInstance().loadGameResources();
        
-                gameScene = new GameScene();
+                if(context == null)
+                {
+                	Debug.e("Contex is null");
+                }
+                gameScene = new GameScene(context);
  
-                 
+
+                //setScene(gameScene);
         
             }
         }));

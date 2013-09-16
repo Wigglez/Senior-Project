@@ -44,6 +44,9 @@ public abstract class PlayerCharacter extends Character {
 	public PlayerCharacter() {
 		mAbility = new String[6];
 		mUnlockedAbility = new boolean[6];
+		
+		mBaseStats = new Stats();
+		mItemStats = new Stats();
 	}
 
 	// ===========================================================

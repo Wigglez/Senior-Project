@@ -43,8 +43,8 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	private Sprite warrior;
 	
 	private WarriorClass mWarriorClass = new WarriorClass();
-	private RangerClass mRangerClass = new RangerClass();
-	private ClericClass mClericClass = new ClericClass();
+//	private RangerClass mRangerClass = new RangerClass();
+//	private ClericClass mClericClass = new ClericClass();
 	
 	private IMenuItem warriorMenuItem, knightMenuItem, 
     				  assassinMenuItem, clericMenuItem, 
@@ -489,10 +489,10 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	    dexterityStatText.setVisible(true);
 	    strengthStatText.setVisible(true);
 	    
-	    clericStr = mClericClass.getBaseStats().getStrength();
-	    clericDex = mClericClass.getBaseStats().getDexterity();
-	    clericInt = mClericClass.getBaseStats().getIntelligence();
-	    clericVit = mClericClass.getBaseStats().getVitality();
+//	    clericStr = mClericClass.getBaseStats().getStrength();
+//	    clericDex = mClericClass.getBaseStats().getDexterity();
+//	    clericInt = mClericClass.getBaseStats().getIntelligence();
+//	    clericVit = mClericClass.getBaseStats().getVitality();
 	    
 	    strengthStatText.setText("Strength: " + clericStr);
 	    dexterityStatText.setText("Dexterity: " + clericDex);
@@ -623,10 +623,10 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 		dexterityStatText.setVisible(true);
 		strengthStatText.setVisible(true);
 		
-		rangerStr = mRangerClass.getBaseStats().getStrength();
-		rangerDex = mRangerClass.getBaseStats().getDexterity();
-		rangerInt = mRangerClass.getBaseStats().getIntelligence();
-		rangerVit = mRangerClass.getBaseStats().getVitality();
+//		rangerStr = mRangerClass.getBaseStats().getStrength();
+//		rangerDex = mRangerClass.getBaseStats().getDexterity();
+//		rangerInt = mRangerClass.getBaseStats().getIntelligence();
+//		rangerVit = mRangerClass.getBaseStats().getVitality();
 	    
 	    strengthStatText.setText("Strength: " + rangerStr);
 	    dexterityStatText.setText("Dexterity: " + rangerDex);

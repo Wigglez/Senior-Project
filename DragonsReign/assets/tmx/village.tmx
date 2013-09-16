@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="25" height="25" tilewidth="64" tileheight="64">
+ <properties>
+  <property name="MapName" value="VILLAGE"/>
+ </properties>
+ <tileset firstgid="1" name="grass-tiles-2-small" tilewidth="64" tileheight="64">
+  <image source="grass-tiles-2-small.png" width="768" height="384"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="25" height="25">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC62VwQrCMAyGO0E3mYjKbgoeJp6E9SDOm+//VqbQsJ+SdG23w4djs/kSk8zKGNMSlULsmURPPOAz52yuYyCs8KzEHdbJsa3ikNylSLGke5hjHyG19rkaBoDjrt1bzqEPHFpuufOIDqzDRhwlc4PzgrWsPSdYC16vPYtWuU79PRwHhQ9wIp6en0c7F7q074WON1ETDXEmjpFz3wzPCA6X9847OuKeUEfKHo0BNx/fea4J/dAceH/jQcc+cMT2LnSEO4EORnLEYqbM31JHCnOOkryXOnhGc/o/55DyZof2XxlzuD2/eEe3sB+t4OD4DbBWz3kvXmbab0ZylPSc34WuhtpM76utUjfyBxN+ru7ECQAA
+  </data>
+ </layer>
+</map>

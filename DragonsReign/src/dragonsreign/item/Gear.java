@@ -48,6 +48,8 @@ public class Gear extends Item {
 
 		// Set ItemType
 		mItemType = pItemType;
+		
+		mItemStats = new Stats();
 
 		switch (mItemType) {
 
@@ -472,6 +474,8 @@ public class Gear extends Item {
 		// Set ItemType
 		mItemType = pItemType;
 		
+		mItemStats = new Stats();
+
 		mItemLevel = pItemLevel;
 		
 		mItemStats.setStrength(pStr);

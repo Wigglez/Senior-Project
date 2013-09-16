@@ -5,6 +5,7 @@ package dragonsreign.character.characterclass;
 
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.item.Gear;
+import dragonsreign.util.Stats;
 import dragonsreign.util.enums.ITEMTYPE;
 
 public class WarriorClass extends PlayerCharacter {
