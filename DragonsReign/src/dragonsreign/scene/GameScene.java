@@ -138,25 +138,25 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener
 //        	Debug.e("Contex is null in Create Scene: GameScene");
 //        	System.exit(0);
 //        }
-//    	try {
-//			this.TMXloader = new TMXLoader(context.getAssets(), context.getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, context.getVertexBufferObjectManager(), new ITMXTilePropertiesListener() {
-//				@Override
-//				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) {
-//					//Gets the properties of the tiles from every layer
-//					for (int i = 0; i < pTMXTileProperties.size(); i++) 
-//						//Gets all the tiles with the property "ANIMATE" that is on the TMXLayer called "Alpha Layer"
-//						if(pTMXTileProperties.get(i).getName().contentEquals("ANIMATE") && pTMXLayer.getName().contentEquals("Alpha Layer")) 
-//							mAnimationTiles.add(pTMXTile);		
-//				}	
-//				
-//			});
-//
-//			this.mTMXTiledMap = TMXloader.loadFromAsset("tmx/desert.tmx");
-//			
-//			
-//		} catch (final TMXLoadException e) {
-//			Debug.e(e);
-//		}
+    	try {
+			this.TMXloader = new TMXLoader(activity.getAssets(), ((DragonsReignActivity)activity).getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, ((DragonsReignActivity)activity).getVertexBufferObjectManager(), new ITMXTilePropertiesListener() {
+				@Override
+				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) {
+					//Gets the properties of the tiles from every layer
+					for (int i = 0; i < pTMXTileProperties.size(); i++) 
+						//Gets all the tiles with the property "ANIMATE" that is on the TMXLayer called "Alpha Layer"
+						if(pTMXTileProperties.get(i).getName().contentEquals("ANIMATE") && pTMXLayer.getName().contentEquals("Alpha Layer")) 
+							mAnimationTiles.add(pTMXTile);		
+				}	
+				
+			});
+
+			this.mTMXTiledMap = TMXloader.loadFromAsset("tmx/desert.tmx");
+			
+			
+		} catch (final TMXLoadException e) {
+			Debug.e(e);
+		}
 		
 //		mTMXObjects = new ArrayList<TMXObject>();
 //		TMXGroupObjects = new ArrayList<TMXObjectGroup>();
