@@ -3,7 +3,9 @@ package dragonsreign.scene;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
@@ -14,6 +16,8 @@ import org.andengine.extension.tmx.TMXLayer;
 import org.andengine.extension.tmx.TMXLoader;
 import org.andengine.extension.tmx.TMXObject;
 import org.andengine.extension.tmx.TMXObjectGroup;
+import org.andengine.extension.tmx.TMXObjectGroupProperty;
+import org.andengine.extension.tmx.TMXObjectProperty;
 import org.andengine.extension.tmx.TMXProperties;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.extension.tmx.TMXTileProperty;
@@ -23,6 +27,7 @@ import org.andengine.extension.tmx.TMXLoader.ITMXTilePropertiesListener;
 import org.andengine.extension.tmx.util.exception.TMXLoadException;
 
 import org.andengine.opengl.texture.TextureOptions;
+import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
 import org.andengine.util.debug.Debug;
 
@@ -81,6 +86,8 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener
 		mapHUDItem = new ScaleMenuItemDecorator(new SpriteMenuItem(GAME_MAP, resourcesManager.worldMap, vbom), 1.2f, 1);
 		
 		
+		backpackHUDItem.setAlpha(0.75f);
+		mapHUDItem.setAlpha(0.75f);
 		////////////////////////////////////////////////////////////////////////////////////
 		//Create Sprites
 		////////////////////////////////////////////////////////////////////////////////////
@@ -132,55 +139,25 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener
     {
     	setBackground(new Background(Color.BLACK));
     	createGameChildScene();
-    	
-//        if(context == null)
-//        {
-//        	Debug.e("Contex is null in Create Scene: GameScene");
-//        	System.exit(0);
-//        }
-    	try {
-			this.TMXloader = new TMXLoader(activity.getAssets(), ((DragonsReignActivity)activity).getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, ((DragonsReignActivity)activity).getVertexBufferObjectManager(), new ITMXTilePropertiesListener() {
-				@Override
-				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) {
-					//Gets the properties of the tiles from every layer
-					for (int i = 0; i < pTMXTileProperties.size(); i++) 
-						//Gets all the tiles with the property "ANIMATE" that is on the TMXLayer called "Alpha Layer"
-						if(pTMXTileProperties.get(i).getName().contentEquals("ANIMATE") && pTMXLayer.getName().contentEquals("Alpha Layer")) 
-							mAnimationTiles.add(pTMXTile);		
-				}	
-				
-			});
+    	mAnimationTiles = new ArrayList<TMXTile>();
+		mChangingTiles = new ArrayList<TMXTile>();
+ 
+	
+		try 
+		{
+			final TMXLoader tmxLoader = new TMXLoader(activity.getAssets(), ((DragonsReignActivity) activity).getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, ((DragonsReignActivity) activity).getVertexBufferObjectManager());
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/desert2.tmx");
+			
+		} 
+		catch (final TMXLoadException tmxle) 
+		{
+			Debug.e(tmxle);
+			
+		} 
+			
+		final TMXLayer tmxLayer = this.mTMXTiledMap.getTMXLayers().get(0);
+		this.attachChild(tmxLayer);
 
-			this.mTMXTiledMap = TMXloader.loadFromAsset("tmx/desert.tmx");
-			
-			
-		} catch (final TMXLoadException e) {
-			Debug.e(e);
-		}
-		
-//		mTMXObjects = new ArrayList<TMXObject>();
-//		TMXGroupObjects = new ArrayList<TMXObjectGroup>();
-//		//Get the list of object tiles
-//		for (final TMXObjectGroup pGroup : mTMXTiledMap.getTMXObjectGroups()) 
-//		{
-//			mTMXObjects.addAll(pGroup.getTMXObjects());
-//			TMXGroupObjects.add(pGroup); 
-//		}
-//		
-//		for(TMXLayer tmxLayer : this.mTMXTiledMap.getTMXLayers()) 
-//		{
-//			  this.attachChild(tmxLayer);
-//			
-//		}
-		//Make the camera not exceed the bounds of the TMXEntity. 
-//    	mTMXMapTouchLayer = this.mTMXTiledMap.getTMXLayers().get(0);
-//		context.mCamera.setBounds(0, 0, mTMXTiledMap.getTileColumns() * mTMXTiledMap.getTileWidth(), mTMXTiledMap.getTileRows() * mTMXTiledMap.getTileHeight());
-//		attachChild(mTMXMapTouchLayer);
-		//WorldActivity.mWorldCamera.setChaseEntity(mPlayerSprite);
-		//Get the collision, exit, and changing tiles from the object sets on the map
-//		mCollideTiles = this.getObjectGroupPropertyTiles("COLLIDE",  TMXGroupObjects);	
-//		mExitTiles = this.getObjectPropertyTiles("EXIT", mTMXObjects);
-//		mChangingTiles = this.getObjectGroupPropertyTiles("Change Layer", TMXGroupObjects);
     }
 
     @Override
@@ -203,5 +180,6 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener
         this.dispose();
         
     }
+
     //TODO: Create onPause(), onResume(), 
 }
