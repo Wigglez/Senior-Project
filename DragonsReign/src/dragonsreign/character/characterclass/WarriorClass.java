@@ -148,6 +148,26 @@ public class WarriorClass extends PlayerCharacter {
 			
 			
 			mExperienceToNextLevel += mLevel * 68;		
+			//lvl 1- 100
+			//lvl 2 - 236
+			//lvl 3 - 440
+			//lvl 4 - 712
+			//lvl 5 - 1052
+			//lvl 6 - 1460
+			//lvl 7 - 1936
+			//lvl 8 - 2480
+			//lvl 9 - 3092
+			//lvl 10 - 3772
+			//lvl 11 - 4520
+			//lvl 12 - 5336
+			//lvl 13 - 6220
+			//lvl 14 - 7172
+			//lvl 15 - 8192
+			//lvl 16 - 9280
+			//lvl 17 - 10436
+			//lvl 18 - 11660
+			//lvl 19 - 12952
+			//lvl 20 - 14312
 			
 		}
 

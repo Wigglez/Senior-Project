@@ -1,11 +1,12 @@
 package dragonsreign.util;
 
 import dragonsreign.character.Character;
+
 // TODO: Auto-generated Javadoc
 /**
- * The Class BattleEffects.
+ * The Class BattleCharacterContainer.
  */
-public class BattleEffects {
+public class BattleCharacterContainer {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -14,6 +15,10 @@ public class BattleEffects {
 	// Fields
 	// ===========================================================
 
+	protected int mNumOfWaitTurns;
+
+	protected Stats mBuff;
+
 	protected boolean mBleeding;
 	protected boolean mBlinded;
 	protected boolean mBurning;
@@ -21,7 +26,7 @@ public class BattleEffects {
 	protected boolean mDazed;
 	protected boolean mPoisoned;
 	protected boolean mStunned;
-	
+
 	protected int mBleedTurns;
 	protected int mBlindTurns;
 	protected int mBurnTurns;
@@ -33,14 +38,67 @@ public class BattleEffects {
 	protected float mBleedDamage;
 	protected float mBurnDamage;
 	protected float mPoisonDamage;
-	
-	Character mCharacter;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public BattleEffects() {
+	public BattleCharacterContainer() {
+
+	}
+
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
+
+	public int getmNumOfWaitTurns() {
+		return mNumOfWaitTurns;
+	}
+
+	
+	// BLEED
+	public boolean isBleeding() {
+		return mBleeding;
+	}
+
+	// BLIND
+	public boolean isBlinded() {
+		return mBlinded;
+	}
+
+	// BURN
+	public boolean isBurning() {
+		return mBurning;
+	}
+
+	// CHILL
+	public boolean isChilled() {
+		return mChilled;
+	}
+
+	// DAZE
+	public boolean isDazed() {
+		return mDazed;
+	}
+
+	// POISON
+	public boolean isPoisoned() {
+		return mPoisoned;
+	}
+
+	// STUN
+	public boolean isStunned() {
+		return mStunned;
+	}
+
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
+	// ===========================================================
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
+	public void ClearBattleEffects(){
 		mBleeding = false;
 		mBlinded = false;
 		mBurning = false;
@@ -61,146 +119,7 @@ public class BattleEffects {
 		mBurnDamage = 0;
 		mPoisonDamage = 0;
 	}
-
-	// ===========================================================
-	// Getter & Setter
-	// ===========================================================
-
-	// BLEED
-	public boolean isBleeding() {
-		return mBleeding;
-	}
-
-	public void setBleeding(boolean pBleeding) {
-		this.mBleeding = pBleeding;
-	}
-
-	public float getBleedDamage() {
-		return mBleedDamage;
-	}
-
-	public void setBleedDamage(float pBleedDamage) {
-		this.mBleedDamage = pBleedDamage;
-	}
-
-	public int getBleedTurns() {
-		return mBleedTurns;
-	}
-
-	public void setBleedTurns(int pBleedTurns) {
-		this.mBleedTurns = pBleedTurns;
-	}
-
-	// BLIND
-	public boolean isBlinded() {
-		return mBlinded;
-	}
-
-	public void setBlinded(boolean pBlinded) {
-		this.mBlinded = pBlinded;
-	}
-
-	public int getBlindTurns() {
-		return mBlindTurns;
-	}
-
-	public void setBlindTurns(int pBlindTurns) {
-		this.mBlindTurns = pBlindTurns;
-	}
-
-	// BURN
-	public boolean isBurning() {
-		return mBurning;
-	}
-
-	public void setBurning(boolean pBurning) {
-		this.mBurning = pBurning;
-	}
-
-	public int getBurnTurns() {
-		return mBurnTurns;
-	}
-
-	public void setBurnTurns(int pBurnTurns) {
-		this.mBurnTurns = pBurnTurns;
-	}
-
-	// CHILL
-	public boolean isChilled() {
-		return mChilled;
-	}
-
-	public void setChilled(boolean pChilled) {
-		this.mChilled = pChilled;
-	}
-
-	public int getChillTurns() {
-		return mChillTurns;
-	}
-
-	public void setChillTurns(int pChillTurns) {
-		this.mChillTurns = pChillTurns;
-	}
-
-	// DAZE
-	public boolean isDazed() {
-		return mDazed;
-	}
-
-	public void setDazed(boolean pDazed) {
-		this.mDazed = pDazed;
-	}
-
-	public int getDazeTurns() {
-		return mDazeTurns;
-	}
-
-	public void setDazeTurns(int pDazeTurns) {
-		this.mDazeTurns = pDazeTurns;
-	}
-
-	// POISON
-	public boolean isPoisoned() {
-		return mPoisoned;
-	}
-
-	public void setPoisoned(boolean pPoisoned) {
-		this.mPoisoned = pPoisoned;
-	}
-
-	public int getPoisonTurns() {
-		return mPoisonTurns;
-	}
-
-	public void setPoisonTurns(int pPoisonTurns) {
-		this.mPoisonTurns = pPoisonTurns;
-	}
-
-	// STUN
-	public boolean isStunned() {
-		return mStunned;
-	}
-
-	public void setStunned(boolean pStunned) {
-		this.mStunned = pStunned;
-	}
-
-	public int getStunTurns() {
-		return mStunTurns;
-	}
-
-	public void setStunTurns(int pStunTurns) {
-		this.mStunTurns = pStunTurns;
-	}
-
-	// ===========================================================
-	// Methods for/from SuperClass/Interfaces
-	// ===========================================================
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
-
+	
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
