@@ -146,17 +146,21 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener
 		try 
 		{
 			final TMXLoader tmxLoader = new TMXLoader(activity.getAssets(), ((DragonsReignActivity) activity).getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, ((DragonsReignActivity) activity).getVertexBufferObjectManager());
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/desert2.tmx");
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/Mountain.tmx");
+			
 			
 		} 
-		catch (final TMXLoadException tmxle) 
+		catch (final TMXLoadException tmxle)
 		{
 			Debug.e(tmxle);
 			
 		} 
-			
+		
+		final TMXLayer tmxLayer2 = this.mTMXTiledMap.getTMXLayers().get(1);
 		final TMXLayer tmxLayer = this.mTMXTiledMap.getTMXLayers().get(0);
+		
 		this.attachChild(tmxLayer);
+		this.attachChild(tmxLayer2);
 
     }
 
