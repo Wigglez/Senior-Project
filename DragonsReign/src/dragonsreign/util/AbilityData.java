@@ -14,6 +14,7 @@ public class AbilityData {
 	protected boolean mDazed;
 	protected boolean mPoisoned;
 	protected boolean mStunned;
+	protected boolean mBuffed;
 
 	protected int mBleedTurns;
 	protected int mBlindTurns;
@@ -22,6 +23,7 @@ public class AbilityData {
 	protected int mDazeTurns;
 	protected int mPoisonTurns;
 	protected int mStunTurns;
+	protected int mBuffTurns;
 
 	protected float mBleedDamage;
 	protected float mBurnDamage;
@@ -70,8 +72,8 @@ public class AbilityData {
 		return mDamageDone;
 	}
 
-	public void setDamageDone(int mDamageDone) {
-		this.mDamageDone = mDamageDone;
+	public void setDamageDone(int pDamageDone) {
+		this.mDamageDone = pDamageDone;
 	}
 
 	// Healing
@@ -79,8 +81,8 @@ public class AbilityData {
 		return mHealingDone;
 	}
 
-	public void setHealingDone(int mHealingDone) {
-		this.mHealingDone = mHealingDone;
+	public void setHealingDone(int pHealingDone) {
+		this.mHealingDone = pHealingDone;
 	}
 
 	// Buff
@@ -88,33 +90,49 @@ public class AbilityData {
 		return mBuff;
 	}
 
-	public void setBuff(Stats mBuff) {
-		this.mBuff = mBuff;
+	public void setBuff(Stats pBuff) {
+		this.mBuff = pBuff;
 	}
 
-	// Bleeding
-	public boolean ismBleeding() {
+	public int getBuffTurns() {
+		return mBuffTurns;
+	}
+
+	public void setBuffTurns(int pBuffTurns) {
+		this.mBuffTurns = pBuffTurns;
+	}
+	
+	public boolean isBuffed() {
 		return mBleeding;
 	}
 
-	public void setBleeding(boolean mBleeding) {
-		this.mBleeding = mBleeding;
+	public void setBuffed(boolean pBleeding) {
+		this.mBleeding = pBleeding;
+	}
+
+	// Bleeding
+	public boolean isBleeding() {
+		return mBleeding;
+	}
+
+	public void setBleeding(boolean pBleeding) {
+		this.mBleeding = pBleeding;
 	}
 
 	public int getBleedTurns() {
 		return mBleedTurns;
 	}
 
-	public void setBleedTurns(int mBleedTurns) {
-		this.mBleedTurns = mBleedTurns;
+	public void setBleedTurns(int pBleedTurns) {
+		this.mBleedTurns = pBleedTurns;
 	}
 
 	public float getBleedDamage() {
 		return mBleedDamage;
 	}
 
-	public void setBleedDamage(float mBleedDamage) {
-		this.mBleedDamage = mBleedDamage;
+	public void setBleedDamage(float pBleedDamage) {
+		this.mBleedDamage = pBleedDamage;
 	}
 
 	// Blind
@@ -122,16 +140,16 @@ public class AbilityData {
 		return mBlinded;
 	}
 
-	public void setBlinded(boolean mBlinded) {
-		this.mBlinded = mBlinded;
+	public void setBlinded(boolean pBlinded) {
+		this.mBlinded = pBlinded;
 	}
 
 	public int getBlindTurns() {
 		return mBlindTurns;
 	}
 
-	public void setBlindTurns(int mBlindTurns) {
-		this.mBlindTurns = mBlindTurns;
+	public void setBlindTurns(int pBlindTurns) {
+		this.mBlindTurns = pBlindTurns;
 	}
 
 	// Burn
@@ -139,24 +157,24 @@ public class AbilityData {
 		return mBurning;
 	}
 
-	public void setBurning(boolean mBurning) {
-		this.mBurning = mBurning;
+	public void setBurning(boolean pBurning) {
+		this.mBurning = pBurning;
 	}
 
 	public int getBurnTurns() {
 		return mBurnTurns;
 	}
 
-	public void setBurnTurns(int mBurnTurns) {
-		this.mBurnTurns = mBurnTurns;
+	public void setBurnTurns(int pBurnTurns) {
+		this.mBurnTurns = pBurnTurns;
 	}
 
 	public float getBurnDamage() {
 		return mBurnDamage;
 	}
 
-	public void setBurnDamage(float mBurnDamage) {
-		this.mBurnDamage = mBurnDamage;
+	public void setBurnDamage(float pBurnDamage) {
+		this.mBurnDamage = pBurnDamage;
 	}
 
 	// Chilled
@@ -164,16 +182,16 @@ public class AbilityData {
 		return mChilled;
 	}
 
-	public void setChilled(boolean mChilled) {
-		this.mChilled = mChilled;
+	public void setChilled(boolean pChilled) {
+		this.mChilled = pChilled;
 	}
 
 	public int getChillTurns() {
 		return mChillTurns;
 	}
 
-	public void setChillTurns(int mChillTurns) {
-		this.mChillTurns = mChillTurns;
+	public void setChillTurns(int pChillTurns) {
+		this.mChillTurns = pChillTurns;
 	}
 
 	// Dazed
@@ -181,16 +199,16 @@ public class AbilityData {
 		return mDazed;
 	}
 
-	public void setDazed(boolean mDazed) {
-		this.mDazed = mDazed;
+	public void setDazed(boolean pDazed) {
+		this.mDazed = pDazed;
 	}
 
 	public int getDazeTurns() {
 		return mDazeTurns;
 	}
 
-	public void setDazeTurns(int mDazeTurns) {
-		this.mDazeTurns = mDazeTurns;
+	public void setDazeTurns(int pDazeTurns) {
+		this.mDazeTurns = pDazeTurns;
 	}
 
 	// Poison
@@ -198,24 +216,24 @@ public class AbilityData {
 		return mPoisoned;
 	}
 
-	public void setPoisoned(boolean mPoisoned) {
-		this.mPoisoned = mPoisoned;
+	public void setPoisoned(boolean pPoisoned) {
+		this.mPoisoned = pPoisoned;
 	}
 
 	public int getPoisonTurns() {
 		return mPoisonTurns;
 	}
 
-	public void setPoisonTurns(int mPoisonTurns) {
-		this.mPoisonTurns = mPoisonTurns;
+	public void setPoisonTurns(int pPoisonTurns) {
+		this.mPoisonTurns = pPoisonTurns;
 	}
 
 	public float getPoisonDamage() {
 		return mPoisonDamage;
 	}
 
-	public void setPoisonDamage(float mPoisonDamage) {
-		this.mPoisonDamage = mPoisonDamage;
+	public void setPoisonDamage(float pPoisonDamage) {
+		this.mPoisonDamage = pPoisonDamage;
 	}
 
 	// Stun
@@ -223,16 +241,16 @@ public class AbilityData {
 		return mStunned;
 	}
 
-	public void setStunned(boolean mStunned) {
-		this.mStunned = mStunned;
+	public void setStunned(boolean pStunned) {
+		this.mStunned = pStunned;
 	}
 
 	public int getStunTurns() {
 		return mStunTurns;
 	}
 
-	public void setStunTurns(int mStunTurns) {
-		this.mStunTurns = mStunTurns;
+	public void setStunTurns(int pStunTurns) {
+		this.mStunTurns = pStunTurns;
 	}
 
 }

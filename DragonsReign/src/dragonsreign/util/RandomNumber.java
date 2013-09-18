@@ -2,7 +2,7 @@ package dragonsreign.util;
 
 import java.util.Random;
 
-public class RandomInt {
+public class RandomNumber {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -17,7 +17,7 @@ public class RandomInt {
 	// Constructors
 	// ===========================================================
 
-	public RandomInt() {
+	public RandomNumber() {
 		
 	}
 
@@ -50,6 +50,19 @@ public class RandomInt {
 		// make it inclusive
 
 		int randomNumber = mRandom.nextInt((pMaxVal - pMinVal) + 1) + pMinVal;
+		
+		return randomNumber;
+	}
+	
+	public static float generateRandomFloat(float pMinVal, float pMaxVal) {
+		mRandom = new Random();
+
+		// nextfloat is normally exclusive of the top value (pMaxVal), so add 1 to
+		// make it inclusive
+
+		int rndFlt = generateRandomInt((int)(pMinVal * 100), (int)(pMaxVal * 100));
+		
+		float randomNumber = rndFlt/100;
 		
 		return randomNumber;
 	}

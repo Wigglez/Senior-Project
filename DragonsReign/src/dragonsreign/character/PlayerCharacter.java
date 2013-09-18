@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import dragonsreign.item.Gear;
 import dragonsreign.item.Item;
 import dragonsreign.item.consumable.Potion;
-import dragonsreign.util.RandomInt;
+import dragonsreign.util.RandomNumber;
 import dragonsreign.util.Stats;
 
 public abstract class PlayerCharacter extends Character {
@@ -306,7 +306,7 @@ public abstract class PlayerCharacter extends Character {
 			break;
 		case HASTE_TYPE_NORMAL:
 			// Randomly pick a turn decision in the range
-			int randomNumber = RandomInt.generateRandomInt(1, 10);
+			int randomNumber = RandomNumber.generateRandomInt(1, 10);
 
 			if (randomNumber <= 5) {
 				// Player goes first

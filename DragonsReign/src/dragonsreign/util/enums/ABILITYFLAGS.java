@@ -14,5 +14,7 @@ public enum ABILITYFLAGS {
 	
 	DEBUFF,
 	
-	SELF_CAST;
+	SELF_CAST,
+	
+	NOT_ENOUGH_RESOURCE;
 }

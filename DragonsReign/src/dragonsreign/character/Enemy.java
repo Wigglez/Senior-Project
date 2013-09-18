@@ -10,7 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import dragonsreign.util.RandomInt;
+import dragonsreign.util.RandomNumber;
 import dragonsreign.util.enums.ENEMIES;
 import dragonsreign.util.enums.HASTE;
 import dragonsreign.util.xml.EnemyHandler;
@@ -330,7 +330,7 @@ public class Enemy extends Character {
 	// Determines the amount of enemies in the current battle
 	public void randEnemyCount() {
 		// Randomly pick a number of enemies in a range of 1-3
-		int randomNumber = RandomInt.generateRandomInt(1, 3);
+		int randomNumber = RandomNumber.generateRandomInt(1, 3);
 
 		mEnemyCount = randomNumber;
 	}
@@ -363,7 +363,7 @@ public class Enemy extends Character {
 	// Determines the levels of all enemies in the current battle
 	public void randEnemyLevels(int pPlayerLevel) {
 		// Use a range to give one above and one below chance
-		int randomNumber = RandomInt.generateRandomInt(1, 3);
+		int randomNumber = RandomNumber.generateRandomInt(1, 3);
 
 		switch (randomNumber) {
 		case 1:

@@ -1,7 +1,9 @@
 package dragonsreign.character;
 
+import dragonsreign.util.AbilityData;
 import dragonsreign.util.Resources;
 import dragonsreign.util.Stats;
+import dragonsreign.util.enums.ABILITYFLAGS;
 import dragonsreign.util.enums.HASTE;
 
 public abstract class Character {
@@ -196,7 +198,7 @@ public abstract class Character {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	public abstract void useAbility(int pAbilityIndex);
+	public abstract ABILITYFLAGS useAbility(int pAbilityIndex, AbilityData pAbilityData);
 
 	// ===========================================================
 	// Methods

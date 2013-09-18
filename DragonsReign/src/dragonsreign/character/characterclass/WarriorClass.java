@@ -5,7 +5,9 @@ package dragonsreign.character.characterclass;
 
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.item.Gear;
-import dragonsreign.util.Stats;
+import dragonsreign.util.AbilityData;
+import dragonsreign.util.RandomNumber;
+import dragonsreign.util.enums.ABILITYFLAGS;
 import dragonsreign.util.enums.ITEMTYPE;
 
 public class WarriorClass extends PlayerCharacter {
@@ -76,7 +78,6 @@ public class WarriorClass extends PlayerCharacter {
 		mUnlockedAbility[5] = false; // War Cry Unlocked at lvl 20
 
 		// Ability levels
-
 		mCleaveLevel = 0;
 		mLungeLevel = 0;
 		mExecuteLevel = 0;
@@ -101,8 +102,8 @@ public class WarriorClass extends PlayerCharacter {
 
 		updateItemStats();
 		updateCurrentStats();
-		
-		//Experience
+
+		// Experience
 		mCurrentExperience = 0;
 		mExperienceToNextLevel = 100;
 	}
@@ -119,21 +120,21 @@ public class WarriorClass extends PlayerCharacter {
 	public void levelUp() {
 		// level up - 1 dex, 2 vita, 1 int, 3 str
 
-		//Test that you have leveled up
+		// Test that you have leveled up
 		while (mCurrentExperience >= mExperienceToNextLevel) {
-			//increment level
+			// increment level
 			mLevel += 1;
 
-			//Update base stats
+			// Update base stats
 			mBaseStats.setStrength(mBaseStats.getStrength() + 3);
 			mBaseStats.setDexterity(mBaseStats.getDexterity() + 1);
 			mBaseStats.setIntelligence(mBaseStats.getIntelligence() + 1);
 			mBaseStats.setVitality(mBaseStats.getVitality() + 2);
 
-			//Update current stats with new base stats
+			// Update current stats with new base stats
 			updateCurrentStats();
 
-			//Unlock other abilities if character has reached the right level
+			// Unlock other abilities if character has reached the right level
 			if (mLevel == 10) {
 				mUnlockedAbility[2] = true;
 				mUnlockedAbility[3] = true;
@@ -142,33 +143,32 @@ public class WarriorClass extends PlayerCharacter {
 				mUnlockedAbility[4] = true;
 				mUnlockedAbility[5] = true;
 			}
-			
-			//Reset Experience
+
+			// Reset Experience
 			mCurrentExperience -= mExperienceToNextLevel;
-			
-			
-			mExperienceToNextLevel += mLevel * 68;		
-			//lvl 1- 100
-			//lvl 2 - 236
-			//lvl 3 - 440
-			//lvl 4 - 712
-			//lvl 5 - 1052
-			//lvl 6 - 1460
-			//lvl 7 - 1936
-			//lvl 8 - 2480
-			//lvl 9 - 3092
-			//lvl 10 - 3772
-			//lvl 11 - 4520
-			//lvl 12 - 5336
-			//lvl 13 - 6220
-			//lvl 14 - 7172
-			//lvl 15 - 8192
-			//lvl 16 - 9280
-			//lvl 17 - 10436
-			//lvl 18 - 11660
-			//lvl 19 - 12952
-			//lvl 20 - 14312
-			
+
+			mExperienceToNextLevel += mLevel * 68;
+			// lvl 1- 100
+			// lvl 2 - 236
+			// lvl 3 - 440
+			// lvl 4 - 712
+			// lvl 5 - 1052
+			// lvl 6 - 1460
+			// lvl 7 - 1936
+			// lvl 8 - 2480
+			// lvl 9 - 3092
+			// lvl 10 - 3772
+			// lvl 11 - 4520
+			// lvl 12 - 5336
+			// lvl 13 - 6220
+			// lvl 14 - 7172
+			// lvl 15 - 8192
+			// lvl 16 - 9280
+			// lvl 17 - 10436
+			// lvl 18 - 11660
+			// lvl 19 - 12952
+			// lvl 20 - 14312
+
 		}
 
 	}
@@ -256,170 +256,244 @@ public class WarriorClass extends PlayerCharacter {
 	}
 
 	@Override
-	public void useAbility(int pAbilityIdx) {
+	public ABILITYFLAGS useAbility(int pAbilityIdx, AbilityData pAbilityData) {
+		ABILITYFLAGS returnFlag = null;
+
 		switch (pAbilityIdx) {
 		case 0:
-			BasicAttack();
+			returnFlag = BasicAttack(pAbilityData);
 			break;
 		case 1:
-			Cleave();
+			returnFlag = Cleave(pAbilityData);
 			break;
 		case 2:
-			Lunge();
+			returnFlag = Lunge(pAbilityData);
 			break;
 		case 3:
-			Execute();
+			returnFlag = Execute(pAbilityData);
 			break;
 		case 4:
-			Rend();
+			returnFlag = Rend(pAbilityData);
 			break;
 		case 5:
-			WarCry();
+			returnFlag = WarCry(pAbilityData);
 			break;
 		}
+
+		return returnFlag;
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 
-	
+	public ABILITYFLAGS BasicAttack(AbilityData pAbilityData) {
 
-	public void BasicAttack() {
-		// weapon dmg
-		mCurrentStats.getDamage();
+		// 90% - 110% weapon damage
+		float dmg = RandomNumber.generateRandomFloat(
+				mCurrentStats.getDamage() * 0.90f,
+				mCurrentStats.getDamage() * 1.10f);
+
+		pAbilityData.setDamageDone((int) dmg);
+
+		return ABILITYFLAGS.DAMAGE_SINGLE;
 	}
 
-	public void Cleave() {
-		if (this.getCurrentResources().getResource() > mCleaveCost) {
-			// do stuff
-			if (mCleaveLevel == 1) {
-				// attacks all enemies for 40% base dmg
-			} else if (mCleaveLevel == 2) {
-				// attacks all enemies for 60% base dmg
-			} else if (mCleaveLevel == 3) {
-				// attacks all enemies for 75% base dmg
-			}
+	public ABILITYFLAGS Cleave(AbilityData pAbilityData) {
+		mCleaveCost = 30;
+		if (this.getCurrentResources().getResource() >= mCleaveCost) {
+
+			// TODO Tiered Ability
+			// // do stuff
+			// if (mCleaveLevel == 1) {
+			// // attacks all enemies for 40% base dmg
+			// } else if (mCleaveLevel == 2) {
+			// // attacks all enemies for 60% base dmg
+			// } else if (mCleaveLevel == 3) {
+			// // attacks all enemies for 75% base dmg
+			// }
+
+			float dmg = 0.6f * mCurrentStats.getDamage();
+
+			pAbilityData.setDamageDone((int) dmg);
 
 			mCurrentResources.setResource(mCurrentResources.getResource()
 					- mCleaveCost);
-		}
+
+			return ABILITYFLAGS.DAMAGE_ALL;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 	}
 
-	public void Lunge() {
-		if (mCurrentResources.getResource() > mLungeCost) {
-			if (mLungeLevel == 1) {
-				// attacks selected enemy target and stuns
+	public ABILITYFLAGS Lunge(AbilityData pAbilityData) {
+		mLungeCost = 55;
+		if (mCurrentResources.getResource() >= mLungeCost) {
 
-			} else if (mLungeLevel == 2) {
-				// attacks selected enemy target and stuns
+			// TODO Tiered Abili
+			// if (mLungeLevel == 1) {
+			// // attacks selected enemy target and stuns
+			// 50%
+			// } else if (mLungeLevel == 2) {
+			// // attacks selected enemy target and stuns
+			// 75%
+			// } else if (mLungeLevel == 3) {
+			// // attacks selected enemy target and stuns
+			// 100%
+			// }
 
-			} else if (mLungeLevel == 3) {
-				// attacks selected enemy target and stuns
+			float dmg = 0.75f * mCurrentStats.getDamage();
 
-			}
+			pAbilityData.setDamageDone((int) dmg);
+			pAbilityData.setStunned(true);
+			pAbilityData.setStunTurns(2);
 
 			mCurrentResources.setResource(mCurrentResources.getResource()
 					- mLungeCost);
-		}
+
+			return ABILITYFLAGS.DAMAGE_SINGLE;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 	}
 
-	public void Execute() {
-		if (mCurrentResources.getResource() > mExecuteCost) {
-			// do stuff
-			if (mExecuteLevel == 1) {
-				// Completely drains stamina increased dmg based on amount of
-				// stamina drained
-			} else if (mExecuteLevel == 2) {
-				// Completely drains stamina increased dmg based on amount of
-				// stamina drained
-			} else if (mExecuteLevel == 3) {
-				// Completely drains stamina increased dmg based on amount of
-				// stamina drained
-			}
+	public ABILITYFLAGS Execute(AbilityData pAbilityData) {
+		mExecuteCost = mCurrentResources.getResource();
+		if (mCurrentResources.getResource() >= mExecuteCost) {
+
+			// ////TODO Tiered Ability
+			// // do stuff
+			// if (mExecuteLevel == 1) {
+			// // Completely drains stamina increased dmg based on amount of
+			// // stamina drained
+			// } else if (mExecuteLevel == 2) {
+			// // Completely drains stamina increased dmg based on amount of
+			// // stamina drained
+			// } else if (mExecuteLevel == 3) {
+			// // Completely drains stamina increased dmg based on amount of
+			// // stamina drained
+			// }
+
+			float excDmgMod = mCurrentResources.getResource()
+					/ mMaxResources.getResource();
+			excDmgMod += 1;
+
+			float dmg = mCurrentStats.getDamage() * excDmgMod;
+
+			pAbilityData.setDamageDone((int) dmg);
 
 			mCurrentResources.setResource(mCurrentResources.getResource()
 					- mExecuteCost);
-		}
+
+			return ABILITYFLAGS.DAMAGE_SINGLE;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 	}
 
-	public void Rend() {
-		if (mCurrentResources.getResource() > mRendCost) {
-			if (mRendLevel == 1) {
-				// bleeds the target for 100% weapon dmg over 3 turns
+	public ABILITYFLAGS Rend(AbilityData pAbilityData) {
+		mRendCost = 40;
 
-			} else if (mRendLevel == 2) {
+		if (mCurrentResources.getResource() >= mRendCost) {
 
-			} else if (mRendLevel == 3) {
-				// bleeds the target for 150% weapon dmg over 3 turns
+			// //TODO Tiered Ability
+			// if (mRendLevel == 1) {
+			// // bleeds the target for 100% weapon dmg over 3 turns
+			//
+			// } else if (mRendLevel == 2) {
+			//
+			// } else if (mRendLevel == 3) {
+			// // bleeds the target for 150% weapon dmg over 3 turns
+			//
+			// }
 
-			}
+			float rendDmg = mCurrentStats.getDamage() * .33f;
+
+			pAbilityData.setBleedDamage((int) rendDmg);
+			pAbilityData.setBleeding(true);
+			pAbilityData.setBleedTurns(3);
 
 			mCurrentResources.setResource(mCurrentResources.getResource()
 					- mRendCost);
-		}
+
+			return ABILITYFLAGS.DAMAGE_SINGLE;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 	}
 
-	public void WarCry() {
-		if (mCurrentResources.getResource() > mWarCryCost) {
-			if (mWarCryLevel == 1) {
-				// increase party dmg by 15% depletes 50% stamina
-			} else if (mWarCryLevel == 2) {
-				// increase party dmg by 20% depletes 50% stamina
-			} else if (mWarCryLevel == 3) {
-				// increase party dmg by 30% depletes 50% stamina
-			}
+	public ABILITYFLAGS WarCry(AbilityData pAbilityData) {
+		mWarCryCost = 50;
+
+		if (mCurrentResources.getResource() >= mWarCryCost) {
+
+			// //TODO Tiered Ability
+			// if (mWarCryLevel == 1) {
+			// // increase party dmg by 15% depletes 50% stamina
+			// } else if (mWarCryLevel == 2) {
+			// // increase party dmg by 20% depletes 50% stamina
+			// } else if (mWarCryLevel == 3) {
+			// // increase party dmg by 30% depletes 50% stamina
+			// }
+
+			// War Cry grants 20% of Warrior's damage to the rest of the party
+			
+			float buffDmg = 0.2f * mCurrentStats.getDamage();
+
+			pAbilityData.getBuff().setDamage((int) buffDmg);
+			pAbilityData.setBuffed(true);
+			pAbilityData.setBuffTurns(5);
 
 			mCurrentResources.setResource(mCurrentResources.getResource()
 					- mWarCryCost);
-		}
+
+			return ABILITYFLAGS.BUFF_ALL;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 
 	}
 
-	public void LevelUp_Cleave() {
-		if (mCurrentSkillPoints > 0) {
-
-			mCleaveLevel += 1;
-
-			mCurrentSkillPoints -= 1;
-		}
-	}
-
-	public void LevelUp_Lunge() {
-		if (mCurrentSkillPoints > 0) {
-
-			mLungeLevel += 1;
-
-			mCurrentSkillPoints -= 1;
-		}
-	}
-
-	public void LevelUp_Execute() {
-		if (mCurrentSkillPoints > 0) {
-
-			mExecuteLevel += 1;
-
-			mCurrentSkillPoints -= 1;
-		}
-	}
-
-	public void LevelUp_Rend() {
-		if (mCurrentSkillPoints > 0) {
-
-			mRendLevel += 1;
-
-			mCurrentSkillPoints -= 1;
-		}
-	}
-
-	public void LevelUp_WarCry() {
-		if (mCurrentSkillPoints > 0) {
-
-			mWarCryLevel += 1;
-
-			mCurrentSkillPoints -= 1;
-		}
-	}
+	// TODO Level up Abilities
+	// public void LevelUp_Cleave() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mCleaveLevel += 1;
+	//
+	// mCurrentSkillPoints -= 1;
+	// }
+	// }
+	//
+	// public void LevelUp_Lunge() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mLungeLevel += 1;
+	//
+	// mCurrentSkillPoints -= 1;
+	// }
+	// }
+	//
+	// public void LevelUp_Execute() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mExecuteLevel += 1;
+	//
+	// mCurrentSkillPoints -= 1;
+	// }
+	// }
+	//
+	// public void LevelUp_Rend() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mRendLevel += 1;
+	//
+	// mCurrentSkillPoints -= 1;
+	// }
+	// }
+	//
+	// public void LevelUp_WarCry() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mWarCryLevel += 1;
+	//
+	// mCurrentSkillPoints -= 1;
+	// }
+	// }
 
 	// ===========================================================
 	// Inner and Anonymous Classes

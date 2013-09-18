@@ -5,6 +5,7 @@ package dragonsreign.character.characterclass;
 
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.item.Gear;
+import dragonsreign.util.AbilityData;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -139,7 +140,7 @@ public class RangerClass extends PlayerCharacter {
 	 * @see dragonsreign.character.PlayerCharacter#useAbility(int)
 	 */
 	@Override
-	public void useAbility(int pAbilityIndex) {
+	public void useAbility(int pAbilityIndex, AbilityData pAbilityData) {
 		// TODO Auto-generated method stub
 
 	}

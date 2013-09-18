@@ -2,10 +2,6 @@ package dragonsreign.util;
 
 import dragonsreign.character.Character;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class BattleCharacterContainer.
- */
 public class BattleCharacterContainer {
 	// ===========================================================
 	// Constants
@@ -15,6 +11,8 @@ public class BattleCharacterContainer {
 	// Fields
 	// ===========================================================
 
+	Character mCharacter;
+	
 	protected int mNumOfWaitTurns;
 
 	protected Stats mBuff;
@@ -26,6 +24,7 @@ public class BattleCharacterContainer {
 	protected boolean mDazed;
 	protected boolean mPoisoned;
 	protected boolean mStunned;
+	protected boolean mBuffed;
 
 	protected int mBleedTurns;
 	protected int mBlindTurns;
@@ -38,7 +37,7 @@ public class BattleCharacterContainer {
 	protected float mBleedDamage;
 	protected float mBurnDamage;
 	protected float mPoisonDamage;
-
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -51,6 +50,10 @@ public class BattleCharacterContainer {
 	// Getter & Setter
 	// ===========================================================
 
+	public Character getCharacter() {
+		return mCharacter;
+	}
+	
 	public int getmNumOfWaitTurns() {
 		return mNumOfWaitTurns;
 	}
@@ -89,6 +92,11 @@ public class BattleCharacterContainer {
 	// STUN
 	public boolean isStunned() {
 		return mStunned;
+	}
+	
+	//BUFF
+	public boolean isBuffed(){
+		return mBuffed;
 	}
 
 	// ===========================================================
