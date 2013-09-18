@@ -38,7 +38,7 @@ public enum ITEMTYPE {
 	
 	LONGBOW,
 	
-	SHORTOBOW,
+	SHORTBOW,
 	
 	CROSSBOW,
 	

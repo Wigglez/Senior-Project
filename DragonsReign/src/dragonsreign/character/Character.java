@@ -28,8 +28,8 @@ public abstract class Character {
 
 	// Decider of turn order
 	protected HASTE mHaste;
-	
-	//Ability names
+
+	// Ability names
 	protected String[] mAbility;
 
 	// For players, the experience that the enemy provides
@@ -58,7 +58,7 @@ public abstract class Character {
 		mBaseResources = new Resources();
 		mCurrentResources = new Resources();
 		mMaxResources = new Resources();
-		
+
 		mBaseStats = new Stats();
 		mCurrentStats = new Stats();
 		mMaxStats = new Stats();
@@ -120,11 +120,12 @@ public abstract class Character {
 	public void setHaste(HASTE pHaste) {
 		this.mHaste = pHaste;
 	}
-	
+
 	// Experience
 	public int getExperience() {
 		return mExperience;
 	}
+
 	public void setExperience(int pExperience) {
 		this.mExperience = pExperience;
 	}
@@ -153,8 +154,7 @@ public abstract class Character {
 	public void setMaxResources(Resources pMaxResources) {
 		this.mMaxResources = pMaxResources;
 	}
-	
-	
+
 	// Stats
 	public Stats getBaseStats() {
 		return mBaseStats;
@@ -163,7 +163,7 @@ public abstract class Character {
 	public void setBaseStats(Stats pBaseStats) {
 		this.mBaseStats = pBaseStats;
 	}
-	
+
 	public Stats getCurrentStats() {
 		return mCurrentStats;
 	}
@@ -184,8 +184,8 @@ public abstract class Character {
 	public boolean isDead() {
 		return (this.getCurrentResources().getHealth() < 0);
 	}
-	
-	//Abilities
+
+	// Abilities
 	public String[] getAbility() {
 		return mAbility;
 	}
@@ -198,7 +198,8 @@ public abstract class Character {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	public abstract ABILITYFLAGS useAbility(int pAbilityIndex, AbilityData pAbilityData);
+	public abstract ABILITYFLAGS useAbility(int pAbilityIndex,
+			AbilityData pAbilityData);
 
 	// ===========================================================
 	// Methods

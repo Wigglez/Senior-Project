@@ -15,6 +15,7 @@ public class AbilityData {
 	protected boolean mPoisoned;
 	protected boolean mStunned;
 	protected boolean mBuffed;
+	protected boolean mHealed;
 
 	protected int mBleedTurns;
 	protected int mBlindTurns;
@@ -24,6 +25,7 @@ public class AbilityData {
 	protected int mPoisonTurns;
 	protected int mStunTurns;
 	protected int mBuffTurns;
+	protected int mHealTurns;
 
 	protected float mBleedDamage;
 	protected float mBurnDamage;
@@ -43,6 +45,8 @@ public class AbilityData {
 		mDazed = false;
 		mPoisoned = false;
 		mStunned = false;
+		mBuffed = false;
+		mHealed = false;
 
 		mBleedTurns = 0;
 		mBlindTurns = 0;
@@ -51,6 +55,8 @@ public class AbilityData {
 		mDazeTurns = 0;
 		mPoisonTurns = 0;
 		mStunTurns = 0;
+		mBuffTurns = 0;
+		mHealTurns = 0;
 
 		mBleedDamage = 0;
 		mBurnDamage = 0;
@@ -84,6 +90,22 @@ public class AbilityData {
 	public void setHealingDone(int pHealingDone) {
 		this.mHealingDone = pHealingDone;
 	}
+	
+	public int getHealTurns() {
+		return mBleedTurns;
+	}
+
+	public void setHealTurns(int pHealTurns) {
+		this.mHealTurns = pHealTurns;
+	}
+	
+	public boolean isHealed() {
+		return mHealed;
+	}
+
+	public void setHealed(boolean pHealed) {
+		this.mHealed = pHealed;
+	}
 
 	// Buff
 	public Stats getBuff() {
@@ -103,11 +125,11 @@ public class AbilityData {
 	}
 	
 	public boolean isBuffed() {
-		return mBleeding;
+		return mBuffed;
 	}
 
-	public void setBuffed(boolean pBleeding) {
-		this.mBleeding = pBleeding;
+	public void setBuffed(boolean pBuffed) {
+		this.mBuffed = pBuffed;
 	}
 
 	// Bleeding
@@ -136,7 +158,7 @@ public class AbilityData {
 	}
 
 	// Blind
-	public boolean ismBlinded() {
+	public boolean isBlinded() {
 		return mBlinded;
 	}
 
@@ -153,7 +175,7 @@ public class AbilityData {
 	}
 
 	// Burn
-	public boolean ismBurning() {
+	public boolean isBurning() {
 		return mBurning;
 	}
 
@@ -178,7 +200,7 @@ public class AbilityData {
 	}
 
 	// Chilled
-	public boolean ismChilled() {
+	public boolean isChilled() {
 		return mChilled;
 	}
 
@@ -195,7 +217,7 @@ public class AbilityData {
 	}
 
 	// Dazed
-	public boolean ismDazed() {
+	public boolean isDazed() {
 		return mDazed;
 	}
 
@@ -212,7 +234,7 @@ public class AbilityData {
 	}
 
 	// Poison
-	public boolean ismPoisoned() {
+	public boolean isPoisoned() {
 		return mPoisoned;
 	}
 
@@ -237,7 +259,7 @@ public class AbilityData {
 	}
 
 	// Stun
-	public boolean ismStunned() {
+	public boolean isStunned() {
 		return mStunned;
 	}
 

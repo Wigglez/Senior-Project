@@ -10,7 +10,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import dragonsreign.util.AbilityData;
 import dragonsreign.util.RandomNumber;
+import dragonsreign.util.enums.ABILITYFLAGS;
 import dragonsreign.util.enums.ENEMIES;
 import dragonsreign.util.enums.HASTE;
 import dragonsreign.util.xml.EnemyHandler;
@@ -317,10 +319,11 @@ public class Enemy extends Character {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	@Override
-	public void useAbility(int pAbilityIndex) {
-		// TODO Auto-generated method stub
 
+	@Override
+	public ABILITYFLAGS useAbility(int pAbilityIndex, AbilityData pAbilityData) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// ===========================================================
@@ -343,18 +346,18 @@ public class Enemy extends Character {
 		// Need zones to finish
 		switch (mEnemyCount) {
 		case 1:
-//			enemy1 = getPlainsEnemy();
+			// enemy1 = getPlainsEnemy();
 
 			break;
 		case 2:
-//			enemy1 = getPlainsEnemy();
-//			enemy2 = getPlainsEnemy();
+			// enemy1 = getPlainsEnemy();
+			// enemy2 = getPlainsEnemy();
 
 			break;
 		case 3:
-//			enemy1 = getPlainsEnemy();
-//			enemy2 = getPlainsEnemy();
-//			enemy3 = getPlainsEnemy();
+			// enemy1 = getPlainsEnemy();
+			// enemy2 = getPlainsEnemy();
+			// enemy3 = getPlainsEnemy();
 
 			break;
 		}

@@ -1,16 +1,12 @@
-/*
- * 
- */
 package dragonsreign.character.characterclass;
 
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.item.Gear;
 import dragonsreign.util.AbilityData;
+import dragonsreign.util.RandomNumber;
+import dragonsreign.util.enums.ABILITYFLAGS;
+import dragonsreign.util.enums.ITEMTYPE;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class Ranger.
- */
 public class RangerClass extends PlayerCharacter {
 	// ===========================================================
 	// Constants
@@ -20,9 +16,11 @@ public class RangerClass extends PlayerCharacter {
 	// Fields
 	// ===========================================================
 
-	protected int mCurrentEnergy;
+	// protected int mCurrentEnergy;
 
 	protected int mCurrentSkillPoints;
+
+	// ability levels
 
 	protected int mFireArrowLevel;
 	protected int mPoisonArrowLevel;
@@ -30,15 +28,13 @@ public class RangerClass extends PlayerCharacter {
 	protected int mChargedShotLevel;
 	protected int mStunArrowLevel;
 
+	// ability costs
+
 	protected int mFireArrowCost;
 	protected int mPoisonArrowCost;
 	protected int mSpreadShotCost;
 	protected int mChargedShotCost;
 	protected int mStunArrowCost;
-
-	// M_Helm Helm;
-	// M_Upper upper;
-	// M_Lower lower;
 
 	// ===========================================================
 	// Constructors
@@ -48,7 +44,7 @@ public class RangerClass extends PlayerCharacter {
 		// TODO
 		// set base stats, energy for ranger
 		// loadRangerSprite
-		
+
 		// level up - 3 dex, 2 vita, 1 int, 1 str
 
 		mBaseStats.setStrength(2);
@@ -70,7 +66,7 @@ public class RangerClass extends PlayerCharacter {
 
 		mCurrentResources.setHealth(mBaseResources.getHealth());
 		mCurrentResources.setResource(mBaseResources.getResource());
-		
+
 		// mCurrentEnergy = this.getCurrentResources().getEnergy();
 
 		mAbility[0] = "Attack";
@@ -80,11 +76,14 @@ public class RangerClass extends PlayerCharacter {
 		mAbility[4] = "Charged Shot";
 		mAbility[5] = "Stun Arrow";
 
-		for (int abilityCount = 0; abilityCount < 6; abilityCount++) {
-			mUnlockedAbility[abilityCount] = false;
-		}
+		mUnlockedAbility[0] = true; // Basic Attack Unlocked at lvl 1
+		mUnlockedAbility[1] = true; // Fire Arrow Unlocked at lvl 1
+		mUnlockedAbility[2] = false; // Poison Arrow Unlocked at lvl 10
+		mUnlockedAbility[3] = false; // Spread Shot Unlocked at lvl 10
+		mUnlockedAbility[4] = false; // Charged Shot Unlocked at lvl 20
+		mUnlockedAbility[5] = false; // Stun Arrow Unlocked at lvl 20
 
-		mCurrentSkillPoints = this.getSkillPoints();
+		// mCurrentSkillPoints = this.getSkillPoints();
 
 		// Ability levels
 
@@ -101,6 +100,26 @@ public class RangerClass extends PlayerCharacter {
 		mSpreadShotCost = 0;
 		mChargedShotCost = 0;
 		mStunArrowCost = 0;
+
+		// Starter Gear
+
+		/*
+		 * pItemType pItemLevel pStr pDex pInt pVit pDmg pArmor pIsWeapon
+		 */
+		helmet = new Gear(ITEMTYPE.MEDIUM_HELMET, 1, 3, 10, 2, 4, 0, 6, false);
+		chestArmor = new Gear(ITEMTYPE.MEDIUM_CHESTPLATE, 1, 1, 8, 1, 3, 0, 9,
+				false);
+		legArmor = new Gear(ITEMTYPE.MEDIUM_LEGS, 1, 5, 5, 3, 4, 0, 5, false);
+		weaponHand1 = new Gear(ITEMTYPE.SHORTBOW, 1, 5, 13, 3, 3, 23, 0, true);
+		weaponHand2 = null;
+
+		updateItemStats();
+		updateCurrentStats();
+
+		// experience
+		mCurrentExperience = 0;
+		mExperienceToNextLevel = 100;
+
 	}
 
 	// ===========================================================
@@ -111,37 +130,158 @@ public class RangerClass extends PlayerCharacter {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dragonsreign.character.PlayerCharacter#levelUp()
-	 */
 	@Override
 	public void levelUp() {
-		// TODO Auto-generated method stub
+		// level up - 3dex, 2 vit, 1 int, 1 str
+
+		// test that you have leveled up
+		while (mCurrentExperience >= mExperienceToNextLevel) {
+			// increment level
+			mLevel += 1;
+
+			// Update base stats
+			mBaseStats.setStrength(mBaseStats.getStrength() + 1);
+			mBaseStats.setDexterity(mBaseStats.getDexterity() + 3);
+			mBaseStats.setIntelligence(mBaseStats.getIntelligence() + 1);
+			mBaseStats.setVitality(mBaseStats.getVitality() + 2);
+
+			// Update current stats with new base stats
+			updateCurrentStats();
+
+			// Unlock other abilities if character has reached the right level
+			if (mLevel == 10) {
+				mUnlockedAbility[2] = true;
+				mUnlockedAbility[3] = true;
+			}
+			if (mLevel == 20) {
+				mUnlockedAbility[4] = true;
+				mUnlockedAbility[5] = true;
+			}
+
+			// Reset Experience
+			mCurrentExperience -= mExperienceToNextLevel;
+
+			mExperienceToNextLevel += mLevel * 68;
+			// lvl 1- 100
+			// lvl 2 - 236
+			// lvl 3 - 440
+			// lvl 4 - 712
+			// lvl 5 - 1052
+			// lvl 6 - 1460
+			// lvl 7 - 1936
+			// lvl 8 - 2480
+			// lvl 9 - 3092
+			// lvl 10 - 3772
+			// lvl 11 - 4520
+			// lvl 12 - 5336
+			// lvl 13 - 6220
+			// lvl 14 - 7172
+			// lvl 15 - 8192
+			// lvl 16 - 9280
+			// lvl 17 - 10436
+			// lvl 18 - 11660
+			// lvl 19 - 12952
+			// lvl 20 - 14312
+
+		}
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dragonsreign.character.PlayerCharacter#equipItem()
-	 */
 	@Override
 	public boolean equipItem(Gear pGearPiece) {
-		return false;
-		// TODO Auto-generated method stub
+
+		boolean equipSuccess = false;
+
+		switch (pGearPiece.getItemType()) {
+		case HEAVY_HELMET:
+
+			// unequip helmet
+			helmet = pGearPiece;
+			equipSuccess = true;
+
+			break;
+
+		case HEAVY_CHESTPLATE:
+
+			// unequip chest piece
+			chestArmor = pGearPiece;
+			equipSuccess = true;
+
+			break;
+
+		case HEAVY_LEGS:
+
+			// Unequip legs
+			legArmor = pGearPiece;
+			equipSuccess = true;
+
+			break;
+
+		case SHORTBOW:
+
+			// Unequip shortbow
+			weaponHand1 = pGearPiece;
+			equipSuccess = true;
+
+			break;
+
+		case LONGBOW:
+
+			// Unequip Longbow
+			weaponHand1 = pGearPiece;
+			equipSuccess = true;
+
+			break;
+
+		case CROSSBOW:
+
+			// Unequip crossbow
+			weaponHand1 = pGearPiece;
+			equipSuccess = true;
+
+			break;
+
+		default:
+			break;
+		}
+
+		if (equipSuccess) {
+			updateItemStats();
+			updateCurrentStats();
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dragonsreign.character.PlayerCharacter#useAbility(int)
-	 */
 	@Override
-	public void useAbility(int pAbilityIndex, AbilityData pAbilityData) {
-		// TODO Auto-generated method stub
+	public ABILITYFLAGS useAbility(int pAbilityIdx, AbilityData pAbilityData) {
+		ABILITYFLAGS returnFlag = null;
+
+		switch (pAbilityIdx) {
+		case 0:
+			returnFlag = BasicAttack(pAbilityData);
+			break;
+		case 1:
+			returnFlag = FireArrow(pAbilityData);
+			break;
+		case 2:
+			returnFlag = PoisonArrow(pAbilityData);
+			break;
+		case 3:
+			returnFlag = SpreadShot(pAbilityData);
+			break;
+		case 4:
+			returnFlag = ChargedShot(pAbilityData);
+			break;
+		case 5:
+			returnFlag = StunArrow(pAbilityData);
+			break;
+
+		}
+
+		return returnFlag;
 
 	}
 
@@ -149,180 +289,165 @@ public class RangerClass extends PlayerCharacter {
 	// Methods
 	// ===========================================================
 
-	/**
-	 * Load character.
-	 * 
-	 * @param pLevel
-	 *            the level
-	 * @param pCurrentExperience
-	 *            the current experience
-	 */
-	public void LoadCharacter(int pLevel, int pCurrentExperience /*
-																 * helm, upper,
-																 * lower
-																 */) {
-		// equip gear
+	public ABILITYFLAGS BasicAttack(AbilityData pAbilityData) {
+		// 90% - 110% weapon damage
+		float dmg = RandomNumber.generateRandomFloat(
+				mCurrentStats.getDamage() * 0.90f,
+				mCurrentStats.getDamage() * 1.10f);
 
-		for (int currentLvl = 1; currentLvl <= pLevel; currentLvl++) {
-			levelUp();
-		}
-	}
+		pAbilityData.setDamageDone((int) dmg);
 
-	/**
-	 * Basic attack.
-	 */
-	public void BasicAttack() {
-		// weapon dmg
+		return ABILITYFLAGS.DAMAGE_SINGLE;
 
 	}
 
-	/**
-	 * Fire arrow.
-	 */
-	public void FireArrow() {
-		if (mCurrentEnergy > mFireArrowCost) {
-			// do stuff
-			if (mFireArrowLevel == 1) {
-				// less base dmg then basic attack has chance to apply burn
-			} else if (mFireArrowLevel == 2) {
+	public ABILITYFLAGS FireArrow(AbilityData pAbilityData) {
+		mFireArrowCost = 30;
+		if (mCurrentResources.getResource() >= mFireArrowCost) {
+			float fireArrowDmg = mCurrentStats.getDamage() * .33f;
 
-			} else if (mFireArrowLevel == 3) {
+			pAbilityData.setBurnDamage((int) fireArrowDmg);
+			pAbilityData.setBurning(true);
+			pAbilityData.setBurnTurns(2);
 
-			}
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mFireArrowCost);
 
-			mCurrentEnergy -= mFireArrowCost;
-		}
-
-	}
-
-	/**
-	 * Poison arrow.
-	 */
-	public void PoisonArrow() {
-		if (mCurrentEnergy > mPoisonArrowCost) {
-			// poisonArrow
-			if (mPoisonArrowLevel == 1) {
-				// less base dmg then basic attack has chance to apply poison
-			} else if (mPoisonArrowLevel == 2) {
-
-			} else if (mPoisonArrowLevel == 3) {
-
-			}
-
-			mCurrentEnergy -= mPoisonArrowCost;
-		}
-	}
-
-	/**
-	 * Spread shot.
-	 */
-	void SpreadShot() {
-		if (mCurrentEnergy > mSpreadShotCost) {
-
-			if (mSpreadShotLevel == 1) {
-				// attacks all enemies for 75% base dmg
-			} else if (mSpreadShotLevel == 2) {
-
-			} else if (mSpreadShotLevel == 3) {
-
-			}
-
-			mCurrentEnergy -= mSpreadShotCost;
-		}
+			return ABILITYFLAGS.DAMAGE_SINGLE;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 
 	}
 
-	/**
-	 * Charged shot.
-	 */
-	void ChargedShot() {
-		if (mCurrentEnergy > mChargedShotCost) {
+	public ABILITYFLAGS PoisonArrow(AbilityData pAbilityData) {
+		mPoisonArrowCost = 30;
+		if (mCurrentResources.getResource() >= mPoisonArrowCost) {
+			float poisonArrowDmg = mCurrentStats.getDamage() * .33f;
 
-			if (mChargedShotLevel == 1) {
-				// charges for one turn and has a chance to deal 2-5 times dmg
-			} else if (mChargedShotLevel == 2) {
+			pAbilityData.setPoisonDamage((int) poisonArrowDmg);
+			pAbilityData.setPoisoned(true);
+			pAbilityData.setPoisonTurns(2);
 
-			} else if (mChargedShotLevel == 3) {
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mPoisonArrowCost);
 
-			}
-
-			mCurrentEnergy -= mChargedShotCost;
-		}
+			return ABILITYFLAGS.DAMAGE_SINGLE;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 	}
 
-	/**
-	 * Stun arrow.
-	 */
-	void StunArrow() {
-		if (mCurrentEnergy > mStunArrowCost) {
+	public ABILITYFLAGS SpreadShot(AbilityData pAbilityData) {
+		mSpreadShotCost = 30;
+		if (mCurrentResources.getResource() >= mSpreadShotCost) {
 
-			if (mStunArrowLevel == 1) {
-				// no initial dmg chance to stun
-			} else if (mStunArrowLevel == 2) {
+			float spreadShotDmg = 0.6f * mCurrentStats.getDamage();
 
-			} else if (mStunArrowLevel == 3) {
+			pAbilityData.setDamageDone((int) spreadShotDmg);
 
-			}
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mSpreadShotCost);
 
-			mCurrentEnergy -= mStunArrowCost;
-		}
+			return ABILITYFLAGS.DAMAGE_ALL;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 	}
 
-	/**
-	 * Level up_ fire arrow.
-	 */
-	void LevelUp_FireArrow() {
-		if (mCurrentSkillPoints > 0) {
+	public ABILITYFLAGS ChargedShot(AbilityData pAbilityData) {
+		mChargedShotCost = 60;
+		if (mCurrentResources.getResource() >= mChargedShotCost) {
 
-			mFireArrowLevel += 1;
-			// increase cost of skill
-		}
+			// charges for one turn and has a chance to deal 2-5 times dmg
 
+			// TODO
+			// NEED TURNS TO IMPLEMENT CHARGE
+
+			int damageMod = mCurrentStats.getDamage()
+					* RandomNumber.generateRandomInt(2, 5);
+
+			pAbilityData.setDamageDone(damageMod);
+
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mChargedShotCost);
+
+			return ABILITYFLAGS.CHARGE;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 	}
 
-	/**
-	 * Level up_ poison arrow.
-	 */
-	void LevelUp_PoisonArrow() {
-		if (mCurrentSkillPoints > 0) {
+	public ABILITYFLAGS StunArrow(AbilityData pAbilityData) {
+		mStunArrowCost = 55;
+		if (mCurrentResources.getResource() >= mStunArrowCost) {
 
-			mFireArrowLevel += 1;
-			// increase cost of skill
-		}
+			float dmg = 0.75f * mCurrentStats.getDamage();
+
+			pAbilityData.setDamageDone((int) dmg);
+			pAbilityData.setStunned(true);
+			pAbilityData.setStunTurns(2);
+
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mStunArrowCost);
+
+			return ABILITYFLAGS.DAMAGE_SINGLE;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 	}
 
-	/**
-	 * Level up_ spread shot.
-	 */
-	void LevelUp_SpreadShot() {
-		if (mCurrentSkillPoints > 0) {
-
-			mSpreadShotLevel += 1;
-			// increase cost of skill
-		}
-	}
-
-	/**
-	 * Level up_ charged shot.
-	 */
-	void LevelUp_ChargedShot() {
-		if (mCurrentSkillPoints > 0) {
-
-			mChargedShotLevel += 1;
-			// increase cost of skill
-		}
-	}
-
-	/**
-	 * Level up_ stun arrow.
-	 */
-	void LevelUp_StunArrow() {
-		if (mCurrentSkillPoints > 0) {
-
-			mStunArrowLevel += 1;
-			// increase cost of skill
-		}
-	}
+	// TODO Level up abilities
+	// /**
+	// * Level up_ fire arrow.
+	// */
+	// void LevelUp_FireArrow() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mFireArrowLevel += 1;
+	// // increase cost of skill
+	// }
+	//
+	// }
+	//
+	// /**
+	// * Level up_ poison arrow.
+	// */
+	// void LevelUp_PoisonArrow() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mFireArrowLevel += 1;
+	// // increase cost of skill
+	// }
+	// }
+	//
+	// /**
+	// * Level up_ spread shot.
+	// */
+	// void LevelUp_SpreadShot() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mSpreadShotLevel += 1;
+	// // increase cost of skill
+	// }
+	// }
+	//
+	// /**
+	// * Level up_ charged shot.
+	// */
+	// void LevelUp_ChargedShot() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mChargedShotLevel += 1;
+	// // increase cost of skill
+	// }
+	// }
+	//
+	// /**
+	// * Level up_ stun arrow.
+	// */
+	// void LevelUp_StunArrow() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mStunArrowLevel += 1;
+	// // increase cost of skill
+	// }
+	// }
 
 	// ===========================================================
 	// Inner and Anonymous Classes

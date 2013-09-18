@@ -375,7 +375,7 @@ public class Gear extends Item {
 
 			// mSprite = ResourceManager.do stuff
 
-		case SHORTOBOW:
+		case SHORTBOW:
 			// Shortbow
 			// For Ranger
 			mName = "Shortbow";
@@ -564,7 +564,7 @@ public class Gear extends Item {
 			mName = "Longbow";
 			mDescription = "";
 
-		case SHORTOBOW:
+		case SHORTBOW:
 			mName = "Shortbow";
 			mDescription = "";
 

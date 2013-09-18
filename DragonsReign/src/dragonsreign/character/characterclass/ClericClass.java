@@ -1,10 +1,10 @@
-/*
- * 
- */
 package dragonsreign.character.characterclass;
+
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.item.Gear;
-import dragonsreign.util.Stats;
+import dragonsreign.util.AbilityData;
+import dragonsreign.util.RandomNumber;
+import dragonsreign.util.enums.ABILITYFLAGS;
 import dragonsreign.util.enums.ITEMTYPE;
 
 public class ClericClass extends PlayerCharacter {
@@ -17,26 +17,20 @@ public class ClericClass extends PlayerCharacter {
 	// ===========================================================
 
 	protected int mCurrentSkillPoints;
-		
-	//ability levels
-	protected int mHealLifeSyphonLevel;
+
+	// ability levels
+	protected int mLifeSiphonLevel;
+	protected int mMendLevel;
 	protected int mReviveLevel;
 	protected int mHealingChantLevel;
 	protected int mEmpowerLevel;
-	protected int mMendLevel;
-	
-	//ability costs
-	protected int mHealLifeSyphonCost;
+
+	// ability costs
+	protected int mLifeSiphonCost;
+	protected int mMendCost;
 	protected int mReviveCost;
 	protected int mHealingChantCost;
 	protected int mEmpowerCost;
-	protected int mMendCost;
-	
-	
-
-	// L_Helm Helm;
-	// L_Upper upper;
-	// L_Lower lower;
 
 	// ===========================================================
 	// Constructors
@@ -46,7 +40,7 @@ public class ClericClass extends PlayerCharacter {
 		// TODO
 		// set base stats, mana for cleric
 		// loadClericSprite
-		
+
 		// level up - 1 dex, 2 vita, 3 int, 1 str
 
 		mBaseStats.setStrength(2);
@@ -68,53 +62,60 @@ public class ClericClass extends PlayerCharacter {
 
 		mCurrentResources.setHealth(mBaseResources.getHealth());
 		mCurrentResources.setResource(mBaseResources.getResource());
-		
+
 		mAbility[0] = "Attack";
-		mAbility[1] = "Heal/Life Syphon";
-		mAbility[2] = "Revive";
-		mAbility[3] = "Healing Chant";
-		mAbility[4] = "Empower";
-		mAbility[5] = "Mend";
+		mAbility[1] = "Mend";
+		mAbility[2] = "Life Siphon";
+		mAbility[3] = "Revive";
+		mAbility[4] = "Healing Chant";
+		mAbility[5] = "Empower";
 
-		mUnlockedAbility[0] = true; //basic attack unlocked at lvl 1
-		mUnlockedAbility[1] = true; // Heal/Lifesysphon unlocked at lvl 1
-		mUnlockedAbility[2] = false; //revive unlocked at lvl 10
-		mUnlockedAbility[3] = false; //healing chant unlocked at lvl 10
-		mUnlockedAbility[4] = false; //empower unlocked at lvl 20
-		mUnlockedAbility[5] = false; //mend unlocked at lvl 20
+		mUnlockedAbility[0] = true; // basic attack unlocked at lvl 1
+		mUnlockedAbility[1] = true; // mend unlocked at lvl 1
+		mUnlockedAbility[2] = false; // Life Siphon unlocked at lvl 10
+		mUnlockedAbility[3] = false; // revive unlocked at lvl 10
+		mUnlockedAbility[4] = false; // healing chant unlocked at lvl 20
+		mUnlockedAbility[5] = false; // empower unlocked at lvl 20
 
-		//mCurrentSkillPoints = this.getSkillPoints();
+		// mCurrentSkillPoints = this.getSkillPoints();
 
-		//ability levels
-		
-		mHealLifeSyphonLevel = 0;
+		// ability levels
+
+		mLifeSiphonLevel = 0;
+		mMendLevel = 0;
 		mReviveLevel = 0;
 		mHealingChantLevel = 0;
 		mEmpowerLevel = 0;
-		mMendLevel = 0;
-		
-		//ability costs
-		
-		mHealLifeSyphonCost = 0;
+
+		// ability costs
+
+		mLifeSiphonCost = 0;
+		mMendCost = 0;
 		mReviveCost = 0;
 		mHealingChantCost = 0;
 		mEmpowerCost = 0;
-		mMendCost = 0;
-		
-		//starter gear
-		helmet = new Gear(ITEMTYPE.LIGHT_HELMET, 1/*item lvl*/, 2/*str*/, 3/*dex*/, 10/*int*/, 4/*vit*/, 0/*dmg*/, 2/*armor*/,false/*is wpn*/);
-		chestArmor = new Gear(ITEMTYPE.LIGHT_CHESTPLATE, 1/*item lvl*/, 1/*str*/, 1/*dex*/, 8/*int*/, 3/*vit*/, 0/*dmg*/, 4/*armor*/, false/*is wpn*/);
-		legArmor = new Gear(ITEMTYPE.LIGHT_LEGS, 1/*item lvl*/, 3/*str*/, 5/*dex*/, 5/*int*/, 4/*vit*/, 0/*dmg*/, 2/*armor*/,false/*is wpn*/);
-		weaponHand1 = new Gear(ITEMTYPE.WAND, 1/*item lvl*/, 2/*str*/, 5/*dex*/, 13/*int*/, 3/*vit*/, 20/*dmg*/, 0/*armor*/,true/*is wpn*/);	
+
+		// starter gear
+		helmet = new Gear(ITEMTYPE.LIGHT_HELMET, 1/* item lvl */, 2/* str */,
+				3/* dex */, 10/* int */, 4/* vit */, 0/* dmg */, 2/* armor */,
+				false/* is wpn */);
+		chestArmor = new Gear(ITEMTYPE.LIGHT_CHESTPLATE, 1/* item lvl */,
+				1/* str */, 1/* dex */, 8/* int */, 3/* vit */, 0/* dmg */,
+				4/* armor */, false/* is wpn */);
+		legArmor = new Gear(ITEMTYPE.LIGHT_LEGS, 1/* item lvl */, 3/* str */,
+				5/* dex */, 5/* int */, 4/* vit */, 0/* dmg */, 2/* armor */,
+				false/* is wpn */);
+		weaponHand1 = new Gear(ITEMTYPE.WAND, 1/* item lvl */, 2/* str */,
+				5/* dex */, 13/* int */, 3/* vit */, 20/* dmg */, 0/* armor */,
+				true/* is wpn */);
 		weaponHand2 = null;
-		
+
 		updateItemStats();
 		updateCurrentStats();
-		
-		//experience
+
+		// experience
 		mCurrentExperience = 0;
 		mExperienceToNextLevel = 100;
-		
 
 	}
 
@@ -128,109 +129,107 @@ public class ClericClass extends PlayerCharacter {
 
 	@Override
 	public void levelUp() {
-		//level up - 1 dex, 2 vit, 3 int, 1 str
-		
-		//Test that you have leveled up
-		while(mCurrentExperience >= mExperienceToNextLevel){
-			//increment level
-			mLevel +=1;
-			
-			//update base stats
+		// level up - 1 dex, 2 vit, 3 int, 1 str
+
+		// Test that you have leveled up
+		while (mCurrentExperience >= mExperienceToNextLevel) {
+			// increment level
+			mLevel += 1;
+
+			// update base stats
 			mBaseStats.setStrength(mBaseStats.getStrength() + 1);
 			mBaseStats.setDexterity(mBaseStats.getDexterity() + 1);
 			mBaseStats.setIntelligence(mBaseStats.getIntelligence() + 3);
 			mBaseStats.setVitality(mBaseStats.getVitality() + 2);
-			
-			//update current stats wih new base stats
+
+			// update current stats wih new base stats
 			updateCurrentStats();
-			
-			//unlock other abilities if character has reached the right level
-			if (mLevel ==10){
+
+			// unlock other abilities if character has reached the right level
+			if (mLevel == 10) {
 				mUnlockedAbility[2] = true;
 				mUnlockedAbility[3] = true;
 			}
-			
-			if (mLevel ==20){
+
+			if (mLevel == 20) {
 				mUnlockedAbility[4] = true;
 				mUnlockedAbility[5] = true;
 			}
-			
-			//reset experience
-			mCurrentExperience -=mExperienceToNextLevel;
-			
-			mExperienceToNextLevel +=mLevel *68;
-			
+
+			// reset experience
+			mCurrentExperience -= mExperienceToNextLevel;
+
+			mExperienceToNextLevel += mLevel * 68;
+
 		}
 
 	}
 
-	
 	@Override
 	public boolean equipItem(Gear pGearPiece) {
 		boolean equipSuccess = false;
-		
-		switch (pGearPiece.getItemType()){
+
+		switch (pGearPiece.getItemType()) {
 		case LIGHT_HELMET:
-			
-			//unequip helmet
+
+			// unequip helmet
 			helmet = pGearPiece;
 			equipSuccess = true;
-			
+
 			break;
-			
+
 		case LIGHT_CHESTPLATE:
-			
-			//unequip chestplate
+
+			// unequip chestplate
 			chestArmor = pGearPiece;
 			equipSuccess = true;
-			
+
 			break;
-		
+
 		case LIGHT_LEGS:
-			
-			//unequip legs
+
+			// unequip legs
 			legArmor = pGearPiece;
 			equipSuccess = true;
-			
+
 			break;
-			
+
 		case WAND:
-			
-			//unequip wand
+
+			// unequip wand
 			weaponHand1 = pGearPiece;
 			equipSuccess = true;
-			
+
 			break;
-			
+
 		case ORB:
-			
-			//unequip orb
+
+			// unequip orb
 			weaponHand2 = pGearPiece;
 			equipSuccess = true;
-			
+
 			break;
-			
+
 		case STAFF:
-			
-			
-			if (weaponHand2 == null){
-				//unequip weaponHand1
+
+			if (weaponHand2 == null) {
+				// unequip weaponHand1
 				weaponHand1 = pGearPiece;
 				equipSuccess = true;
-				
-			} else{
-				//unequip weaponHand1 &weaponHand2
+
+			} else {
+				// unequip weaponHand1 &weaponHand2
 				weaponHand1 = pGearPiece;
 				equipSuccess = true;
 			}
-			
+
 			break;
-			
-			default:
-				break;
-			
+
+		default:
+			break;
+
 		}
-		
+
 		if (equipSuccess) {
 			updateItemStats();
 			updateCurrentStats();
@@ -241,10 +240,36 @@ public class ClericClass extends PlayerCharacter {
 
 	}
 
-	
 	@Override
-	public void useAbility(int pAbilityIndex) {
-		// TODO Auto-generated method stub
+	public ABILITYFLAGS useAbility(int pAbilityIdx, AbilityData pAbilityData) {
+		ABILITYFLAGS returnFlag = null;
+
+		switch (pAbilityIdx) {
+		case 0:
+			returnFlag = BasicAttack(pAbilityData);
+			break;
+		case 1:
+			returnFlag = Mend(pAbilityData);
+			break;
+
+		case 2:
+			returnFlag = LifeSiphon(pAbilityData);
+			break;
+
+		case 3:
+			returnFlag = Revive(pAbilityData);
+			break;
+
+		case 4:
+			returnFlag = HealingChant(pAbilityData);
+			break;
+
+		case 5:
+			returnFlag = Empower(pAbilityData);
+			break;
+		}
+
+		return returnFlag;
 
 	}
 
@@ -252,189 +277,191 @@ public class ClericClass extends PlayerCharacter {
 	// Methods
 	// ===========================================================
 
-	/**
-	 * Load character.
-	 * 
-	 * @param Lvl
-	 *            the lvl
-	 * @param CurrentXp
-	 *            the current xp
-	 */
-	public void LoadCharacter(int Lvl, int CurrentXp /* helm, upper, lower */) {
-		// equip gear
+	public ABILITYFLAGS BasicAttack(AbilityData pAbilityData) {
+		// 90% - 110% weapon damage
+		float dmg = RandomNumber.generateRandomFloat(
+				mCurrentStats.getDamage() * 0.90f,
+				mCurrentStats.getDamage() * 1.10f);
 
-		for (int curLvl = 1; curLvl <= Lvl; curLvl++) {
-			levelUp();
-		}
-	}
+		pAbilityData.setDamageDone((int) dmg);
 
-	/**
-	 * Basic attack.
-	 */
-	public void BasicAttack() {
-		// weapon dmg
+		return ABILITYFLAGS.DAMAGE_SINGLE;
 
 	}
 
-	/**
-	 * Heal life syphon.
-	 */
-	public void HealLifeSyphon() {
-		if (this.getCurrentResources().getResource() > mHealLifeSyphonCost) {
-			// do stuff
-			if (mHealLifeSyphonLevel == 1) {
-				// if enemy targeted siphon life heals cleric for 50% of the dmg
-				// done
-				// else if friendly target heal
-			} else if (mHealLifeSyphonLevel == 2) {
-				// if enemy targeted siphon life heals cleric for 50% of the dmg
-				// done
-				// else if friendly target heal
-			} else if (mHealLifeSyphonLevel == 3) {
-				// if enemy targeted siphon life heals cleric for 50% of the dmg
-				// done
-				// else if friendly target heal
-			}
+	public ABILITYFLAGS Mend(AbilityData pAbilityData) {
+		mMendCost = 50;
 
-			mCurrentResources.setResource(mCurrentResources.getResource() - mHealLifeSyphonCost);
-		}
+		if (this.getCurrentResources().getResource() >= mMendCost) {
+			// TODO
+			// NEED TURNS FOR HEAL OVER TIME
+
+			// Arbitrary as hell, see if it works out
+			int mendInitialHeal = mCurrentStats.getDamage() * 3;
+			int mendHealOverTime = mCurrentStats.getDamage();
+
+			pAbilityData.setHealingDone(mendInitialHeal);
+			pAbilityData.setHealingDone(mendHealOverTime); // look at this
+			pAbilityData.setHealed(true);
+			pAbilityData.setHealTurns(3);
+
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mMendCost);
+
+			return ABILITYFLAGS.HEAL_SINGLE;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
+	}
+
+	public ABILITYFLAGS LifeSiphon(AbilityData pAbilityData) {
+		mLifeSiphonCost = 30;
+		if (this.getCurrentResources().getResource() >= mLifeSiphonCost) {
+
+			float siphonDmg = (float) (mCurrentStats.getDamage() * 0.50);
+			float siphonHeal = siphonDmg;
+
+			pAbilityData.setDamageDone((int) siphonDmg);
+			pAbilityData.setHealingDone((int) siphonHeal);
+
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mLifeSiphonCost);
+
+			return ABILITYFLAGS.DAMAGE_HEAL_SINGLE;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 
 	}
 
-	/**
-	 * Revive.
-	 */
-	public void Revive() {
-		if (this.getCurrentResources().getResource() > mReviveCost) {
-			// revive
-			if (mReviveLevel == 1) {
-				// revive targeted party member
-			} else if (mReviveLevel == 2) {
-				// revive targeted party member
-			} else if (mReviveLevel == 3) {
-				// revive targeted party member
-			}
+	public ABILITYFLAGS Revive(AbilityData pAbilityData) {
+		mReviveCost = 75;
 
-			mCurrentResources.setResource(mCurrentResources.getResource() - mReviveCost);
-		}
+		if (this.getCurrentResources().getResource() >= mReviveCost) {
+
+			// TODO
+			// Revive player at 50% health
+			// Need targeted player
+
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mReviveCost);
+
+			return ABILITYFLAGS.REVIVE;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 	}
 
-	/**
-	 * Healing chant.
-	 */
-	public void HealingChant() {
-		if (this.getCurrentResources().getResource() > mHealingChantCost) {
+	public ABILITYFLAGS HealingChant(AbilityData pAbilityData) {
+		mHealingChantCost = 80;
+		if (this.getCurrentResources().getResource() >= mHealingChantCost) {
 
 			if (mHealingChantLevel == 1) {
 				// charges the spell for one turn then after the turn has
 				// elapsed heals entire party
 				// costs substantial mana
-			} else if (mHealingChantLevel == 2) {
-				// charges the spell for one turn then after the turn has
-				// elapsed heals entire party
-				// costs substantial mana
-			} else if (mHealingChantLevel == 3) {
-				// charges the spell for one turn then after the turn has
-				// elapsed heals entire party
-				// costs substantial mana
 			}
 
-			mCurrentResources.setResource(mCurrentResources.getResource() - mHealingChantCost);
-		}
+			// TODO
+			// Need party members
+
+			// Never go above 60% health
+			float healingChantAmount = (float) (mMaxResources.getHealth() * 0.60);
+
+			pAbilityData.setHealingDone((int) healingChantAmount);
+
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mHealingChantCost);
+
+			return ABILITYFLAGS.HEAL_ALL;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 
 	}
 
-	/**
-	 * Empower.
-	 */
-	public void Empower() {
-		if (this.getCurrentResources().getResource() > mEmpowerCost) {
+	public ABILITYFLAGS Empower(AbilityData pAbilityData) {
+		mEmpowerCost = 50;
+		if (this.getCurrentResources().getResource() >= mEmpowerCost) {
 
-			if (mEmpowerLevel == 1) {
-				// boost to all primary stats of entire party
-			} else if (mEmpowerLevel == 2) {
-				// boost to all primary stats of entire party
-			} else if (mEmpowerLevel == 3) {
-				// boost to all primary stats of entire party
-			}
+			// Empower grants 20% bonus stats to party members
 
-			mCurrentResources.setResource(mCurrentResources.getResource() - mEmpowerCost);
-		}
+			float buffStrStat = 0.2f * mCurrentStats.getStrength();
+			float buffDexStat = 0.2f * mCurrentStats.getDexterity();
+			float buffIntStat = 0.2f * mCurrentStats.getIntelligence();
+			float buffVitStat = 0.2f * mCurrentStats.getVitality();
+
+			pAbilityData.getBuff().setStrength(
+					mCurrentStats.getStrength() + (int) buffStrStat);
+			pAbilityData.getBuff().setDexterity(
+					mCurrentStats.getDexterity() + (int) buffDexStat);
+			pAbilityData.getBuff().setIntelligence(
+					mCurrentStats.getIntelligence() + (int) buffIntStat);
+			pAbilityData.getBuff().setVitality(
+					mCurrentStats.getVitality() + (int) buffVitStat);
+
+			pAbilityData.setBuffed(true);
+			pAbilityData.setBuffTurns(5);
+
+			mCurrentResources.setResource(mCurrentResources.getResource()
+					- mEmpowerCost);
+
+			return ABILITYFLAGS.BUFF_ALL;
+		} else
+			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 	}
-
-	/**
-	 * Mend.
-	 */
-	public void Mend() {
-		if (this.getCurrentResources().getResource() > mMendCost) {
-
-			if (mMendLevel == 1) {
-				// heals targeted party member gradually over time
-			} else if (mMendLevel == 2) {
-				// heals targeted party member gradually over time
-			} else if (mMendLevel == 3) {
-				// heals targeted party member gradually over time
-			}
-
-			mCurrentResources.setResource(mCurrentResources.getResource() - mMendCost);
-		}
-	}
-
-	/**
-	 * Level up_ heal life syphon.
-	 */
-	public void LevelUp_HealLifeSyphon() {
-		if (mCurrentSkillPoints > 0) {
-
-			mHealLifeSyphonLevel += 1;
-			// increase cost of skill
-		}
-
-	}
-
-	/**
-	 * Level up_ revive.
-	 */
-	public void LevelUp_Revive() {
-		if (mCurrentSkillPoints > 0) {
-
-			mReviveLevel += 1;
-			// increase cost of skill
-		}
-	}
-
-	/**
-	 * Level up_ healing chant.
-	 */
-	public void LevelUp_HealingChant() {
-		if (mCurrentSkillPoints > 0) {
-
-			mHealingChantLevel += 1;
-			// increase cost of skill
-		}
-	}
-
-	/**
-	 * Level up_ empower.
-	 */
-	public void LevelUp_Empower() {
-		if (mCurrentSkillPoints > 0) {
-
-			mEmpowerLevel += 1;
-			// increase cost of skill
-		}
-	}
-
-	/**
-	 * Level up_ mend.
-	 */
-	public void LevelUp_Mend() {
-		if (mCurrentSkillPoints > 0) {
-
-			mMendLevel += 1;
-			// increase cost of skill
-		}
-	}
+	// TODO Level up Abilities
+	// /**
+	// * Level up_ heal life Siphon.
+	// */
+	// public void LevelUp_HealLifeSiphon() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mHealLifeSiphonLevel += 1;
+	// // increase cost of skill
+	// }
+	//
+	// }
+	//
+	// /**
+	// * Level up_ revive.
+	// */
+	// public void LevelUp_Revive() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mReviveLevel += 1;
+	// // increase cost of skill
+	// }
+	// }
+	//
+	// /**
+	// * Level up_ healing chant.
+	// */
+	// public void LevelUp_HealingChant() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mHealingChantLevel += 1;
+	// // increase cost of skill
+	// }
+	// }
+	//
+	// /**
+	// * Level up_ empower.
+	// */
+	// public void LevelUp_Empower() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mEmpowerLevel += 1;
+	// // increase cost of skill
+	// }
+	// }
+	//
+	// /**
+	// * Level up_ mend.
+	// */
+	// public void LevelUp_Mend() {
+	// if (mCurrentSkillPoints > 0) {
+	//
+	// mMendLevel += 1;
+	// // increase cost of skill
+	// }
+	// }
 
 	// ===========================================================
 	// Inner and Anonymous Classes
