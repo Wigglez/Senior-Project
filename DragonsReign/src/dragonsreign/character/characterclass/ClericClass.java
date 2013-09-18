@@ -4,6 +4,8 @@
 package dragonsreign.character.characterclass;
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.item.Gear;
+import dragonsreign.util.Stats;
+import dragonsreign.util.enums.ITEMTYPE;
 
 public class ClericClass extends PlayerCharacter {
 	// ===========================================================
@@ -14,21 +16,23 @@ public class ClericClass extends PlayerCharacter {
 	// Fields
 	// ===========================================================
 
-	protected int mCurrentMana;
-	
+	protected int mCurrentSkillPoints;
+		
+	//ability levels
 	protected int mHealLifeSyphonLevel;
 	protected int mReviveLevel;
 	protected int mHealingChantLevel;
 	protected int mEmpowerLevel;
 	protected int mMendLevel;
 	
+	//ability costs
 	protected int mHealLifeSyphonCost;
 	protected int mReviveCost;
 	protected int mHealingChantCost;
 	protected int mEmpowerCost;
 	protected int mMendCost;
 	
-	protected int mCurrentSkillPoints;
+	
 
 	// L_Helm Helm;
 	// L_Upper upper;
@@ -72,26 +76,45 @@ public class ClericClass extends PlayerCharacter {
 		mAbility[4] = "Empower";
 		mAbility[5] = "Mend";
 
-		for (int abltyCntr = 0; abltyCntr < 6; abltyCntr++) {
-			mUnlockedAbility[abltyCntr] = false;
-		}
+		mUnlockedAbility[0] = true; //basic attack unlocked at lvl 1
+		mUnlockedAbility[1] = true; // Heal/Lifesysphon unlocked at lvl 1
+		mUnlockedAbility[2] = false; //revive unlocked at lvl 10
+		mUnlockedAbility[3] = false; //healing chant unlocked at lvl 10
+		mUnlockedAbility[4] = false; //empower unlocked at lvl 20
+		mUnlockedAbility[5] = false; //mend unlocked at lvl 20
 
-		mCurrentSkillPoints = this.getSkillPoints();
+		//mCurrentSkillPoints = this.getSkillPoints();
 
+		//ability levels
+		
 		mHealLifeSyphonLevel = 0;
-		mHealLifeSyphonCost = 0;
-
 		mReviveLevel = 0;
-		mReviveCost = 0;
-
 		mHealingChantLevel = 0;
-		mHealingChantCost = 0;
-
 		mEmpowerLevel = 0;
-		mEmpowerCost = 0;
-
 		mMendLevel = 0;
+		
+		//ability costs
+		
+		mHealLifeSyphonCost = 0;
+		mReviveCost = 0;
+		mHealingChantCost = 0;
+		mEmpowerCost = 0;
 		mMendCost = 0;
+		
+		//starter gear
+		helmet = new Gear(ITEMTYPE.LIGHT_HELMET, 1/*item lvl*/, 2/*str*/, 3/*dex*/, 10/*int*/, 4/*vit*/, 0/*dmg*/, 2/*armor*/,false/*is wpn*/);
+		chestArmor = new Gear(ITEMTYPE.LIGHT_CHESTPLATE, 1/*item lvl*/, 1/*str*/, 1/*dex*/, 8/*int*/, 3/*vit*/, 0/*dmg*/, 4/*armor*/, false/*is wpn*/);
+		legArmor = new Gear(ITEMTYPE.LIGHT_LEGS, 1/*item lvl*/, 3/*str*/, 5/*dex*/, 5/*int*/, 4/*vit*/, 0/*dmg*/, 2/*armor*/,false/*is wpn*/);
+		weaponHand1 = new Gear(ITEMTYPE.WAND, 1/*item lvl*/, 2/*str*/, 5/*dex*/, 13/*int*/, 3/*vit*/, 20/*dmg*/, 0/*armor*/,true/*is wpn*/);	
+		weaponHand2 = null;
+		
+		updateItemStats();
+		updateCurrentStats();
+		
+		//experience
+		mCurrentExperience = 0;
+		mExperienceToNextLevel = 100;
+		
 
 	}
 
@@ -103,34 +126,122 @@ public class ClericClass extends PlayerCharacter {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dragonsreign.character.PlayerCharacter#levelUp()
-	 */
 	@Override
 	public void levelUp() {
-		// TODO Auto-generated method stub
+		//level up - 1 dex, 2 vit, 3 int, 1 str
+		
+		//Test that you have leveled up
+		while(mCurrentExperience >= mExperienceToNextLevel){
+			//increment level
+			mLevel +=1;
+			
+			//update base stats
+			mBaseStats.setStrength(mBaseStats.getStrength() + 1);
+			mBaseStats.setDexterity(mBaseStats.getDexterity() + 1);
+			mBaseStats.setIntelligence(mBaseStats.getIntelligence() + 3);
+			mBaseStats.setVitality(mBaseStats.getVitality() + 2);
+			
+			//update current stats wih new base stats
+			updateCurrentStats();
+			
+			//unlock other abilities if character has reached the right level
+			if (mLevel ==10){
+				mUnlockedAbility[2] = true;
+				mUnlockedAbility[3] = true;
+			}
+			
+			if (mLevel ==20){
+				mUnlockedAbility[4] = true;
+				mUnlockedAbility[5] = true;
+			}
+			
+			//reset experience
+			mCurrentExperience -=mExperienceToNextLevel;
+			
+			mExperienceToNextLevel +=mLevel *68;
+			
+		}
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dragonsreign.character.PlayerCharacter#equipItem()
-	 */
+	
 	@Override
 	public boolean equipItem(Gear pGearPiece) {
-		return false;
-		// TODO Auto-generated method stub
+		boolean equipSuccess = false;
+		
+		switch (pGearPiece.getItemType()){
+		case LIGHT_HELMET:
+			
+			//unequip helmet
+			helmet = pGearPiece;
+			equipSuccess = true;
+			
+			break;
+			
+		case LIGHT_CHESTPLATE:
+			
+			//unequip chestplate
+			chestArmor = pGearPiece;
+			equipSuccess = true;
+			
+			break;
+		
+		case LIGHT_LEGS:
+			
+			//unequip legs
+			legArmor = pGearPiece;
+			equipSuccess = true;
+			
+			break;
+			
+		case WAND:
+			
+			//unequip wand
+			weaponHand1 = pGearPiece;
+			equipSuccess = true;
+			
+			break;
+			
+		case ORB:
+			
+			//unequip orb
+			weaponHand2 = pGearPiece;
+			equipSuccess = true;
+			
+			break;
+			
+		case STAFF:
+			
+			
+			if (weaponHand2 == null){
+				//unequip weaponHand1
+				weaponHand1 = pGearPiece;
+				equipSuccess = true;
+				
+			} else{
+				//unequip weaponHand1 &weaponHand2
+				weaponHand1 = pGearPiece;
+				equipSuccess = true;
+			}
+			
+			break;
+			
+			default:
+				break;
+			
+		}
+		
+		if (equipSuccess) {
+			updateItemStats();
+			updateCurrentStats();
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dragonsreign.character.PlayerCharacter#useAbility(int)
-	 */
+	
 	@Override
 	public void useAbility(int pAbilityIndex) {
 		// TODO Auto-generated method stub
@@ -169,7 +280,7 @@ public class ClericClass extends PlayerCharacter {
 	 * Heal life syphon.
 	 */
 	public void HealLifeSyphon() {
-		if (mCurrentMana > mHealLifeSyphonCost) {
+		if (this.getCurrentResources().getResource() > mHealLifeSyphonCost) {
 			// do stuff
 			if (mHealLifeSyphonLevel == 1) {
 				// if enemy targeted siphon life heals cleric for 50% of the dmg
@@ -185,7 +296,7 @@ public class ClericClass extends PlayerCharacter {
 				// else if friendly target heal
 			}
 
-			mCurrentMana -= mHealLifeSyphonCost;
+			mCurrentResources.setResource(mCurrentResources.getResource() - mHealLifeSyphonCost);
 		}
 
 	}
@@ -194,7 +305,7 @@ public class ClericClass extends PlayerCharacter {
 	 * Revive.
 	 */
 	public void Revive() {
-		if (mCurrentMana > mReviveCost) {
+		if (this.getCurrentResources().getResource() > mReviveCost) {
 			// revive
 			if (mReviveLevel == 1) {
 				// revive targeted party member
@@ -204,7 +315,7 @@ public class ClericClass extends PlayerCharacter {
 				// revive targeted party member
 			}
 
-			mCurrentMana -= mReviveCost;
+			mCurrentResources.setResource(mCurrentResources.getResource() - mReviveCost);
 		}
 	}
 
@@ -212,7 +323,7 @@ public class ClericClass extends PlayerCharacter {
 	 * Healing chant.
 	 */
 	public void HealingChant() {
-		if (mCurrentMana > mHealingChantCost) {
+		if (this.getCurrentResources().getResource() > mHealingChantCost) {
 
 			if (mHealingChantLevel == 1) {
 				// charges the spell for one turn then after the turn has
@@ -228,7 +339,7 @@ public class ClericClass extends PlayerCharacter {
 				// costs substantial mana
 			}
 
-			mCurrentMana -= mHealingChantCost;
+			mCurrentResources.setResource(mCurrentResources.getResource() - mHealingChantCost);
 		}
 
 	}
@@ -237,7 +348,7 @@ public class ClericClass extends PlayerCharacter {
 	 * Empower.
 	 */
 	public void Empower() {
-		if (mCurrentMana > mEmpowerCost) {
+		if (this.getCurrentResources().getResource() > mEmpowerCost) {
 
 			if (mEmpowerLevel == 1) {
 				// boost to all primary stats of entire party
@@ -247,7 +358,7 @@ public class ClericClass extends PlayerCharacter {
 				// boost to all primary stats of entire party
 			}
 
-			mCurrentMana -= mEmpowerCost;
+			mCurrentResources.setResource(mCurrentResources.getResource() - mEmpowerCost);
 		}
 	}
 
@@ -255,7 +366,7 @@ public class ClericClass extends PlayerCharacter {
 	 * Mend.
 	 */
 	public void Mend() {
-		if (mCurrentMana > mMendCost) {
+		if (this.getCurrentResources().getResource() > mMendCost) {
 
 			if (mMendLevel == 1) {
 				// heals targeted party member gradually over time
@@ -265,7 +376,7 @@ public class ClericClass extends PlayerCharacter {
 				// heals targeted party member gradually over time
 			}
 
-			mCurrentMana -= mMendCost;
+			mCurrentResources.setResource(mCurrentResources.getResource() - mMendCost);
 		}
 	}
 
