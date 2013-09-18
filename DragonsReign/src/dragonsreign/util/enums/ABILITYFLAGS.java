@@ -20,7 +20,5 @@ public enum ABILITYFLAGS {
 	
 	REVIVE,
 	
-	CHARGE,
-	
 	NOT_ENOUGH_RESOURCE;
 }

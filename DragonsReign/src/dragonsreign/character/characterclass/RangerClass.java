@@ -365,11 +365,14 @@ public class RangerClass extends PlayerCharacter {
 					* RandomNumber.generateRandomInt(2, 5);
 
 			pAbilityData.setDamageDone(damageMod);
+			// Being stunned needs to affect the player instead of the enemy
+			pAbilityData.setStunned(true);
+			pAbilityData.setStunTurns(1);
 
 			mCurrentResources.setResource(mCurrentResources.getResource()
 					- mChargedShotCost);
 
-			return ABILITYFLAGS.CHARGE;
+			return ABILITYFLAGS.DAMAGE_SINGLE;
 		} else
 			return ABILITYFLAGS.NOT_ENOUGH_RESOURCE;
 	}
