@@ -322,7 +322,7 @@ public class ClericClass extends PlayerCharacter {
 
 			pAbilityData.setDamageDone((int) siphonDmg);
 			pAbilityData.setHealingDone((int) siphonHeal);
-
+			
 			mCurrentResources.setResource(mCurrentResources.getResource()
 					- mLifeSiphonCost);
 
@@ -362,7 +362,7 @@ public class ClericClass extends PlayerCharacter {
 			// TODO
 			// Need party members
 
-			// Never go above 60% health
+			// heals 60% max health
 			float healingChantAmount = (float) (mMaxResources.getHealth() * 0.60);
 
 			pAbilityData.setHealingDone((int) healingChantAmount);
@@ -387,14 +387,10 @@ public class ClericClass extends PlayerCharacter {
 			float buffIntStat = 0.2f * mCurrentStats.getIntelligence();
 			float buffVitStat = 0.2f * mCurrentStats.getVitality();
 
-			pAbilityData.getBuff().setStrength(
-					mCurrentStats.getStrength() + (int) buffStrStat);
-			pAbilityData.getBuff().setDexterity(
-					mCurrentStats.getDexterity() + (int) buffDexStat);
-			pAbilityData.getBuff().setIntelligence(
-					mCurrentStats.getIntelligence() + (int) buffIntStat);
-			pAbilityData.getBuff().setVitality(
-					mCurrentStats.getVitality() + (int) buffVitStat);
+			pAbilityData.getBuff().setStrength((int) buffStrStat);
+			pAbilityData.getBuff().setDexterity((int) buffDexStat);
+			pAbilityData.getBuff().setIntelligence((int) buffIntStat);
+			pAbilityData.getBuff().setVitality((int) buffVitStat);
 
 			pAbilityData.setBuffed(true);
 			pAbilityData.setBuffTurns(5);
