@@ -5,13 +5,24 @@ package dragonsreign.scene;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.microedition.khronos.opengles.GL10;
+
+import org.andengine.engine.camera.BoundCamera;
+import org.andengine.engine.camera.Camera;
+import org.andengine.engine.camera.ZoomCamera;
+import org.andengine.engine.camera.hud.controls.BaseOnScreenControl;
+import org.andengine.engine.camera.hud.controls.BaseOnScreenControl.IOnScreenControlListener;
+import org.andengine.engine.camera.hud.controls.DigitalOnScreenControl;
+import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.engine.handler.timer.TimerHandler;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
+import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.tmx.TMXLayer;
 import org.andengine.extension.tmx.TMXLoader;
 import org.andengine.extension.tmx.TMXObject;
@@ -26,17 +37,25 @@ import org.andengine.extension.tmx.util.constants.TMXConstants;
 import org.andengine.extension.tmx.TMXLoader.ITMXTilePropertiesListener;
 import org.andengine.extension.tmx.util.exception.TMXLoadException;
 
+import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.texture.TextureOptions;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.util.Constants;
 import org.andengine.util.color.Color;
 import org.andengine.util.debug.Debug;
 
+import android.content.res.AssetManager;
+
 import dragonsreign.scene.BaseScene;
+import dragonsreign.manager.ResourceManager;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
 import dragonsreign.scene.DragonsReignActivity;
 
-public class GameScene extends BaseScene implements IOnMenuItemClickListener
+public class GameScene extends BaseScene implements IOnMenuItemClickListener, IOnScreenControlListener
 {
 	
 	
@@ -58,8 +77,28 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener
 	private ArrayList<TMXTile> mExitTiles = new ArrayList<TMXTile>();
 	private ArrayList<TMXObjectGroup> TMXGroupObjects = new ArrayList<TMXObjectGroup>();
 	public ArrayList<TMXTile> mAnimationTiles = new ArrayList<TMXTile>();
-	
+	private AnimatedSprite player;
 
+	private PhysicsHandler physicsHandler;
+	private TMXLayer layer;
+	
+	private float lastPlayerX;
+	
+	private boolean mCollide;
+	
+	
+	//private BoundCamera camera;
+	private enum PlayerDirection
+	{
+        NONE,
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+	}
+	private PlayerDirection playerDirection = PlayerDirection.DOWN;
+	private DigitalOnScreenControl mDigitalOnScreenControl;
+	
 	public GameScene(final DragonsReignActivity pMain)
 	{
 		this.context = pMain;
@@ -67,10 +106,13 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener
         {
         	Debug.e("Contex is null");
         }
+        
 	}
-
+	
 	private void createGameChildScene()
 	{
+		
+		
 		gameChildScene = new MenuScene(camera);
 		
 		////////////////////////////////////////////////////////////////////////////////////
@@ -137,31 +179,140 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener
 	@Override
     public void createScene()
     {
+		//camera = new Camera(0,0, ((DragonsReignActivity)activity).CAMERA_WIDTH, ((DragonsReignActivity)activity).CAMERA_HEIGHT);
     	setBackground(new Background(Color.BLACK));
     	createGameChildScene();
     	mAnimationTiles = new ArrayList<TMXTile>();
 		mChangingTiles = new ArrayList<TMXTile>();
- 
-	
+		mCollideTiles = new ArrayList<TMXTile>();
+		mTMXObjects = new ArrayList<TMXObject>();
+		TMXGroupObjects = new ArrayList<TMXObjectGroup>();
+		
 		try 
 		{
-			final TMXLoader tmxLoader = new TMXLoader(activity.getAssets(), ((DragonsReignActivity) activity).getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, ((DragonsReignActivity) activity).getVertexBufferObjectManager());
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/Mountain.tmx");
-			
-			
-		} 
+			final TMXLoader tmxLoader = new TMXLoader(((DragonsReignActivity)activity).getAssets(), ((DragonsReignActivity)activity).getTextureManager(), ((DragonsReignActivity)activity).getVertexBufferObjectManager(), new ITMXTilePropertiesListener() 
+			{
+				@Override
+	            public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) 
+				{
+					for (int i = 0; i < pTMXTileProperties.size(); i++) 
+					{
+						
+//						if(pTMXTileProperties.get(i).getName().contentEquals("COLLISION"))
+//						{
+//							mCollideTiles.add(pTMXTile);
+//						}
+							
+					}
+	            }
+			});
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/desert2.tmx");
+		}
 		catch (final TMXLoadException tmxle)
 		{
 			Debug.e(tmxle);
 			
 		} 
-		
-		final TMXLayer tmxLayer2 = this.mTMXTiledMap.getTMXLayers().get(1);
-		final TMXLayer tmxLayer = this.mTMXTiledMap.getTMXLayers().get(0);
-		
-		this.attachChild(tmxLayer);
-		this.attachChild(tmxLayer2);
+		for (int i = 0; i < this.mTMXTiledMap.getTMXLayers().size(); i++)
+		{
+            layer = this.mTMXTiledMap.getTMXLayers().get(i);
+            if (!layer.getTMXLayerProperties().containsTMXProperty("COLLISION", "true"))
+            attachChild(layer);
+		}
 
+		
+		
+//		//Get the list of object tiles
+//		for (final TMXObjectGroup pGroup : mTMXTiledMap.getTMXObjectGroups()) 
+//		{
+//			mTMXObjects.addAll(pGroup.getTMXObjects());
+//			TMXGroupObjects.add(pGroup); 
+//		}
+//		mCollideTiles = this.getObjectGroupPropertyTiles("COLLIDE",  TMXGroupObjects);
+
+        /* Make the camera not exceed the bounds of the TMXEntity. */
+        ((BoundCamera) this.camera).setBounds(0, 0, layer.getWidth(), layer.getHeight());
+        ((BoundCamera) this.camera).setBoundsEnabled(true);
+        
+		final float centerX = (camera.getWidth() - ResourceManager.getInstance().mPlayerTextureRegion.getWidth()) / 2;
+        final float centerY = (camera.getHeight() - ResourceManager.getInstance().mPlayerTextureRegion.getHeight()) / 2;
+	
+        
+        /* Create the sprite and add it to the scene. */
+        player = new AnimatedSprite(centerX, centerY, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+        camera.setChaseEntity(player);
+        physicsHandler = new PhysicsHandler(player);
+        player.registerUpdateHandler(physicsHandler);
+        attachChild(player);
+        //player.setZIndex(10); 
+        
+        
+        mDigitalOnScreenControl = new DigitalOnScreenControl(0, ((DragonsReignActivity)activity).CAMERA_HEIGHT - ResourceManager.getInstance().DPADBacking.getHeight(), this.camera, ResourceManager.getInstance().DPADBacking, ResourceManager.getInstance().DPADKnob, 0.1f, ((DragonsReignActivity)activity).getVertexBufferObjectManager(), new IOnScreenControlListener() 
+        {
+            @Override
+            public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) 
+            {
+                    if (pValueY == 1){
+                            // Up
+                            if (playerDirection != PlayerDirection.UP)
+                            {
+                            	player.animate(new long[]{200, 200, 200}, 0, 2, true);
+                            	playerDirection = PlayerDirection.UP;
+                            }
+                    }else if (pValueY == -1){
+                            // Down
+                            if (playerDirection != PlayerDirection.DOWN)
+                            {
+                            	player.animate(new long[]{200, 200, 200}, 3, 5, true);  
+                            	playerDirection = PlayerDirection.DOWN;
+                            }
+                    }else if (pValueX == -1)
+                    {
+                            // Left
+                            if (playerDirection != PlayerDirection.LEFT)
+                            {   
+                            	player.animate(new long[]{200, 200, 200}, 6, 8, true);
+                            	playerDirection = PlayerDirection.LEFT;
+                            }
+                    }else if (pValueX == 1)
+                    {
+                            // Right
+                            if (playerDirection != PlayerDirection.RIGHT)
+                            {
+                            	player.animate(new long[]{200, 200, 200}, 9, 11, true);
+                            	playerDirection = PlayerDirection.RIGHT;
+                            }
+                    }else if (mTMXTiledMap.getTMXLayers().get(0).getLocalToSceneTransformation().equals(player.getX()) == mTMXTiledMap.getTMXLayers().get(0).getTMXLayerProperties().containsTMXProperty("COLLIDE", "true"))
+                    {
+                    	if (player.isAnimationRunning())
+                        {   
+                    		
+                        	player.stopAnimation();
+                        	playerDirection = PlayerDirection.NONE;
+                        }
+                    	
+                    }else{
+                    	if (player.isAnimationRunning())
+                        {   
+                        	player.stopAnimation();
+                        	playerDirection = PlayerDirection.NONE;
+                        } 
+                    }
+                    physicsHandler.setVelocity(pValueX * 60, pValueY * 60);
+            }
+    });
+    this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+    this.mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
+    this.mDigitalOnScreenControl.getControlBase().setScaleCenter(0, 128);
+    this.mDigitalOnScreenControl.getControlBase().setScale(1.25f);
+    this.mDigitalOnScreenControl.getControlKnob().setScale(1.25f);
+    this.mDigitalOnScreenControl.refreshControlKnobPosition();
+
+    
+    this.setChildScene(this.mDigitalOnScreenControl);
+    mDigitalOnScreenControl.setChildScene(gameChildScene);
+
+    camera.updateChaseEntity();
     }
 
     @Override
@@ -185,5 +336,44 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener
         
     }
 
+	@Override
+	public void onControlChange(BaseOnScreenControl pBaseOnScreenControl,
+			float pValueX, float pValueY) {
+		// TODO Auto-generated method stub
+		
+	}
+    
+	public ArrayList<TMXTile> getObjectGroupPropertyTiles(String pName, ArrayList<TMXObjectGroup> pTMXObjectGroups)
+	{
+		ArrayList<TMXTile> ObjectTile = new ArrayList<TMXTile>();
+		for (final TMXObjectGroup pObjectGroups : pTMXObjectGroups) {
+			// Iterates through the properties and assigns them to the new variable
+			for (final TMXObjectGroupProperty pGroupProperties : pObjectGroups.getTMXObjectGroupProperties()) {
+				//Sees if any of the elements have this condition
+				if (pGroupProperties.getName().contains(pName)) {
+					for (final TMXObject pObjectTiles : pObjectGroups.getTMXObjects()) {
+						int ObjectX = pObjectTiles.getX();
+						int ObjectY = pObjectTiles.getY();
+						// Gets the number of rows and columns in the object
+						int ObjectRows = pObjectTiles.getHeight() / DragonsReignActivity.getInstance().TILE_HEIGHT;
+						int ObjectColumns = pObjectTiles.getWidth() / DragonsReignActivity.getInstance().TILE_WIDTH;
+						
+						for (int TileRow = 0; TileRow < ObjectRows; TileRow++) {
+							for (int TileColumn = 0; TileColumn < ObjectColumns; TileColumn++) {
+								float lObjectTileX = ObjectX + TileColumn * DragonsReignActivity.getInstance().TILE_WIDTH;
+								float lObjectTileY = ObjectY + TileRow * DragonsReignActivity.getInstance().TILE_HEIGHT;
+								ObjectTile.add(mTMXTiledMap.getTMXLayers().get(0).getTMXTileAt(lObjectTileX, lObjectTileY));						
+							}							 
+						}
+					}
+				}			
+			}
+		}
+		return ObjectTile;
+	}
+	
+	
+
+	
     //TODO: Create onPause(), onResume(), 
 }
