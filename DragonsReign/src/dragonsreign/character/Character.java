@@ -213,7 +213,15 @@ public abstract class Character {
 		float armorModifier = mCurrentStats.getArmor()
 				* RandomNumber.generateRandomFloat(0.15f, 0.25f);
 
-		mitigatedDamage = (int) (pIncomingDamage - armorModifier);
+		// An armor modifier will never be able to go above half the amount of
+		// damage incoming
+		int armorModifierCap = pIncomingDamage / 2;
+
+		if (armorModifier <= armorModifierCap) {
+			mitigatedDamage = (int) (pIncomingDamage - armorModifier);
+		} else {
+			mitigatedDamage = armorModifierCap;
+		}
 
 		return mitigatedDamage;
 	}
