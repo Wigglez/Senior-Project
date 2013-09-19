@@ -1,6 +1,7 @@
 package dragonsreign.character;
 
 import dragonsreign.util.AbilityData;
+import dragonsreign.util.RandomNumber;
 import dragonsreign.util.Resources;
 import dragonsreign.util.Stats;
 import dragonsreign.util.enums.ABILITYFLAGS;
@@ -204,6 +205,18 @@ public abstract class Character {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	public int incomingDamage(int pIncomingDamage) {
+		int mitigatedDamage = 0;
+
+		// Higher amounts of armor will yield more mitigation
+		float armorModifier = mCurrentStats.getArmor()
+				* RandomNumber.generateRandomFloat(0.15f, 0.25f);
+
+		mitigatedDamage = (int) (pIncomingDamage - armorModifier);
+
+		return mitigatedDamage;
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
