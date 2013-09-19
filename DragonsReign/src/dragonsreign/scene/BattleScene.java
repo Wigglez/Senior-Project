@@ -1,6 +1,8 @@
 package dragonsreign.scene;
 
 
+import org.andengine.engine.camera.BoundCamera;
+import org.andengine.engine.camera.Camera;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
@@ -35,7 +37,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	 			 skillThreeText, skillFourText,skillFiveText,
 	 			 item1Text,item2Text, item3Text, item4Text,
 	 			 item5Text, item6Text;
-	
+	private BoundCamera mcamera;
 	
 	private enum BUTTONS
 	{
@@ -75,12 +77,13 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	@Override
 	public void createScene() 
 	{
+		mcamera = new BoundCamera(0, 0, ((DragonsReignActivity)activity).CAMERA_WIDTH, ((DragonsReignActivity)activity).CAMERA_HEIGHT);
 	    /////////////////////////////////////////////////////////////////////////////////////
 	    //Create ChildScenes
 	    /////////////////////////////////////////////////////////////////////////////////////
-		battleMenuChildScene = new MenuScene(camera);
-		abilitiesChildScene = new MenuScene(camera);
-		itemsChildScene = new MenuScene(camera);
+		battleMenuChildScene = new MenuScene(mcamera);
+		abilitiesChildScene = new MenuScene(mcamera);
+		itemsChildScene = new MenuScene(mcamera);
 		
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Set First Child Scene

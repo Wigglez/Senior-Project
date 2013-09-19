@@ -8,16 +8,19 @@ import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
 import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePack;
 import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePackLoader;
 import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePackTextureRegionLibrary;
+import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePackerTextureRegion;
 import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.exception.TexturePackParseException;
 
 import android.graphics.Color;
 
+import dragonsreign.texturepacker.AnimatedCharacter;
 import dragonsreign.texturepacker.MenuAssets;
 import dragonsreign.texturepacker.GameAssets;
 import dragonsreign.texturepacker.BattleAssets;
@@ -62,6 +65,12 @@ public class ResourceManager
     
     
     public Font font, battleFont, inventoryFont;
+
+	public TiledTextureRegion mPlayerTextureRegion;
+
+	private TexturePackTextureRegionLibrary mCharactersTexturePackTextureRegionLibrary;
+
+
 
     
 
@@ -193,12 +202,20 @@ public class ResourceManager
             texturePack.loadTexture();
             texturePackLibrary = texturePack.getTexturePackTextureRegionLibrary();
     		
+			//Characters texture packer
+			TexturePack spriteSheetCharactersTexturePack = new TexturePackLoader(activity.getTextureManager(), "gfx/Characters/").loadFromAsset(activity.getAssets(), "CharactersTexturePacker.xml");
+			spriteSheetCharactersTexturePack.loadTexture();
+			mCharactersTexturePackTextureRegionLibrary = spriteSheetCharactersTexturePack.getTexturePackTextureRegionLibrary();
     	}
     	catch(final TexturePackParseException e)
     	{
     		Debug.e(e);
     	}
     	
+    	//Creating tiled region 
+		TexturePackerTextureRegion HeroTextureRegion = mCharactersTexturePackTextureRegionLibrary.get(AnimatedCharacter.HERO_ID);
+		mPlayerTextureRegion = TiledTextureRegion.create(HeroTextureRegion.getTexture(),
+		(int)HeroTextureRegion.getTextureX(), (int)HeroTextureRegion.getTextureY(), (int)HeroTextureRegion.getWidth(), (int)HeroTextureRegion.getHeight(), 3, 4);
     	
     	
     	backPack = texturePackLibrary.get(GameAssets.BACKPACK_ID);
@@ -210,6 +227,8 @@ public class ResourceManager
     	DPADBacking = texturePackLibrary.get(GameAssets.ONSCREEN_CONTROL_BASE_ID);
     	
     	DPADKnob = texturePackLibrary.get(GameAssets.ONSCREEN_CONTROL_KNOB_ID);
+    	
+
     	
         //////////////////////////////////////////////////////////////////////////
         //Load TMX Stuff
