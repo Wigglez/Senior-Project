@@ -27,9 +27,9 @@ public class AbilityData {
 	protected int mBuffTurns;
 	protected int mHealTurns;
 
-	protected float mBleedDamage;
-	protected float mBurnDamage;
-	protected float mPoisonDamage;
+	protected int mBleedDamage;
+	protected int mBurnDamage;
+	protected int mPoisonDamage;
 
 	AbilityData() {
 
@@ -149,11 +149,11 @@ public class AbilityData {
 		this.mBleedTurns = pBleedTurns;
 	}
 
-	public float getBleedDamage() {
+	public int getBleedDamage() {
 		return mBleedDamage;
 	}
 
-	public void setBleedDamage(float pBleedDamage) {
+	public void setBleedDamage(int pBleedDamage) {
 		this.mBleedDamage = pBleedDamage;
 	}
 
@@ -191,11 +191,11 @@ public class AbilityData {
 		this.mBurnTurns = pBurnTurns;
 	}
 
-	public float getBurnDamage() {
+	public int getBurnDamage() {
 		return mBurnDamage;
 	}
 
-	public void setBurnDamage(float pBurnDamage) {
+	public void setBurnDamage(int pBurnDamage) {
 		this.mBurnDamage = pBurnDamage;
 	}
 
@@ -250,11 +250,11 @@ public class AbilityData {
 		this.mPoisonTurns = pPoisonTurns;
 	}
 
-	public float getPoisonDamage() {
+	public int getPoisonDamage() {
 		return mPoisonDamage;
 	}
 
-	public void setPoisonDamage(float pPoisonDamage) {
+	public void setPoisonDamage(int pPoisonDamage) {
 		this.mPoisonDamage = pPoisonDamage;
 	}
 

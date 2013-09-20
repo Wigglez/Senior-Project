@@ -8,6 +8,13 @@ import dragonsreign.item.consumable.Potion;
 import dragonsreign.util.RandomNumber;
 import dragonsreign.util.Stats;
 
+/*
+ * Flee Calc:
+ * 
+ * Top right (battle scene) enemy level above character by 1 level - 25% chance to flee
+ * Top right (battle scene) enemy level same as character level - 50% chance to flee
+ * Top right (battle scene) enemy level below character by 1 - 75% chance to flee
+ */
 public abstract class PlayerCharacter extends Character {
 	// ===========================================================
 	// Constants
@@ -121,6 +128,7 @@ public abstract class PlayerCharacter extends Character {
 			mCurrentExperience += mLevel * 68; 
 		}
 		
+		//Reach level based on experience
 		levelUp();
 		
 		helmet = pHelmet;

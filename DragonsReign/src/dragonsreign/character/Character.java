@@ -43,7 +43,6 @@ public abstract class Character {
 
 	protected Stats mBaseStats;
 	protected Stats mCurrentStats;
-	protected Stats mMaxStats;
 
 	// ===========================================================
 	// Constructors
@@ -62,7 +61,6 @@ public abstract class Character {
 
 		mBaseStats = new Stats();
 		mCurrentStats = new Stats();
-		mMaxStats = new Stats();
 
 		mBaseResources.setHealth(0);
 		mBaseResources.setResource(0);
@@ -79,7 +77,6 @@ public abstract class Character {
 		mCurrentStats = mBaseStats;
 
 		mMaxResources = mBaseResources;
-		mMaxStats = mBaseStats;
 	}
 
 	// ===========================================================
@@ -173,14 +170,6 @@ public abstract class Character {
 		this.mCurrentStats = pCurrentStats;
 	}
 
-	public Stats getMaxStats() {
-		return mMaxStats;
-	}
-
-	public void setMaxStats(Stats pMaxStats) {
-		this.mMaxStats = pMaxStats;
-	}
-
 	// Alive
 	public boolean isDead() {
 		return (this.getCurrentResources().getHealth() < 0);
@@ -224,6 +213,30 @@ public abstract class Character {
 		}
 
 		return mitigatedDamage;
+	}
+
+	public void AddBuff(Stats pBuff) {
+		mCurrentStats.setStrength(mCurrentStats.getStrength()
+				+ pBuff.getStrength());
+		mCurrentStats.setDexterity(mCurrentStats.getDexterity()
+				+ pBuff.getDexterity());
+		mCurrentStats.setIntelligence(mCurrentStats.getIntelligence()
+				+ pBuff.getIntelligence());
+		mCurrentStats.setVitality(mCurrentStats.getVitality()
+				+ pBuff.getVitality());
+	}
+
+	public void TakeDamage(int pDamage) {
+
+		mCurrentResources.setHealth(mCurrentResources.getHealth() - pDamage);
+
+	}
+
+	public void HealPlayer(int pHealAmount) {
+
+		mCurrentResources
+				.setHealth(mCurrentResources.getHealth() + pHealAmount);
+
 	}
 
 	// ===========================================================

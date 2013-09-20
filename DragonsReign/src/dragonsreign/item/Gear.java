@@ -8,6 +8,7 @@ package dragonsreign.item;
 
 import java.util.Random;
 
+import dragonsreign.util.RandomNumber;
 import dragonsreign.util.Stats;
 import dragonsreign.util.enums.ITEMTYPE;
 
@@ -37,18 +38,15 @@ public class Gear extends Item {
 
 	public Gear(ITEMTYPE pItemType, int PlyrLevel) {
 
-		Random rand = new Random();
 		// Item Level can be [PlyrLevel - 2, PlyrLevel + 3]
-		int itemLvlDiff = rand.nextInt(6); // range is [0,5]
-		itemLvlDiff -= 2; // shift range so it can be in [-2, +3]
+		int itemLvlDiff = RandomNumber.generateRandomInt(-2, 3);
 		mItemLevel = PlyrLevel + itemLvlDiff; // Add difference to player level
 		if (mItemLevel < 1)// Sanity check: if PlyrLevel is extremely low item
-							// level might be -1 or 0
-			mItemLevel = 1;
+			mItemLevel = 1; // level might be -1 or 0
 
 		// Set ItemType
 		mItemType = pItemType;
-		
+
 		mItemStats = new Stats();
 
 		switch (mItemType) {
@@ -470,39 +468,36 @@ public class Gear extends Item {
 
 	public Gear(ITEMTYPE pItemType, int pItemLevel, int pStr, int pDex,
 			int pInt, int pVit, int pDmg, int pArmor, boolean pIsWeapon) {
-		
+
 		// Set ItemType
 		mItemType = pItemType;
-		
+
 		mItemStats = new Stats();
 
 		mItemLevel = pItemLevel;
-		
+
 		mItemStats.setStrength(pStr);
 		mItemStats.setDexterity(pDex);
 		mItemStats.setIntelligence(pInt);
 		mItemStats.setVitality(pVit);
 		mItemStats.setDamage(pDmg);
 		mItemStats.setArmor(pArmor);
-		
-		
-		if(pIsWeapon){
+
+		if (pIsWeapon) {
 			isWeapon = true;
 			isArmor = false;
-		}
-		else{
+		} else {
 			isWeapon = false;
 			isArmor = true;
 		}
-		
+
 		switch (mItemType) {
 
-		//TODO
-		//get sprites for each case
+		// TODO
+		// get sprites for each case
 		case LIGHT_HELMET:
 			mName = "Light Helmet";
 			mDescription = "";
-			
 
 		case LIGHT_CHESTPLATE:
 			mName = "Light Chest Plate";
@@ -584,7 +579,6 @@ public class Gear extends Item {
 			mName = "Staff";
 			mDescription = "";
 		}
-		
 
 	}
 
@@ -618,30 +612,27 @@ public class Gear extends Item {
 
 	// Randomly Generate stat between [10-25]
 	private int randHighStat() {
-		Random rand = new Random();
 
-		int HighStat = rand.nextInt(16) + 10; // [10-25]
-		HighStat += (mItemLevel * 5);
-
+		int HighStat = RandomNumber.generateRandomInt(15, 40);
+		HighStat += (mItemLevel * 2);
+		
 		return HighStat;
 	}
 
 	// Randomly Generate stat between [1-15]
 	private int randMedStat() {
-		Random rand = new Random();
 
-		int MedStat = rand.nextInt(15) + 1; // [1-15]
-		MedStat += (mItemLevel * 5);
+		int MedStat = RandomNumber.generateRandomInt(10, 25);
+		MedStat += (mItemLevel * 2);
 
 		return MedStat;
 	}
 
 	// Randomly Generate stat between [1-10]
 	private int randLowStat() {
-		Random rand = new Random();
 
-		int LowStat = rand.nextInt(10) + 1; // [1-10]
-		LowStat += (mItemLevel * 5);
+		int LowStat = RandomNumber.generateRandomInt(1, 15); 
+		LowStat += (mItemLevel * 2);
 
 		return LowStat;
 	}

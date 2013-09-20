@@ -42,11 +42,10 @@ public class RangerClass extends PlayerCharacter {
 
 	public RangerClass() {
 		// TODO
-		// set base stats, energy for ranger
 		// loadRangerSprite
 
-		// level up - 3 dex, 2 vita, 1 int, 1 str
-
+		mName = "Ranger";
+		
 		mBaseStats.setStrength(2);
 		mBaseStats.setDexterity(9);
 		mBaseStats.setIntelligence(2);
@@ -66,8 +65,9 @@ public class RangerClass extends PlayerCharacter {
 
 		mCurrentResources.setHealth(mBaseResources.getHealth());
 		mCurrentResources.setResource(mBaseResources.getResource());
-
-		// mCurrentEnergy = this.getCurrentResources().getEnergy();
+		
+		mMaxResources.setHealth(mBaseResources.getHealth());
+		mMaxResources.setResource(mBaseResources.getResource());
 
 		mAbility[0] = "Attack";
 		mAbility[1] = "Fire Arrow";

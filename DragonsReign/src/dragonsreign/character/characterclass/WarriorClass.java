@@ -42,6 +42,8 @@ public class WarriorClass extends PlayerCharacter {
 	public WarriorClass() {
 		// TODO
 		// loadWarriorSprite
+		
+		mName = "Warrior";
 
 		mBaseStats.setStrength(9);
 		mBaseStats.setDexterity(2);
@@ -62,6 +64,9 @@ public class WarriorClass extends PlayerCharacter {
 
 		mCurrentResources.setHealth(mBaseResources.getHealth());
 		mCurrentResources.setResource(mBaseResources.getResource());
+		
+		mMaxResources.setHealth(mBaseResources.getHealth());
+		mMaxResources.setResource(mBaseResources.getResource());
 
 		mAbility[0] = "Attack";
 		mAbility[1] = "Cleave";

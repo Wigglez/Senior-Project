@@ -18,7 +18,7 @@ public enum ABILITYFLAGS {
 	
 	SELF_CAST,
 	
-	REVIVE,
+	REVIVE, //Pretend to use Basic Revive, Don't take any away from inventory
 	
 	NOT_ENOUGH_RESOURCE;
 }

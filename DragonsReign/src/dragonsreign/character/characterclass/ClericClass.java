@@ -37,11 +37,9 @@ public class ClericClass extends PlayerCharacter {
 	// ===========================================================
 
 	public ClericClass() {
-		// TODO
-		// set base stats, mana for cleric
 		// loadClericSprite
 
-		// level up - 1 dex, 2 vita, 3 int, 1 str
+		mName = "Cleric";
 
 		mBaseStats.setStrength(2);
 		mBaseStats.setDexterity(2);
@@ -62,6 +60,9 @@ public class ClericClass extends PlayerCharacter {
 
 		mCurrentResources.setHealth(mBaseResources.getHealth());
 		mCurrentResources.setResource(mBaseResources.getResource());
+		
+		mMaxResources.setHealth(mBaseResources.getHealth());
+		mMaxResources.setResource(mBaseResources.getResource());
 
 		mAbility[0] = "Attack";
 		mAbility[1] = "Mend";
