@@ -42,6 +42,9 @@ public class InventoryScene extends BaseScene
 	@Override
 	public void createScene() 
 	{
+		camera.setChaseEntity(null);
+		camera.offsetCenter(camera.getCenterX() * -1, camera.getCenterY() * -1);
+		
 		inventoryChildScene = new MenuScene(camera);
 		
 		
@@ -339,6 +342,11 @@ public class InventoryScene extends BaseScene
 	{
 		SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_GAME);
 		
+		camera.setChaseEntity(GameScene.player);
+		camera.updateChaseEntity();
+		
+		
+
 	}
 
 	@Override

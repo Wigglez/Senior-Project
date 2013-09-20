@@ -71,7 +71,6 @@ import dragonsreign.scene.DragonsReignActivity;
 public class GameScene extends BaseScene implements IOnMenuItemClickListener, IOnScreenControlListener
 {
 	
-	
 	private final int GAME_BACKPACK = 0;
 	private final int GAME_MAP = 1;
 
@@ -88,7 +87,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	private ArrayList<TMXTile> mExitTiles = new ArrayList<TMXTile>();
 	private ArrayList<TMXObjectGroup> TMXGroupObjects = new ArrayList<TMXObjectGroup>();
 	public ArrayList<TMXTile> mAnimationTiles = new ArrayList<TMXTile>();
-	private AnimatedSprite player;
+	public static AnimatedSprite player;
 
 	private PhysicsHandler physicsHandler;
 	private TMXLayer layer;
@@ -98,7 +97,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	private boolean mCollide = false;
 	
 	private PlayerDirection playerDirection = PlayerDirection.DOWN;
-	private DigitalOnScreenControl mDigitalOnScreenControl;
+	public static DigitalOnScreenControl mDigitalOnScreenControl;
 	private Body mPlayerBody;
 	 private PhysicsWorld mPhysicsWorld;
 	 
@@ -112,9 +111,9 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
         RIGHT
 	}
 
-	public GameScene(final DragonsReignActivity pMain)
+	public GameScene()
 	{
-		camera = pMain.mCamera;
+	
         
 	}
 	
@@ -223,7 +222,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 					}
 	            }
 			});
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/village.tmx");
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/Mountain.tmx");
 		}
 		catch (final TMXLoadException tmxle)
 		{
@@ -262,7 +261,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
         //////////////////////////////////////////////////////////////////////
         //Creates and Adds the Animated Sprite, Sets Camera Chase Entity
         //////////////////////////////////////////////////////////////////////
-        player = new AnimatedSprite(centerX + 50, centerY, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+        player = new AnimatedSprite(192, 1920, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
         camera.setChaseEntity(player);
         final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 0.5f);
         mPlayerBody = PhysicsFactory.createBoxBody(this.mPhysicsWorld, player, BodyType.DynamicBody, playerFixtureDef);
@@ -288,11 +287,48 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
         player.setZIndex(10);
         
         
+        attachControls();
         
-        mDigitalOnScreenControl = new DigitalOnScreenControl(0, ((DragonsReignActivity)activity).CAMERA_HEIGHT - ResourceManager.getInstance().DPADBacking.getHeight(), this.camera, ResourceManager.getInstance().DPADBacking, ResourceManager.getInstance().DPADKnob, 0.1f, ((DragonsReignActivity)activity).getVertexBufferObjectManager(), new IOnScreenControlListener() 
+
+    
+	    this.setChildScene(this.mDigitalOnScreenControl);
+	    mDigitalOnScreenControl.setChildScene(gameChildScene);
+	
+	    camera.updateChaseEntity();
+    }
+
+    @Override
+    public void onBackKeyPressed()
+    {
+    	
+    }
+
+    @Override
+    public SceneType getSceneType()
+    {
+    	return SceneType.SCENE_GAME;
+    }
+
+    @Override
+    public void disposeScene()
+    {
+        this.detachSelf();
+        this.dispose();
+        
+    }
+
+	@Override
+	public void onControlChange(BaseOnScreenControl pBaseOnScreenControl,
+			float pValueX, float pValueY) {
+		// TODO Auto-generated method stub
+		
+	}
+    public void attachControls()
+    {
+    	mDigitalOnScreenControl = new DigitalOnScreenControl(0, ((DragonsReignActivity)activity).CAMERA_HEIGHT - ResourceManager.getInstance().DPADBacking.getHeight(), this.camera, ResourceManager.getInstance().DPADBacking, ResourceManager.getInstance().DPADKnob, 0.1f, ((DragonsReignActivity)activity).getVertexBufferObjectManager(), new IOnScreenControlListener() 
         {
             @Override
-            public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) 
+            public void onControlChange(BaseOnScreenControl pBaseOnScreenControl,  float pValueX,  float pValueY) 
             {
                     if (pValueY == 1){
                             // Up
@@ -344,49 +380,14 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                     }
                     mPlayerBody.setLinearVelocity(pValueX * 4, pValueY * 4);
             }
-    });
-    this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-    this.mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
-    this.mDigitalOnScreenControl.getControlBase().setScaleCenter(0, 128);
-    this.mDigitalOnScreenControl.getControlBase().setScale(1.25f);
-    this.mDigitalOnScreenControl.getControlKnob().setScale(1.25f);
-    this.mDigitalOnScreenControl.refreshControlKnobPosition();
-
-    
-    this.setChildScene(this.mDigitalOnScreenControl);
-    mDigitalOnScreenControl.setChildScene(gameChildScene);
-
-    camera.updateChaseEntity();
+        });
+	    this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+	    this.mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
+	    this.mDigitalOnScreenControl.getControlBase().setScaleCenter(0, 128);
+	    this.mDigitalOnScreenControl.getControlBase().setScale(1.25f);
+	    this.mDigitalOnScreenControl.getControlKnob().setScale(1.25f);
+	    this.mDigitalOnScreenControl.refreshControlKnobPosition();
     }
-
-    @Override
-    public void onBackKeyPressed()
-    {
-    	gameChildScene.setIgnoreUpdate(false);
-    	setChildScene(gameChildScene);
-    }
-
-    @Override
-    public SceneType getSceneType()
-    {
-    	return SceneType.SCENE_GAME;
-    }
-
-    @Override
-    public void disposeScene()
-    {
-        this.detachSelf();
-        this.dispose();
-        
-    }
-
-	@Override
-	public void onControlChange(BaseOnScreenControl pBaseOnScreenControl,
-			float pValueX, float pValueY) {
-		// TODO Auto-generated method stub
-		
-	}
-    
     //////////////////////////////////////////////////////////////////////
     //Adds Collision shapes around COLLISION Objects
     //////////////////////////////////////////////////////////////////////
@@ -432,5 +433,5 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	    this.attachChild(left);
 	    this.attachChild(right);
 	}
-    //TODO: Create onPause(), onResume(), 
+    
 }

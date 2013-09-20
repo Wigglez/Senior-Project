@@ -218,7 +218,7 @@ public class SceneManager
                 {
                 	Debug.e("Contex is null");
                 }
-                gameScene = new GameScene(context);
+                gameScene = new GameScene();
  
 
                 //setScene(gameScene);
