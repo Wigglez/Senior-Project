@@ -87,6 +87,9 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	@Override
 	public void createScene() 
 	{
+		camera.setChaseEntity(null);
+		camera.offsetCenter(camera.getCenterX() * -1, camera.getCenterY() * -1);
+		
 		mcamera = new BoundCamera(0, 0, ((DragonsReignActivity)activity).CAMERA_WIDTH, ((DragonsReignActivity)activity).CAMERA_HEIGHT);
 	    /////////////////////////////////////////////////////////////////////////////////////
 	    //Create ChildScenes
