@@ -222,7 +222,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 					}
 	            }
 			});
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/plains.tmx");
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/village.tmx");
 		}
 		catch (final TMXLoadException tmxle)
 		{
@@ -261,7 +261,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
         //////////////////////////////////////////////////////////////////////
         //Creates and Adds the Animated Sprite, Sets Camera Chase Entity
         //////////////////////////////////////////////////////////////////////
-        player = new AnimatedSprite(7 * 32, 56 * 32, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+        player = new AnimatedSprite(18 * 32, 43 * 32, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
         camera.setChaseEntity(player);
         final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 0.5f);
         mPlayerBody = PhysicsFactory.createBoxBody(this.mPhysicsWorld, player, BodyType.DynamicBody, playerFixtureDef);
