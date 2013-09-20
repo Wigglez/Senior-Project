@@ -1,6 +1,10 @@
 package dragonsreign.util;
 
 import dragonsreign.character.Character;
+import dragonsreign.character.PlayerCharacter;
+import dragonsreign.item.consumable.Potion;
+import dragonsreign.util.enums.ABILITYFLAGS;
+import dragonsreign.util.enums.HASTE;
 
 public class BattleCharacterContainer {
 	// ===========================================================
@@ -11,8 +15,8 @@ public class BattleCharacterContainer {
 	// Fields
 	// ===========================================================
 
-	Character mCharacter;
-	
+	private Character mCharacter;
+
 	protected int mNumOfWaitTurns;
 
 	protected Stats mBuff;
@@ -33,11 +37,12 @@ public class BattleCharacterContainer {
 	protected int mDazeTurns;
 	protected int mPoisonTurns;
 	protected int mStunTurns;
+	protected int mBuffTurns;
 
 	protected float mBleedDamage;
 	protected float mBurnDamage;
 	protected float mPoisonDamage;
-	
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -53,12 +58,11 @@ public class BattleCharacterContainer {
 	public Character getCharacter() {
 		return mCharacter;
 	}
-	
+
 	public int getmNumOfWaitTurns() {
 		return mNumOfWaitTurns;
 	}
 
-	
 	// BLEED
 	public boolean isBleeding() {
 		return mBleeding;
@@ -93,9 +97,9 @@ public class BattleCharacterContainer {
 	public boolean isStunned() {
 		return mStunned;
 	}
-	
-	//BUFF
-	public boolean isBuffed(){
+
+	// BUFF
+	public boolean isBuffed() {
 		return mBuffed;
 	}
 
@@ -106,7 +110,7 @@ public class BattleCharacterContainer {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	public void ClearBattleEffects(){
+	public void ClearBattleEffects() {
 		mBleeding = false;
 		mBlinded = false;
 		mBurning = false;
@@ -127,7 +131,118 @@ public class BattleCharacterContainer {
 		mBurnDamage = 0;
 		mPoisonDamage = 0;
 	}
-	
+
+	public HASTE getHasate() {
+		return mCharacter.getHaste();
+	}
+
+	public int getHealth() {
+		return mCharacter.getCurrentResources().getHealth();
+	}
+
+	public int getResource() {
+		return mCharacter.getCurrentResources().getResource();
+	}
+
+	public boolean isDead() {
+		return mCharacter.isDead();
+	}
+
+	public String[] getAbilityNames() {
+		return mCharacter.getAbility();
+	}
+
+	public ABILITYFLAGS useAbility(int pAbilityIndex, AbilityData pAbilityData) {
+		return mCharacter.useAbility(pAbilityIndex, pAbilityData);
+	}
+
+	public boolean useItem(Potion pPotion) {
+		return ((PlayerCharacter) mCharacter).useItem(pPotion);
+	}
+
+	public void takeDamage(AbilityData pIncomingDmg) {
+		// mCharacter.takeDamage()??
+
+		if (pIncomingDmg.isBleeding()) {
+
+			mBleeding = true;
+			mBleedDamage = pIncomingDmg.getBleedDamage();
+			mBleedTurns = pIncomingDmg.getBleedTurns();
+
+		}
+		if (pIncomingDmg.isBlinded()) {
+
+			mBlinded = true;
+			mBlindTurns = pIncomingDmg.getBlindTurns();
+
+		}
+		if (pIncomingDmg.isBurning()) {
+
+			mBurning = true;
+			mBurnDamage = pIncomingDmg.getBurnDamage();
+			mBurnTurns = pIncomingDmg.getBurnTurns();
+
+		}
+		if (pIncomingDmg.isChilled()) {
+
+			mChilled = true;
+			mBlindTurns = pIncomingDmg.getChillTurns();
+
+		}
+		if (pIncomingDmg.isDazed()) {
+
+			mDazed = true;
+			mDazeTurns = pIncomingDmg.getDazeTurns();
+
+		}
+		if (pIncomingDmg.isPoisoned()) {
+
+			mPoisoned = true;
+			mPoisonDamage = pIncomingDmg.getPoisonDamage();
+			mPoisonTurns = pIncomingDmg.getPoisonTurns();
+
+		}
+		if (pIncomingDmg.isStunned()) {
+
+			mStunned = true;
+			mStunTurns = pIncomingDmg.getStunTurns();
+
+		}
+		if (pIncomingDmg.isBuffed()) {
+
+			mBuffed = true;
+			mBuff = pIncomingDmg.getBuff();
+			mCharacter.AddBuff(mBuff);
+			mBuffTurns = pIncomingDmg.getBuffTurns();
+
+		}
+		if (pIncomingDmg.isHealed()) {
+
+			// mCharacter.Heal(pIncomingDmg.getHealingDone();
+
+		}
+	}
+
+	public void ApplyBattleEffects() {
+
+		if (mBleeding) {
+		}
+		if (mBlinded) {
+		}
+		if (mBurning) {
+		}
+		if (mChilled) {
+		}
+		if (mDazed) {
+		}
+		if (mPoisoned) {
+		}
+		if (mStunned) {
+		}
+		if (mBuffed) {
+		}
+	}
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
