@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="90" height="70" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="MountainTileSet" tilewidth="32" tileheight="32">
-  <image source="../../Documents/GitHub/Senior-Project/DragonsReign/assets/MountainTileSet.png" trans="ffffff" width="512" height="544"/>
+  <image source="MountainTileSet.png" trans="ffffff" width="512" height="544"/>
  </tileset>
  <layer name="Sky" width="90" height="70">
   <data encoding="base64" compression="gzip">
@@ -23,4 +23,17 @@
    H4sIAAAAAAAAC+3QuQ3AMAwEQdL/13+7MmM1YMGYYIAND9ciogEAAAAAAAAAAAAAAAAAAAAAAAAAADC0PSOOcpar67s8+f3GP8j6cSpzWbpey+ZnAAAG8QK5loZucGIAAA==
   </data>
  </layer>
+ <objectgroup name="Player_Position" width="90" height="70"/>
+ <objectgroup name="Collision" width="90" height="70">
+  <object x="1076" y="1918" width="242" height="49"/>
+  <object x="207" y="1568" width="772" height="41"/>
+  <object x="195" y="2146" width="831" height="39"/>
+  <object x="933" y="1596" width="71" height="55"/>
+  <object x="995" y="1623" width="71" height="55"/>
+  <object x="1027" y="1665" width="71" height="55"/>
+  <object x="1056" y="1685" width="50" height="232"/>
+  <object x="1072" y="2003" width="39" height="157"/>
+  <object x="1014" y="2113" width="71" height="55"/>
+  <object x="1112" y="2004" width="242" height="49"/>
+ </objectgroup>
 </map>
