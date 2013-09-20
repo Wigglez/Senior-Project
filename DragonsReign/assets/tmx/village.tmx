@@ -129,13 +129,49 @@
   </data>
  </layer>
  <layer name="Alpha Layer" width="45" height="45">
+  <properties>
+   <property name="wall" value="true"/>
+  </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+WZWVJUMRiFLy/CCsQVIDvQHchmcAe4FwVEfUNARXxRBlEGB0BwQFBwYHBgUATHj4cUqZDczp+b3G7wVH3V1anuzumT5N7kvwNZlt2BgSq9ZgHfGYPxKr5mAd/R/2+ty8w5VC/hldF2AuqhocDv2uTK+SJcgnbogE64DF1wBa7CNe3za7Bu/PZJaIRTgd4mYBIewWOt3ZVzN1yHHuiFPrgBN+EW9MNt7fM/4ZfRZxOchuZAz/PwGhZgUWt35XwX7sEgDMEwjMB9GIUH8DDQi68+wWf4Al+1dlfOT+ApTME0zMAzmIU5eA4vhB5cY+3Sb/gDf/ff1B20u3J+A29hCZbhHbyHD/ARVmBV6Nk11lK5ct6ATdiCbfgG32EHfsAu7An7co21VGVen11jLVWs63OZSpFz6jFLkXPqMXPl3ArnE/YrkenFlXMbXCjRV55ML//zvq5MSXNOOR62/WyeB9+cU46HbT+b50HPT7qXiSXbftYmW86x9jI2qbOLDd/zjC3nWHsZm9TZxYbvecaWs+9exnfNxPZc5Prsu2Z0pcrZV75rRle1cw6RzfMZOJsd9iw9d6eSzfM5aMkOe5aeu1NJMjek5+5UUjUPG2YdRHrurmX55Fxr/8cn5xjzJuT+41JZ8znk/qNk1lfzco5Ziw25/yiZ9dW8nIvWYmPJrK/m5Vy0FptKx/08GHPt78tVQ6nUjyTnImvfJlcNpVI/kpyLrH2JKvVzlOdz7LmaUsqrmkNFnv2aSvWcWXlVc6jIs19TqZ4zK6//AJYP4bakHwAA
+   H4sIAAAAAAAAC+WZaVIUMRiG2z/oCZQTiDeQG+Bl5AZ4F0UF+efGNvxBQVxABRdwYVUQkMUNAfeHKlKmQtKTL530jPJWPTU1qZnJO2+S7uTrSpZllX0GavCaBXznAYzW8DUL+I7+f+tdZs6hegWvjbYGOArHCvyuTa6cz8MFaIeLcAkuQwd0whXo0j7/HtaM3z4OJ6Ax0NsYPIRH8Fhrd+V8Fa7BdbgBN6EbeqAX+qBf+/x3+GH0eRKa4FSg52mYgVmY09pdOQ/CLbgNQzAMd2AE7sI9uB/oxVfrsAGb8EFrd+U8DhPwBJ7CM3gOkzAFL+Cl0INrrF36Cb/g996bI3/bXTnPwwK8gbewCEvwDpZhBVaFnl1jLZUr54/wCT7DF9iCr7ANO7AL34R9ucZaqjKvz66xlirW9blMpcg59ZilyDn1mLlyPgutCfuVyPTiyrkNzpXoK0+ml8O8rytT0pxTjodtP5vnwTfnlONh28/medDzk+5lYsm2n7XJlnOsvYxN6uxiw/c8Y8s51l7GJnV2seF7nrHl7LuX8V0zsT0XuT77rhldqXL2le+a0VXrnENk83wamrODnqXn7lSyeW6BM9lBz9JzdypJ5ob03J1KquZhw6yDSM/d9SyfnOvt//jkHGPehNx/XCprPofcf5TM+mpezjFrsSH3HyWzvpqXc9FabCyZ9dW8nIvWYlPpfz8Pxlz7e3LVUKr1I8m5yNq3yVVDqdaPJOcia1+iav38y/M59lxNKeVVzaEiz35NpXrOrLyqOVTk2a+pVM+Zldc/RZOzwqQfAAA=
   </data>
  </layer>
  <objectgroup name="Exit Tiles" width="45" height="45">
   <object name="Exit b" x="1023" y="31" width="33" height="33"/>
   <object name="Exit a" x="512" y="1375" width="159" height="33"/>
   <object name="Exit c" x="223" y="286" width="66" height="33"/>
+ </objectgroup>
+ <objectgroup name="Collision" width="45" height="45">
+  <properties>
+   <property name="wall" value="true"/>
+  </properties>
+  <object x="2" y="3" width="56" height="1439"/>
+  <object x="58" y="1385" width="448" height="52"/>
+  <object x="682" y="1391" width="709" height="45"/>
+  <object x="1383" y="-2" width="56" height="1439"/>
+  <object x="62" y="2" width="952" height="60"/>
+  <object x="1070" y="2" width="356" height="60"/>
+  <object x="816" y="224" width="96" height="124"/>
+  <object x="512" y="104" width="61" height="88"/>
+  <object x="617" y="389" width="45" height="59"/>
+  <object x="132" y="459" width="53" height="49"/>
+  <object x="328" y="578" width="49" height="64"/>
+  <object x="412" y="740" width="71" height="91"/>
+  <object x="233" y="995" width="49" height="61"/>
+  <object x="173" y="1105" width="70" height="62"/>
+  <object x="288" y="1220" width="63" height="90"/>
+  <object x="769" y="1025" width="65" height="93"/>
+  <object x="847" y="686" width="228" height="258"/>
+  <object x="930" y="1223" width="57" height="56"/>
+  <object x="1120" y="1218" width="63" height="94"/>
+  <object x="1266" y="1072" width="65" height="62"/>
+  <object x="1197" y="829" width="95" height="127"/>
+  <object x="1053" y="578" width="64" height="95"/>
+  <object x="1253" y="459" width="53" height="49"/>
+  <object x="691" y="112" width="65" height="62"/>
+  <object x="143" y="137" width="291" height="162"/>
+  <object x="1197" y="126" width="96" height="124"/>
+  <object x="134" y="721" width="53" height="43"/>
+  <object x="110" y="643" width="96" height="76"/>
  </objectgroup>
 </map>

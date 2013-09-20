@@ -22,6 +22,8 @@ import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
+import org.andengine.entity.shape.IAreaShape;
+import org.andengine.entity.shape.Shape;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.tmx.TMXLayer;
 import org.andengine.extension.tmx.TMXLoader;
@@ -37,6 +39,12 @@ import org.andengine.extension.tmx.util.constants.TMXConstants;
 import org.andengine.extension.tmx.TMXLoader.ITMXTilePropertiesListener;
 import org.andengine.extension.tmx.util.exception.TMXLoadException;
 
+import org.andengine.extension.physics.box2d.PhysicsConnector;
+import org.andengine.extension.physics.box2d.PhysicsFactory;
+import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
+import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
+
 import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -46,6 +54,11 @@ import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.Constants;
 import org.andengine.util.color.Color;
 import org.andengine.util.debug.Debug;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 import android.content.res.AssetManager;
 
@@ -84,7 +97,11 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	
 	private boolean mCollide = false;
 	
-	
+	private PlayerDirection playerDirection = PlayerDirection.DOWN;
+	private DigitalOnScreenControl mDigitalOnScreenControl;
+	private Body mPlayerBody;
+	 private PhysicsWorld mPhysicsWorld;
+	 
 	//private BoundCamera camera;
 	private enum PlayerDirection
 	{
@@ -94,9 +111,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
         LEFT,
         RIGHT
 	}
-	private PlayerDirection playerDirection = PlayerDirection.DOWN;
-	private DigitalOnScreenControl mDigitalOnScreenControl;
-	
+
 	public GameScene(final DragonsReignActivity pMain)
 	{
 
@@ -175,6 +190,10 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
     {
 		//camera = new Camera(0,0, ((DragonsReignActivity)activity).CAMERA_WIDTH, ((DragonsReignActivity)activity).CAMERA_HEIGHT);
     	setBackground(new Background(Color.BLACK));
+    	this.mPhysicsWorld = new FixedStepPhysicsWorld(30, new Vector2(0, 0), false, 8, 1);
+    	
+    	this.registerUpdateHandler(this.mPhysicsWorld);
+    	
     	createGameChildScene();
     	mAnimationTiles = new ArrayList<TMXTile>();
 		mChangingTiles = new ArrayList<TMXTile>();
@@ -210,10 +229,10 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 		for (int i = 0; i < this.mTMXTiledMap.getTMXLayers().size(); i++)
 		{
             layer = this.mTMXTiledMap.getTMXLayers().get(i);
-            //if (!layer.getTMXLayerProperties().containsTMXProperty("COLLISION", "true"))
             attachChild(layer);
 		}
 
+		this.createUnwalkableObjects(mTMXTiledMap);
 		
 		
 //		//Get the list of object tiles
@@ -231,14 +250,24 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 		final float centerX = (camera.getWidth() - ResourceManager.getInstance().mPlayerTextureRegion.getWidth()) / 2;
         final float centerY = (camera.getHeight() - ResourceManager.getInstance().mPlayerTextureRegion.getHeight()) / 2;
 	
-        
+        this.addBounds(layer.getWidth(), layer.getHeight());
         /* Create the sprite and add it to the scene. */
-        player = new AnimatedSprite(centerX, centerY, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+        player = new AnimatedSprite(centerX + 50, centerY, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
         camera.setChaseEntity(player);
+        final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 0.5f);
+        mPlayerBody = PhysicsFactory.createBoxBody(this.mPhysicsWorld, player, BodyType.DynamicBody, playerFixtureDef);
+        this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(player, mPlayerBody, true, false){
+                @Override
+                public void onUpdate(float pSecondsElapsed)
+                {
+                        super.onUpdate(pSecondsElapsed);
+                        camera.updateChaseEntity();
+                }
+        });
         physicsHandler = new PhysicsHandler(player);
         player.registerUpdateHandler(physicsHandler);
         attachChild(player);
-        //player.setZIndex(10);
+        player.setZIndex(10);
         
         
         
@@ -295,7 +324,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                         	playerDirection = PlayerDirection.NONE;
                         } 
                     }
-                    physicsHandler.setVelocity(pValueX * 60, pValueY * 60);
+                    mPlayerBody.setLinearVelocity(pValueX * 4, pValueY * 4);
             }
     });
     this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
@@ -369,61 +398,62 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 		return ObjectTile;
 	}
 	
-//	private void createUnwalkableObjects(TMXTiledMap map)
-//    {
-//        // Loop through the object groups
-//         for(final TMXObjectGroup group: this.mTMXTiledMap.getTMXObjectGroups()) 
-//         {
-//             if(group.getTMXObjectGroupProperties().containsTMXProperty("wall", "true"))
-//             {
-//                 // This is our "wall" layer. Create the boxes from it
-//                 for(final TMXObject object : group.getTMXObjects()) 
-//                 {
-//                    final Rectangle rect = new Rectangle(object.getX(), object.getY(),object.getWidth(), object.getHeight(), ((DragonsReignActivity)activity).getVertexBufferObjectManager());
-//                    final FixtureDef boxFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 1f);
-//                    PhysicsFactory.createBoxBody(mPhysicsWorld, rect, BodyType.StaticBody, boxFixtureDef);
-//                    rect.setVisible(false);
-//                    mScene.attachChild(rect);
-//                 }
-//             }
-//         }
-//    }
-	private void getCollisionTiles()
-	{
-		for (int i = 0; i < mTMXTiledMap.getTMXLayers().size(); i++) 
-		{
-			
-			final TMXLayer lTMXLayer = mTMXTiledMap.getTMXLayers().get(i);
-			
-			if(lTMXLayer.getName().contentEquals("Alpha Layer"))
-			{
-				for (int j = 0; j < mCollideTiles.size(); j++) 
-				{
-					for (int k = 0; k < mCollideTiles.get(j).getTMXTileProperties(mTMXTiledMap).size(); k++) 
-					{
-						//The value of the ANIMATE property is the next tile in the sequence
-						if(mCollideTiles.get(j).getTMXTileProperties(mTMXTiledMap).get(k).getName().contentEquals("COLLISION"))
-						{
-							
-					        final TMXTile lCollideTile = mCollideTiles.get(j);
-							//sets the ID to the next tile in that sequence
-					        lCollideTile.setGlobalTileID(mTMXTiledMap, Integer.parseInt(lCollideTile.getTMXTileProperties(mTMXTiledMap).get(k).getValue()));
-														               
-					        final int lTileHeight = mTMXTiledMap.getTileHeight();
-					        final int lTileWidth = mTMXTiledMap.getTileWidth();           
-					        //See TMXLayer Class line 308 (getSpriteBatchIndex)
-					        lTMXLayer.setIndex(lCollideTile.getTileRow() * mTMXTiledMap.getTileColumns() + lCollideTile.getTileColumn());
-					        lTMXLayer.drawWithoutChecks(lCollideTile.getTextureRegion(), lCollideTile.getTileX(), lCollideTile.getTileY(), lTileWidth, lTileHeight, Color.WHITE_ABGR_PACKED_FLOAT);     
-							//This alters the tile texture
-							mTMXTiledMap.getTMXLayers().get(i).submit();								
-						}
-					}
-				}
-				
-			}				
-	}				
-
-}
 	
+    private void createUnwalkableObjects(TMXTiledMap map)
+    {
+    	// Loop through the object groups
+        for(final TMXObjectGroup group: this.mTMXTiledMap.getTMXObjectGroups())
+        {
+                if(group.getTMXObjectGroupProperties().containsTMXProperty("wall", "true")){
+                        // This is our "wall" layer. Create the boxes from it
+                        for(final TMXObject object : group.getTMXObjects()) {
+                               final Rectangle rect = new Rectangle(object.getX(), object.getY(),object.getWidth(), object.getHeight(), ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+                               final FixtureDef boxFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 1f);
+                               PhysicsFactory.createBoxBody(this.mPhysicsWorld, rect, BodyType.StaticBody, boxFixtureDef);
+                               rect.setVisible(false);
+                               this.attachChild(rect);
+                        }
+                }
+        }
+}
+	 private void createWallLayerObjects(ArrayList<TMXObject> objects){
+         
+         // This is our "wall" layer. Create the boxes from it
+         for(final TMXObject object : objects) {
+                
+                 final Rectangle rect = new Rectangle(object.getX(), object.getY(), object.getWidth(), object.getHeight(), ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+                 final FixtureDef boxFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 1f);
+                
+                 Body body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, rect, BodyType.StaticBody, boxFixtureDef);
+                 body.setUserData("wall");
+                
+                 rect.setVisible(false);
+                 this.attachChild(rect);
+         }
+          
+ }
+	
+	 private void addBounds(float width, float height)
+	 {
+         final IAreaShape bottom = new Rectangle(0, height - 2, width, 2, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+         bottom.setVisible(false);
+         final IAreaShape top = new Rectangle(0, 0, width, 2, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+         top.setVisible(false);
+         final IAreaShape left = new Rectangle(0, 0, 2, height, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+         left.setVisible(false);
+         final IAreaShape right = new Rectangle(width - 2, 0, 2, height, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+         right.setVisible(false);
+
+         final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 1f);
+         PhysicsFactory.createBoxBody(this.mPhysicsWorld, bottom, BodyType.StaticBody, wallFixtureDef);
+         PhysicsFactory.createBoxBody(this.mPhysicsWorld, top, BodyType.StaticBody, wallFixtureDef);
+         PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
+         PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
+
+         this.attachChild(bottom);
+         this.attachChild(top);
+         this.attachChild(left);
+         this.attachChild(right);
+ }
     //TODO: Create onPause(), onResume(), 
 }
