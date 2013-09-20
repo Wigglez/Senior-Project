@@ -1,31 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="150" height="150" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" width="90" height="70" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="MountainTileSet" tilewidth="32" tileheight="32">
-  <image source="MountainTileSet.png" trans="ffffff" width="512" height="544"/>
+  <image source="../../Documents/GitHub/Senior-Project/DragonsReign/assets/MountainTileSet.png" trans="ffffff" width="512" height="544"/>
  </tileset>
- <layer name="Sky" width="150" height="150">
-  <data encoding="base64" compression="zlib">
-   eJztwwEJAAAMA6C9wfqnXY+jYC+pqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrqwwO9etZw
+ <layer name="Sky" width="90" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3DAQkAAAwDoL3B+qddjoOCvaSqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq+OZWOE0BwYgAA
   </data>
  </layer>
- <layer name="Ground" width="150" height="150">
-  <data encoding="base64" compression="zlib">
-   eJzt2NttE0EUBuCRCDQQoIEAgbyGa96hAS4NhNAHhAZI6Ag6gA7gPQ9QADPyHmkYrdc2LLCsv4dPlj1HY3n21znrvUgpXQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8By5VdprXvs/btdbOirpYu5xdmcDv58/YrVzN9rPb2cMBUXMnO+jZI+wOrF3LrifZmquh/Bx1hmo2VXIoW/P3aMn1b5W6oYxF79ofqImc6lvz1zfb2iz0ZWTVrKz3OmjWDpK+NXfr9Ko2a21ONnGU+vMV2frX58E4Yr496Ixx/7Qsd/FdrVJ/M7s1gfNg3Fyt02dWzb6h/vQmO02LeRv5rXMmV/Pyu/1p3Wy97USm2mzdy+5P4DwYx6r/g7/6rCFyFO/fV+qZG7l6nD2ZwHkwjqH8vE7rZeg8LfJSZ6rOU11T96zI1MfsefZiAufBONbNzjKnG9aXbEXGPmSfss/ZSfZqAufBON51zlJ/DtpetCwrfTXnA/tFpr5kXydwDozrLP08o+oZ1s6yIXvZjSWipv6uyFTxfQLnwLjiOtdK/1qWnaH8FHd7xFr0qXI/VfL0rSNX87O3gcNOX3ZCW1+vRZ8q91PyNG+Hf0nJVXmW4H5qOzzNnqXF//yx9e2tT22H4+ran4ys7P2y+cyzhO3wA6kCXoE=
+ <layer name="Ground" width="90" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3YT04CMRSA8Rr/XEB04xLxAqjRtegNPIIeVG+AN0D3GHSPr2FImqbttJEyLzPf4pcXmIaQb15IhrUxZg0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgp5aObwXfp2uH4igyU1JnQ5/nOhYnTf+h3INTMYrMlNTZ0Oe5zpzW5qD7BvswruAyMsdN54nXuusG++48DfAbtl3PMRlga7/htcftOQ2cybk3qd5DaZ3bJNTYvzeh6zls63MFLTR0rsnu9ZWCFn3vfCNuFbToe2f2mX3usvOduP/HdfaZfe5zZ/aZfd5lZ/f/B/a5ju0z3LZ37D+g1Ay9V/r83ffOF43Q83PujF0r+d14UtCippl4aMyc1yXTf+9NvGf0tWcexaf4UtCiprn4yJzzwvNt0zZ+Fj/iV0GLmhZms085c1F4vm3axi/iVUGH2lZms085c1V4vm0OpbH1BzuPx49wYgAA
   </data>
  </layer>
- <layer name="Grass" width="150" height="150">
-  <data encoding="base64" compression="zlib">
-   eJztwwEJAAAMBKHrX/rXYyi4aqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqg8fBnWRNg==
+ <layer name="Grass" width="90" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3DAQkAAAwEoetf+pdjoOCqqaqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq+uYBYH0L5nBiAAA=
   </data>
  </layer>
- <layer name="Doodads" width="150" height="150">
-  <data encoding="base64" compression="zlib">
-   eJztwwEJAAAMBKHrX/rXYyi4aqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqg8fBnWRNg==
+ <layer name="Objects" width="90" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3QuQ3AMAwEQdL/13+7MmM1YMGYYIAND9ciogEAAAAAAAAAAAAAAAAAAAAAAAAAADC0PSOOcpar67s8+f3GP8j6cSpzWbpey+ZnAAAG8QK5loZucGIAAA==
   </data>
  </layer>
- <objectgroup name="Collision" width="150" height="150">
+ <objectgroup name="Player_Position" width="90" height="70"/>
+ <objectgroup name="Collision" width="90" height="70">
   <properties>
    <property name="COLLISION" value="true"/>
   </properties>
+  <object x="1076" y="1918" width="242" height="49"/>
+  <object x="207" y="1568" width="772" height="41"/>
+  <object x="195" y="2146" width="831" height="39"/>
+  <object x="933" y="1596" width="71" height="55"/>
+  <object x="995" y="1623" width="71" height="55"/>
+  <object x="1027" y="1665" width="71" height="55"/>
+  <object x="1056" y="1685" width="50" height="232"/>
+  <object x="1072" y="2003" width="39" height="157"/>
+  <object x="1014" y="2113" width="71" height="55"/>
+  <object x="1112" y="2004" width="242" height="49"/>
  </objectgroup>
 </map>
