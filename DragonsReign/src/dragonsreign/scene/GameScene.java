@@ -222,7 +222,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 					}
 	            }
 			});
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/Mountain.tmx");
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/plains.tmx");
 		}
 		catch (final TMXLoadException tmxle)
 		{
@@ -261,7 +261,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
         //////////////////////////////////////////////////////////////////////
         //Creates and Adds the Animated Sprite, Sets Camera Chase Entity
         //////////////////////////////////////////////////////////////////////
-        player = new AnimatedSprite(192, 1920, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+        player = new AnimatedSprite(7 * 32, 56 * 32, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
         camera.setChaseEntity(player);
         final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 0.5f);
         mPlayerBody = PhysicsFactory.createBoxBody(this.mPhysicsWorld, player, BodyType.DynamicBody, playerFixtureDef);
@@ -392,7 +392,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
     //Adds Collision shapes around COLLISION Objects
     //////////////////////////////////////////////////////////////////////
     private void createUnwalkableObjects(TMXTiledMap map)
-    {
+    { 
     	// Loop through the object groups
         for(final TMXObjectGroup group: this.mTMXTiledMap.getTMXObjectGroups())
         {
