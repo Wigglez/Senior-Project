@@ -62,8 +62,6 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	private final int GAME_BACKPACK = 0;
 	private final int GAME_MAP = 1;
 
-
-	private DragonsReignActivity context;
 	private MenuScene gameChildScene;
 	private ScaleMenuItemDecorator backpackHUDItem, mapHUDItem;
 
@@ -84,7 +82,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	
 	private float lastPlayerX;
 	
-	private boolean mCollide;
+	private boolean mCollide = false;
 	
 	
 	//private BoundCamera camera;
@@ -101,11 +99,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	
 	public GameScene(final DragonsReignActivity pMain)
 	{
-		this.context = pMain;
-        if(context == null)
-        {
-        	Debug.e("Contex is null");
-        }
+
         
 	}
 	
@@ -198,15 +192,15 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 					for (int i = 0; i < pTMXTileProperties.size(); i++) 
 					{
 						
-//						if(pTMXTileProperties.get(i).getName().contentEquals("COLLISION"))
-//						{
-//							mCollideTiles.add(pTMXTile);
-//						}
+						if(pTMXTileProperties.get(i).getName().contentEquals("COLLISION") && pTMXLayer.getName().contentEquals("Alpha Layer"))
+						{
+							mCollideTiles.add(pTMXTile);
+						}
 							
 					}
 	            }
 			});
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/desert2.tmx");
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/village.tmx");
 		}
 		catch (final TMXLoadException tmxle)
 		{
@@ -216,7 +210,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 		for (int i = 0; i < this.mTMXTiledMap.getTMXLayers().size(); i++)
 		{
             layer = this.mTMXTiledMap.getTMXLayers().get(i);
-            if (!layer.getTMXLayerProperties().containsTMXProperty("COLLISION", "true"))
+            //if (!layer.getTMXLayerProperties().containsTMXProperty("COLLISION", "true"))
             attachChild(layer);
 		}
 
@@ -244,7 +238,8 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
         physicsHandler = new PhysicsHandler(player);
         player.registerUpdateHandler(physicsHandler);
         attachChild(player);
-        //player.setZIndex(10); 
+        //player.setZIndex(10);
+        
         
         
         mDigitalOnScreenControl = new DigitalOnScreenControl(0, ((DragonsReignActivity)activity).CAMERA_HEIGHT - ResourceManager.getInstance().DPADBacking.getHeight(), this.camera, ResourceManager.getInstance().DPADBacking, ResourceManager.getInstance().DPADKnob, 0.1f, ((DragonsReignActivity)activity).getVertexBufferObjectManager(), new IOnScreenControlListener() 
@@ -279,10 +274,12 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                             // Right
                             if (playerDirection != PlayerDirection.RIGHT)
                             {
+                           
                             	player.animate(new long[]{200, 200, 200}, 9, 11, true);
                             	playerDirection = PlayerDirection.RIGHT;
+                            	
                             }
-                    }else if (mTMXTiledMap.getTMXLayers().get(0).getLocalToSceneTransformation().equals(player.getX()) == mTMXTiledMap.getTMXLayers().get(0).getTMXLayerProperties().containsTMXProperty("COLLIDE", "true"))
+                    }else if (mTMXTiledMap.getTMXLayers().get(0).getLocalToSceneTransformation().equals(player.getX()) == mTMXTiledMap.getTMXLayers().get(0).getTMXLayerProperties().containsTMXProperty("COLLISION", "true"))
                     {
                     	if (player.isAnimationRunning())
                         {   
@@ -372,8 +369,61 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 		return ObjectTile;
 	}
 	
-	
+//	private void createUnwalkableObjects(TMXTiledMap map)
+//    {
+//        // Loop through the object groups
+//         for(final TMXObjectGroup group: this.mTMXTiledMap.getTMXObjectGroups()) 
+//         {
+//             if(group.getTMXObjectGroupProperties().containsTMXProperty("wall", "true"))
+//             {
+//                 // This is our "wall" layer. Create the boxes from it
+//                 for(final TMXObject object : group.getTMXObjects()) 
+//                 {
+//                    final Rectangle rect = new Rectangle(object.getX(), object.getY(),object.getWidth(), object.getHeight(), ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+//                    final FixtureDef boxFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 1f);
+//                    PhysicsFactory.createBoxBody(mPhysicsWorld, rect, BodyType.StaticBody, boxFixtureDef);
+//                    rect.setVisible(false);
+//                    mScene.attachChild(rect);
+//                 }
+//             }
+//         }
+//    }
+	private void getCollisionTiles()
+	{
+		for (int i = 0; i < mTMXTiledMap.getTMXLayers().size(); i++) 
+		{
+			
+			final TMXLayer lTMXLayer = mTMXTiledMap.getTMXLayers().get(i);
+			
+			if(lTMXLayer.getName().contentEquals("Alpha Layer"))
+			{
+				for (int j = 0; j < mCollideTiles.size(); j++) 
+				{
+					for (int k = 0; k < mCollideTiles.get(j).getTMXTileProperties(mTMXTiledMap).size(); k++) 
+					{
+						//The value of the ANIMATE property is the next tile in the sequence
+						if(mCollideTiles.get(j).getTMXTileProperties(mTMXTiledMap).get(k).getName().contentEquals("COLLISION"))
+						{
+							
+					        final TMXTile lCollideTile = mCollideTiles.get(j);
+							//sets the ID to the next tile in that sequence
+					        lCollideTile.setGlobalTileID(mTMXTiledMap, Integer.parseInt(lCollideTile.getTMXTileProperties(mTMXTiledMap).get(k).getValue()));
+														               
+					        final int lTileHeight = mTMXTiledMap.getTileHeight();
+					        final int lTileWidth = mTMXTiledMap.getTileWidth();           
+					        //See TMXLayer Class line 308 (getSpriteBatchIndex)
+					        lTMXLayer.setIndex(lCollideTile.getTileRow() * mTMXTiledMap.getTileColumns() + lCollideTile.getTileColumn());
+					        lTMXLayer.drawWithoutChecks(lCollideTile.getTextureRegion(), lCollideTile.getTileX(), lCollideTile.getTileY(), lTileWidth, lTileHeight, Color.WHITE_ABGR_PACKED_FLOAT);     
+							//This alters the tile texture
+							mTMXTiledMap.getTMXLayers().get(i).submit();								
+						}
+					}
+				}
+				
+			}				
+	}				
 
+}
 	
     //TODO: Create onPause(), onResume(), 
 }
