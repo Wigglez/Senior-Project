@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="90" height="70" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="MountainTileSet" tilewidth="32" tileheight="32">
-  <image source="MountainTileSet.png" trans="ffffff" width="512" height="544"/>
+  <image source="../../Documents/GitHub/Senior-Project/DragonsReign/assets/MountainTileSet.png" trans="ffffff" width="512" height="544"/>
  </tileset>
  <layer name="Sky" width="90" height="70">
   <data encoding="base64" compression="gzip">
@@ -25,6 +25,9 @@
  </layer>
  <objectgroup name="Player_Position" width="90" height="70"/>
  <objectgroup name="Collision" width="90" height="70">
+  <properties>
+   <property name="COLLISION" value="true"/>
+  </properties>
   <object x="1076" y="1918" width="242" height="49"/>
   <object x="207" y="1568" width="772" height="41"/>
   <object x="195" y="2146" width="831" height="39"/>
