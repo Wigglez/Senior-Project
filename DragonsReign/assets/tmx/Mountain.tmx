@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="90" height="70" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="MountainTileSet" tilewidth="32" tileheight="32">
+  <image source="../../Documents/GitHub/Senior-Project/DragonsReign/assets/MountainTileSet.png" trans="ffffff" width="512" height="544"/>
+ </tileset>
+ <layer name="Sky" width="90" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3DAQkAAAwDoL3B+qddjoOCvaSqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq+OZWOE0BwYgAA
+  </data>
+ </layer>
+ <layer name="Ground" width="90" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3YT04CMRSA8Rr/XEB04xLxAqjRtegNPIIeVG+AN0D3GHSPr2FImqbttJEyLzPf4pcXmIaQb15IhrUxZg0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgp5aObwXfp2uH4igyU1JnQ5/nOhYnTf+h3INTMYrMlNTZ0Oe5zpzW5qD7BvswruAyMsdN54nXuusG++48DfAbtl3PMRlga7/htcftOQ2cybk3qd5DaZ3bJNTYvzeh6zls63MFLTR0rsnu9ZWCFn3vfCNuFbToe2f2mX3usvOduP/HdfaZfe5zZ/aZfd5lZ/f/B/a5ju0z3LZ37D+g1Ay9V/r83ffOF43Q83PujF0r+d14UtCippl4aMyc1yXTf+9NvGf0tWcexaf4UtCiprn4yJzzwvNt0zZ+Fj/iV0GLmhZms085c1F4vm3axi/iVUGH2lZms085c1V4vm0OpbH1BzuPx49wYgAA
+  </data>
+ </layer>
+ <layer name="Grass" width="90" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3DAQkAAAwEoetf+pdjoOCqqaqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq+uYBYH0L5nBiAAA=
+  </data>
+ </layer>
+ <layer name="Objects" width="90" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3QuQ3AMAwEQdL/13+7MmM1YMGYYIAND9ciogEAAAAAAAAAAAAAAAAAAAAAAAAAADC0PSOOcpar67s8+f3GP8j6cSpzWbpey+ZnAAAG8QK5loZucGIAAA==
+  </data>
+ </layer>
+</map>
