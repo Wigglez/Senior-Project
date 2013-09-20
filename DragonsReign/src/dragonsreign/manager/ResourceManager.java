@@ -61,7 +61,8 @@ public class ResourceManager
     					  skillOneButton, skillTwoButton,
     					  skillThreeButton, skillFourButton, skillFiveButton,
     					  teamMember1, teamMember2, teamMember3, enemy1, enemy2, enemy3, 
-    					  warriorPlayer, DPADBacking, DPADKnob;
+    					  warriorPlayer, DPADBacking, DPADKnob, leftArrow1, leftArrow2, leftArrow3,
+    					  rightArrow1, rightArrow2, rightArrow3;
     
     
     public Font font, battleFont, inventoryFont;
@@ -369,7 +370,12 @@ public class ResourceManager
     	enemy1 = texturePackLibrary.get(BattleAssets.ENEMY_ID);
     	enemy2 = texturePackLibrary.get(BattleAssets.ENEMY_ID);
     	enemy3 = texturePackLibrary.get(BattleAssets.ENEMY_ID);
-    	
+    	rightArrow1 = texturePackLibrary.get(BattleAssets.RIGHTARROW_ID);
+    	rightArrow2 = texturePackLibrary.get(BattleAssets.RIGHTARROW_ID);
+    	rightArrow3 = texturePackLibrary.get(BattleAssets.RIGHTARROW_ID);
+    	leftArrow1 = texturePackLibrary.get(BattleAssets.LEFTARROW_ID);
+    	leftArrow2 = texturePackLibrary.get(BattleAssets.LEFTARROW_ID);
+    	leftArrow3 = texturePackLibrary.get(BattleAssets.LEFTARROW_ID);
     	
     }
     
