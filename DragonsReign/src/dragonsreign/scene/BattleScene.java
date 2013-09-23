@@ -346,12 +346,12 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Set Team Member and Enemy Positions
 		/////////////////////////////////////////////////////////////////////////////////////
-		teamMember1.setPosition(150, 0);
-		teamMember2.setPosition(150, 100);		
-		teamMember3.setPosition(150, 200);
-		enemy1.setPosition(650, 0);
-		enemy2.setPosition(650, 100);
-		enemy3.setPosition(650, 200);
+		teamMember1.setPosition(125, 0);//150
+		teamMember2.setPosition(125, 100);		
+		teamMember3.setPosition(125, 200);
+		enemy1.setPosition(600, 0);//650
+		enemy2.setPosition(600, 100);
+		enemy3.setPosition(600, 200);
 		
 		leftArrow1.setPosition(225, 25);
 		leftArrow1.setVisible(false);
@@ -370,41 +370,41 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		////////////////////////////////////////////////////////////////////////////////////
 		//Text positions
 		////////////////////////////////////////////////////////////////////////////////////
-		teamMember1Name.setPosition(30, 10);
-		teamMember1Lvl.setPosition(80, 10);
-		teamMember1CurrentHp.setPosition(50, 40); 
-		teamMember1MaxHp.setPosition(100, 40);
-		teamMember1CurrentRes.setPosition(50, 70);
-		teamMember1MaxRes.setPosition(100, 70); 
+		teamMember1Name.setPosition(0, 10);//30,10
+		teamMember1Lvl.setPosition(50, 10);//80,10
+		teamMember1CurrentHp.setPosition(0, 40); //50,40
+		teamMember1MaxHp.setPosition(50, 40);//100,40
+		teamMember1CurrentRes.setPosition(0, 70);//50,70
+		teamMember1MaxRes.setPosition(50, 70); //100,70
 		
-		teamMember2Name.setPosition(30, 110);
-		teamMember2Lvl.setPosition(80, 110);
-		teamMember2CurrentHp.setPosition(50, 140);
-		teamMember2MaxHp.setPosition(100, 140);
-		teamMember2CurrentRes.setPosition(50, 170);
-		teamMember2MaxRes.setPosition(100, 170); 
+		teamMember2Name.setPosition(0, 110);
+		teamMember2Lvl.setPosition(50, 110);
+		teamMember2CurrentHp.setPosition(0, 140);
+		teamMember2MaxHp.setPosition(50, 140);
+		teamMember2CurrentRes.setPosition(0, 170);
+		teamMember2MaxRes.setPosition(50, 170); 
 		
-		teamMember3Name.setPosition(30, 210);
-		teamMember3Lvl.setPosition(80, 210);
-		teamMember3CurrentHp.setPosition(50, 240);
-		teamMember3MaxHp.setPosition(100, 240); 
-		teamMember3CurrentRes.setPosition(50, 270); 
-		teamMember3MaxRes.setPosition(100, 270); 
+		teamMember3Name.setPosition(0, 210);
+		teamMember3Lvl.setPosition(50, 210);
+		teamMember3CurrentHp.setPosition(0, 240);
+		teamMember3MaxHp.setPosition(50, 240); 
+		teamMember3CurrentRes.setPosition(0, 270); 
+		teamMember3MaxRes.setPosition(50, 270); 
 		
-		enemy1Name.setPosition(710, 10);
-		enemy1Lvl.setPosition(780, 10);
-		enemy1CurrentHp.setPosition(730, 40);
-		enemy1MaxHp.setPosition(780, 40); 
+		enemy1Name.setPosition(650, 10);
+		enemy1Lvl.setPosition(720, 10);
+		enemy1CurrentHp.setPosition(650, 40);
+		enemy1MaxHp.setPosition(720, 40); 
 		
-		enemy2Name.setPosition(710, 110);
-		enemy2Lvl.setPosition(780, 110);
-		enemy2CurrentHp.setPosition(730, 140);
-		enemy2MaxHp.setPosition(780, 140); 
+		enemy2Name.setPosition(650, 110);
+		enemy2Lvl.setPosition(720, 110);
+		enemy2CurrentHp.setPosition(650, 140);
+		enemy2MaxHp.setPosition(720, 140); 
 		
-		enemy3Name.setPosition(710, 210);
-		enemy3Lvl.setPosition(780, 210);
-		enemy3CurrentHp.setPosition(730, 240); 
-		enemy3MaxHp.setPosition(780, 240); 
+		enemy3Name.setPosition(650, 210);
+		enemy3Lvl.setPosition(720, 210);
+		enemy3CurrentHp.setPosition(650, 240); 
+		enemy3MaxHp.setPosition(720, 240); 
 		 
 		
 		
