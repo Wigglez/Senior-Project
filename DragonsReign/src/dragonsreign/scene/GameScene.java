@@ -61,6 +61,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import dragonsreign.scene.BaseScene;
 import dragonsreign.manager.ResourceManager;
@@ -76,7 +77,8 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 
 	private MenuScene gameChildScene;
 	private ScaleMenuItemDecorator backpackHUDItem, mapHUDItem;
-
+	private int PLAYER_VELOCITY = 2;
+	
 	public TMXLayer mTMXMapTouchLayer;
 	private TMXLoader TMXloader;
 	private TMXTiledMap mTMXTiledMap;
@@ -96,7 +98,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	
 	private boolean mCollide = false;
 	
-	private PlayerDirection playerDirection = PlayerDirection.DOWN;
+	
 	public static DigitalOnScreenControl mDigitalOnScreenControl;
 	private Body mPlayerBody;
 	 private PhysicsWorld mPhysicsWorld;
@@ -110,7 +112,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
         LEFT,
         RIGHT
 	}
-
+	private PlayerDirection playerDirection = PlayerDirection.UP;
 	public GameScene()
 	{
 	
@@ -281,6 +283,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                         camera.updateChaseEntity();
                 }
         });
+        
         physicsHandler = new PhysicsHandler(player);
         player.registerUpdateHandler(physicsHandler);
         attachChild(player);
@@ -362,15 +365,6 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                             	playerDirection = PlayerDirection.RIGHT;
                             	
                             }
-                    }else if (mTMXTiledMap.getTMXLayers().get(0).getLocalToSceneTransformation().equals(player.getX()) == mTMXTiledMap.getTMXLayers().get(0).getTMXLayerProperties().containsTMXProperty("COLLISION", "true"))
-                    {
-                    	if (player.isAnimationRunning())
-                        {   
-                    		
-                        	player.stopAnimation();
-                        	playerDirection = PlayerDirection.NONE;
-                        }
-                    	
                     }else{
                     	if (player.isAnimationRunning())
                         {   
@@ -378,7 +372,16 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                         	playerDirection = PlayerDirection.NONE;
                         } 
                     }
-                    mPlayerBody.setLinearVelocity(pValueX * 4, pValueY * 4);
+                    
+                    if(player.getX() >= 576 && player.getX() <= 736 && player.getY() <= 672 && player.getY() >= 576)
+                    {
+                    	PLAYER_VELOCITY = 4;
+                    	Log.e("Collision Box", "You are in the Box. Player Velcocity = " + PLAYER_VELOCITY);
+
+                    }
+                    Log.e("Player position", "X:" + player.getX() + " Y: " + player.getY());
+                    mPlayerBody.setLinearVelocity(pValueX * PLAYER_VELOCITY, pValueY * PLAYER_VELOCITY);
+                    
             }
         });
 	    this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
