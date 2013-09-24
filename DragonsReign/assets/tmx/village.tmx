@@ -142,7 +142,7 @@
   </properties>
   <object name="Exit b" x="1023" y="31" width="33" height="33"/>
   <object name="Exit a" x="512" y="1375" width="159" height="33"/>
-  <object name="Exit c" x="223" y="286" width="66" height="33"/>
+  <object name="Exit c" x="345" y="411" width="66" height="33"/>
  </objectgroup>
  <objectgroup name="Collision" width="45" height="45">
   <properties>

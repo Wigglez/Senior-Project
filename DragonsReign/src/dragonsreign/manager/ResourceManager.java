@@ -62,7 +62,7 @@ public class ResourceManager
     					  skillThreeButton, skillFourButton, skillFiveButton,
     					  teamMember1, teamMember2, teamMember3, enemy1, enemy2, enemy3, 
     					  warriorPlayer, DPADBacking, DPADKnob, leftArrow1, leftArrow2, leftArrow3,
-    					  rightArrow1, rightArrow2, rightArrow3;
+    					  rightArrow1, rightArrow2, rightArrow3, Up_DPAD, Down_DPAD, Left_DPAD, Right_DPAD, Center_DPAD;
     
     
     public Font font, battleFont, inventoryFont;
@@ -225,6 +225,13 @@ public class ResourceManager
     	
     	warriorPlayer = texturePackLibrary.get(GameAssets.HERO_ID);
     
+    	
+    	Up_DPAD = texturePackLibrary.get(GameAssets.UP_DPAD_ID);
+    	Down_DPAD = texturePackLibrary.get(GameAssets.DOWN_DPAD_ID);
+    	Left_DPAD = texturePackLibrary.get(GameAssets.LEFT_DPAD_ID);
+    	Right_DPAD = texturePackLibrary.get(GameAssets.RIGHT_DPAD_ID);
+    	Center_DPAD = texturePackLibrary.get(GameAssets.CENTER_DPAD_ID);
+    	 
     	DPADBacking = texturePackLibrary.get(GameAssets.ONSCREEN_CONTROL_BASE_ID);
     	
     	DPADKnob = texturePackLibrary.get(GameAssets.ONSCREEN_CONTROL_KNOB_ID);
