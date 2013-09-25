@@ -18,6 +18,11 @@ import org.andengine.util.HorizontalAlign;
 import org.andengine.util.color.Color;
 
 import dragonsreign.scene.BaseScene;
+import dragonsreign.util.BattleCharacterContainer;
+import dragonsreign.util.enums.ENEMIES;
+import dragonsreign.character.Enemy;
+import dragonsreign.character.characterclass.ClericClass;
+import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
@@ -27,7 +32,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 
 	
 	private MenuScene battleMenuChildScene, abilitiesChildScene, itemsChildScene;
-	private Rectangle character1HealthBar, character2HealthBar;
+	private BattleCharacterContainer partyMem1, partyMem2, partyMem3, enemyPlyr1, enemyPlyr2, enemyPlyr3;
 
 	private Sprite teamMember1, teamMember2, teamMember3, enemy1, enemy2, enemy3,  leftArrow1, leftArrow2, leftArrow3,
 	  rightArrow1, rightArrow2, rightArrow3;
@@ -43,10 +48,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	 			 basicAttackText, skillOneText, skillTwoText,
 	 			 skillThreeText, skillFourText,skillFiveText,
 	 			 item1Text,item2Text, item3Text, item4Text,
-	 			 item5Text, item6Text, teamMember1CurrentHp, teamMember2CurrentHp, teamMember3CurrentHp, enemy1CurrentHp, enemy2CurrentHp, enemy3CurrentHp,
-	 			teamMember1MaxHp, teamMember2MaxHp, teamMember3MaxHp, enemy1MaxHp, enemy2MaxHp, enemy3MaxHp, teamMember1CurrentRes, teamMember2CurrentRes,
-	 			teamMember3CurrentRes, teamMember1MaxRes, teamMember2MaxRes, teamMember3MaxRes, teamMember1Name, teamMember2Name, teamMember3Name, enemy1Name,
-	 			enemy2Name, enemy3Name, teamMember1Lvl, teamMember2Lvl, teamMember3Lvl, enemy1Lvl, enemy2Lvl, enemy3Lvl;
+	 			 item5Text, item6Text, teamMember1Info, teamMember2Info, teamMember3Info, enemy1Info, enemy2Info, enemy3Info;
+	
 	private BoundCamera mcamera;
 	
 	private enum BUTTONS
@@ -112,8 +115,26 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		
 		
 		/////////////////////////////////////////////////////////////////////////////////////
+		//Create Players of the battle
+		/////////////////////////////////////////////////////////////////////////////////////		
+		partyMem1 = new BattleCharacterContainer(new WarriorClass());
+		partyMem2 = new BattleCharacterContainer(new RangerClass());
+		partyMem3 = new BattleCharacterContainer(new ClericClass());
+		
+		int totalHealth = partyMem1.getMaxHealth() + partyMem2.getMaxHealth() + partyMem3.getMaxHealth();
+		int totalDmg = partyMem1.getCharacter().getCurrentStats().getDamage() + partyMem2.getCharacter().getCurrentStats().getDamage() + partyMem1.getCharacter().getCurrentStats().getDamage();
+		int totalArmor = partyMem1.getCharacter().getCurrentStats().getArmor() + partyMem2.getCharacter().getCurrentStats().getArmor() + partyMem3.getCharacter().getCurrentStats().getArmor();
+		int plyrLvl = partyMem1.getLevel();
+		
+		enemyPlyr1 = new BattleCharacterContainer(new Enemy(plyrLvl, totalHealth, totalDmg, totalArmor, ENEMIES.values()[0]));
+		enemyPlyr2 = new BattleCharacterContainer(new Enemy(plyrLvl, totalHealth, totalDmg, totalArmor, ENEMIES.values()[0]));
+		enemyPlyr3 = new BattleCharacterContainer(new Enemy(plyrLvl, totalHealth, totalDmg, totalArmor, ENEMIES.values()[0]));//ENEMIES.ENEMY_TRIBESMAN));
+		
+		/////////////////////////////////////////////////////////////////////////////////////
 		//Create Player and Enemy Sprites
 		/////////////////////////////////////////////////////////////////////////////////////
+		
+		//teamMember1 = partyMem1.getCharacter().getSprite();
 		teamMember1 = new Sprite(0, 0, resourcesManager.teamMember1, this.engine.getVertexBufferObjectManager()){
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
@@ -135,6 +156,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
            
             }
         };
+        
+      //teamMember2 = partyMem2.getCharacter().getSprite();
 		teamMember2 = new Sprite(0, 0, resourcesManager.teamMember2, this.engine.getVertexBufferObjectManager()){
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
@@ -154,6 +177,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
            
             }
         };
+        
+      //teamMember3 = partyMem3.getCharacter().getSprite();
 		teamMember3 = new Sprite(0, 0, resourcesManager.teamMember3, this.engine.getVertexBufferObjectManager()){
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
@@ -174,6 +199,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
            
             }
         };
+        
+      //enemy1 = enemyPlyr1.getCharacter().getSprite();
 		enemy1 = new Sprite(0, 0, resourcesManager.enemy1, this.engine.getVertexBufferObjectManager()){
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
@@ -194,6 +221,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
            
             }
         };
+        
+      //enemy2 = enemyPlyr2.getCharacter().getSprite();
 		enemy2 = new Sprite(0, 0, resourcesManager.enemy2, this.engine.getVertexBufferObjectManager()){
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
@@ -214,6 +243,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
            
             }
         };
+        
+      //enemy3 = enemyPlyr3.getCharacter().getSprite();
 		enemy3 = new Sprite(0, 0, resourcesManager.enemy3, this.engine.getVertexBufferObjectManager()){
             @Override
             public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
@@ -248,110 +279,31 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		rightArrow3 = new Sprite(0, 0, resourcesManager.rightArrow3, this.engine.getVertexBufferObjectManager());
 		
 		//TODO add names and levels to each
-		teamMember1Name = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember1Name.setText("Warrior ");
-		teamMember1Name.setScale((float) 0.5);
-		teamMember1Lvl = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember1Lvl.setText(" Lvl: 1");
-		teamMember1Lvl.setScale((float) 0.5);
-		teamMember1CurrentHp = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember1CurrentHp.setText("100 /");
-		teamMember1CurrentHp.setScale((float).5);
-		teamMember1MaxHp = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember1MaxHp.setText("160");
-		teamMember1MaxHp.setScale((float).5);
-		teamMember1CurrentRes = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember1CurrentRes.setText("100 /");
-		teamMember1CurrentRes.setScale((float).5);
-		teamMember1MaxRes = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember1MaxRes.setText("100");
-		teamMember1MaxRes.setScale((float).5);
-				
-		teamMember2Name = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember2Name.setText(" Cleric");
-		teamMember2Name.setScale((float) 0.5);
-		teamMember2Lvl = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember2Lvl.setText("Lvl: 1");
-		teamMember2Lvl.setScale((float) 0.5);
-		teamMember2CurrentHp = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember2CurrentHp.setText("100 /");
-		teamMember2CurrentHp.setScale((float) 0.5);
-		teamMember2MaxHp = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember2MaxHp.setText("160");
-		teamMember2MaxHp.setScale((float) 0.5);
-		teamMember2CurrentRes = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember2CurrentRes.setText("100 /");
-		teamMember2CurrentRes.setScale((float) 0.5);
-		teamMember2MaxRes = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember2MaxRes.setText("100");
-		teamMember2MaxRes.setScale((float) 0.5);
+		teamMember1Info = new Text(15,-10, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
+		teamMember1Info.setScale(.66f);
+		teamMember2Info = new Text(15,90, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
+		teamMember2Info.setScale(.66f);
+		teamMember3Info = new Text(15,190, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
+		teamMember3Info.setScale(.66f);
 		
-		teamMember3Name = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember3Name.setText("Ranger ");
-		teamMember3Name.setScale((float) 0.5);
-		teamMember3Lvl = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember3Lvl.setText(" Lvl: 1");
-		teamMember3Lvl.setScale((float) 0.5);
-		teamMember3CurrentHp = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember3CurrentHp.setText("100 /");
-		teamMember3CurrentHp.setScale((float) 0.5);
-		teamMember3MaxHp = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember3MaxHp.setText("160");
-		teamMember3MaxHp.setScale((float) 0.5);
-		teamMember3CurrentRes = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember3CurrentRes.setText("100 /");
-		teamMember3CurrentRes.setScale((float) 0.5);
-		teamMember3MaxRes = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		teamMember3MaxRes.setText("100");
-		teamMember3MaxRes.setScale((float) 0.5);
+		enemy1Info = new Text(650,10, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.LEFT), vbom);
+		enemy1Info.setScale(.66f);
+		enemy2Info = new Text(650,110, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.LEFT), vbom);
+		enemy2Info.setScale(.66f);
+		enemy3Info = new Text(650,210, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.LEFT), vbom);
+		enemy3Info.setScale(.66f);
 		
-		enemy1Name = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		enemy1Name.setText("Enemy 1 ");
-		enemy1Name.setScale((float) 0.5);
-		enemy1Lvl = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		enemy1Lvl.setText("Lvl: 1");
-		enemy1Lvl.setScale((float) 0.5);
-		enemy1CurrentHp = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		enemy1CurrentHp.setText("100 /");
-		enemy1CurrentHp.setScale((float) 0.5);
-		enemy1MaxHp = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		enemy1MaxHp.setText("170");
-		enemy1MaxHp.setScale((float) 0.5);
+		updateInfoText();
 		
-		enemy2Name = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		enemy2Name.setText("Enemy 2 ");
-		enemy2Name.setScale((float) 0.5);
-		enemy2Lvl = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		enemy2Lvl.setText("Lvl: 1");
-		enemy2Lvl.setScale((float) 0.5);
-		enemy2CurrentHp = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		enemy2CurrentHp.setText("100 /");
-		enemy2CurrentHp.setScale((float) 0.5);
-		enemy2MaxHp = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		enemy2MaxHp.setText("170");
-		enemy2MaxHp.setScale((float) 0.5);
-		
-		enemy3Name = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		enemy3Name.setText("Enemy 3 ");
-		enemy3Name.setScale((float) 0.5);
-		enemy3Lvl = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		enemy3Lvl.setText("Lvl: 1");
-		enemy3Lvl.setScale((float) 0.5);
-		enemy3CurrentHp = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		enemy3CurrentHp.setText("100 /");
-		enemy3CurrentHp.setScale((float) 0.5);
-		enemy3MaxHp = new Text(0,0, resourcesManager.battleFont, "", 150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		enemy3MaxHp.setText("170");
-		enemy3MaxHp.setScale((float) 0.5);
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Set Team Member and Enemy Positions
 		/////////////////////////////////////////////////////////////////////////////////////
 		teamMember1.setPosition(125, 0);//150
 		teamMember2.setPosition(125, 100);		
 		teamMember3.setPosition(125, 200);
-		enemy1.setPosition(600, 0);//650
-		enemy2.setPosition(600, 100);
-		enemy3.setPosition(600, 200);
+		enemy1.setPosition(578, 0);//650
+		enemy2.setPosition(578, 100);
+		enemy3.setPosition(578, 200);
 		
 		leftArrow1.setPosition(225, 25);
 		leftArrow1.setVisible(false);
@@ -360,59 +312,12 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		leftArrow3.setPosition(225, 225);
 		leftArrow3.setVisible(false);
 		
-		rightArrow1.setPosition(575, 25);
+		rightArrow1.setPosition(511, 25);
 		rightArrow1.setVisible(false);
-		rightArrow2.setPosition(575, 125);
+		rightArrow2.setPosition(511, 125);
 		rightArrow2.setVisible(false);
-		rightArrow3.setPosition(575, 225);
+		rightArrow3.setPosition(511, 225);
 		rightArrow3.setVisible(false);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Text positions
-		////////////////////////////////////////////////////////////////////////////////////
-		teamMember1Name.setPosition(0, 10);//30,10
-		teamMember1Lvl.setPosition(50, 10);//80,10
-		teamMember1CurrentHp.setPosition(0, 40); //50,40
-		teamMember1MaxHp.setPosition(50, 40);//100,40
-		teamMember1CurrentRes.setPosition(0, 70);//50,70
-		teamMember1MaxRes.setPosition(50, 70); //100,70
-		
-		teamMember2Name.setPosition(0, 110);
-		teamMember2Lvl.setPosition(50, 110);
-		teamMember2CurrentHp.setPosition(0, 140);
-		teamMember2MaxHp.setPosition(50, 140);
-		teamMember2CurrentRes.setPosition(0, 170);
-		teamMember2MaxRes.setPosition(50, 170); 
-		
-		teamMember3Name.setPosition(0, 210);
-		teamMember3Lvl.setPosition(50, 210);
-		teamMember3CurrentHp.setPosition(0, 240);
-		teamMember3MaxHp.setPosition(50, 240); 
-		teamMember3CurrentRes.setPosition(0, 270); 
-		teamMember3MaxRes.setPosition(50, 270); 
-		
-		enemy1Name.setPosition(650, 10);
-		enemy1Lvl.setPosition(720, 10);
-		enemy1CurrentHp.setPosition(650, 40);
-		enemy1MaxHp.setPosition(720, 40); 
-		
-		enemy2Name.setPosition(650, 110);
-		enemy2Lvl.setPosition(720, 110);
-		enemy2CurrentHp.setPosition(650, 140);
-		enemy2MaxHp.setPosition(720, 140); 
-		
-		enemy3Name.setPosition(650, 210);
-		enemy3Lvl.setPosition(720, 210);
-		enemy3CurrentHp.setPosition(650, 240); 
-		enemy3MaxHp.setPosition(720, 240); 
-		 
-		
-		
-		 
-		
-		
-		
-		
 		
 		////////////////////////////////////////////////////////////////////////////////////
 		//Register the Touch Areas
@@ -441,42 +346,13 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		attachChild(rightArrow2);
 		attachChild(rightArrow3);
 		
-		attachChild(teamMember1Name);
-		attachChild(teamMember1Lvl);
-		attachChild(teamMember1CurrentHp);
-		attachChild(teamMember1MaxHp);
-		attachChild(teamMember1CurrentRes);
-		attachChild(teamMember1MaxRes);
+		attachChild(teamMember1Info);
+		attachChild(teamMember2Info);
+		attachChild(teamMember3Info);
 		
-		attachChild(teamMember2Name);
-		attachChild(teamMember2Lvl);
-		attachChild(teamMember2CurrentHp);
-		attachChild(teamMember2MaxHp);
-		attachChild(teamMember2CurrentRes);
-		attachChild(teamMember2MaxRes);
-		
-		attachChild(teamMember3Name);
-		attachChild(teamMember3Lvl);
-		attachChild(teamMember3CurrentHp);
-		attachChild(teamMember3MaxHp);
-		attachChild(teamMember3CurrentRes);
-		attachChild(teamMember3MaxRes);
-		
-		attachChild(enemy1Name);
-		attachChild(enemy1Lvl);
-		attachChild(enemy1CurrentHp);
-		attachChild(enemy1MaxHp);
-		
-		attachChild(enemy2Name);
-		attachChild(enemy2Lvl);
-		attachChild(enemy2CurrentHp);
-		attachChild(enemy2MaxHp);
-		
-		attachChild(enemy3Name);
-		attachChild(enemy3Lvl);
-		attachChild(enemy3CurrentHp);
-		attachChild(enemy3MaxHp);
-		
+		attachChild(enemy1Info);
+		attachChild(enemy2Info);
+		attachChild(enemy3Info);
 		
 		
 		/////////////////////////////////////////////////////////////////////////////////////
@@ -788,6 +664,18 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	public void disposeScene() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void updateInfoText(){
+		
+		teamMember1Info.setText(partyMem1.getName() + "\nLvl: " + partyMem1.getLevel() + "\n" + partyMem1.getCurrentHealth() + " / " + partyMem1.getMaxHealth() + "\n" + partyMem1.getCurrentResource() + " / " + partyMem1.getMaxResource());
+		teamMember2Info.setText(partyMem2.getName() + "\nLvl: " + partyMem2.getLevel() + "\n" + partyMem2.getCurrentHealth() + " / " + partyMem2.getMaxHealth() + "\n" + partyMem2.getCurrentResource() + " / " + partyMem2.getMaxResource());
+		teamMember3Info.setText(partyMem3.getName() + "\nLvl: " + partyMem3.getLevel() + "\n" + partyMem3.getCurrentHealth() + " / " + partyMem3.getMaxHealth() + "\n" + partyMem3.getCurrentResource() + " / " + partyMem3.getMaxResource());
+
+		enemy1Info.setText(enemyPlyr1.getName() + "\nLvl: " + enemyPlyr1.getLevel() + "\n" + enemyPlyr1.getCurrentHealth() + " / " + enemyPlyr1.getMaxHealth());
+		enemy2Info.setText(enemyPlyr2.getName() + "\nLvl: " + enemyPlyr2.getLevel() + "\n" + enemyPlyr2.getCurrentHealth() + " / " + enemyPlyr2.getMaxHealth());
+		enemy3Info.setText(enemyPlyr3.getName() + "\nLvl: " + enemyPlyr3.getLevel() + "\n" + enemyPlyr3.getCurrentHealth() + " / " + enemyPlyr3.getMaxHealth());
+
 	}
 
 }

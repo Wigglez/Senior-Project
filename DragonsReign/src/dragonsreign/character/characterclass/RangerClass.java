@@ -117,6 +117,7 @@ public class RangerClass extends PlayerCharacter {
 		updateCurrentStats();
 
 		// experience
+		mLevel = 1;
 		mCurrentExperience = 0;
 		mExperienceToNextLevel = 100;
 

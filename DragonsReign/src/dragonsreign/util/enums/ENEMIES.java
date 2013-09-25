@@ -6,22 +6,22 @@ public enum ENEMIES {
 	// ===========================================================
 
 	// PLAINS
-	ENEMY_TRIBESMAN,
-	ENEMY_MAGGOT,
-	ENEMY_LION,
-	ENEMY_CHEETAH,
-	ENEMY_RHINO,
-	ENEMY_WASP,
-	ENEMY_AIR_ELEMENTAL,
+	ENEMY_TRIBESMAN(0),
+	ENEMY_MAGGOT(1),
+	ENEMY_LION(2),
+	ENEMY_CHEETAH(3),
+	ENEMY_RHINO(4),
+	ENEMY_WASP(5),
+	ENEMY_AIR_ELEMENTAL(6),
 	
 	// MOUNTAINS
-	ENEMY_ESKIMO,
-	ENEMY_YETI,
-	ENEMY_MAMMOTH,
-	ENEMY_DIRE_WOLF,
-	ENEMY_DWARF,
-	ENEMY_RAM,
-	ENEMY_ICE_ELEMENTAL;
+	ENEMY_ESKIMO(20),
+	ENEMY_YETI(21),
+	ENEMY_MAMMOTH(22),
+	ENEMY_DIRE_WOLF(23),
+	ENEMY_DWARF(24),
+	ENEMY_RAM(25),
+	ENEMY_ICE_ELEMENTAL(26);
 	
 	// Unused for demo, available for full game
 	
@@ -49,6 +49,20 @@ public enum ENEMIES {
 	ENEMY_BEAR,
 	ENEMY_OOZE,
 	ENEMY_BATTLE_FROG; */
+	
+	
+	private final int value;
+	
+	private ENEMIES(final int newValue) 
+	{
+        value = newValue;
+    }
+
+    private final int getValue() 
+    { 
+    	return value; 
+    	
+    }
 	
 	// ===========================================================
 	// Fields

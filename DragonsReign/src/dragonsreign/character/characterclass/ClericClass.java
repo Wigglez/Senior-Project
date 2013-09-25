@@ -115,6 +115,7 @@ public class ClericClass extends PlayerCharacter {
 		updateCurrentStats();
 
 		// experience
+		mLevel = 1;
 		mCurrentExperience = 0;
 		mExperienceToNextLevel = 100;
 

@@ -77,6 +77,8 @@ public abstract class Character {
 		mCurrentStats = mBaseStats;
 
 		mMaxResources = mBaseResources;
+		
+		mAbility = new String[6];
 	}
 
 	// ===========================================================

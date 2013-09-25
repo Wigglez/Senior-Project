@@ -482,6 +482,10 @@ public class Enemy extends Character {
 
 			break;
 		}
+		
+		if(mLevel < 1){
+			mLevel = 1;
+		}
 	}
 
 	private void randEnemyExpReward(int pPlayerLevel) {
@@ -501,9 +505,12 @@ public class Enemy extends Character {
 	// }
 
 	private void randEnemyHealth(int pPlayerHealth) {
-		float healthVal = pPlayerHealth
-				* RandomNumber.generateRandomFloat(.75f, 1.25f);
+		
+		float rndF = RandomNumber.generateRandomFloat(.75f, 1.25f);
+		float healthVal = (float) pPlayerHealth
+				* rndF;
 		mCurrentResources.setHealth((int) healthVal);
+		mMaxResources.setHealth((int) healthVal);
 
 	}
 

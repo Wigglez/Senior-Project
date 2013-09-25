@@ -12,13 +12,13 @@ public class RandomNumber {
 	// ===========================================================
 
 	static Random mRandom;
-	
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
 	public RandomNumber() {
-		
+
 	}
 
 	// ===========================================================
@@ -34,12 +34,14 @@ public class RandomNumber {
 	// ===========================================================
 
 	/**
-	 * Returns a psuedo-random number between min and max, inclusive.
-	 * The difference between min and max can be at most
+	 * Returns a psuedo-random number between min and max, inclusive. The
+	 * difference between min and max can be at most
 	 * <code>Integer.MAX_VALUE - 1</code>.
-	 *
-	 * @param pMinVal Minimum value.
-	 * @param pMaxVal Maximum value.  Must be greater than min.
+	 * 
+	 * @param pMinVal
+	 *            Minimum value.
+	 * @param pMaxVal
+	 *            Maximum value. Must be greater than min.
 	 * @return Integer between pMinVal and pMaxVal, inclusive.
 	 * @see java.util.Random#nextInt(int)
 	 */
@@ -50,23 +52,25 @@ public class RandomNumber {
 		// make it inclusive
 
 		int randomNumber = mRandom.nextInt((pMaxVal - pMinVal) + 1) + pMinVal;
-		
+
 		return randomNumber;
 	}
-	
+
 	public static float generateRandomFloat(float pMinVal, float pMaxVal) {
 		mRandom = new Random();
 
-		// nextfloat is normally exclusive of the top value (pMaxVal), so add 1 to
+		// nextfloat is normally exclusive of the top value (pMaxVal), so add 1
+		// to
 		// make it inclusive
 
-		int rndFlt = generateRandomInt((int)(pMinVal * 100), (int)(pMaxVal * 100));
-		
-		float randomNumber = rndFlt/100;
-		
+		int rndFlt = generateRandomInt((int) (pMinVal * 100),
+				(int) (pMaxVal * 100));
+
+		float randomNumber = (float) rndFlt / 100.0f;
+
 		return randomNumber;
 	}
-	
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

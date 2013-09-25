@@ -109,6 +109,7 @@ public class WarriorClass extends PlayerCharacter {
 		updateCurrentStats();
 
 		// Experience
+		mLevel = 1;
 		mCurrentExperience = 0;
 		mExperienceToNextLevel = 100;
 	}
