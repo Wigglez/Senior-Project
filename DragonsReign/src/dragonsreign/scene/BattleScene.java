@@ -2,8 +2,6 @@ package dragonsreign.scene;
 
 
 import org.andengine.engine.camera.BoundCamera;
-import org.andengine.engine.camera.Camera;
-import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
@@ -17,25 +15,32 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.HorizontalAlign;
 import org.andengine.util.color.Color;
 
-import dragonsreign.scene.BaseScene;
-import dragonsreign.util.BattleCharacterContainer;
-import dragonsreign.util.enums.ENEMIES;
+import android.widget.Toast;
 import dragonsreign.character.Enemy;
+import dragonsreign.character.PlayerCharacter;
 import dragonsreign.character.characterclass.ClericClass;
 import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
+import dragonsreign.util.BattleCharacterContainer;
+import dragonsreign.util.RandomNumber;
+import dragonsreign.util.enums.ENEMIES;
 
 public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 {
 
 	
 	private MenuScene battleMenuChildScene, abilitiesChildScene, itemsChildScene;
-	private BattleCharacterContainer partyMem1, partyMem2, partyMem3, enemyPlyr1, enemyPlyr2, enemyPlyr3;
+	
+	private BattleCharacterContainer partyMem[], enemyPlyr[];
+	private BattleCharacterContainer focusedPartyMem;
+	private int focusPlyrIdx;
+	private int enemyCount;
+	private Boolean playerTurn;
 
 	private Sprite teamMember1, teamMember2, teamMember3, enemy1, enemy2, enemy3,  leftArrow1, leftArrow2, leftArrow3,
-	  rightArrow1, rightArrow2, rightArrow3;
+	  rightArrow1, rightArrow2, rightArrow3, focusArrow;
 	
 	private ScaleMenuItemDecorator abilitiesButton, itemsButton, swapButton, 
 								   fleeButton,basicAttack, skillOne, skillTwo, 
@@ -117,158 +122,164 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Create Players of the battle
 		/////////////////////////////////////////////////////////////////////////////////////		
-		partyMem1 = new BattleCharacterContainer(new WarriorClass());
-		partyMem2 = new BattleCharacterContainer(new RangerClass());
-		partyMem3 = new BattleCharacterContainer(new ClericClass());
+		partyMem = new BattleCharacterContainer[3];
+		enemyPlyr = new BattleCharacterContainer[3];
 		
-		int totalHealth = partyMem1.getMaxHealth() + partyMem2.getMaxHealth() + partyMem3.getMaxHealth();
-		int totalDmg = partyMem1.getCharacter().getCurrentStats().getDamage() + partyMem2.getCharacter().getCurrentStats().getDamage() + partyMem1.getCharacter().getCurrentStats().getDamage();
-		int totalArmor = partyMem1.getCharacter().getCurrentStats().getArmor() + partyMem2.getCharacter().getCurrentStats().getArmor() + partyMem3.getCharacter().getCurrentStats().getArmor();
-		int plyrLvl = partyMem1.getLevel();
+		partyMem[0] = new BattleCharacterContainer(new WarriorClass());
+		partyMem[1] = new BattleCharacterContainer(new RangerClass());
+		partyMem[2] = new BattleCharacterContainer(new ClericClass());
 		
-		enemyPlyr1 = new BattleCharacterContainer(new Enemy(plyrLvl, totalHealth, totalDmg, totalArmor, ENEMIES.values()[0]));
-		enemyPlyr2 = new BattleCharacterContainer(new Enemy(plyrLvl, totalHealth, totalDmg, totalArmor, ENEMIES.values()[0]));
-		enemyPlyr3 = new BattleCharacterContainer(new Enemy(plyrLvl, totalHealth, totalDmg, totalArmor, ENEMIES.values()[0]));//ENEMIES.ENEMY_TRIBESMAN));
+		generateRandomEnemies();
 		
+		focusedPartyMem = new BattleCharacterContainer();
+		focusPlyrIdx = 0;
+		focusedPartyMem = partyMem[focusPlyrIdx];
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Create Player and Enemy Sprites
 		/////////////////////////////////////////////////////////////////////////////////////
 		
 		//teamMember1 = partyMem1.getCharacter().getSprite();
-		teamMember1 = new Sprite(0, 0, resourcesManager.teamMember1, this.engine.getVertexBufferObjectManager()){
-            @Override
-            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
-            {
-            	switch (pSceneTouchEvent.getAction()) 
-            	{
-                	case TouchEvent.ACTION_DOWN:
-                		//attachChild(leftArrow1);
-                		if (leftArrow1.isVisible()){
-                			leftArrow1.setVisible(false);
-                		}else leftArrow1.setVisible(true);
-//                		
-//                		
-                		break;
-                	
+		teamMember1 = new Sprite(0, 0, resourcesManager.teamMember1,
+				this.engine.getVertexBufferObjectManager()) {
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+					final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				switch (pSceneTouchEvent.getAction()) {
+				case TouchEvent.ACTION_DOWN:
+					// attachChild(leftArrow1);
+					if (leftArrow1.isVisible()) {
+						leftArrow1.setVisible(false);
+					} else
+						leftArrow1.setVisible(true);
+					//
+					//
+					break;
 
-                }
-                return true;
-           
-            }
-        };
-        
-      //teamMember2 = partyMem2.getCharacter().getSprite();
-		teamMember2 = new Sprite(0, 0, resourcesManager.teamMember2, this.engine.getVertexBufferObjectManager()){
-            @Override
-            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
-            {
-            	switch (pSceneTouchEvent.getAction()) 
-            	{
-                	case TouchEvent.ACTION_DOWN:
-                		//attachChild(leftArrow2);
-                		if (leftArrow2.isVisible()){
-                			leftArrow2.setVisible(false);
-                		}else leftArrow2.setVisible(true);
-                	
-                	
+				}
+				return true;
 
-                }
-                return true;
-           
-            }
-        };
-        
-      //teamMember3 = partyMem3.getCharacter().getSprite();
-		teamMember3 = new Sprite(0, 0, resourcesManager.teamMember3, this.engine.getVertexBufferObjectManager()){
-            @Override
-            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
-            {
-            	switch (pSceneTouchEvent.getAction()) 
-            	{
-                	case TouchEvent.ACTION_DOWN:
-                		//attachChild(leftArrow3);
-                		if (leftArrow3.isVisible()){
-                			leftArrow3.setVisible(false);
-                		}else leftArrow3.setVisible(true);
-//                		
-                		break;
-                	
+			}
+		};
 
-                }
-                return true;
-           
-            }
-        };
-        
-      //enemy1 = enemyPlyr1.getCharacter().getSprite();
-		enemy1 = new Sprite(0, 0, resourcesManager.enemy1, this.engine.getVertexBufferObjectManager()){
-            @Override
-            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
-            {
-            	switch (pSceneTouchEvent.getAction()) 
-            	{
-                	case TouchEvent.ACTION_DOWN:
-                		//attachChild(rightArrow1);
-                		if (rightArrow1.isVisible()){
-                			rightArrow1.setVisible(false);
-                		}else rightArrow1.setVisible(true);
-                		
-                		break;
-                	
+		// teamMember2 = partyMem2.getCharacter().getSprite();
+		teamMember2 = new Sprite(0, 0, resourcesManager.teamMember2,
+				this.engine.getVertexBufferObjectManager()) {
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+					final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				switch (pSceneTouchEvent.getAction()) {
+				case TouchEvent.ACTION_DOWN:
+					// attachChild(leftArrow2);
+					if (leftArrow2.isVisible()) {
+						leftArrow2.setVisible(false);
+					} else
+						leftArrow2.setVisible(true);
 
-                }
-                return true;
-           
-            }
-        };
-        
-      //enemy2 = enemyPlyr2.getCharacter().getSprite();
-		enemy2 = new Sprite(0, 0, resourcesManager.enemy2, this.engine.getVertexBufferObjectManager()){
-            @Override
-            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
-            {
-            	switch (pSceneTouchEvent.getAction()) 
-            	{
-                	case TouchEvent.ACTION_DOWN:
-                		//attachChild(rightArrow2);
-                		if (rightArrow2.isVisible()){
-                			rightArrow2.setVisible(false);
-                		}else rightArrow2.setVisible(true);
-                		
-                		break;
-                	
+				}
+				return true;
 
-                }
-                return true;
-           
-            }
-        };
-        
-      //enemy3 = enemyPlyr3.getCharacter().getSprite();
-		enemy3 = new Sprite(0, 0, resourcesManager.enemy3, this.engine.getVertexBufferObjectManager()){
-            @Override
-            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
-            {
-            	switch (pSceneTouchEvent.getAction()) 
-            	{
-                	case TouchEvent.ACTION_DOWN:
-					
-                		//rightArrow3.setVisible(true);
-//					// 	attachChild(rightArrow3);
-                		if (rightArrow3.isVisible()){
-                			rightArrow3.setVisible(false);
-                		}else rightArrow3.setVisible(true);
-//                		
-                			
-                			
-                		break;
-                	
+			}
+		};
 
-                }
-                return true;
-           
-            }
-        };
+		// teamMember3 = partyMem3.getCharacter().getSprite();
+		teamMember3 = new Sprite(0, 0, resourcesManager.teamMember3,
+				this.engine.getVertexBufferObjectManager()) {
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+					final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				switch (pSceneTouchEvent.getAction()) {
+				case TouchEvent.ACTION_DOWN:
+					// attachChild(leftArrow3);
+					if (leftArrow3.isVisible()) {
+						leftArrow3.setVisible(false);
+					} else
+						leftArrow3.setVisible(true);
+					//
+					break;
+
+				}
+				return true;
+
+			}
+		};
+
+		if (enemyPlyr[0] != null) {
+			// enemy1 = enemyPlyr1.getCharacter().getSprite();
+			enemy1 = new Sprite(0, 0, resourcesManager.enemy1,
+					this.engine.getVertexBufferObjectManager()) {
+				@Override
+				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+						final float pTouchAreaLocalX,
+						final float pTouchAreaLocalY) {
+					switch (pSceneTouchEvent.getAction()) {
+					case TouchEvent.ACTION_DOWN:
+						// attachChild(rightArrow1);
+						if (rightArrow1.isVisible()) {
+							rightArrow1.setVisible(false);
+						} else
+							rightArrow1.setVisible(true);
+
+						break;
+
+					}
+					return true;
+
+				}
+			};
+		}
+		
+		if (enemyPlyr[1] != null) {
+			// enemy2 = enemyPlyr2.getCharacter().getSprite();
+			enemy2 = new Sprite(0, 0, resourcesManager.enemy2,
+					this.engine.getVertexBufferObjectManager()) {
+				@Override
+				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+						final float pTouchAreaLocalX,
+						final float pTouchAreaLocalY) {
+					switch (pSceneTouchEvent.getAction()) {
+					case TouchEvent.ACTION_DOWN:
+						// attachChild(rightArrow2);
+						if (rightArrow2.isVisible()) {
+							rightArrow2.setVisible(false);
+						} else
+							rightArrow2.setVisible(true);
+
+						break;
+
+					}
+					return true;
+
+				}
+			};
+		}
+		
+		if (enemyPlyr[2] != null) {
+			// enemy3 = enemyPlyr3.getCharacter().getSprite();
+			enemy3 = new Sprite(0, 0, resourcesManager.enemy3,
+					this.engine.getVertexBufferObjectManager()) {
+				@Override
+				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+						final float pTouchAreaLocalX,
+						final float pTouchAreaLocalY) {
+					switch (pSceneTouchEvent.getAction()) {
+					case TouchEvent.ACTION_DOWN:
+
+						// rightArrow3.setVisible(true);
+						// // attachChild(rightArrow3);
+						if (rightArrow3.isVisible()) {
+							rightArrow3.setVisible(false);
+						} else
+							rightArrow3.setVisible(true);
+						//
+
+						break;
+
+					}
+					return true;
+
+				}
+			};
+		}
 		
 		leftArrow1 = new Sprite(0, 0, resourcesManager.leftArrow1, this.engine.getVertexBufferObjectManager());
 		leftArrow2 = new Sprite(0, 0, resourcesManager.leftArrow2, this.engine.getVertexBufferObjectManager());
@@ -277,6 +288,10 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		rightArrow1 = new Sprite(0, 0, resourcesManager.rightArrow1, this.engine.getVertexBufferObjectManager());
 		rightArrow2 = new Sprite(0, 0, resourcesManager.rightArrow2, this.engine.getVertexBufferObjectManager());
 		rightArrow3 = new Sprite(0, 0, resourcesManager.rightArrow3, this.engine.getVertexBufferObjectManager());
+		
+		focusArrow = new Sprite(0, 0, resourcesManager.focusArrow, this.engine.getVertexBufferObjectManager());
+		focusArrow.setVisible(false);
+		focusArrow.setPosition(225, (focusPlyrIdx * 100) + 25);
 		
 		//TODO add names and levels to each
 		teamMember1Info = new Text(15,-10, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
@@ -314,8 +329,10 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		
 		rightArrow1.setPosition(511, 25);
 		rightArrow1.setVisible(false);
+
 		rightArrow2.setPosition(511, 125);
 		rightArrow2.setVisible(false);
+
 		rightArrow3.setPosition(511, 225);
 		rightArrow3.setVisible(false);
 		
@@ -335,24 +352,40 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		attachChild(teamMember1);
 		attachChild(teamMember2);
 		attachChild(teamMember3);
-		attachChild(enemy1);
-		attachChild(enemy2);
-		attachChild(enemy3);
+		
+		
 	
 		attachChild(leftArrow1);
 		attachChild(leftArrow2);
 		attachChild(leftArrow3);
-		attachChild(rightArrow1);
-		attachChild(rightArrow2);
-		attachChild(rightArrow3);
+		
+		if (enemyPlyr[0] != null) {
+			attachChild(enemy1);
+			attachChild(rightArrow1);
+			attachChild(enemy1Info);
+			
+		}
+		if (enemyPlyr[1] != null) {
+			attachChild(enemy2);
+			attachChild(rightArrow2);
+			attachChild(enemy2Info);
+		}
+		if (enemyPlyr[2] != null) {
+			attachChild(enemy3);
+			attachChild(rightArrow3);
+			attachChild(enemy3Info);
+		}
+		
+		
+		attachChild(focusArrow);
+		
 		
 		attachChild(teamMember1Info);
 		attachChild(teamMember2Info);
 		attachChild(teamMember3Info);
 		
-		attachChild(enemy1Info);
-		attachChild(enemy2Info);
-		attachChild(enemy3Info);
+		
+		
 		
 		
 		/////////////////////////////////////////////////////////////////////////////////////
@@ -362,13 +395,17 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		createBattleMenuView();
 		createAbilitiesMenuView();
 		createItemsMenuView();
+		
+		hasteCheck();
+		BattleLoop();
+		
 	
 	}
 
 	public void createBattleView()
 	{
 	
-		setBackground(new Background(Color.BLUE));
+		setBackground(new Background(Color.RED));
 		
 	}
 	public void createBattleMenuView()
@@ -449,23 +486,24 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Create Button Texts
 		/////////////////////////////////////////////////////////////////////////////////////
+		String[] plyrAbilities = focusedPartyMem.getAbilityNames();
 		basicAttackText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		basicAttackText.setText("Attack");
+		basicAttackText.setText(plyrAbilities[0]);
 		
 		skillOneText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		skillOneText.setText("Skill One");
+		skillOneText.setText(plyrAbilities[1]);
 		
 		skillTwoText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		skillTwoText.setText("Skill Two");
+		skillTwoText.setText(plyrAbilities[2]);
 		
 		skillThreeText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		skillThreeText.setText("Skill Three");
+		skillThreeText.setText(plyrAbilities[3]);
 		
 		skillFourText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		skillFourText.setText("Skill Four");
+		skillFourText.setText(plyrAbilities[4]);
 		
 		skillFiveText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		skillFiveText.setText("Skill Five");
+		skillFiveText.setText(plyrAbilities[5]);
 		
 		
 		/////////////////////////////////////////////////////////////////////////////////////
@@ -571,77 +609,90 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) 
 	{
-		if (pMenuItem.getID() == BUTTONS.ABILITIES.getValue()) 
-		{
+		if (pMenuItem.getID() == BUTTONS.ABILITIES.getValue()) {
 			setChildScene(abilitiesChildScene);
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.ITEMS.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.ITEMS.getValue()) {
 			setChildScene(itemsChildScene);
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.SWAP.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.SWAP.getValue()) {
+
+			do {
+				focusPlyrIdx += 1;
+				if (focusPlyrIdx > 2)
+					focusPlyrIdx = 0;
+				focusedPartyMem = partyMem[focusPlyrIdx];
+
+			} while (!(focusedPartyMem.hasTurn()) || focusedPartyMem.isDead());
+
+			updateAbilityButtons();
+			focusArrow.setVisible(true);
+			focusArrow.setPosition(225, (focusPlyrIdx * 100) + 25);
+
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.FLEE.getValue()) 
-		{
-			onBackKeyPressed();
+		} else if (pMenuItem.getID() == BUTTONS.FLEE.getValue()) {
+
+			int avgEnemyLevel = 0;
+
+			for (int enemyIdx = 0; enemyIdx < 3 /*enemyCount*/; enemyIdx++) {
+
+				if (enemyPlyr[enemyIdx].getCharacter() != null)
+					avgEnemyLevel += enemyPlyr[enemyIdx].getLevel();
+			}
+
+			avgEnemyLevel /= 3;//enemyCount;
+			
+			
+			int fleeChanceCalc = RandomNumber.generateRandomInt(1, 100);
+			int chanceToFlee = 0;
+			if (partyMem[0].getLevel() > avgEnemyLevel) {
+				chanceToFlee = 75;
+			} else if (partyMem[0].getLevel() == avgEnemyLevel) {
+				chanceToFlee = 50;
+			} else if (partyMem[0].getLevel() < avgEnemyLevel) {
+				chanceToFlee = 25;
+			}
+
+			if (fleeChanceCalc <= chanceToFlee) {
+				writeToScreen("Successfully fled the battle.");
+
+				onBackKeyPressed();
+			} else {
+				writeToScreen("Cannot flee the battle.");
+
+				partyMem[0].setHasTurn(false);
+				partyMem[1].setHasTurn(false);
+				partyMem[2].setHasTurn(false);
+			}
+			
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.BASIC_ATTACK.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.BASIC_ATTACK.getValue()) {
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.SKILL_ONE.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.SKILL_ONE.getValue()) {
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.SKILL_TWO.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.SKILL_TWO.getValue()) {
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.SKILL_THREE.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.SKILL_THREE.getValue()) {
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.SKILL_FOUR.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.SKILL_FOUR.getValue()) {
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.SKILL_FIVE.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.SKILL_FIVE.getValue()) {
 			setChildScene(battleMenuChildScene);
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.ITEM_1.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.ITEM_1.getValue()) {
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.ITEM_2.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.ITEM_2.getValue()) {
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.ITEM_3.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.ITEM_3.getValue()) {
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.ITEM_4.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.ITEM_4.getValue()) {
 			return true;
-		}
-		else if (pMenuItem.getID() == BUTTONS.ITEM_5.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.ITEM_5.getValue()) {
 			return true;
-		} 
-		else if (pMenuItem.getID() == BUTTONS.ITEM_6.getValue()) 
-		{
+		} else if (pMenuItem.getID() == BUTTONS.ITEM_6.getValue()) {
 			setChildScene(battleMenuChildScene);
 			return true;
-		} 
-		else 
-		{
+		} else {
 			return false;
 		}
 	}
@@ -666,16 +717,130 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		
 	}
 	
+	private void generateRandomEnemies(){
+		int accumulativeHealth = partyMem[0].getMaxHealth() + partyMem[1].getMaxHealth() + partyMem[2].getMaxHealth();
+		int accumulativeDmg = partyMem[0].getCharacter().getCurrentStats().getDamage() + partyMem[1].getCharacter().getCurrentStats().getDamage() + partyMem[2].getCharacter().getCurrentStats().getDamage();
+		int accumulativeArmor = partyMem[0].getCharacter().getCurrentStats().getArmor() + partyMem[1].getCharacter().getCurrentStats().getArmor() + partyMem[2].getCharacter().getCurrentStats().getArmor();
+		int plyrLvl = partyMem[0].getLevel();
+		
+		enemyCount = RandomNumber.generateRandomInt(1, 3);
+		
+		switch (enemyCount) {
+		case 1:
+			enemyPlyr[0] = new BattleCharacterContainer(new Enemy(plyrLvl,
+																accumulativeHealth,
+																accumulativeDmg,
+																accumulativeArmor,
+																ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
+			enemyPlyr[1] = null;
+			enemyPlyr[2] = null;
+			break;
+		case 2:
+			enemyPlyr[0] = new BattleCharacterContainer(new Enemy(plyrLvl,
+																accumulativeHealth, 
+																accumulativeDmg,
+																accumulativeArmor,
+																ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
+			enemyPlyr[1] = new BattleCharacterContainer(new Enemy(plyrLvl,
+																accumulativeHealth,
+																accumulativeDmg,
+																accumulativeArmor,
+																ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
+			enemyPlyr[2] = null;
+			break;
+		case 3:
+
+			enemyPlyr[0] = new BattleCharacterContainer(new Enemy(plyrLvl,
+																accumulativeHealth,
+																accumulativeDmg,
+																accumulativeArmor,
+																ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
+			enemyPlyr[1] = new BattleCharacterContainer(new Enemy(plyrLvl,
+																accumulativeHealth,
+																accumulativeDmg,
+																accumulativeArmor,
+																ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
+			enemyPlyr[2] = new BattleCharacterContainer(new Enemy(plyrLvl,
+																accumulativeHealth,
+																accumulativeDmg,
+																accumulativeArmor,
+																ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
+
+			break;
+		}
+	}
 	private void updateInfoText(){
 		
-		teamMember1Info.setText(partyMem1.getName() + "\nLvl: " + partyMem1.getLevel() + "\n" + partyMem1.getCurrentHealth() + " / " + partyMem1.getMaxHealth() + "\n" + partyMem1.getCurrentResource() + " / " + partyMem1.getMaxResource());
-		teamMember2Info.setText(partyMem2.getName() + "\nLvl: " + partyMem2.getLevel() + "\n" + partyMem2.getCurrentHealth() + " / " + partyMem2.getMaxHealth() + "\n" + partyMem2.getCurrentResource() + " / " + partyMem2.getMaxResource());
-		teamMember3Info.setText(partyMem3.getName() + "\nLvl: " + partyMem3.getLevel() + "\n" + partyMem3.getCurrentHealth() + " / " + partyMem3.getMaxHealth() + "\n" + partyMem3.getCurrentResource() + " / " + partyMem3.getMaxResource());
+		teamMember1Info.setText(partyMem[0].getName() + "\nLvl: " + partyMem[0].getLevel() + "\n" + partyMem[0].getCurrentHealth() + " / " + partyMem[0].getMaxHealth() + "\n" + partyMem[0].getCurrentResource() + " / " + partyMem[0].getMaxResource());
+		teamMember2Info.setText(partyMem[1].getName() + "\nLvl: " + partyMem[1].getLevel() + "\n" + partyMem[1].getCurrentHealth() + " / " + partyMem[1].getMaxHealth() + "\n" + partyMem[1].getCurrentResource() + " / " + partyMem[1].getMaxResource());
+		teamMember3Info.setText(partyMem[2].getName() + "\nLvl: " + partyMem[2].getLevel() + "\n" + partyMem[2].getCurrentHealth() + " / " + partyMem[2].getMaxHealth() + "\n" + partyMem[2].getCurrentResource() + " / " + partyMem[2].getMaxResource());
 
-		enemy1Info.setText(enemyPlyr1.getName() + "\nLvl: " + enemyPlyr1.getLevel() + "\n" + enemyPlyr1.getCurrentHealth() + " / " + enemyPlyr1.getMaxHealth());
-		enemy2Info.setText(enemyPlyr2.getName() + "\nLvl: " + enemyPlyr2.getLevel() + "\n" + enemyPlyr2.getCurrentHealth() + " / " + enemyPlyr2.getMaxHealth());
-		enemy3Info.setText(enemyPlyr3.getName() + "\nLvl: " + enemyPlyr3.getLevel() + "\n" + enemyPlyr3.getCurrentHealth() + " / " + enemyPlyr3.getMaxHealth());
+		if(enemyPlyr[0] != null){
+		enemy1Info.setText(enemyPlyr[0].getName() + "\nLvl: " + enemyPlyr[0].getLevel() + "\n" + enemyPlyr[0].getCurrentHealth() + " / " + enemyPlyr[0].getMaxHealth());
+		}
+		if(enemyPlyr[1] != null){
+			enemy2Info.setText(enemyPlyr[1].getName() + "\nLvl: " + enemyPlyr[1].getLevel() + "\n" + enemyPlyr[1].getCurrentHealth() + " / " + enemyPlyr[1].getMaxHealth());
+		}
+		if(enemyPlyr[2] != null){
+			enemy3Info.setText(enemyPlyr[2].getName() + "\nLvl: " + enemyPlyr[2].getLevel() + "\n" + enemyPlyr[2].getCurrentHealth() + " / " + enemyPlyr[2].getMaxHealth());
+		}
 
 	}
+	
+	private void writeToScreen(final CharSequence pText) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(activity, pText, Toast.LENGTH_LONG).show();
+			}
+		});
 
+	}
+	
+	private void updateAbilityButtons(){
+		String[] plyrAbilities = focusedPartyMem.getAbilityNames();
+		
+		basicAttackText.setText(plyrAbilities[0]);
+		
+		skillOneText.setText(plyrAbilities[1]);
+		
+		skillTwoText.setText(plyrAbilities[2]);
+		
+		skillThreeText.setText(plyrAbilities[3]);
+		
+		skillFourText.setText(plyrAbilities[4]);
+		
+		skillFiveText.setText(plyrAbilities[5]);
+	}
+	
+	
+	private void hasteCheck(){
+		playerTurn = ((PlayerCharacter)(focusedPartyMem.getCharacter())).compareHasteToEnemy((Enemy) enemyPlyr[0].getCharacter());
+		if(playerTurn){
+			writeToScreen("Your turn.");
+			focusArrow.setVisible(true);
+		} else {
+			writeToScreen("Enemy's turn.");
+			
+		}
+		
+	}
+	
+	private void BattleLoop(){
+		while (true) {
+			if (playerTurn) {
+				playerTurn();
+			} else {
+				enemyTurn();
+			}
+		}
+	}
+	
+	private void playerTurn(){
+		
+	}
+	
+	private void enemyTurn(){
+		
+	}
+	
 }

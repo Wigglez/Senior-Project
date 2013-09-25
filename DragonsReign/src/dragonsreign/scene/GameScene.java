@@ -376,10 +376,10 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                     if(player.getX() >= 576 && player.getX() <= 736 && player.getY() <= 672 && player.getY() >= 576)
                     {
                     	PLAYER_VELOCITY = 4;
-                    	Log.e("Collision Box", "You are in the Box. Player Velcocity = " + PLAYER_VELOCITY);
+                    	//Log.e("Collision Box", "You are in the Box. Player Velcocity = " + PLAYER_VELOCITY);
 
                     }
-                    Log.e("Player position", "X:" + player.getX() + " Y: " + player.getY());
+                   // Log.e("Player position", "X:" + player.getX() + " Y: " + player.getY());
                     mPlayerBody.setLinearVelocity(pValueX * PLAYER_VELOCITY, pValueY * PLAYER_VELOCITY);
                     
             }

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <texture version="1" file="BattleAssets.png" type="bitmap" width="256" height="256" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
     <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
-    <!-- $TexturePacker:SmartUpdate:d4ceb472a0b16d6da0eeb212a1b30e00:1/1$ -->
+    <!-- $TexturePacker:SmartUpdate:7b4d458f5954650910f49674556895e0:1/1$ -->
     <textureregion id="0" src="Enemy.png" x="2" y="153" width="72" height="97" rotated="false" trimmed="true" srcx="16" srcy="0" srcwidth="130" srcheight="97"/>
     <textureregion id="1" src="Player.png" x="2" y="54" width="72" height="97" rotated="false" trimmed="true" srcx="42" srcy="0" srcwidth="130" srcheight="97"/>
-    <textureregion id="2" src="leftArrow.png" x="142" y="54" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
-    <textureregion id="3" src="menuButton.png" x="2" y="2" width="200" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="200" srcheight="50"/>
-    <textureregion id="4" src="rightArrow.png" x="76" y="54" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="2" src="focusArrow.png" x="76" y="120" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="3" src="leftArrow.png" x="142" y="54" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="4" src="menuButton.png" x="2" y="2" width="200" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="200" srcheight="50"/>
+    <textureregion id="5" src="rightArrow.png" x="76" y="54" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
 </texture>

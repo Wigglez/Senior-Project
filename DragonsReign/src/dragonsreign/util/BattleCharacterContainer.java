@@ -55,7 +55,13 @@ public class BattleCharacterContainer {
 	public BattleCharacterContainer(Character pCharacter) {
 		mCharacter = pCharacter;
 		ClearBattleEffects();
+		hasTurn = true;
 
+	}
+	
+	public BattleCharacterContainer(){
+		mCharacter = null;
+		ClearBattleEffects();
 	}
 
 	// ===========================================================

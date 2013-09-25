@@ -61,7 +61,7 @@ public class ResourceManager
     					  skillOneButton, skillTwoButton,
     					  skillThreeButton, skillFourButton, skillFiveButton,
     					  teamMember1, teamMember2, teamMember3, enemy1, enemy2, enemy3, 
-    					  warriorPlayer, DPADBacking, DPADKnob, leftArrow1, leftArrow2, leftArrow3,
+    					  warriorPlayer, DPADBacking, DPADKnob, leftArrow1, leftArrow2, leftArrow3, focusArrow,
     					  rightArrow1, rightArrow2, rightArrow3, Up_DPAD, Down_DPAD, Left_DPAD, Right_DPAD, Center_DPAD;
     
     
@@ -383,8 +383,10 @@ public class ResourceManager
     	leftArrow1 = texturePackLibrary.get(BattleAssets.LEFTARROW_ID);
     	leftArrow2 = texturePackLibrary.get(BattleAssets.LEFTARROW_ID);
     	leftArrow3 = texturePackLibrary.get(BattleAssets.LEFTARROW_ID);
+    	focusArrow = texturePackLibrary.get(BattleAssets.FOCUSARROW_ID);
     	
     }
+   
     
     private void loadBattleFonts()
     {

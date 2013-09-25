@@ -20,7 +20,11 @@ public abstract class Character {
 
 	// All players and enemies have an ID
 	protected int mID;
+	
+	//Sprite
+	protected int mSpriteID;
 
+	
 	// All players and enemies have a name
 	protected String mName;
 
@@ -92,6 +96,11 @@ public abstract class Character {
 
 	public void setID(int pID) {
 		this.mID = pID;
+	}
+
+	// Sprite ID
+	public int getSpriteID() {
+		return mSpriteID;
 	}
 
 	// Name
