@@ -97,12 +97,11 @@ public class WarriorClass extends PlayerCharacter {
 		mWarCryCost = 0;
 
 		// Starter Gear
+		//pItemType pItemLevel pStr pDex pInt pVit pDmg pArmor pIsWeapon
 		helmet = new Gear(ITEMTYPE.HEAVY_HELMET, 1, 10, 3, 2, 4, 0, 11, false);
-		chestArmor = new Gear(ITEMTYPE.HEAVY_CHESTPLATE, 1, 8, 1, 0, 3, 0, 15,
-				false);
+		chestArmor = new Gear(ITEMTYPE.HEAVY_CHESTPLATE, 1, 8, 1, 0, 3, 0, 15, false);
 		legArmor = new Gear(ITEMTYPE.HEAVY_LEGS, 1, 5, 5, 3, 4, 0, 9, false);
-		weaponHand1 = new Gear(ITEMTYPE.ONE_HANDED_SWORD, 1, 13, 2, 6, 3, 23,
-				0, true);
+		weaponHand1 = new Gear(ITEMTYPE.ONE_HANDED_SWORD, 1, 13, 2, 6, 3, 23, 0, true);
 		weaponHand2 = null;
 
 		updateItemStats();
@@ -285,6 +284,10 @@ public class WarriorClass extends PlayerCharacter {
 			returnFlag = WarCry(pAbilityData);
 			break;
 		}
+		
+		if (mCurrentResources.getResource() < 0) {
+			mCurrentResources.setResource(0);
+		}
 
 		return returnFlag;
 	}
@@ -355,6 +358,8 @@ public class WarriorClass extends PlayerCharacter {
 
 			mCurrentResources.setResource(mCurrentResources.getResource()
 					- mLungeCost);
+			
+			
 
 			return ABILITYFLAGS.DAMAGE_SINGLE;
 		} else

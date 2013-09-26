@@ -31,7 +31,7 @@ public class AbilityData {
 	protected int mBurnDamage;
 	protected int mPoisonDamage;
 
-	AbilityData() {
+	public AbilityData() {
 
 		mNumOfWaitTurns = 0;
 		mDamageDone = 0;

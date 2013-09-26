@@ -15,6 +15,7 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.HorizontalAlign;
 import org.andengine.util.color.Color;
 
+import android.util.Log;
 import android.widget.Toast;
 import dragonsreign.character.Enemy;
 import dragonsreign.character.PlayerCharacter;
@@ -23,8 +24,10 @@ import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
+import dragonsreign.util.AbilityData;
 import dragonsreign.util.BattleCharacterContainer;
 import dragonsreign.util.RandomNumber;
+import dragonsreign.util.enums.ABILITYFLAGS;
 import dragonsreign.util.enums.ENEMIES;
 
 public class BattleScene extends BaseScene implements IOnMenuItemClickListener
@@ -39,6 +42,9 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	private int focusPlyrIdx;
 	private int enemyCount;
 	private Boolean playerTurn;
+	private BattleCharacterContainer abilityTarget;
+	
+	private AbilityData abilityData;
 
 	private Sprite teamMember1, teamMember2, teamMember3, enemy1, enemy2,
 			enemy3, leftArrow1, leftArrow2, leftArrow3, rightArrow1,
@@ -133,6 +139,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		focusedPartyMem = new BattleCharacterContainer();
 		focusPlyrIdx = 0;
 		focusedPartyMem = partyMem[focusPlyrIdx];
+		
+		abilityTarget  = new BattleCharacterContainer();
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Create Player and Enemy Sprites
 		/////////////////////////////////////////////////////////////////////////////////////
@@ -146,13 +154,11 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 						final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 					switch (pSceneTouchEvent.getAction()) {
 					case TouchEvent.ACTION_DOWN:
-						// attachChild(leftArrow1);
-						if (leftArrow1.isVisible()) {
-							leftArrow1.setVisible(false);
-						} else
-							leftArrow1.setVisible(true);
-						//
-						//
+						
+						abilityTarget = partyMem[0];
+						clearTargetSelection();
+						
+						applyAbilityData();
 						break;
 	
 					}
@@ -171,11 +177,13 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 						final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 					switch (pSceneTouchEvent.getAction()) {
 					case TouchEvent.ACTION_DOWN:
-						// attachChild(leftArrow2);
-						if (leftArrow2.isVisible()) {
-							leftArrow2.setVisible(false);
-						} else
-							leftArrow2.setVisible(true);
+						
+						abilityTarget = partyMem[1];
+						clearTargetSelection();
+						
+						applyAbilityData();
+						
+						break;
 	
 					}
 					return true;
@@ -193,12 +201,11 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 						final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 					switch (pSceneTouchEvent.getAction()) {
 					case TouchEvent.ACTION_DOWN:
-						// attachChild(leftArrow3);
-						if (leftArrow3.isVisible()) {
-							leftArrow3.setVisible(false);
-						} else
-							leftArrow3.setVisible(true);
-						//
+						
+						abilityTarget = partyMem[2];
+						clearTargetSelection();
+						
+						applyAbilityData();
 						break;
 	
 					}
@@ -218,12 +225,11 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 						final float pTouchAreaLocalY) {
 					switch (pSceneTouchEvent.getAction()) {
 					case TouchEvent.ACTION_DOWN:
-						// attachChild(rightArrow1);
-						if (rightArrow1.isVisible()) {
-							rightArrow1.setVisible(false);
-						} else
-							rightArrow1.setVisible(true);
+						
+						abilityTarget = enemyPlyr[0];
+						clearTargetSelection();
 
+						applyAbilityData();
 						break;
 
 					}
@@ -231,6 +237,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 
 				}
 			};
+			
 		}
 		
 		if (enemyPlyr[1] != null) {
@@ -243,12 +250,11 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 						final float pTouchAreaLocalY) {
 					switch (pSceneTouchEvent.getAction()) {
 					case TouchEvent.ACTION_DOWN:
-						// attachChild(rightArrow2);
-						if (rightArrow2.isVisible()) {
-							rightArrow2.setVisible(false);
-						} else
-							rightArrow2.setVisible(true);
 
+						abilityTarget = enemyPlyr[1];
+						clearTargetSelection();
+
+						applyAbilityData();
 						break;
 
 					}
@@ -269,14 +275,10 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 					switch (pSceneTouchEvent.getAction()) {
 					case TouchEvent.ACTION_DOWN:
 
-						// rightArrow3.setVisible(true);
-						// // attachChild(rightArrow3);
-						if (rightArrow3.isVisible()) {
-							rightArrow3.setVisible(false);
-						} else
-							rightArrow3.setVisible(true);
-						//
+						abilityTarget = enemyPlyr[2];
+						clearTargetSelection();
 
+						applyAbilityData();
 						break;
 
 					}
@@ -371,25 +373,25 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		////////////////////////////////////////////////////////////////////////////////////
 		//Register the Touch Areas
 		////////////////////////////////////////////////////////////////////////////////////
-		if (partyMem[0] != null) {
-			registerTouchArea(teamMember1);
-		}
-		if (partyMem[1] != null) {
-			registerTouchArea(teamMember2);
-		}
-		if (partyMem[2] != null) {
-			registerTouchArea(teamMember3);
-		}
-		
-		if (enemyPlyr[0] != null) {
-			registerTouchArea(enemy1);
-		}
-		if (enemyPlyr[1] != null) {
-			registerTouchArea(enemy2);
-		}
-		if (enemyPlyr[2] != null) {
-			registerTouchArea(enemy3);
-		}
+//		if (partyMem[0] != null) {
+//			registerTouchArea(teamMember1);
+//		}
+//		if (partyMem[1] != null) {
+//			registerTouchArea(teamMember2);
+//		}
+//		if (partyMem[2] != null) {
+//			registerTouchArea(teamMember3);
+//		}
+//		
+//		if (enemyPlyr[0] != null) {
+//			registerTouchArea(enemy1);
+//		}
+//		if (enemyPlyr[1] != null) {
+//			registerTouchArea(enemy2);
+//		}
+//		if (enemyPlyr[2] != null) {
+//			registerTouchArea(enemy3);
+//		}
 		
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Attach Sprites to the Screen
@@ -677,7 +679,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 
 			for (int enemyIdx = 0; enemyIdx < enemyCount; enemyIdx++) {
 
-				if (enemyPlyr[enemyIdx].getCharacter() != null)
+				if (enemyPlyr[enemyIdx] != null)
 					avgEnemyLevel += enemyPlyr[enemyIdx].getLevel();
 			}
 
@@ -695,11 +697,11 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			}
 
 			if (fleeChanceCalc <= chanceToFlee) {
-				writeToScreen("Successfully fled the battle.");
+				writeToScreen("Successfully fled the battle.", 1);
 
 				onBackKeyPressed();
 			} else {
-				writeToScreen("Cannot flee the battle.");
+				writeToScreen("Cannot flee the battle.", 1);
 
 				partyMem[0].setHasTurn(false);
 				partyMem[1].setHasTurn(false);
@@ -708,6 +710,13 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.BASIC_ATTACK.getValue()) {
+			
+			abilityData = new AbilityData();
+			ABILITYFLAGS flag;
+			
+			flag = focusedPartyMem.useAbility(0, abilityData);
+			
+			
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_ONE.getValue()) {
 			return true;
@@ -824,19 +833,29 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		
 		if(enemyPlyr[0] != null){
 			enemy1Info.setText(enemyPlyr[0].getName() + "\nLvl: " + enemyPlyr[0].getLevel() + "\n" + enemyPlyr[0].getCurrentHealth() + " / " + enemyPlyr[0].getMaxHealth());
+			Log.e("Enemy 1", enemyPlyr[0].getName() + " damage = " + enemyPlyr[0].getCharacter().getCurrentStats().getDamage());
+			Log.e("Enemy 1", enemyPlyr[0].getName() + " armor = " + enemyPlyr[0].getCharacter().getCurrentStats().getArmor());
 		}
 		if(enemyPlyr[1] != null){
 			enemy2Info.setText(enemyPlyr[1].getName() + "\nLvl: " + enemyPlyr[1].getLevel() + "\n" + enemyPlyr[1].getCurrentHealth() + " / " + enemyPlyr[1].getMaxHealth());
+			Log.e("Enemy 2", enemyPlyr[1].getName() + " damage = " + enemyPlyr[1].getCharacter().getCurrentStats().getDamage());
+			Log.e("Enemy 2", enemyPlyr[1].getName() + " armor = " + enemyPlyr[1].getCharacter().getCurrentStats().getArmor());
 		}
 		if(enemyPlyr[2] != null){
 			enemy3Info.setText(enemyPlyr[2].getName() + "\nLvl: " + enemyPlyr[2].getLevel() + "\n" + enemyPlyr[2].getCurrentHealth() + " / " + enemyPlyr[2].getMaxHealth());
+			Log.e("Enemy 3", enemyPlyr[2].getName() + " damage = " + enemyPlyr[2].getCharacter().getCurrentStats().getDamage());
+			Log.e("Enemy 3", enemyPlyr[2].getName() + " armor = " + enemyPlyr[2].getCharacter().getCurrentStats().getArmor());
 		}
 
 	}
 	
-	private void writeToScreen(final CharSequence pText) {
+	private void writeToScreen(final CharSequence pText, final int pToastLength) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
+				if(pToastLength == 0)
+					Toast.makeText(activity, pText, Toast.LENGTH_SHORT).show();
+				
+				if(pToastLength >= 1)
 				Toast.makeText(activity, pText, Toast.LENGTH_LONG).show();
 			}
 		});
@@ -863,10 +882,10 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	private void hasteCheck(){
 		playerTurn = ((PlayerCharacter)(focusedPartyMem.getCharacter())).compareHasteToEnemy((Enemy) enemyPlyr[0].getCharacter());
 		if(playerTurn){
-			writeToScreen("Your turn.");
+			writeToScreen("Your turn.", 0);
 			focusArrow.setVisible(true);
 		} else {
-			writeToScreen("Enemy's turn.");
+			writeToScreen("Enemy's turn.", 0);
 			
 		}
 		
@@ -890,4 +909,124 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		
 	}
 	
+	private void targetSelect(ABILITYFLAGS flag){
+		switch(flag) {
+		
+		case BUFF_ALL:
+			
+			
+			break;
+		case DAMAGE_ALL:
+		case DAMAGE_HEAL_SINGLE:
+		case DAMAGE_SINGLE:
+			
+					
+			
+			if (enemyPlyr[0] != null && !enemyPlyr[0].isDead()) {
+				registerTouchArea(enemy1);
+				rightArrow1.setVisible(true);
+			}
+			if (enemyPlyr[1] != null && !enemyPlyr[1].isDead()) {
+				registerTouchArea(enemy2);
+				rightArrow2.setVisible(true);
+			}
+			if (enemyPlyr[2] != null && !enemyPlyr[2].isDead()) {
+				registerTouchArea(enemy3);
+				rightArrow3.setVisible(true);
+			}
+			
+			break;
+			
+		// UNUSED FOR DEMO
+		case DEBUFF:
+			break;
+		case HEAL_ALL:
+		case HEAL_SINGLE:
+		
+			//party member exists & they are not dead & current health is less than max health they  can be healed
+			if (partyMem[0] != null && !partyMem[0].isDead() && (partyMem[0].getCurrentHealth() < partyMem[0].getMaxHealth())) {
+				registerTouchArea(teamMember1);
+				leftArrow1.setVisible(true);
+			}
+
+			if (partyMem[1] != null && !partyMem[1].isDead() && (partyMem[1].getCurrentHealth() < partyMem[1].getMaxHealth())) {
+				registerTouchArea(teamMember2);
+				leftArrow2.setVisible(true);
+			}
+
+			if (partyMem[2] != null && !partyMem[2].isDead() && (partyMem[2].getCurrentHealth() < partyMem[2].getMaxHealth())) {
+				registerTouchArea(teamMember3);
+				leftArrow3.setVisible(true);
+			}
+			
+			break;
+		case NOT_ENOUGH_RESOURCE:
+			writeToScreen("Insufficient resource.", 0);
+			setChildScene(battleMenuChildScene);
+			break;
+		case REVIVE:
+			if (partyMem[0] != null && partyMem[0].isDead()) {
+				registerTouchArea(teamMember1);
+				leftArrow1.setVisible(true);
+			}
+
+			if (partyMem[1] != null && partyMem[1].isDead()) {
+				registerTouchArea(teamMember2);
+				leftArrow2.setVisible(true);
+			}
+
+			if (partyMem[2] != null && partyMem[2].isDead()) {
+				registerTouchArea(teamMember3);
+				leftArrow3.setVisible(true);
+			}
+			
+			
+			break;
+		// UNUSED FOR DEMO
+		case SELF_CAST:
+			break;
+		
+		}
+	}
+	
+	private void clearTargetSelection(){
+		if(partyMem[0] != null){
+			unregisterTouchArea(teamMember1);			
+		}
+		
+		if(partyMem[1] != null){
+			unregisterTouchArea(teamMember2);
+			
+		}
+		if(partyMem[2] != null){
+			unregisterTouchArea(teamMember3);
+			
+		}
+		if(enemyPlyr[0] != null){
+			unregisterTouchArea(enemy1);
+			
+		}
+		if(enemyPlyr[1] != null){
+			unregisterTouchArea(enemy2);
+			
+		}
+		if(enemyPlyr[2] != null){
+			unregisterTouchArea(enemy3);
+			
+		}
+		
+		leftArrow1.setVisible(false);
+		leftArrow2.setVisible(false);
+		leftArrow3.setVisible(false);
+		
+		rightArrow1.setVisible(false);
+		rightArrow2.setVisible(false);
+		rightArrow3.setVisible(false);
+		
+	}
+
+	private void applyAbilityData(){
+		
+		abilityTarget.recieveAbilityData(abilityData);
+	}
 }

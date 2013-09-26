@@ -97,18 +97,11 @@ public class ClericClass extends PlayerCharacter {
 		mEmpowerCost = 0;
 
 		// starter gear
-		helmet = new Gear(ITEMTYPE.LIGHT_HELMET, 1/* item lvl */, 2/* str */,
-				3/* dex */, 10/* int */, 4/* vit */, 0/* dmg */, 2/* armor */,
-				false/* is wpn */);
-		chestArmor = new Gear(ITEMTYPE.LIGHT_CHESTPLATE, 1/* item lvl */,
-				1/* str */, 1/* dex */, 8/* int */, 3/* vit */, 0/* dmg */,
-				4/* armor */, false/* is wpn */);
-		legArmor = new Gear(ITEMTYPE.LIGHT_LEGS, 1/* item lvl */, 3/* str */,
-				5/* dex */, 5/* int */, 4/* vit */, 0/* dmg */, 2/* armor */,
-				false/* is wpn */);
-		weaponHand1 = new Gear(ITEMTYPE.WAND, 1/* item lvl */, 2/* str */,
-				5/* dex */, 13/* int */, 3/* vit */, 20/* dmg */, 0/* armor */,
-				true/* is wpn */);
+		//pItemType pItemLevel pStr pDex pInt pVit pDmg pArmor pIsWeapon
+		helmet = new Gear(ITEMTYPE.LIGHT_HELMET, 1, 2, 3, 10, 4, 0, 2, false);
+		chestArmor = new Gear(ITEMTYPE.LIGHT_CHESTPLATE, 1, 1, 1, 8, 3, 0, 4, false);
+		legArmor = new Gear(ITEMTYPE.LIGHT_LEGS, 1, 3, 5, 5, 4, 0, 2, false);
+		weaponHand1 = new Gear(ITEMTYPE.WAND, 1, 2, 5, 13, 3, 20, 0, true);
 		weaponHand2 = null;
 
 		updateItemStats();
@@ -269,6 +262,10 @@ public class ClericClass extends PlayerCharacter {
 		case 5:
 			returnFlag = Empower(pAbilityData);
 			break;
+		}
+		
+		if (mCurrentResources.getResource() < 0) {
+			mCurrentResources.setResource(0);
 		}
 
 		return returnFlag;

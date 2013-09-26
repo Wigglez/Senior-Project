@@ -103,12 +103,11 @@ public class RangerClass extends PlayerCharacter {
 
 		// Starter Gear
 
-		/*
-		 * pItemType pItemLevel pStr pDex pInt pVit pDmg pArmor pIsWeapon
-		 */
+		
+		 //pItemType pItemLevel pStr pDex pInt pVit pDmg pArmor pIsWeapon
+		 
 		helmet = new Gear(ITEMTYPE.MEDIUM_HELMET, 1, 3, 10, 2, 4, 0, 6, false);
-		chestArmor = new Gear(ITEMTYPE.MEDIUM_CHESTPLATE, 1, 1, 8, 1, 3, 0, 9,
-				false);
+		chestArmor = new Gear(ITEMTYPE.MEDIUM_CHESTPLATE, 1, 1, 8, 1, 3, 0, 9,false);
 		legArmor = new Gear(ITEMTYPE.MEDIUM_LEGS, 1, 5, 5, 3, 4, 0, 5, false);
 		weaponHand1 = new Gear(ITEMTYPE.SHORTBOW, 1, 5, 13, 3, 3, 23, 0, true);
 		weaponHand2 = null;
@@ -194,7 +193,7 @@ public class RangerClass extends PlayerCharacter {
 		boolean equipSuccess = false;
 
 		switch (pGearPiece.getItemType()) {
-		case HEAVY_HELMET:
+		case MEDIUM_HELMET:
 
 			// unequip helmet
 			helmet = pGearPiece;
@@ -202,7 +201,7 @@ public class RangerClass extends PlayerCharacter {
 
 			break;
 
-		case HEAVY_CHESTPLATE:
+		case MEDIUM_CHESTPLATE:
 
 			// unequip chest piece
 			chestArmor = pGearPiece;
@@ -210,7 +209,7 @@ public class RangerClass extends PlayerCharacter {
 
 			break;
 
-		case HEAVY_LEGS:
+		case MEDIUM_LEGS:
 
 			// Unequip legs
 			legArmor = pGearPiece;
@@ -280,6 +279,10 @@ public class RangerClass extends PlayerCharacter {
 			returnFlag = StunArrow(pAbilityData);
 			break;
 
+		}
+		
+		if (mCurrentResources.getResource() < 0) {
+			mCurrentResources.setResource(0);
 		}
 
 		return returnFlag;
@@ -357,18 +360,15 @@ public class RangerClass extends PlayerCharacter {
 		mChargedShotCost = 60;
 		if (mCurrentResources.getResource() >= mChargedShotCost) {
 
-			// charges for one turn and has a chance to deal 2-5 times dmg
-
 			// TODO
 			// NEED TURNS TO IMPLEMENT CHARGE
 
-			int damageMod = mCurrentStats.getDamage()
-					* RandomNumber.generateRandomInt(2, 5);
+			float damageMod = mCurrentStats.getDamage()
+					* RandomNumber.generateRandomFloat(1.25f, 2f);
 
-			pAbilityData.setDamageDone(damageMod);
+			pAbilityData.setDamageDone((int) damageMod);
 			// Being stunned needs to affect the player instead of the enemy
-			pAbilityData.setStunned(true);
-			pAbilityData.setStunTurns(1);
+			
 
 			mCurrentResources.setResource(mCurrentResources.getResource()
 					- mChargedShotCost);

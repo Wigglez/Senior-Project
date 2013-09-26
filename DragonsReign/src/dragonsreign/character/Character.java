@@ -181,9 +181,11 @@ public abstract class Character {
 		this.mCurrentStats = pCurrentStats;
 	}
 
-	// Alive
+	// Not alive
 	public boolean isDead() {
-		return (this.getCurrentResources().getHealth() < 0);
+		boolean hpDead = this.getCurrentResources().getHealth() <= 0;
+		
+		return hpDead;
 	}
 
 	// Abilities
@@ -240,6 +242,10 @@ public abstract class Character {
 	public void TakeDamage(int pDamage) {
 
 		mCurrentResources.setHealth(mCurrentResources.getHealth() - pDamage);
+		
+		if (mCurrentResources.getHealth() < 0) {
+			mCurrentResources.setHealth(0);
+		}
 
 	}
 
@@ -247,6 +253,10 @@ public abstract class Character {
 
 		mCurrentResources
 				.setHealth(mCurrentResources.getHealth() + pHealAmount);
+		
+		if (mCurrentResources.getHealth() > mMaxResources.getHealth()) {
+			mCurrentResources.setHealth(mMaxResources.getHealth());
+		}
 
 	}
 

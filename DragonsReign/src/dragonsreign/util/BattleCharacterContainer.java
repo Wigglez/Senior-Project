@@ -19,8 +19,6 @@ public class BattleCharacterContainer {
 
 	private boolean hasTurn;
 
-	protected int mNumOfWaitTurns;
-
 	protected Stats mBuff;
 
 	protected boolean mBleeding;
@@ -78,10 +76,6 @@ public class BattleCharacterContainer {
 
 	public void setHasTurn(boolean pHasTurn) {
 		this.hasTurn = pHasTurn;
-	}
-
-	public int getmNumOfWaitTurns() {
-		return mNumOfWaitTurns;
 	}
 
 	// BLEED
@@ -191,7 +185,7 @@ public class BattleCharacterContainer {
 	public ABILITYFLAGS useAbility(int pAbilityIndex, AbilityData pAbilityData) {
 		ABILITYFLAGS rtnFlag = mCharacter.useAbility(pAbilityIndex, pAbilityData);
 		if( rtnFlag != ABILITYFLAGS.NOT_ENOUGH_RESOURCE){
-			hasTurn = false;
+			hasTurn = true;
 			//TODO OutPut message "Not Enough Resource"
 		}
 		return rtnFlag;
@@ -206,7 +200,7 @@ public class BattleCharacterContainer {
 			return false;
 	}
 
-	public void takeDamage(AbilityData pIncomingDmg) {
+	public void recieveAbilityData(AbilityData pIncomingDmg) {
 		mCharacter.TakeDamage(mCharacter.incomingDamage(pIncomingDmg
 				.getDamageDone()));
 
@@ -361,6 +355,7 @@ public class BattleCharacterContainer {
 			}
 
 		}
+		
 	}
 
 	// ===========================================================
