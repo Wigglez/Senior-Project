@@ -308,7 +308,13 @@ public class RangerClass extends PlayerCharacter {
 	public ABILITYFLAGS FireArrow(AbilityData pAbilityData) {
 		mFireArrowCost = 30;
 		if (mCurrentResources.getResource() >= mFireArrowCost) {
-			float fireArrowDmg = mCurrentStats.getDamage() * .33f;
+			float fireArrowDmg = mCurrentStats.getDamage() * RandomNumber.generateRandomFloat(0.30f, 0.40f) + mCurrentStats.getDexterity() * 0.4f;
+			
+			float dmg = RandomNumber.generateRandomFloat(
+					mCurrentStats.getDamage() * 0.20f,
+					mCurrentStats.getDamage() * 0.30f);
+
+			pAbilityData.setDamageDone((int) dmg);
 
 			pAbilityData.setBurnDamage((int) fireArrowDmg);
 			pAbilityData.setBurning(true);
@@ -326,7 +332,13 @@ public class RangerClass extends PlayerCharacter {
 	public ABILITYFLAGS PoisonArrow(AbilityData pAbilityData) {
 		mPoisonArrowCost = 30;
 		if (mCurrentResources.getResource() >= mPoisonArrowCost) {
-			float poisonArrowDmg = mCurrentStats.getDamage() * .33f;
+			float poisonArrowDmg = mCurrentStats.getDamage() * RandomNumber.generateRandomFloat(0.30f, 0.40f) + mCurrentStats.getDexterity() * 0.4f;
+			
+			float dmg = RandomNumber.generateRandomFloat(
+					mCurrentStats.getDamage() * 0.20f,
+					mCurrentStats.getDamage() * 0.30f);
+
+			pAbilityData.setDamageDone((int) dmg);
 
 			pAbilityData.setPoisonDamage((int) poisonArrowDmg);
 			pAbilityData.setPoisoned(true);
@@ -344,7 +356,7 @@ public class RangerClass extends PlayerCharacter {
 		mSpreadShotCost = 30;
 		if (mCurrentResources.getResource() >= mSpreadShotCost) {
 
-			float spreadShotDmg = 0.6f * mCurrentStats.getDamage();
+			float spreadShotDmg = 0.6f * mCurrentStats.getDamage() + mCurrentStats.getDexterity() * 0.4f;
 
 			pAbilityData.setDamageDone((int) spreadShotDmg);
 
@@ -364,7 +376,7 @@ public class RangerClass extends PlayerCharacter {
 			// NEED TURNS TO IMPLEMENT CHARGE
 
 			float damageMod = mCurrentStats.getDamage()
-					* RandomNumber.generateRandomFloat(1.25f, 2f);
+					* RandomNumber.generateRandomFloat(1.25f, 2f)  + mCurrentStats.getDexterity() * 0.4f;
 
 			pAbilityData.setDamageDone((int) damageMod);
 			// Being stunned needs to affect the player instead of the enemy
@@ -382,7 +394,7 @@ public class RangerClass extends PlayerCharacter {
 		mStunArrowCost = 55;
 		if (mCurrentResources.getResource() >= mStunArrowCost) {
 
-			float dmg = 0.75f * mCurrentStats.getDamage();
+			float dmg = 0.75f * mCurrentStats.getDamage()  + mCurrentStats.getDexterity() * 0.4f;
 
 			pAbilityData.setDamageDone((int) dmg);
 			pAbilityData.setStunned(true);

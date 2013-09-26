@@ -322,7 +322,7 @@ public class WarriorClass extends PlayerCharacter {
 			// // attacks all enemies for 75% base dmg
 			// }
 
-			float dmg = 0.6f * mCurrentStats.getDamage();
+			float dmg = 0.6f * mCurrentStats.getDamage() + mCurrentStats.getStrength() * 0.4f;
 
 			pAbilityData.setDamageDone((int) dmg);
 
@@ -350,7 +350,7 @@ public class WarriorClass extends PlayerCharacter {
 			// 100%
 			// }
 
-			float dmg = 0.75f * mCurrentStats.getDamage();
+			float dmg = 0.75f * mCurrentStats.getDamage() + mCurrentStats.getStrength() * 0.4f ;
 
 			pAbilityData.setDamageDone((int) dmg);
 			pAbilityData.setStunned(true);
@@ -415,7 +415,7 @@ public class WarriorClass extends PlayerCharacter {
 			//
 			// }
 
-			float rendDmg = mCurrentStats.getDamage() * .33f;
+			float rendDmg = mCurrentStats.getDamage() * .33f  + mCurrentStats.getStrength() * 0.4f;
 
 			pAbilityData.setBleedDamage((int) rendDmg);
 			pAbilityData.setBleeding(true);
@@ -445,7 +445,7 @@ public class WarriorClass extends PlayerCharacter {
 
 			// War Cry grants 20% of Warrior's damage to the rest of the party
 			
-			float buffDmg = 0.2f * mCurrentStats.getDamage();
+			float buffDmg = 0.2f * mCurrentStats.getDamage()  + mCurrentStats.getStrength() * 0.4f;
 
 			pAbilityData.getBuff().setDamage((int) buffDmg);
 			pAbilityData.setBuffed(true);

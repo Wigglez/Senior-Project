@@ -22,6 +22,7 @@ import dragonsreign.character.PlayerCharacter;
 import dragonsreign.character.characterclass.ClericClass;
 import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
+import dragonsreign.item.consumable.Potion;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
 import dragonsreign.util.AbilityData;
@@ -29,6 +30,7 @@ import dragonsreign.util.BattleCharacterContainer;
 import dragonsreign.util.RandomNumber;
 import dragonsreign.util.enums.ABILITYFLAGS;
 import dragonsreign.util.enums.ENEMIES;
+import dragonsreign.util.enums.POTIONS;
 
 public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 {
@@ -41,8 +43,10 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	private BattleCharacterContainer focusedPartyMem;
 	private int focusPlyrIdx;
 	private int enemyCount;
+	
 	private Boolean playerTurn;
 	private BattleCharacterContainer abilityTarget;
+	private ABILITYFLAGS targetFlag;
 	
 	private AbilityData abilityData;
 
@@ -712,21 +716,45 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		} else if (pMenuItem.getID() == BUTTONS.BASIC_ATTACK.getValue()) {
 			
 			abilityData = new AbilityData();
-			ABILITYFLAGS flag;
+						
+			targetFlag = focusedPartyMem.useAbility(0, abilityData);
 			
-			flag = focusedPartyMem.useAbility(0, abilityData);
-			
-			
+			targetSelect();
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_ONE.getValue()) {
+			abilityData = new AbilityData();
+			
+			targetFlag = focusedPartyMem.useAbility(1, abilityData);
+			
+			targetSelect();
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_TWO.getValue()) {
+			abilityData = new AbilityData();
+			
+			targetFlag = focusedPartyMem.useAbility(2, abilityData);
+			
+			targetSelect();
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_THREE.getValue()) {
+			abilityData = new AbilityData();
+			
+			targetFlag = focusedPartyMem.useAbility(3, abilityData);
+			
+			targetSelect();
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_FOUR.getValue()) {
+			abilityData = new AbilityData();
+			
+			targetFlag = focusedPartyMem.useAbility(4, abilityData);
+			
+			targetSelect();
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_FIVE.getValue()) {
+			abilityData = new AbilityData();
+			
+			targetFlag = focusedPartyMem.useAbility(5, abilityData);
+			
+			targetSelect();
 			setChildScene(battleMenuChildScene);
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.ITEM_1.getValue()) {
@@ -909,19 +937,17 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		
 	}
 	
-	private void targetSelect(ABILITYFLAGS flag){
-		switch(flag) {
+	private void targetSelect(){
+		switch(targetFlag) {
 		
 		case BUFF_ALL:
 			
-			
+			applyAbilityData();
 			break;
 		case DAMAGE_ALL:
 		case DAMAGE_HEAL_SINGLE:
 		case DAMAGE_SINGLE:
-			
-					
-			
+
 			if (enemyPlyr[0] != null && !enemyPlyr[0].isDead()) {
 				registerTouchArea(enemy1);
 				rightArrow1.setVisible(true);
@@ -934,7 +960,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 				registerTouchArea(enemy3);
 				rightArrow3.setVisible(true);
 			}
-			
+
 			break;
 			
 		// UNUSED FOR DEMO
@@ -1027,6 +1053,76 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 
 	private void applyAbilityData(){
 		
-		abilityTarget.recieveAbilityData(abilityData);
+		switch (targetFlag) {
+		case BUFF_ALL:
+			if (partyMem[0] != null) {
+				partyMem[0].recieveAbilityData(abilityData);
+			}
+
+			if (partyMem[1] != null) {
+				partyMem[1].recieveAbilityData(abilityData);
+
+			}
+			if (partyMem[2] != null) {
+				partyMem[2].recieveAbilityData(abilityData);
+
+			}
+			break;
+		case DAMAGE_ALL:
+			if (enemyPlyr[0] != null) {
+				enemyPlyr[0].recieveAbilityData(abilityData);
+			}
+			if (enemyPlyr[1] != null) {
+				enemyPlyr[1].recieveAbilityData(abilityData);
+			}
+			if (enemyPlyr[2] != null) {
+				enemyPlyr[2].recieveAbilityData(abilityData);
+			}
+			break;
+
+		case DAMAGE_HEAL_SINGLE:
+			abilityTarget.recieveAbilityData(abilityData);
+
+			abilityData
+					.setHealingDone((int) (abilityData.getDamageDone() / 2.0f));
+			abilityData.setHealed(true);
+			abilityData.setDamageDone(0);
+
+			focusedPartyMem.recieveAbilityData(abilityData);
+
+			break;
+		case DAMAGE_SINGLE:
+			abilityTarget.recieveAbilityData(abilityData);
+			break;
+		case DEBUFF:
+			break;
+		case HEAL_ALL:
+			if (partyMem[0] != null) {
+				partyMem[0].recieveAbilityData(abilityData);
+			}
+
+			if (partyMem[1] != null) {
+				partyMem[1].recieveAbilityData(abilityData);
+
+			}
+			if (partyMem[2] != null) {
+				partyMem[2].recieveAbilityData(abilityData);
+
+			}
+			break;
+		case HEAL_SINGLE:
+			abilityTarget.recieveAbilityData(abilityData);
+			break;
+		case NOT_ENOUGH_RESOURCE:
+			break;
+		case REVIVE:
+			abilityTarget.useItem(new Potion(POTIONS.BASIC_REVIVE_POTION));
+			break;
+		case SELF_CAST:
+			break;
+
+		}
+		
+		updateInfoText();
 	}
 }

@@ -289,20 +289,17 @@ public class ClericClass extends PlayerCharacter {
 	}
 
 	public ABILITYFLAGS Mend(AbilityData pAbilityData) {
-		mMendCost = 50;
+		mMendCost = 15;
 
 		if (this.getCurrentResources().getResource() >= mMendCost) {
 			// TODO
 			// NEED TURNS FOR HEAL OVER TIME
 
 			// Arbitrary as hell, see if it works out
-			int mendInitialHeal = mCurrentStats.getDamage() * 3;
-			int mendHealOverTime = mCurrentStats.getDamage();
+			float mendHeal = mCurrentStats.getIntelligence() * 0.75f;
 
-			pAbilityData.setHealingDone(mendInitialHeal);
-			pAbilityData.setHealingDone(mendHealOverTime); // look at this
+			pAbilityData.setHealingDone((int) mendHeal);
 			pAbilityData.setHealed(true);
-			pAbilityData.setHealTurns(3);
 
 			mCurrentResources.setResource(mCurrentResources.getResource()
 					- mMendCost);
@@ -316,11 +313,9 @@ public class ClericClass extends PlayerCharacter {
 		mLifeSiphonCost = 30;
 		if (this.getCurrentResources().getResource() >= mLifeSiphonCost) {
 
-			float siphonDmg = (float) (mCurrentStats.getDamage() * 0.50);
-			float siphonHeal = siphonDmg;
+			float siphonDmg = (float) (mCurrentStats.getDamage() * 0.50)  + mCurrentStats.getIntelligence() * 0.4f;
 
 			pAbilityData.setDamageDone((int) siphonDmg);
-			pAbilityData.setHealingDone((int) siphonHeal);
 			
 			mCurrentResources.setResource(mCurrentResources.getResource()
 					- mLifeSiphonCost);
@@ -352,17 +347,8 @@ public class ClericClass extends PlayerCharacter {
 		mHealingChantCost = 80;
 		if (this.getCurrentResources().getResource() >= mHealingChantCost) {
 
-			if (mHealingChantLevel == 1) {
-				// charges the spell for one turn then after the turn has
-				// elapsed heals entire party
-				// costs substantial mana
-			}
-
-			// TODO
-			// Need party members
-
 			// heals 60% max health
-			float healingChantAmount = (float) (mMaxResources.getHealth() * 0.60);
+			float healingChantAmount = mMaxResources.getHealth() * 0.60f   + mCurrentStats.getIntelligence() * 0.4f;
 
 			pAbilityData.setHealingDone((int) healingChantAmount);
 
@@ -381,10 +367,10 @@ public class ClericClass extends PlayerCharacter {
 
 			// Empower grants 20% bonus stats to party members
 
-			float buffStrStat = 0.2f * mCurrentStats.getStrength();
-			float buffDexStat = 0.2f * mCurrentStats.getDexterity();
-			float buffIntStat = 0.2f * mCurrentStats.getIntelligence();
-			float buffVitStat = 0.2f * mCurrentStats.getVitality();
+			float buffStrStat = 0.2f * mCurrentStats.getStrength() + mCurrentStats.getIntelligence() * 0.4f;
+			float buffDexStat = 0.2f * mCurrentStats.getDexterity() + mCurrentStats.getIntelligence() * 0.4f;
+			float buffIntStat = 0.2f * mCurrentStats.getIntelligence() + mCurrentStats.getIntelligence() * 0.4f;
+			float buffVitStat = 0.2f * mCurrentStats.getVitality() + mCurrentStats.getIntelligence() * 0.4f;
 
 			pAbilityData.getBuff().setStrength((int) buffStrStat);
 			pAbilityData.getBuff().setDexterity((int) buffDexStat);
