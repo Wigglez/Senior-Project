@@ -141,7 +141,39 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		generateRandomEnemies();
 		
 		focusedPartyMem = new BattleCharacterContainer();
-		focusPlyrIdx = 0;
+		
+		// Don't give focus to a non-existent or dead party member when we start a new battle
+		// If first party member exists
+		if (partyMem[0] != null) {
+			// First party member is not dead
+			if (!partyMem[0].isDead()) {
+				// Receive focus
+				focusPlyrIdx = 0;
+			} else if (partyMem[0].isDead()) {
+				// First party member is dead, pass focus
+
+				// If second party member exists
+				if (partyMem[1] != null) {
+					// Second party member is not dead
+					if (!partyMem[1].isDead()) {
+						// Receive focus
+						focusPlyrIdx = 1;
+					} else if (partyMem[1].isDead()) {
+						// Second party member is dead, pass focus
+
+						// If third party member exists
+						if (partyMem[2] != null) {
+							// Third party member is not dead
+							if (!partyMem[2].isDead()) {
+								// Receive focus
+								focusPlyrIdx = 2;
+							}
+						}
+					}
+				}
+			}
+		}
+		
 		focusedPartyMem = partyMem[focusPlyrIdx];
 		
 		abilityTarget  = new BattleCharacterContainer();
