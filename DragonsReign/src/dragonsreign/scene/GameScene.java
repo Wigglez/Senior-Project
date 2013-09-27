@@ -77,7 +77,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 
 	private MenuScene gameChildScene;
 	private ScaleMenuItemDecorator backpackHUDItem, mapHUDItem;
-	private int PLAYER_VELOCITY = 2;
+	private int PLAYER_VELOCITY = 4;
 	
 	public TMXLayer mTMXMapTouchLayer;
 	private TMXLoader TMXloader;
@@ -223,8 +223,8 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 							
 					}
 	            }
-			});
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/village.tmx");
+			}); 
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/Mountain_No_Grass.tmx");
 		}
 		catch (final TMXLoadException tmxle)
 		{
@@ -263,7 +263,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
         //////////////////////////////////////////////////////////////////////
         //Creates and Adds the Animated Sprite, Sets Camera Chase Entity
         //////////////////////////////////////////////////////////////////////
-        player = new AnimatedSprite(18 * 32, 43 * 32, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+        player = new AnimatedSprite(6 * 32, 59 * 32, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
         camera.setChaseEntity(player);
         final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 0.5f);
         mPlayerBody = PhysicsFactory.createBoxBody(this.mPhysicsWorld, player, BodyType.DynamicBody, playerFixtureDef);
@@ -287,7 +287,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
         physicsHandler = new PhysicsHandler(player);
         player.registerUpdateHandler(physicsHandler);
         attachChild(player);
-        player.setZIndex(10);
+        //player.setZIndex(10);
         
         
         attachControls();
