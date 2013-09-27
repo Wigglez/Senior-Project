@@ -59,8 +59,6 @@ public class Enemy extends Character {
 		pPlayerDamage /= 3;
 		pPlayerArmor /= 3;
 
-		mCurrentResources = new Resources();
-		mCurrentStats = new Stats();
 		// TODO
 		// Figure out goldreward and experiencereward scaling
 

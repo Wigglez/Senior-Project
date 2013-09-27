@@ -52,7 +52,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 
 	private Sprite teamMember1, teamMember2, teamMember3, enemy1, enemy2,
 			enemy3, leftArrow1, leftArrow2, leftArrow3, rightArrow1,
-			rightArrow2, rightArrow3, focusArrow;
+			rightArrow2, rightArrow3, focusArrow, exitButton;
 
 	private ScaleMenuItemDecorator abilitiesButton, itemsButton, swapButton,
 			fleeButton, basicAttack, skillOne, skillTwo, skillThree, skillFour,
@@ -180,6 +180,33 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Create Player and Enemy Sprites
 		/////////////////////////////////////////////////////////////////////////////////////
+		
+		exitButton = new Sprite(0, 0, resourcesManager.exitButton, this.engine.getVertexBufferObjectManager())
+		{
+            @Override
+            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY)
+            {
+            	switch (pSceneTouchEvent.getAction()) 
+            	{
+                	case TouchEvent.ACTION_DOWN:
+                		setChildScene(battleMenuChildScene);
+                		
+                		exitButton.setVisible(false);
+					break;
+
+                }
+                return true;
+           
+            }
+		};
+
+		registerTouchArea(exitButton);
+
+		exitButton.setPosition(-12, 305);
+		exitButton.setScale(0.5f);
+		
+		attachChild(exitButton);
+		exitButton.setVisible(false);
 		
 		if (partyMem[0] != null) {
 			//teamMember1 = partyMem1.getCharacter().getSprite();
@@ -405,29 +432,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			rightArrow3.setPosition(511, 225);
 			rightArrow3.setVisible(false);
 		}
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Register the Touch Areas
-		////////////////////////////////////////////////////////////////////////////////////
-//		if (partyMem[0] != null) {
-//			registerTouchArea(teamMember1);
-//		}
-//		if (partyMem[1] != null) {
-//			registerTouchArea(teamMember2);
-//		}
-//		if (partyMem[2] != null) {
-//			registerTouchArea(teamMember3);
-//		}
-//		
-//		if (enemyPlyr[0] != null) {
-//			registerTouchArea(enemy1);
-//		}
-//		if (enemyPlyr[1] != null) {
-//			registerTouchArea(enemy2);
-//		}
-//		if (enemyPlyr[2] != null) {
-//			registerTouchArea(enemy3);
-//		}
+	
 		
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Attach Sprites to the Screen
@@ -484,7 +489,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	public void createBattleView()
 	{
 	
-		setBackground(new Background(Color.RED));
+		setBackground(new Background(Color.CYAN));
 		
 	}
 	public void createBattleMenuView()
@@ -543,8 +548,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		battleMenuChildScene.addMenuItem(fleeButton);
 		
 		
-		battleMenuChildScene.setVisible(true);
-
+		
 	}
 	public void createAbilitiesMenuView()
 	{
@@ -615,6 +619,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		abilitiesChildScene.addMenuItem(skillFour);
 		abilitiesChildScene.addMenuItem(skillFive);
 
+		
 	}
 	public void createItemsMenuView()
 	{
@@ -690,9 +695,12 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	{
 		if (pMenuItem.getID() == BUTTONS.ABILITIES.getValue()) {
 			setChildScene(abilitiesChildScene);
+			exitButton.setVisible(true);
+			
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.ITEMS.getValue()) {
 			setChildScene(itemsChildScene);
+			exitButton.setVisible(true);
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SWAP.getValue()) {
 
@@ -777,7 +785,6 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			targetFlag = focusedPartyMem.useAbility(5, abilityData);
 			
 			targetSelect();
-			setChildScene(battleMenuChildScene);
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.ITEM_1.getValue()) {
 			return true;
@@ -790,7 +797,6 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		} else if (pMenuItem.getID() == BUTTONS.ITEM_5.getValue()) {
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.ITEM_6.getValue()) {
-			setChildScene(battleMenuChildScene);
 			return true;
 		} else {
 			return false;
@@ -1163,7 +1169,11 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		updateInfoText();
 		
 		if(playerTurn){
+			//battleMenuChildScene.setVisible(true);
+			exitButton.setVisible(false);
+			
+			setChildScene(battleMenuChildScene);
 			swap();
-		}
+		} 
 	}
 }

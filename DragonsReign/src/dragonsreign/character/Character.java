@@ -76,12 +76,6 @@ public abstract class Character {
 		mBaseStats.setDamage(0);
 		mBaseStats.setArmor(0);
 
-		// Sets the current and max to the base to have initial values
-//		mCurrentResources = mBaseResources;
-//		mCurrentStats = mBaseStats;
-//
-//		mMaxResources = mBaseResources;
-		
 		mAbility = new String[6];
 	}
 
