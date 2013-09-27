@@ -664,17 +664,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SWAP.getValue()) {
 
-			do {
-				focusPlyrIdx += 1;
-				if (focusPlyrIdx > 2)
-					focusPlyrIdx = 0;
-				focusedPartyMem = partyMem[focusPlyrIdx];
-
-			} while (!(focusedPartyMem.hasTurn()) || focusedPartyMem.isDead());
-
-			updateAbilityButtons();
-			focusArrow.setVisible(true);
-			focusArrow.setPosition(225, (focusPlyrIdx * 100) + 25);
+			swap();
 
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.FLEE.getValue()) {
@@ -775,6 +765,21 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		}
 	}
 	
+	private void swap() {
+		do {
+			focusPlyrIdx += 1;
+			if (focusPlyrIdx > 2)
+				focusPlyrIdx = 0;
+			focusedPartyMem = partyMem[focusPlyrIdx];
+
+		} while (!(focusedPartyMem.hasTurn()) || focusedPartyMem.isDead());
+
+		updateAbilityButtons();
+		focusArrow.setVisible(true);
+		focusArrow.setPosition(225, (focusPlyrIdx * 100) + 25);
+		
+	}
+
 	@Override
 	public void onBackKeyPressed() 
 	{
@@ -1067,6 +1072,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 				partyMem[2].recieveAbilityData(abilityData);
 
 			}
+			
 			break;
 		case DAMAGE_ALL:
 			if (enemyPlyr[0] != null) {
@@ -1078,6 +1084,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			if (enemyPlyr[2] != null) {
 				enemyPlyr[2].recieveAbilityData(abilityData);
 			}
+			
+			writeToScreen(focusedPartyMem.getName() + " buffed the party", 1);
 			break;
 
 		case DAMAGE_HEAL_SINGLE:
@@ -1124,5 +1132,10 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		}
 		
 		updateInfoText();
+		
+		if(playerTurn){
+			swap();
+		}
+		
 	}
 }
