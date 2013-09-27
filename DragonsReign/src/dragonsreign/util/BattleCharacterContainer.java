@@ -184,7 +184,8 @@ public class BattleCharacterContainer {
 
 	public ABILITYFLAGS useAbility(int pAbilityIndex, AbilityData pAbilityData) {
 		ABILITYFLAGS rtnFlag = mCharacter.useAbility(pAbilityIndex, pAbilityData);
-		if( rtnFlag != ABILITYFLAGS.NOT_ENOUGH_RESOURCE){
+		//If ability flag is NOT_ENOUGH_RESOURCE then they don't lose their turn
+		if( rtnFlag == ABILITYFLAGS.NOT_ENOUGH_RESOURCE){
 			hasTurn = true;
 			//TODO OutPut message "Not Enough Resource"
 		} else

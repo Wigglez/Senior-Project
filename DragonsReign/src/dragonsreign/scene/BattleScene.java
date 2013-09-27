@@ -49,6 +49,10 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	private ABILITYFLAGS targetFlag;
 	
 	private AbilityData abilityData;
+	
+	//Ability String Data to output
+	String[] plyrAbilities;
+	String abilityUser, ability, target;
 
 	private Sprite teamMember1, teamMember2, teamMember3, enemy1, enemy2,
 			enemy3, leftArrow1, leftArrow2, leftArrow3, rightArrow1,
@@ -220,6 +224,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 						
 						abilityTarget = partyMem[0];
 						clearTargetSelection();
+						target = partyMem[0].getName();
 						
 						applyAbilityData();
 						break;
@@ -243,6 +248,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 						
 						abilityTarget = partyMem[1];
 						clearTargetSelection();
+						target = partyMem[1].getName();
 						
 						applyAbilityData();
 						
@@ -267,6 +273,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 						
 						abilityTarget = partyMem[2];
 						clearTargetSelection();
+						target = partyMem[2].getName();
 						
 						applyAbilityData();
 						break;
@@ -291,6 +298,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 						
 						abilityTarget = enemyPlyr[0];
 						clearTargetSelection();
+						target = enemyPlyr[0].getName();
 
 						applyAbilityData();
 						break;
@@ -316,7 +324,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 
 						abilityTarget = enemyPlyr[1];
 						clearTargetSelection();
-
+						target = enemyPlyr[1].getName();
+						
 						applyAbilityData();
 						break;
 
@@ -340,6 +349,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 
 						abilityTarget = enemyPlyr[2];
 						clearTargetSelection();
+						target = enemyPlyr[2].getName();
 
 						applyAbilityData();
 						break;
@@ -481,6 +491,9 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		createItemsMenuView();
 		
 		hasteCheck();
+		if(!playerTurn){
+			battleMenuChildScene.setVisible(false);
+		}
 		//BattleLoop();
 		
 	
@@ -569,25 +582,20 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Create Button Texts
 		/////////////////////////////////////////////////////////////////////////////////////
-		String[] plyrAbilities = focusedPartyMem.getAbilityNames();
+		plyrAbilities = focusedPartyMem.getAbilityNames();
 		basicAttackText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		basicAttackText.setText(plyrAbilities[0]);
 		
 		skillOneText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		skillOneText.setText(plyrAbilities[1]);
 		
 		skillTwoText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		skillTwoText.setText(plyrAbilities[2]);
 		
 		skillThreeText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		skillThreeText.setText(plyrAbilities[3]);
 		
 		skillFourText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		skillFourText.setText(plyrAbilities[4]);
 		
 		skillFiveText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		skillFiveText.setText(plyrAbilities[5]);
-		
+
+		updateAbilityButtons();
 		
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Attach Button Texts to Buttons
@@ -749,6 +757,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 						
 			targetFlag = focusedPartyMem.useAbility(0, abilityData);
 			
+			abilityUser = focusedPartyMem.getName();
+			ability = plyrAbilities[0];
 			targetSelect();
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_ONE.getValue()) {
@@ -756,6 +766,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			
 			targetFlag = focusedPartyMem.useAbility(1, abilityData);
 			
+			abilityUser = focusedPartyMem.getName();
+			ability = plyrAbilities[1];
 			targetSelect();
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_TWO.getValue()) {
@@ -763,6 +775,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			
 			targetFlag = focusedPartyMem.useAbility(2, abilityData);
 			
+			abilityUser = focusedPartyMem.getName();
+			ability = plyrAbilities[2];
 			targetSelect();
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_THREE.getValue()) {
@@ -770,6 +784,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			
 			targetFlag = focusedPartyMem.useAbility(3, abilityData);
 			
+			abilityUser = focusedPartyMem.getName();
+			ability = plyrAbilities[3];
 			targetSelect();
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_FOUR.getValue()) {
@@ -777,6 +793,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			
 			targetFlag = focusedPartyMem.useAbility(4, abilityData);
 			
+			abilityUser = focusedPartyMem.getName();
+			ability = plyrAbilities[4];
 			targetSelect();
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_FIVE.getValue()) {
@@ -784,6 +802,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			
 			targetFlag = focusedPartyMem.useAbility(5, abilityData);
 			
+			abilityUser = focusedPartyMem.getName();
+			ability = plyrAbilities[5];
 			targetSelect();
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.ITEM_1.getValue()) {
@@ -804,14 +824,19 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	}
 	
 	private void swap() {
+		int plyrsWithoutTurn = 0;
 		do {
 			focusPlyrIdx += 1;
 			if (focusPlyrIdx > 2)
 				focusPlyrIdx = 0;
 			focusedPartyMem = partyMem[focusPlyrIdx];
+			plyrsWithoutTurn++;
+		} while (plyrsWithoutTurn < 4 && !(focusedPartyMem.hasTurn()) || focusedPartyMem.isDead() );
 
-		} while (!(focusedPartyMem.hasTurn()) || focusedPartyMem.isDead());
-
+		if(plyrsWithoutTurn == 4){
+			playerTurn = false;
+			enemyTurn();
+		}
 		updateAbilityButtons();
 		focusArrow.setVisible(true);
 		focusArrow.setPosition(225, (focusPlyrIdx * 100) + 25);
@@ -934,7 +959,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	}
 	
 	private void updateAbilityButtons(){
-		String[] plyrAbilities = focusedPartyMem.getAbilityNames();
+		plyrAbilities = focusedPartyMem.getAbilityNames();
 		
 		basicAttackText.setText(plyrAbilities[0]);
 		
@@ -973,11 +998,32 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 	}
 	
 	private void playerTurn(){
-		
+		//TODO
+		//set turns to true
+		//Apply BattleEffects
+		//Add Resources (Max - current * .20f)
+		//Battle Menu visible = true
+		//focus arrow = true
 	}
 	
 	private void enemyTurn(){
+		//TODO
+		//Battle Menu visible = false
+		//Focus arrow visible = false
+		//Apply BattleEffects to all enemies
+		//Set enemy turns to true
+		writeToScreen("Enemy Turn", 1);
 		
+		for (int idx = 0; idx < enemyCount; idx++) {
+			if (enemyPlyr[idx] != null && !enemyPlyr[idx].isDead()) {
+				// Random attack
+				// Random Target
+				// ApplyDamage
+			}
+		}
+	
+		
+		playerTurn();
 	}
 	
 	private void targetSelect(){
@@ -1110,6 +1156,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 				partyMem[2].recieveAbilityData(abilityData);
 
 			}
+			writeToScreen(abilityUser + " used " + ability + " on party.", 1);
 			break;
 		case DAMAGE_ALL:
 			if (enemyPlyr[0] != null) {
@@ -1121,6 +1168,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			if (enemyPlyr[2] != null) {
 				enemyPlyr[2].recieveAbilityData(abilityData);
 			}
+			
+			writeToScreen(abilityUser + " used " + ability + " on all enemies.", 1);
 			break;
 
 		case DAMAGE_HEAL_SINGLE:
@@ -1133,9 +1182,11 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 
 			focusedPartyMem.recieveAbilityData(abilityData);
 
+			writeToScreen(abilityUser+ " used " + ability + " on " + target + ".", 1);
 			break;
 		case DAMAGE_SINGLE:
 			abilityTarget.recieveAbilityData(abilityData);
+			writeToScreen(abilityUser+ " used " + ability + " on " + target + ".", 1);
 			break;
 		case DEBUFF:
 			break;
@@ -1152,14 +1203,18 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 				partyMem[2].recieveAbilityData(abilityData);
 
 			}
+			
+			writeToScreen(abilityUser + " used " + ability + " on party.", 1);
 			break;
 		case HEAL_SINGLE:
 			abilityTarget.recieveAbilityData(abilityData);
+			writeToScreen(abilityUser+ " used " + ability + " on " + target + ".", 1);
 			break;
 		case NOT_ENOUGH_RESOURCE:
 			break;
 		case REVIVE:
 			abilityTarget.useItem(new Potion(POTIONS.BASIC_REVIVE_POTION));
+			writeToScreen(abilityUser+ " used " + ability + " on " + target + ".", 1);
 			break;
 		case SELF_CAST:
 			break;
@@ -1175,5 +1230,10 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			setChildScene(battleMenuChildScene);
 			swap();
 		} 
+		
+		//TODO
+		//Death Checks
+		//Toast when someone dies
+		//Win/loss stuff
 	}
 }
