@@ -187,7 +187,8 @@ public class BattleCharacterContainer {
 		if( rtnFlag != ABILITYFLAGS.NOT_ENOUGH_RESOURCE){
 			hasTurn = true;
 			//TODO OutPut message "Not Enough Resource"
-		}
+		} else
+			hasTurn = false;
 		return rtnFlag;
 	}
 
