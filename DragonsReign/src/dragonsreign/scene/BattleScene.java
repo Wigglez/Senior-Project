@@ -32,27 +32,59 @@ import dragonsreign.util.enums.ABILITYFLAGS;
 import dragonsreign.util.enums.ENEMIES;
 import dragonsreign.util.enums.POTIONS;
 
-public class BattleScene extends BaseScene implements IOnMenuItemClickListener
-{
+public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
+	// ===========================================================
+	// Constants
+	// ===========================================================
 
+	private enum BUTTONS
+	{
+		ABILITIES(0),
+		ITEMS(1),
+		SWAP(2),
+		FLEE(3),
+		BASIC_ATTACK(4),
+		SKILL_ONE(5),
+		SKILL_TWO(6),
+		SKILL_THREE(7),
+		SKILL_FOUR(8),
+		SKILL_FIVE(9),
+		ITEM_1(10),
+		ITEM_2(11),
+		ITEM_3(12),
+		ITEM_4(13),
+		ITEM_5(14),
+		ITEM_6(15);
+		
+		private final int value;
+
+		private BUTTONS(final int newValue) {
+			value = newValue;
+		}
+
+		private final int getValue() {
+			return value;
+
+		}
+	}
 	
+	// ===========================================================
+	// Fields
+	// ===========================================================
+
+	/////////////////
+	// Classes/enums
+	/////////////////
 	private MenuScene battleMenuChildScene, abilitiesChildScene,
 			itemsChildScene;
 
 	private BattleCharacterContainer partyMem[], enemyPlyr[];
 	private BattleCharacterContainer focusedPartyMem;
-	private int focusPlyrIdx;
-	private int enemyCount;
-	
-	private Boolean playerTurn;
 	private BattleCharacterContainer abilityTarget;
+
 	private ABILITYFLAGS targetFlag;
-	
+
 	private AbilityData abilityData;
-	
-	//Ability String Data to output
-	String[] plyrAbilities;
-	String abilityUser, ability, target;
 
 	private Sprite teamMember1, teamMember2, teamMember3, enemy1, enemy2,
 			enemy3, leftArrow1, leftArrow2, leftArrow3, rightArrow1,
@@ -69,84 +101,83 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			teamMember3Info, enemy1Info, enemy2Info, enemy3Info;
 
 	private BoundCamera mcamera;
-	
-	private enum BUTTONS
-	{
-		ABILITIES(0),
-		ITEMS(1),
-		SWAP(2) ,
-		FLEE(3) ,
-		BASIC_ATTACK(4) ,
-		SKILL_ONE(5) ,
-		SKILL_TWO(6) ,
-		SKILL_THREE(7) ,
-		SKILL_FOUR(8) ,
-		SKILL_FIVE(9) ,
-		ITEM_1(10) ,
-		ITEM_2(11) ,
-		ITEM_3(12) ,
-		ITEM_4(13) ,
-		ITEM_5(14) ,
-		ITEM_6(15);
-		
-		private final int value;
-		
-		private BUTTONS(final int newValue) 
-		{
-            value = newValue;
-        }
 
-        private final int getValue() 
-        { 
-        	return value; 
-        	
-        }
-	}
+	/////////////////
+	// Basic datatypes
+	/////////////////
+	private int focusPlyrIdx, enemyCount;
 
+	private Boolean playerTurn;
 	
+	// Ability String Data to output
+	private String[] plyrAbilities;
+	private String abilityUser, ability, target;
 	
+	// ===========================================================
+	// Constructors
+	// ===========================================================
+
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
+
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
+	// ===========================================================
+
 	@Override
-	public void createScene() 
-	{
+	public void createScene() {
+		// Set up a camera
 		camera.setChaseEntity(null);
 		camera.offsetCenter(camera.getCenterX() * -1, camera.getCenterY() * -1);
 		
 		mcamera = new BoundCamera(0, 0, ((DragonsReignActivity)activity).CAMERA_WIDTH, ((DragonsReignActivity)activity).CAMERA_HEIGHT);
-	    /////////////////////////////////////////////////////////////////////////////////////
-	    //Create ChildScenes
-	    /////////////////////////////////////////////////////////////////////////////////////
+	    
+		//////////////////////
+	    // Create ChildScenes
+	    //////////////////////
 		battleMenuChildScene = new MenuScene(mcamera);
 		abilitiesChildScene = new MenuScene(mcamera);
 		itemsChildScene = new MenuScene(mcamera);
 		
-		/////////////////////////////////////////////////////////////////////////////////////
-		//Set First Child Scene
-		/////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////
+		// Set First Child Scene
+		//////////////////////
 		setChildScene(battleMenuChildScene);
 		
-		/////////////////////////////////////////////////////////////////////////////////////
-		//Add On Menu Item Click Listeners For Each Child Scene
-		/////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////
+		// Add On Menu Item Click Listeners For Each Child Scene
+		//////////////////////
 		battleMenuChildScene.setOnMenuItemClickListener(this);
 		abilitiesChildScene.setOnMenuItemClickListener(this);
 		itemsChildScene.setOnMenuItemClickListener(this);
 		
+		//////////////////////
+		// Create players of the battle
+		//////////////////////
 		
-		/////////////////////////////////////////////////////////////////////////////////////
-		//Create Players of the battle
-		/////////////////////////////////////////////////////////////////////////////////////		
+		// Our party members
 		partyMem = new BattleCharacterContainer[3];
 		enemyPlyr = new BattleCharacterContainer[3];
 		
+		// The currently focused party member
+		focusedPartyMem = new BattleCharacterContainer();
+		
+		// The receiver of an ability
+		abilityTarget  = new BattleCharacterContainer();
+		
+		// TODO
+		// This needs to bring in currently active party members
 		partyMem[0] = new BattleCharacterContainer(new WarriorClass());
 		partyMem[1] = new BattleCharacterContainer(new RangerClass());
 		partyMem[2] = new BattleCharacterContainer(new ClericClass());
 		
+		// Generates random enemies based on our zone and gives us a count
 		generateRandomEnemies();
 		
-		focusedPartyMem = new BattleCharacterContainer();
+		// Don't give focus to a non-existent or dead party member when we start
+		// a new battle
 		
-		// Don't give focus to a non-existent or dead party member when we start a new battle
 		// If first party member exists
 		if (partyMem[0] != null) {
 			// First party member is not dead
@@ -178,39 +209,200 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			}
 		}
 		
+		// The focused party member is what was determined by the conditions
+		// above
 		focusedPartyMem = partyMem[focusPlyrIdx];
+	
+		//////////////////////
+		// Create touch areas
+		//////////////////////
+		createTouchAreas();
 		
-		abilityTarget  = new BattleCharacterContainer();
-		/////////////////////////////////////////////////////////////////////////////////////
-		//Create Player and Enemy Sprites
-		/////////////////////////////////////////////////////////////////////////////////////
+		updateInfoText();
 		
+		//////////////////////
+		//Create the Child Scenes
+		//////////////////////
+		createBattleView();
+		createBattleMenuView();
+		createAbilitiesMenuView();
+		createItemsMenuView();
+		
+		// Determine who is going to go first
+		hasteCheck();
+		
+		// If it's not our turn right away, hide the buttons
+		if(!playerTurn){
+			battleMenuChildScene.setVisible(false);
+		}
+		
+		// Everything has been set up at this point, enter our battle
+		//BattleLoop();
+	}
+	
+	@Override
+	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) {
+		if (pMenuItem.getID() == BUTTONS.ABILITIES.getValue()) {
+			setChildScene(abilitiesChildScene);
+			
+			// Exit button available for this scene in order to return
+			exitButton.setVisible(true);
+			
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.ITEMS.getValue()) {
+			setChildScene(itemsChildScene);
+			
+			// Exit button available for this scene in order to return
+			exitButton.setVisible(true);
+			
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.SWAP.getValue()) {
+			// Gets us to the next party member with an available turn
+			swap();
+
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.FLEE.getValue()) {
+			// Determines if we can flee the battle
+			flee();
+			
+			
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.BASIC_ATTACK.getValue()) {
+			
+			abilityData = new AbilityData();
+						
+			// Determine what we just did in the battle using ability 0
+			targetFlag = focusedPartyMem.useAbility(0, abilityData);
+			
+			// String data for messages
+			abilityUser = focusedPartyMem.getName();
+			ability = plyrAbilities[0];
+			targetSelect();
+			
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.SKILL_ONE.getValue()) {
+			abilityData = new AbilityData();
+			
+			// Determine what we just did in the battle using ability 1
+			targetFlag = focusedPartyMem.useAbility(1, abilityData);
+			
+			// String data for messages
+			abilityUser = focusedPartyMem.getName();
+			ability = plyrAbilities[1];
+			targetSelect();
+			
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.SKILL_TWO.getValue()) {
+			abilityData = new AbilityData();
+			
+			// Determine what we just did in the battle using ability 2
+			targetFlag = focusedPartyMem.useAbility(2, abilityData);
+			
+			// String data for messages
+			abilityUser = focusedPartyMem.getName();
+			ability = plyrAbilities[2];
+			targetSelect();
+			
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.SKILL_THREE.getValue()) {
+			abilityData = new AbilityData();
+			
+			// Determine what we just did in the battle using ability 3
+			targetFlag = focusedPartyMem.useAbility(3, abilityData);
+			
+			// String data for messages
+			abilityUser = focusedPartyMem.getName();
+			ability = plyrAbilities[3];
+			targetSelect();
+			
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.SKILL_FOUR.getValue()) {
+			abilityData = new AbilityData();
+			
+			// Determine what we just did in the battle using ability 4
+			targetFlag = focusedPartyMem.useAbility(4, abilityData);
+			
+			// String data for messages
+			abilityUser = focusedPartyMem.getName();
+			ability = plyrAbilities[4];
+			targetSelect();
+			
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.SKILL_FIVE.getValue()) {
+			abilityData = new AbilityData();
+			
+			// Determine what we just did in the battle using ability 5
+			targetFlag = focusedPartyMem.useAbility(5, abilityData);
+			
+			// String data for messages
+			abilityUser = focusedPartyMem.getName();
+			ability = plyrAbilities[5];
+			targetSelect();
+			
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.ITEM_1.getValue()) {
+			// TODO
+			// Add functionality for items after inventory completed
+			
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.ITEM_2.getValue()) {
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.ITEM_3.getValue()) {
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.ITEM_4.getValue()) {
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.ITEM_5.getValue()) {
+			return true;
+		} else if (pMenuItem.getID() == BUTTONS.ITEM_6.getValue()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public void onBackKeyPressed() {
+		// TODO Auto-generated method stub
+		SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_GAME);
+
+	}
+
+	@Override
+	public SceneType getSceneType() {
+		// TODO Auto-generated method stub
+		return SceneType.SCENE_BATTLE;
+	}
+
+	@Override
+	public void disposeScene() {
+		// TODO Auto-generated method stub
+
+	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+	// Creates touch areas where sprites are on the screen
+	public void createTouchAreas() {
 		exitButton = new Sprite(0, 0, resourcesManager.exitButton, this.engine.getVertexBufferObjectManager())
 		{
-            @Override
-            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY)
-            {
-            	switch (pSceneTouchEvent.getAction()) 
-            	{
-                	case TouchEvent.ACTION_DOWN:
-                		setChildScene(battleMenuChildScene);
-                		
-                		exitButton.setVisible(false);
+	        @Override
+	        public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY)
+	        {
+	        	switch (pSceneTouchEvent.getAction()) 
+	        	{
+	            	case TouchEvent.ACTION_DOWN:
+	            		setChildScene(battleMenuChildScene);
+	            		
+	            		exitButton.setVisible(false);
 					break;
 
-                }
-                return true;
-           
-            }
+	            }
+	            return true;
+	       
+	        }
 		};
-
-		registerTouchArea(exitButton);
-
-		exitButton.setPosition(-12, 305);
-		exitButton.setScale(0.5f);
-		
-		attachChild(exitButton);
-		exitButton.setVisible(false);
 		
 		if (partyMem[0] != null) {
 			//teamMember1 = partyMem1.getCharacter().getSprite();
@@ -370,83 +562,71 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		rightArrow3 = new Sprite(0, 0, resourcesManager.rightArrow3, this.engine.getVertexBufferObjectManager());
 		
 		focusArrow = new Sprite(0, 0, resourcesManager.focusArrow, this.engine.getVertexBufferObjectManager());
-		focusArrow.setVisible(false);
-		focusArrow.setPosition(225, (focusPlyrIdx * 100) + 25);
 		
-		//TODO add names and levels to each
+		registerTouchArea(exitButton);
+
+		// Set position, scale, and visibility
+		exitButton.setPosition(-12, 305);
+		exitButton.setScale(0.5f);
+		exitButton.setVisible(false);
+		
+		focusArrow.setPosition(225, (focusPlyrIdx * 100) + 25);
+		focusArrow.setVisible(false);
+		
+		// Players
 		if (partyMem[0] != null) {
 			teamMember1Info = new Text(15,-10, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
 			teamMember1Info.setScale(.66f);
-		}
-		if (partyMem[1] != null) {
-			teamMember2Info = new Text(15,90, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
-			teamMember2Info.setScale(.66f);
-		}
-		if (partyMem[2] != null) {
-			teamMember3Info = new Text(15,190, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
-			teamMember3Info.setScale(.66f);
-		}
-
-		if (enemyPlyr[0] != null) {
-			enemy1Info = new Text(650,10, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.LEFT), vbom);
-			enemy1Info.setScale(.66f);
-		}
-		if (enemyPlyr[1] != null) {
-			enemy2Info = new Text(650,110, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.LEFT), vbom);
-			enemy2Info.setScale(.66f);
-		}
-		if (enemyPlyr[2] != null) {
-			enemy3Info = new Text(650,210, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.LEFT), vbom);
-			enemy3Info.setScale(.66f);
-		}
-		
-		updateInfoText();
-		
-		/////////////////////////////////////////////////////////////////////////////////////
-		//Set Team Member and Enemy Positions
-		/////////////////////////////////////////////////////////////////////////////////////
-		if (partyMem[0] != null) {
+			
 			teamMember1.setPosition(125, 0);// 150
-
 			leftArrow1.setPosition(225, 25);
 			leftArrow1.setVisible(false);
 		}
 		if (partyMem[1] != null) {
+			teamMember2Info = new Text(15,90, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
+			teamMember2Info.setScale(.66f);
+			
 			teamMember2.setPosition(125, 100);
-
 			leftArrow2.setPosition(225, 125);
 			leftArrow2.setVisible(false);
 		}
 		if (partyMem[2] != null) {
+			teamMember3Info = new Text(15,190, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
+			teamMember3Info.setScale(.66f);
+			
 			teamMember3.setPosition(125, 200);
-
 			leftArrow3.setPosition(225, 225);
 			leftArrow3.setVisible(false);
 		}
 
+		// Enemies
 		if (enemyPlyr[0] != null) {
+			enemy1Info = new Text(650,10, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.LEFT), vbom);
+			enemy1Info.setScale(.66f);
+			
 			enemy1.setPosition(578, 0);// 650
-
 			rightArrow1.setPosition(511, 25);
 			rightArrow1.setVisible(false);
 		}
 		if (enemyPlyr[1] != null) {
+			enemy2Info = new Text(650,110, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.LEFT), vbom);
+			enemy2Info.setScale(.66f);
+			
 			enemy2.setPosition(578, 100);
-
 			rightArrow2.setPosition(511, 125);
 			rightArrow2.setVisible(false);
 		}
 		if (enemyPlyr[2] != null) {
+			enemy3Info = new Text(650,210, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.LEFT), vbom);
+			enemy3Info.setScale(.66f);
+			
 			enemy3.setPosition(578, 200);
-
 			rightArrow3.setPosition(511, 225);
 			rightArrow3.setVisible(false);
 		}
-	
 		
-		/////////////////////////////////////////////////////////////////////////////////////
-		//Attach Sprites to the Screen
-		/////////////////////////////////////////////////////////////////////////////////////
+		// Attach children
+		attachChild(exitButton);
 		
 		if (partyMem[0] != null) {
 			attachChild(teamMember1);
@@ -481,36 +661,16 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		}
 		
 		attachChild(focusArrow);
-		
-		/////////////////////////////////////////////////////////////////////////////////////
-		//Create the Child Scenes
-		/////////////////////////////////////////////////////////////////////////////////////
-		createBattleView();
-		createBattleMenuView();
-		createAbilitiesMenuView();
-		createItemsMenuView();
-		
-		hasteCheck();
-		if(!playerTurn){
-			battleMenuChildScene.setVisible(false);
-		}
-		//BattleLoop();
-		
-	
 	}
-
-	public void createBattleView()
-	{
 	
+	// Sets up the background view
+	public void createBattleView() {
 		setBackground(new Background(Color.CYAN));
-		
 	}
-	public void createBattleMenuView()
-	{
-		
+	
+	public void createBattleMenuView() {
 		battleMenuChildScene.setPosition(0, 300);
 		battleMenuChildScene.setBackgroundEnabled(false);
-		
 		
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Create Battle Menu Buttons
@@ -559,13 +719,9 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		battleMenuChildScene.addMenuItem(itemsButton);
 		battleMenuChildScene.addMenuItem(swapButton);
 		battleMenuChildScene.addMenuItem(fleeButton);
-		
-		
-		
 	}
-	public void createAbilitiesMenuView()
-	{
-
+	
+	public void createAbilitiesMenuView() {
 		abilitiesChildScene.setPosition(0, 300);
 		abilitiesChildScene.setBackgroundEnabled(false);
 		
@@ -583,16 +739,12 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		//Create Button Texts
 		/////////////////////////////////////////////////////////////////////////////////////
 		plyrAbilities = focusedPartyMem.getAbilityNames();
+		
 		basicAttackText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		
 		skillOneText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		
 		skillTwoText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		
 		skillThreeText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		
 		skillFourText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
-		
 		skillFiveText = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
 
 		updateAbilityButtons();
@@ -626,11 +778,9 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		abilitiesChildScene.addMenuItem(skillThree);
 		abilitiesChildScene.addMenuItem(skillFour);
 		abilitiesChildScene.addMenuItem(skillFive);
-
-		
 	}
-	public void createItemsMenuView()
-	{
+	
+	public void createItemsMenuView() {
 		itemsChildScene.setPosition(0, 300);
 		itemsChildScene.setBackgroundEnabled(false);
 		
@@ -647,6 +797,9 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		/////////////////////////////////////////////////////////////////////////////////////
 		//Create Button Texts
 		/////////////////////////////////////////////////////////////////////////////////////
+		// TODO
+		// Update Item text when inventory is done
+		
 		item1Text = new Text(20,10, resourcesManager.battleFont, "" ,150, new TextOptions(), vbom);
 		item1Text.setText("Item 1");
 		
@@ -695,228 +848,64 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		itemsChildScene.addMenuItem(item4);
 		itemsChildScene.addMenuItem(item5);
 		itemsChildScene.addMenuItem(item6);
-	
-	}
-
-	@Override
-	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) 
-	{
-		if (pMenuItem.getID() == BUTTONS.ABILITIES.getValue()) {
-			setChildScene(abilitiesChildScene);
-			exitButton.setVisible(true);
-			
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.ITEMS.getValue()) {
-			setChildScene(itemsChildScene);
-			exitButton.setVisible(true);
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.SWAP.getValue()) {
-
-			swap();
-
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.FLEE.getValue()) {
-
-			int avgEnemyLevel = 0;
-
-			for (int enemyIdx = 0; enemyIdx < enemyCount; enemyIdx++) {
-
-				if (enemyPlyr[enemyIdx] != null)
-					avgEnemyLevel += enemyPlyr[enemyIdx].getLevel();
-			}
-
-			avgEnemyLevel /= enemyCount;
-			
-			
-			int fleeChanceCalc = RandomNumber.generateRandomInt(1, 100);
-			int chanceToFlee = 0;
-			if (partyMem[0].getLevel() > avgEnemyLevel) {
-				chanceToFlee = 75;
-			} else if (partyMem[0].getLevel() == avgEnemyLevel) {
-				chanceToFlee = 50;
-			} else if (partyMem[0].getLevel() < avgEnemyLevel) {
-				chanceToFlee = 25;
-			}
-
-			if (fleeChanceCalc <= chanceToFlee) {
-				writeToScreen("Successfully fled the battle.", 1);
-
-				onBackKeyPressed();
-			} else {
-				writeToScreen("Cannot flee the battle.", 1);
-
-				partyMem[0].setHasTurn(false);
-				partyMem[1].setHasTurn(false);
-				partyMem[2].setHasTurn(false);
-			}
-			
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.BASIC_ATTACK.getValue()) {
-			
-			abilityData = new AbilityData();
-						
-			targetFlag = focusedPartyMem.useAbility(0, abilityData);
-			
-			abilityUser = focusedPartyMem.getName();
-			ability = plyrAbilities[0];
-			targetSelect();
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.SKILL_ONE.getValue()) {
-			abilityData = new AbilityData();
-			
-			targetFlag = focusedPartyMem.useAbility(1, abilityData);
-			
-			abilityUser = focusedPartyMem.getName();
-			ability = plyrAbilities[1];
-			targetSelect();
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.SKILL_TWO.getValue()) {
-			abilityData = new AbilityData();
-			
-			targetFlag = focusedPartyMem.useAbility(2, abilityData);
-			
-			abilityUser = focusedPartyMem.getName();
-			ability = plyrAbilities[2];
-			targetSelect();
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.SKILL_THREE.getValue()) {
-			abilityData = new AbilityData();
-			
-			targetFlag = focusedPartyMem.useAbility(3, abilityData);
-			
-			abilityUser = focusedPartyMem.getName();
-			ability = plyrAbilities[3];
-			targetSelect();
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.SKILL_FOUR.getValue()) {
-			abilityData = new AbilityData();
-			
-			targetFlag = focusedPartyMem.useAbility(4, abilityData);
-			
-			abilityUser = focusedPartyMem.getName();
-			ability = plyrAbilities[4];
-			targetSelect();
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.SKILL_FIVE.getValue()) {
-			abilityData = new AbilityData();
-			
-			targetFlag = focusedPartyMem.useAbility(5, abilityData);
-			
-			abilityUser = focusedPartyMem.getName();
-			ability = plyrAbilities[5];
-			targetSelect();
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.ITEM_1.getValue()) {
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.ITEM_2.getValue()) {
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.ITEM_3.getValue()) {
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.ITEM_4.getValue()) {
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.ITEM_5.getValue()) {
-			return true;
-		} else if (pMenuItem.getID() == BUTTONS.ITEM_6.getValue()) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 	
-	private void swap() {
-		int plyrsWithoutTurn = 0;
-		do {
-			focusPlyrIdx += 1;
-			if (focusPlyrIdx > 2)
-				focusPlyrIdx = 0;
-			focusedPartyMem = partyMem[focusPlyrIdx];
-			plyrsWithoutTurn++;
-		} while (plyrsWithoutTurn < 4 && !(focusedPartyMem.hasTurn()) || focusedPartyMem.isDead() );
-
-		if(plyrsWithoutTurn == 4){
-			playerTurn = false;
-			enemyTurn();
-		}
-		updateAbilityButtons();
-		focusArrow.setVisible(true);
-		focusArrow.setPosition(225, (focusPlyrIdx * 100) + 25);
-		
-	}
-
-	@Override
-	public void onBackKeyPressed() 
-	{
-		// TODO Auto-generated method stub
-		SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_GAME);
-		
-	}
-
-	@Override
-	public SceneType getSceneType() {
-		// TODO Auto-generated method stub
-		return SceneType.SCENE_BATTLE;
-	}
-
-	@Override
-	public void disposeScene() {
-		// TODO Auto-generated method stub
-		
+	// Ease of use function to create a toast onto the screen based on a string
+	// and how long it lasts (0 or 1 length)
+	// Consider moving elsewhere for other places to use this
+	public void writeToScreen(final CharSequence pText, final int pToastLength) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				if(pToastLength == 0)
+					Toast.makeText(activity, pText, Toast.LENGTH_SHORT).show();
+				
+				if(pToastLength >= 1)
+					Toast.makeText(activity, pText, Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 	
+	// ===========================================================
+	// Inner and Anonymous Classes
+	// ===========================================================
+	
+	// Generates random enemies and based on where we are and what our luck of
+	// the draw was
 	private void generateRandomEnemies(){
+		// Create the enemies scaled to the players
 		int accumulativeHealth = partyMem[0].getMaxHealth() + partyMem[1].getMaxHealth() + partyMem[2].getMaxHealth();
 		int accumulativeDmg = partyMem[0].getCharacter().getCurrentStats().getDamage() + partyMem[1].getCharacter().getCurrentStats().getDamage() + partyMem[2].getCharacter().getCurrentStats().getDamage();
 		int accumulativeArmor = partyMem[0].getCharacter().getCurrentStats().getArmor() + partyMem[1].getCharacter().getCurrentStats().getArmor() + partyMem[2].getCharacter().getCurrentStats().getArmor();
 		int plyrLvl = partyMem[0].getLevel();
 		
+		// Generates a random amount of enemies, in a range of 1-3
 		enemyCount = RandomNumber.generateRandomInt(1, 3);
 		
+		// If we have an enemy, we fill out their array, otherwise they are null
 		switch (enemyCount) {
 		case 1:
-			enemyPlyr[0] = new BattleCharacterContainer(new Enemy(plyrLvl,
-																accumulativeHealth,
-																accumulativeDmg,
-																accumulativeArmor,
-																ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
+			enemyPlyr[0] = new BattleCharacterContainer(new Enemy(plyrLvl, accumulativeHealth, accumulativeDmg, accumulativeArmor, ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
 			enemyPlyr[1] = null;
 			enemyPlyr[2] = null;
+			
 			break;
 		case 2:
-			enemyPlyr[0] = new BattleCharacterContainer(new Enemy(plyrLvl,
-																accumulativeHealth, 
-																accumulativeDmg,
-																accumulativeArmor,
-																ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
-			enemyPlyr[1] = new BattleCharacterContainer(new Enemy(plyrLvl,
-																accumulativeHealth,
-																accumulativeDmg,
-																accumulativeArmor,
-																ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
+			enemyPlyr[0] = new BattleCharacterContainer(new Enemy(plyrLvl, accumulativeHealth, accumulativeDmg, accumulativeArmor, ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
+			enemyPlyr[1] = new BattleCharacterContainer(new Enemy(plyrLvl, accumulativeHealth, accumulativeDmg, accumulativeArmor, ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
 			enemyPlyr[2] = null;
+			
 			break;
 		case 3:
-
-			enemyPlyr[0] = new BattleCharacterContainer(new Enemy(plyrLvl,
-																accumulativeHealth,
-																accumulativeDmg,
-																accumulativeArmor,
-																ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
-			enemyPlyr[1] = new BattleCharacterContainer(new Enemy(plyrLvl,
-																accumulativeHealth,
-																accumulativeDmg,
-																accumulativeArmor,
-																ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
-			enemyPlyr[2] = new BattleCharacterContainer(new Enemy(plyrLvl,
-																accumulativeHealth,
-																accumulativeDmg,
-																accumulativeArmor,
-																ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
+			enemyPlyr[0] = new BattleCharacterContainer(new Enemy(plyrLvl, accumulativeHealth, accumulativeDmg, accumulativeArmor, ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
+			enemyPlyr[1] = new BattleCharacterContainer(new Enemy(plyrLvl, accumulativeHealth, accumulativeDmg, accumulativeArmor, ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
+			enemyPlyr[2] = new BattleCharacterContainer(new Enemy(plyrLvl, accumulativeHealth, accumulativeDmg, accumulativeArmor, ENEMIES.values()[RandomNumber.generateRandomInt(0, 6)]));
 
 			break;
 		}
 	}
-	private void updateInfoText(){
-		
+	
+	// Updates the battle scene info of players and enemies
+	private void updateInfoText() {
 		if(partyMem[0] != null){
 			teamMember1Info.setText(partyMem[0].getName() + "\nLvl: " + partyMem[0].getLevel() + "\n" + partyMem[0].getCurrentHealth() + " / " + partyMem[0].getMaxHealth() + "\n" + partyMem[0].getCurrentResource() + " / " + partyMem[0].getMaxResource());
 		}
@@ -929,75 +918,68 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		
 		if(enemyPlyr[0] != null){
 			enemy1Info.setText(enemyPlyr[0].getName() + "\nLvl: " + enemyPlyr[0].getLevel() + "\n" + enemyPlyr[0].getCurrentHealth() + " / " + enemyPlyr[0].getMaxHealth());
-			Log.e("Enemy 1", enemyPlyr[0].getName() + " damage = " + enemyPlyr[0].getCharacter().getCurrentStats().getDamage());
-			Log.e("Enemy 1", enemyPlyr[0].getName() + " armor = " + enemyPlyr[0].getCharacter().getCurrentStats().getArmor());
+			//Log.e("Enemy 1", enemyPlyr[0].getName() + " damage = " + enemyPlyr[0].getCharacter().getCurrentStats().getDamage());
+			//Log.e("Enemy 1", enemyPlyr[0].getName() + " armor = " + enemyPlyr[0].getCharacter().getCurrentStats().getArmor());
 		}
 		if(enemyPlyr[1] != null){
 			enemy2Info.setText(enemyPlyr[1].getName() + "\nLvl: " + enemyPlyr[1].getLevel() + "\n" + enemyPlyr[1].getCurrentHealth() + " / " + enemyPlyr[1].getMaxHealth());
-			Log.e("Enemy 2", enemyPlyr[1].getName() + " damage = " + enemyPlyr[1].getCharacter().getCurrentStats().getDamage());
-			Log.e("Enemy 2", enemyPlyr[1].getName() + " armor = " + enemyPlyr[1].getCharacter().getCurrentStats().getArmor());
+			//Log.e("Enemy 2", enemyPlyr[1].getName() + " damage = " + enemyPlyr[1].getCharacter().getCurrentStats().getDamage());
+			//Log.e("Enemy 2", enemyPlyr[1].getName() + " armor = " + enemyPlyr[1].getCharacter().getCurrentStats().getArmor());
 		}
 		if(enemyPlyr[2] != null){
 			enemy3Info.setText(enemyPlyr[2].getName() + "\nLvl: " + enemyPlyr[2].getLevel() + "\n" + enemyPlyr[2].getCurrentHealth() + " / " + enemyPlyr[2].getMaxHealth());
-			Log.e("Enemy 3", enemyPlyr[2].getName() + " damage = " + enemyPlyr[2].getCharacter().getCurrentStats().getDamage());
-			Log.e("Enemy 3", enemyPlyr[2].getName() + " armor = " + enemyPlyr[2].getCharacter().getCurrentStats().getArmor());
+			//Log.e("Enemy 3", enemyPlyr[2].getName() + " damage = " + enemyPlyr[2].getCharacter().getCurrentStats().getDamage());
+			//Log.e("Enemy 3", enemyPlyr[2].getName() + " armor = " + enemyPlyr[2].getCharacter().getCurrentStats().getArmor());
 		}
 
 	}
 	
-	private void writeToScreen(final CharSequence pText, final int pToastLength) {
-		activity.runOnUiThread(new Runnable() {
-			public void run() {
-				if(pToastLength == 0)
-					Toast.makeText(activity, pText, Toast.LENGTH_SHORT).show();
-				
-				if(pToastLength >= 1)
-				Toast.makeText(activity, pText, Toast.LENGTH_LONG).show();
-			}
-		});
-
-	}
-	
-	private void updateAbilityButtons(){
+	// Update the abilities accordingly to each character class
+	private void updateAbilityButtons() {
 		plyrAbilities = focusedPartyMem.getAbilityNames();
-		
+
 		basicAttackText.setText(plyrAbilities[0]);
-		
 		skillOneText.setText(plyrAbilities[1]);
-		
 		skillTwoText.setText(plyrAbilities[2]);
-		
 		skillThreeText.setText(plyrAbilities[3]);
-		
 		skillFourText.setText(plyrAbilities[4]);
-		
 		skillFiveText.setText(plyrAbilities[5]);
 	}
 	
-	
-	private void hasteCheck(){
+	private void hasteCheck() {
+		// Determine the turn order based on the haste level
 		playerTurn = ((PlayerCharacter)(focusedPartyMem.getCharacter())).compareHasteToEnemy((Enemy) enemyPlyr[0].getCharacter());
+		
 		if(playerTurn){
+			// Player had a higher or equivalent haste
 			writeToScreen("Your turn.", 0);
 			focusArrow.setVisible(true);
 		} else {
+			// Enemy had a higher or equivalent haste
 			writeToScreen("Enemy's turn.", 0);
-			
 		}
-		
 	}
 	
-	private void BattleLoop(){
+	private void BattleLoop() {
+		// Infinite loop when we've finally reached the battle
+		// Kicks out during a player or enemy turn if win/loss conditions are
+		// met
 		while (true) {
 			if (playerTurn) {
+				// Show the battle menu if it's our turn
+				battleMenuChildScene.setVisible(true);
+
 				playerTurn();
 			} else {
+				// Hide the battle menu if it's the enemy's turn
+				battleMenuChildScene.setVisible(false);
+
 				enemyTurn();
 			}
 		}
 	}
 	
-	private void playerTurn(){
+	private void playerTurn() {
 		//TODO
 		//set turns to true
 		//Apply BattleEffects
@@ -1006,7 +988,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		//focus arrow = true
 	}
 	
-	private void enemyTurn(){
+	private void enemyTurn() {
 		//TODO
 		//Battle Menu visible = false
 		//Focus arrow visible = false
@@ -1022,18 +1004,23 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			}
 		}
 	
-		
 		playerTurn();
 	}
 	
-	private void targetSelect(){
+	// Allows the touch areas and targets to become active based on the ability
+	private void targetSelect() {
 		switch(targetFlag) {
-		
+		// Buffing all party members requires no touch event
 		case BUFF_ALL:
-			
 			applyAbilityData();
 			break;
+			
+		// Damaging all enemies requires no touch event
 		case DAMAGE_ALL:
+			applyAbilityData();
+			break;
+			
+		// Dealing single target damage requires an enemy to be touched
 		case DAMAGE_HEAL_SINGLE:
 		case DAMAGE_SINGLE:
 
@@ -1052,13 +1039,21 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 
 			break;
 			
-		// UNUSED FOR DEMO
+		// Unused for demo
 		case DEBUFF:
+			// applyAbilityData();
 			break;
+
+		// Healing all party members requires no touch event
 		case HEAL_ALL:
+			applyAbilityData();
+			break;
+			
+		// Dealing a single target heal requires a party member to be touched
 		case HEAL_SINGLE:
 		
-			//party member exists & they are not dead & current health is less than max health they  can be healed
+			// Party member exists & they are not dead & current health is less
+			// than max health, then they can be healed
 			if (partyMem[0] != null && !partyMem[0].isDead() && (partyMem[0].getCurrentHealth() < partyMem[0].getMaxHealth())) {
 				registerTouchArea(teamMember1);
 				leftArrow1.setVisible(true);
@@ -1075,10 +1070,15 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 			}
 			
 			break;
+			
+		// Not enough resource sends us back to the main battle scene with a
+		// message
 		case NOT_ENOUGH_RESOURCE:
 			writeToScreen("Insufficient resource.", 0);
 			setChildScene(battleMenuChildScene);
 			break;
+			
+		// Reviving requires a party member to be touched
 		case REVIVE:
 			if (partyMem[0] != null && partyMem[0].isDead()) {
 				registerTouchArea(teamMember1);
@@ -1095,15 +1095,15 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 				leftArrow3.setVisible(true);
 			}
 			
-			
 			break;
-		// UNUSED FOR DEMO
+			
+		// Unused for demo
 		case SELF_CAST:
 			break;
-		
 		}
 	}
 	
+	// Clears any active touch areas or targets
 	private void clearTargetSelection(){
 		if(partyMem[0] != null){
 			unregisterTouchArea(teamMember1);			
@@ -1137,94 +1137,128 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		rightArrow1.setVisible(false);
 		rightArrow2.setVisible(false);
 		rightArrow3.setVisible(false);
-		
 	}
 
+	// Applies ability data to player or enemy 
 	private void applyAbilityData(){
-		
+		// If we pressed a registered touch area, apply this type of ability data
 		switch (targetFlag) {
+		// Buff all team members
 		case BUFF_ALL:
-			if (partyMem[0] != null) {
+			// As long as a party member exists and they aren't dead, then they
+			// receive the buff
+			if (partyMem[0] != null && !partyMem[0].isDead()) {
 				partyMem[0].recieveAbilityData(abilityData);
 			}
 
-			if (partyMem[1] != null) {
+			if (partyMem[1] != null && !partyMem[1].isDead()) {
 				partyMem[1].recieveAbilityData(abilityData);
 
 			}
-			if (partyMem[2] != null) {
+			if (partyMem[2] != null && !partyMem[2].isDead()) {
 				partyMem[2].recieveAbilityData(abilityData);
 
 			}
+			
 			writeToScreen(abilityUser + " used " + ability + " on party.", 1);
 			break;
+		
+		// AOE damage to all enemies
 		case DAMAGE_ALL:
-			if (enemyPlyr[0] != null) {
+			// As long as an enemy exists and they aren't dead, then they
+			// receive the AOE damage
+			if (enemyPlyr[0] != null && !enemyPlyr[0].isDead()) {
 				enemyPlyr[0].recieveAbilityData(abilityData);
 			}
-			if (enemyPlyr[1] != null) {
+			if (enemyPlyr[1] != null && !enemyPlyr[1].isDead()) {
 				enemyPlyr[1].recieveAbilityData(abilityData);
 			}
-			if (enemyPlyr[2] != null) {
+			if (enemyPlyr[2] != null && !enemyPlyr[2].isDead()) {
 				enemyPlyr[2].recieveAbilityData(abilityData);
 			}
 			
 			writeToScreen(abilityUser + " used " + ability + " on all enemies.", 1);
 			break;
 
+		// Life steal mechanic
 		case DAMAGE_HEAL_SINGLE:
 			abilityTarget.recieveAbilityData(abilityData);
 
-			abilityData
-					.setHealingDone((int) (abilityData.getDamageDone() / 2.0f));
+			// Heal for half of the damage done
+			abilityData.setHealingDone((abilityData.getDamageDone() / 2));
 			abilityData.setHealed(true);
 			abilityData.setDamageDone(0);
 
 			focusedPartyMem.recieveAbilityData(abilityData);
 
-			writeToScreen(abilityUser+ " used " + ability + " on " + target + ".", 1);
+			writeToScreen(abilityUser + " used " + ability + " on " + target + ". " + abilityUser + " restores " + abilityData.getHealingDone() + " health.", 1);
 			break;
+			
+		// Deal damage to a single target
 		case DAMAGE_SINGLE:
 			abilityTarget.recieveAbilityData(abilityData);
-			writeToScreen(abilityUser+ " used " + ability + " on " + target + ".", 1);
+			
+			writeToScreen(abilityUser + " used " + ability + " on " + target + ".", 1);
 			break;
+		
+		// Unused for demo, will apply in full game
 		case DEBUFF:
 			break;
+			
+		// Heals all party members
 		case HEAL_ALL:
-			if (partyMem[0] != null) {
+			// As long as a party member exists and they aren't dead, then they
+			// receive the heal
+			if (partyMem[0] != null && !partyMem[0].isDead()) {
 				partyMem[0].recieveAbilityData(abilityData);
 			}
 
-			if (partyMem[1] != null) {
+			if (partyMem[1] != null && !partyMem[1].isDead()) {
 				partyMem[1].recieveAbilityData(abilityData);
-
 			}
-			if (partyMem[2] != null) {
+			
+			if (partyMem[2] != null && !partyMem[2].isDead()) {
 				partyMem[2].recieveAbilityData(abilityData);
-
 			}
 			
 			writeToScreen(abilityUser + " used " + ability + " on party.", 1);
 			break;
+			
+		// Heals a single party member
 		case HEAL_SINGLE:
 			abilityTarget.recieveAbilityData(abilityData);
+			
 			writeToScreen(abilityUser+ " used " + ability + " on " + target + ".", 1);
 			break;
 		case NOT_ENOUGH_RESOURCE:
 			break;
+		
+		// Revives a fallen party member
 		case REVIVE:
+			// Rather than having a potion and a spell perform the same
+			// functionality, we use a new potion that we create that revives
+			// the user to half health
 			abilityTarget.useItem(new Potion(POTIONS.BASIC_REVIVE_POTION));
+			
 			writeToScreen(abilityUser+ " used " + ability + " on " + target + ".", 1);
 			break;
+			
+		// Unused for demo, will apply in full game
 		case SELF_CAST:
 			break;
 
 		}
 		
+		// Updates our current stats and resources to reflect what just happened
 		updateInfoText();
 		
+		////////////////////////////////////////////
+		// AT THIS POINT, WE DETERMINE THE GAME FLOW 
+		////////////////////////////////////////////
+		
+		// If it's the player's turn, then the battle menu is active
 		if(playerTurn){
-			//battleMenuChildScene.setVisible(true);
+			battleMenuChildScene.setVisible(true);
 			exitButton.setVisible(false);
 			
 			setChildScene(battleMenuChildScene);
@@ -1235,5 +1269,104 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener
 		//Death Checks
 		//Toast when someone dies
 		//Win/loss stuff
+	}
+	
+	// Handles current player turns
+	private void swap() {
+		// Gets set to 0 every time swap() is called
+		int plyrsWithoutTurn = 0;
+		
+		// Determine the focused player and who has a turn
+		do {
+			// Iterate the focus
+			focusPlyrIdx += 1;
+			
+			// If the index is higher than the third member, set it back to the first
+			if (focusPlyrIdx > 2)
+				focusPlyrIdx = 0;
+			
+			// our focused party member is set to whoever our focused index value is
+			focusedPartyMem = partyMem[focusPlyrIdx];
+			
+			// Add on to the players without a turn
+			plyrsWithoutTurn++;
+		} while (plyrsWithoutTurn < 4 && !(focusedPartyMem.hasTurn()) || focusedPartyMem.isDead() );
+
+		// If all players have exhausted their turn, it's now the enemy's turn
+		if(plyrsWithoutTurn == 4){
+			// No need to reset plyrsWithoutTurn here
+		
+			// If we got in here, that means the player turn is done
+			playerTurn = false;
+			
+			focusArrow.setVisible(false);
+			
+			// It is now the enemy's turn
+			enemyTurn();
+		} else {
+			// If we got in here, that means the player turn is still happening
+			
+			// Show updated buttons
+			updateAbilityButtons();
+			
+			// Show whose turn it is
+			focusArrow.setVisible(true);
+			focusArrow.setPosition(225, (focusPlyrIdx * 100) + 25);
+		}
+	}
+	
+	// Whether or not we can escape the current battle
+	private void flee() {
+		// TODO
+		// Have a check if we are in a boss battle
+		// If we are, do not allow the player to flee
+		
+		int avgEnemyLevel = 0;
+
+		// Figure out how many enemies we have
+		for (int enemyIdx = 0; enemyIdx < enemyCount; enemyIdx++) {
+
+			// Add on the to average level with the enemy player level if they
+			// exist
+			if (enemyPlyr[enemyIdx] != null)
+				avgEnemyLevel += enemyPlyr[enemyIdx].getLevel();
+		}
+
+		// Divide the average enemy level by how many there are
+		avgEnemyLevel /= enemyCount;
+		
+		// Choose a random number from 1 to 100
+		int fleeChanceCalc = RandomNumber.generateRandomInt(1, 100);
+		
+		// Start out with a 0% chance to flee
+		int chanceToFlee = 0;
+		
+		// Base all of the calculation on the first party member
+		if (partyMem[0].getLevel() > avgEnemyLevel) {
+			// 75% chance to flee
+			chanceToFlee = 75;
+		} else if (partyMem[0].getLevel() == avgEnemyLevel) {
+			// 50% chance to flee
+			chanceToFlee = 50;
+		} else if (partyMem[0].getLevel() < avgEnemyLevel) {
+			// 25% chance to flee
+			chanceToFlee = 25;
+		}
+
+		// If our random number is less than or equal to the chance we have to
+		// flee (based on the average enemy level)
+		if (fleeChanceCalc <= chanceToFlee) {
+			writeToScreen("Successfully fled the battle.", 0);
+
+			// Take us back to the zone
+			onBackKeyPressed();
+		} else {
+			writeToScreen("Failed to flee the battle.", 0);
+
+			// We failed to flee the battle and have lost our turn globally
+			partyMem[0].setHasTurn(false);
+			partyMem[1].setHasTurn(false);
+			partyMem[2].setHasTurn(false);
+		}
 	}
 }
