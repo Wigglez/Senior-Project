@@ -224,7 +224,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 					}
 	            }
 			}); 
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/Mountain_No_Grass.tmx");
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/Mountain.tmx");
 		}
 		catch (final TMXLoadException tmxle)
 		{
