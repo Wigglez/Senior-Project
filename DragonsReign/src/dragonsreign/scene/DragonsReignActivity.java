@@ -35,6 +35,7 @@ import org.andengine.util.debug.Debug;
 
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.ResourceManager;
+import dragonsreign.manager.SoundManager;
 
 
 import android.view.KeyEvent;
@@ -149,7 +150,8 @@ public class DragonsReignActivity extends BaseGameActivity {
 	{
 	    mCamera = new BoundCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 	    EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED,  new FillResolutionPolicy(), this.mCamera);
-	    engineOptions.getAudioOptions().setNeedsMusic(true).setNeedsSound(true);
+	    engineOptions.getAudioOptions().setNeedsMusic(true);
+	    engineOptions.getAudioOptions().setNeedsSound(true);
 	    engineOptions.setWakeLockOptions(WakeLockOptions.SCREEN_ON);
 	    return engineOptions;
 	}
@@ -165,6 +167,7 @@ public class DragonsReignActivity extends BaseGameActivity {
     {
 		SceneManager.getInstance().Initialize(this);
     	SceneManager.getInstance().createSplashScene(pOnCreateSceneCallback);
+    	//SoundManager.mMenuMusic.play();
     	
     	//pOnCreateSceneCallback.onCreateSceneFinished(SceneManager.getInstance().getCurrentScene());
     	
@@ -190,7 +193,7 @@ public class DragonsReignActivity extends BaseGameActivity {
             {
                 mEngine.unregisterUpdateHandler(pTimerHandler);
                 SceneManager.getInstance().loadMenuScene(mEngine);
-                
+                //SoundManager.mMenuThemeMusic.play();
             }
         }));
         pOnPopulateSceneCallback.onPopulateSceneFinished();
@@ -212,6 +215,8 @@ public class DragonsReignActivity extends BaseGameActivity {
     protected void onPause()
     {
     	super.onPause();
+    	if (this.isGameLoaded())
+    		SoundManager.mMenuThemeMusic.pause();
           
     }
 
@@ -219,6 +224,8 @@ public class DragonsReignActivity extends BaseGameActivity {
     protected synchronized void onResume()
     {
     	super.onResume();
+    	if(this.isGameLoaded())
+    		SoundManager.mMenuThemeMusic.resume();
     }
     
     @Override

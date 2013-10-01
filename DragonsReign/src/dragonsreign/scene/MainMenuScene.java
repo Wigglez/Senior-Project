@@ -15,6 +15,7 @@ import dragonsreign.scene.BaseScene;
 import dragonsreign.scene.DragonsReignActivity;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
+import dragonsreign.manager.SoundManager;
 
 public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 {
@@ -75,6 +76,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	{
 		createBackground();
 		createMenuChildScene();
+		//SoundManager.mMenuMusic.play();
 	}
 
 	@Override
@@ -92,6 +94,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	@Override
 	public void disposeScene() 
 	{
+		//SoundManager.mMenuMusic.stop();
 		// TODO Auto-generated method stub
 		
 	}
@@ -101,6 +104,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		switch(pMenuItem.getID())
 		{
 	        case MENU_PLAY:
+	        	SoundManager.mPunchSound.play();
 	        	//Load Game Scene!
 	            SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_CHARACTER);
 	            return true;

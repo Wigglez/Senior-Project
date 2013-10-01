@@ -83,6 +83,8 @@ public class ResourceManager
     	loadMenuGraphics();
         loadMenuAudio();
         loadMenuFonts();
+        //sound stuff
+        SoundManager.loadSounds(engine, activity);
         
     }
     private void loadMenuGraphics()

@@ -22,6 +22,7 @@ import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
 import dragonsreign.manager.ResourceManager;
 import dragonsreign.manager.SceneManager;
+import dragonsreign.manager.SoundManager;
 import dragonsreign.manager.SceneManager.SceneType;
 
 
@@ -326,6 +327,8 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	        	ResourceManager.getInstance().unloadMenuTextures();
 	        	ResourceManager.getInstance().unloadCharacterSelectGraphics();
 	        	SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_GAME);
+	        	SoundManager.mMenuMusic.stop();
+                SoundManager.mMenuThemeMusic.play();
 	            return true;
 	        default:
 	            return false;

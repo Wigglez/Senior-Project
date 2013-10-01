@@ -143,6 +143,7 @@ public class SceneManager
         splashScene = new SplashScene();
         currentScene = splashScene;
         pOnCreateSceneCallback.onCreateSceneFinished(splashScene);
+        
     }
 
     private void disposeSplashScene()
@@ -150,6 +151,7 @@ public class SceneManager
         ResourceManager.getInstance().unloadSplashScreen();
         splashScene.disposeScene();
         splashScene = null;
+       // SoundManager.mMenuMusic.stop();
     }
     public void createMenuScene()
     {
@@ -162,6 +164,7 @@ public class SceneManager
     {
     	ResourceManager.getInstance().unloadMenuTextures();
     	menuScene.disposeScene();
+    	//SoundManager.mMenuThemeMusic.stop();
     	menuScene = null;
     }
     public void loadMenuScene(final Engine mEngine)
@@ -179,6 +182,7 @@ public class SceneManager
                 ResourceManager.getInstance().loadMenuResources();
                 
                 setScene(menuScene);
+                SoundManager.mMenuMusic.play();
             }
         }));
     }
@@ -219,7 +223,7 @@ public class SceneManager
                 	Debug.e("Contex is null");
                 }
                 gameScene = new GameScene();
- 
+                
 
                 //setScene(gameScene);
         
@@ -238,6 +242,7 @@ public class SceneManager
                 
                 battleScene = new BattleScene();
                 setScene(battleScene);
+                
             }
         }));
     }
