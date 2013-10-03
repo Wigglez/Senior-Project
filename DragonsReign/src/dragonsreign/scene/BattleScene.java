@@ -2,6 +2,7 @@ package dragonsreign.scene;
 
 
 import org.andengine.engine.camera.BoundCamera;
+import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
@@ -15,6 +16,8 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.HorizontalAlign;
 import org.andengine.util.color.Color;
 
+import android.provider.OpenableColumns;
+import android.test.UiThreadTest;
 import android.util.Log;
 import android.widget.Toast;
 import dragonsreign.character.Enemy;
@@ -229,8 +232,10 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		createItemsMenuView();
 		
 		// Determine who is going to go first
-		hasteCheck();
-		
+//		hasteCheck();
+		playerTurn = true;
+		focusArrow.setVisible(true);
+
 		// If it's not our turn right away, hide the buttons
 		if(!playerTurn){
 			battleMenuChildScene.setVisible(false);
@@ -238,6 +243,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		
 		// Everything has been set up at this point, enter our battle
 		//BattleLoop();
+		
+		
 	}
 	
 	@Override
@@ -980,27 +987,85 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 	}
 	
 	private void playerTurn() {
-		//TODO
-		//set turns to true
-		//Apply BattleEffects
-		//Add Resources (Max - current * .20f)
+		writeToScreen("Player goes", 0);
+		
+		
+		for (int idx = 0; idx < 3; idx++) {
+			if (partyMem[idx] != null && !partyMem[idx].isDead()) {
+				//set turns to true
+				partyMem[idx].setHasTurn(true);
+				//Apply BattleEffects
+				partyMem[idx].ApplyBattleEffects();
+				//Add Resources (Max - current * .20f)
+				partyMem[idx].getCharacter().addResource();
+			}
+		}
+		
 		//Battle Menu visible = true
+		setChildScene(battleMenuChildScene);
+		battleMenuChildScene.setVisible(true);
 		//focus arrow = true
+		focusArrow.setVisible(true);
+		focusArrow.setPosition(225, (focusPlyrIdx * 100) + 25);
+		
+		//set playerTurn to true
+		playerTurn = true;
+		
+		updateInfoText();
 	}
 	
 	private void enemyTurn() {
 		//TODO
 		//Battle Menu visible = false
+		battleMenuChildScene.setVisible(false);
 		//Focus arrow visible = false
-		//Apply BattleEffects to all enemies
-		//Set enemy turns to true
-		writeToScreen("Enemy Turn", 1);
+		focusArrow.setVisible(false);
 		
 		for (int idx = 0; idx < enemyCount; idx++) {
 			if (enemyPlyr[idx] != null && !enemyPlyr[idx].isDead()) {
+				//Set enemy turn to true
+				enemyPlyr[idx].setHasTurn(true);
+				//Apply BattleEffects
+				enemyPlyr[idx].ApplyBattleEffects();
+				
+			}
+		}
+		
+		writeToScreen("Enemy Turn", 1);
+		
+		for (int idx = 0; idx < enemyCount; idx++) {
+			if (enemyPlyr[idx] != null && !enemyPlyr[idx].isDead() && enemyPlyr[idx].hasTurn()) {
+				int randAbilityIdx = 0;
+				int randPlyrTarget = 0;
+				
 				// Random attack
+				AbilityData abilityData = new AbilityData();
+				randAbilityIdx = RandomNumber.generateRandomInt(0, 1);
+				targetFlag = enemyPlyr[idx].useAbility(randAbilityIdx, abilityData);
+				
+				abilityUser = enemyPlyr[idx].getName();
+				
+				plyrAbilities = enemyPlyr[idx].getAbilityNames();
+				ability = plyrAbilities[randAbilityIdx];
+				
 				// Random Target
+				do{
+					randPlyrTarget = RandomNumber.generateRandomInt(0, 2);
+				} while( partyMem[randPlyrTarget] == null || partyMem[randPlyrTarget].isDead());
+				
+				abilityTarget = partyMem[randPlyrTarget];
+				target = partyMem[randPlyrTarget].getName();
 				// ApplyDamage
+				applyAbilityData();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			
+				
 			}
 		}
 	
@@ -1191,7 +1256,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 
 			focusedPartyMem.recieveAbilityData(abilityData);
 
-			writeToScreen(abilityUser + " used " + ability + " on " + target + ". " + abilityUser + " restores " + abilityData.getHealingDone() + " health.", 1);
+			writeToScreen(abilityUser + " used " + ability + " on " + target + ". ", 1);
 			break;
 			
 		// Deal damage to a single target

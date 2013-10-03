@@ -254,6 +254,14 @@ public abstract class Character {
 
 	}
 
+	//Add Resources (Max - current * .20f)
+	public void addResource(){
+		int resourceDif = mMaxResources.getResource() - mCurrentResources.getResource();
+		
+		resourceDif *= 0.20f;
+		
+		mCurrentResources.setResource(mCurrentResources.getResource() + resourceDif);
+	}
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
