@@ -325,9 +325,10 @@ public class WarriorClass extends PlayerCharacter {
 			float dmg = 0.6f * mCurrentStats.getDamage() + mCurrentStats.getStrength() * 0.4f;
 
 			pAbilityData.setDamageDone((int) dmg);
+			pAbilityData.setResourceUsed(mCleaveCost);
 
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mCleaveCost);
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mCleaveCost);
 
 			return ABILITYFLAGS.DAMAGE_ALL;
 		} else
@@ -355,9 +356,10 @@ public class WarriorClass extends PlayerCharacter {
 			pAbilityData.setDamageDone((int) dmg);
 			pAbilityData.setStunned(true);
 			pAbilityData.setStunTurns(2);
-
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mLungeCost);
+			pAbilityData.setResourceUsed(mLungeCost);
+			
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mLungeCost);
 			
 			
 
@@ -390,9 +392,10 @@ public class WarriorClass extends PlayerCharacter {
 			float dmg = mCurrentStats.getDamage() * excDmgMod;
 
 			pAbilityData.setDamageDone((int) dmg);
-
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mExecuteCost);
+			pAbilityData.setResourceUsed(mExecuteCost);
+			
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mExecuteCost);
 
 			return ABILITYFLAGS.DAMAGE_SINGLE;
 		} else
@@ -420,6 +423,7 @@ public class WarriorClass extends PlayerCharacter {
 			pAbilityData.setBleedDamage((int) rendDmg);
 			pAbilityData.setBleeding(true);
 			pAbilityData.setBleedTurns(3);
+			pAbilityData.setResourceUsed(mRendCost);
 
 			mCurrentResources.setResource(mCurrentResources.getResource()
 					- mRendCost);
@@ -450,9 +454,10 @@ public class WarriorClass extends PlayerCharacter {
 			pAbilityData.getBuff().setDamage((int) buffDmg);
 			pAbilityData.setBuffed(true);
 			pAbilityData.setBuffTurns(5);
+			pAbilityData.setResourceUsed(mWarCryCost);
 
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mWarCryCost);
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mWarCryCost);
 
 			return ABILITYFLAGS.BUFF_ALL;
 		} else

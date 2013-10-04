@@ -108,7 +108,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 	/////////////////
 	// Basic datatypes
 	/////////////////
-	private int focusPlyrIdx, enemyCount;
+	private int focusPlyrIdx, enemyIdx, enemyCount;
 
 	private Boolean playerTurn;
 	
@@ -244,8 +244,81 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		// Everything has been set up at this point, enter our battle
 		//BattleLoop();
 		
+		//Initialize enemyIdx
+		enemyIdx = 0;
 		
+		registerUpdateHandler(new IUpdateHandler() {
+			@Override
+			public void onUpdate(float pSecondsElapsed) {
+				// TODO Auto-generated method stub
+
+				if (!playerTurn) {
+					if(enemyIdx == 0){
+						enemyTurn();
+					}
+					// Battle Menu visible = false
+					battleMenuChildScene.setVisible(false);
+					// Focus arrow visible = false
+					focusArrow.setVisible(false);
+
+					if (enemyPlyr[enemyIdx] != null && !enemyPlyr[enemyIdx].isDead()
+							&& enemyPlyr[enemyIdx].hasTurn()) {
+						int randAbilityIdx = 0;
+						int randPlyrTarget = 0;
+
+						// Random attack
+						AbilityData abilityData = new AbilityData();
+						randAbilityIdx = RandomNumber.generateRandomInt(0, 1);
+						targetFlag = enemyPlyr[enemyIdx].useAbility(randAbilityIdx,
+								abilityData);
+
+						abilityUser = enemyPlyr[enemyIdx].getName();
+
+						plyrAbilities = enemyPlyr[enemyIdx].getAbilityNames();
+						ability = plyrAbilities[randAbilityIdx];
+
+						// Random Target
+						do {
+							randPlyrTarget = RandomNumber.generateRandomInt(0,
+									2);
+						} while (partyMem[randPlyrTarget] == null
+								|| partyMem[randPlyrTarget].isDead());
+
+						abilityTarget = partyMem[randPlyrTarget];
+						target = partyMem[randPlyrTarget].getName();
+						// ApplyDamage
+						applyAbilityData();
+
+						try {
+							Thread.sleep(2000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						
+						
+
+					}
+					
+					enemyIdx++;
+					
+					if(enemyIdx == 3){
+						playerTurn();
+						enemyIdx = 0;
+					}
+				}
+			}
+
+			@Override
+			public void reset() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
+	
+	
 	
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) {
@@ -987,7 +1060,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 	}
 	
 	private void playerTurn() {
-		writeToScreen("Player goes", 0);
+		//set playerTurn to true
+		playerTurn = true;
 		
 		
 		for (int idx = 0; idx < 3; idx++) {
@@ -1007,21 +1081,22 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		//focus arrow = true
 		focusArrow.setVisible(true);
 		focusArrow.setPosition(225, (focusPlyrIdx * 100) + 25);
+		focusedPartyMem = partyMem[focusPlyrIdx];
 		
-		//set playerTurn to true
-		playerTurn = true;
-		
+		updateAbilityButtons();		
+				
 		updateInfoText();
 	}
 	
 	private void enemyTurn() {
 		//TODO
-		//Battle Menu visible = false
-		battleMenuChildScene.setVisible(false);
-		//Focus arrow visible = false
-		focusArrow.setVisible(false);
+//		//Battle Menu visible = false
+//		battleMenuChildScene.setVisible(false);
+//		//Focus arrow visible = false
+//		focusArrow.setVisible(false);
 		
-		for (int idx = 0; idx < enemyCount; idx++) {
+		
+		for (int idx = 0; idx < 3; idx++) {
 			if (enemyPlyr[idx] != null && !enemyPlyr[idx].isDead()) {
 				//Set enemy turn to true
 				enemyPlyr[idx].setHasTurn(true);
@@ -1031,45 +1106,48 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			}
 		}
 		
-		writeToScreen("Enemy Turn", 1);
+//		playerTurn = false;
 		
-		for (int idx = 0; idx < enemyCount; idx++) {
-			if (enemyPlyr[idx] != null && !enemyPlyr[idx].isDead() && enemyPlyr[idx].hasTurn()) {
-				int randAbilityIdx = 0;
-				int randPlyrTarget = 0;
-				
-				// Random attack
-				AbilityData abilityData = new AbilityData();
-				randAbilityIdx = RandomNumber.generateRandomInt(0, 1);
-				targetFlag = enemyPlyr[idx].useAbility(randAbilityIdx, abilityData);
-				
-				abilityUser = enemyPlyr[idx].getName();
-				
-				plyrAbilities = enemyPlyr[idx].getAbilityNames();
-				ability = plyrAbilities[randAbilityIdx];
-				
-				// Random Target
-				do{
-					randPlyrTarget = RandomNumber.generateRandomInt(0, 2);
-				} while( partyMem[randPlyrTarget] == null || partyMem[randPlyrTarget].isDead());
-				
-				abilityTarget = partyMem[randPlyrTarget];
-				target = partyMem[randPlyrTarget].getName();
-				// ApplyDamage
-				applyAbilityData();
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			
-				
-			}
-		}
+		
+//		writeToScreen("Enemy Turn", 1);
+		
+//		for (int idx = 0; idx < enemyCount; idx++) {
+//			if (enemyPlyr[idx] != null && !enemyPlyr[idx].isDead() && enemyPlyr[idx].hasTurn()) {
+//				int randAbilityIdx = 0;
+//				int randPlyrTarget = 0;
+//				
+//				// Random attack
+//				AbilityData abilityData = new AbilityData();
+//				randAbilityIdx = RandomNumber.generateRandomInt(0, 1);
+//				targetFlag = enemyPlyr[idx].useAbility(randAbilityIdx, abilityData);
+//				
+//				abilityUser = enemyPlyr[idx].getName();
+//				
+//				plyrAbilities = enemyPlyr[idx].getAbilityNames();
+//				ability = plyrAbilities[randAbilityIdx];
+//				
+//				// Random Target
+//				do{
+//					randPlyrTarget = RandomNumber.generateRandomInt(0, 2);
+//				} while( partyMem[randPlyrTarget] == null || partyMem[randPlyrTarget].isDead());
+//				
+//				abilityTarget = partyMem[randPlyrTarget];
+//				target = partyMem[randPlyrTarget].getName();
+//				// ApplyDamage
+//				applyAbilityData();
+//				try {
+//					Thread.sleep(2000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				
+//			
+//				
+//			}
+//		}
 	
-		playerTurn();
+//		playerTurn();
 	}
 	
 	// Allows the touch areas and targets to become active based on the ability
@@ -1314,8 +1392,6 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 
 		}
 		
-		// Updates our current stats and resources to reflect what just happened
-		updateInfoText();
 		
 		////////////////////////////////////////////
 		// AT THIS POINT, WE DETERMINE THE GAME FLOW 
@@ -1327,8 +1403,13 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			exitButton.setVisible(false);
 			
 			setChildScene(battleMenuChildScene);
+			//Remove Resources
+			focusedPartyMem.getCharacter().useResource(abilityData.getResourceUsed());
 			swap();
 		} 
+		
+		// Updates our current stats and resources to reflect what just happened
+		updateInfoText();
 		
 		//TODO
 		//Death Checks
@@ -1359,15 +1440,9 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 
 		// If all players have exhausted their turn, it's now the enemy's turn
 		if(plyrsWithoutTurn == 4){
-			// No need to reset plyrsWithoutTurn here
-		
-			// If we got in here, that means the player turn is done
-			playerTurn = false;
-			
-			focusArrow.setVisible(false);
-			
+			playerTurn = false;		
 			// It is now the enemy's turn
-			enemyTurn();
+//			enemyTurn();
 		} else {
 			// If we got in here, that means the player turn is still happening
 			

@@ -5,6 +5,7 @@ public class AbilityData {
 	protected int mNumOfWaitTurns;
 	protected int mDamageDone;
 	protected int mHealingDone;
+	protected int mResourceUsed;
 	protected Stats mBuff;
 
 	protected boolean mBleeding;
@@ -36,6 +37,7 @@ public class AbilityData {
 		mNumOfWaitTurns = 0;
 		mDamageDone = 0;
 		mHealingDone = 0;
+		mResourceUsed = 0;
 		mBuff = new Stats();
 
 		mBleeding = false;
@@ -105,6 +107,15 @@ public class AbilityData {
 
 	public void setHealed(boolean pHealed) {
 		this.mHealed = pHealed;
+	}
+	
+	//Resources
+	public int getResourceUsed() {
+		return mResourceUsed;
+	}
+
+	public void setResourceUsed(int ResourceUsed) {
+		this.mResourceUsed = ResourceUsed;
 	}
 
 	// Buff

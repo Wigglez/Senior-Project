@@ -265,4 +265,9 @@ public abstract class Character {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+
+	public void useResource(int resourceUsed) {
+		mCurrentResources.setResource(mCurrentResources.getResource() - resourceUsed);
+		
+	}
 }

@@ -319,9 +319,10 @@ public class RangerClass extends PlayerCharacter {
 			pAbilityData.setBurnDamage((int) fireArrowDmg);
 			pAbilityData.setBurning(true);
 			pAbilityData.setBurnTurns(2);
+			pAbilityData.setResourceUsed(mFireArrowCost);
 
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mFireArrowCost);
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mFireArrowCost);
 
 			return ABILITYFLAGS.DAMAGE_SINGLE;
 		} else
@@ -343,9 +344,10 @@ public class RangerClass extends PlayerCharacter {
 			pAbilityData.setPoisonDamage((int) poisonArrowDmg);
 			pAbilityData.setPoisoned(true);
 			pAbilityData.setPoisonTurns(2);
+			pAbilityData.setResourceUsed(mPoisonArrowCost);
 
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mPoisonArrowCost);
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mPoisonArrowCost);
 
 			return ABILITYFLAGS.DAMAGE_SINGLE;
 		} else
@@ -359,9 +361,10 @@ public class RangerClass extends PlayerCharacter {
 			float spreadShotDmg = 0.6f * mCurrentStats.getDamage() + mCurrentStats.getDexterity() * 0.4f;
 
 			pAbilityData.setDamageDone((int) spreadShotDmg);
+			pAbilityData.setResourceUsed(mSpreadShotCost);
 
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mSpreadShotCost);
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mSpreadShotCost);
 
 			return ABILITYFLAGS.DAMAGE_ALL;
 		} else
@@ -379,11 +382,13 @@ public class RangerClass extends PlayerCharacter {
 					* RandomNumber.generateRandomFloat(1.25f, 2f)  + mCurrentStats.getDexterity() * 0.4f;
 
 			pAbilityData.setDamageDone((int) damageMod);
+			pAbilityData.setResourceUsed(mChargedShotCost);
+
 			// Being stunned needs to affect the player instead of the enemy
 			
 
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mChargedShotCost);
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mChargedShotCost);
 
 			return ABILITYFLAGS.DAMAGE_SINGLE;
 		} else
@@ -399,9 +404,10 @@ public class RangerClass extends PlayerCharacter {
 			pAbilityData.setDamageDone((int) dmg);
 			pAbilityData.setStunned(true);
 			pAbilityData.setStunTurns(2);
+			pAbilityData.setResourceUsed(mStunArrowCost);
 
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mStunArrowCost);
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mStunArrowCost);
 
 			return ABILITYFLAGS.DAMAGE_SINGLE;
 		} else

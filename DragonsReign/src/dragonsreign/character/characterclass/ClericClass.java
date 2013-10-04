@@ -300,9 +300,10 @@ public class ClericClass extends PlayerCharacter {
 
 			pAbilityData.setHealingDone((int) mendHeal);
 			pAbilityData.setHealed(true);
+			pAbilityData.setResourceUsed(mMendCost);
 
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mMendCost);
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mMendCost);
 
 			return ABILITYFLAGS.HEAL_SINGLE;
 		} else
@@ -316,9 +317,10 @@ public class ClericClass extends PlayerCharacter {
 			float siphonDmg = (float) (mCurrentStats.getDamage() * 0.50)  + mCurrentStats.getIntelligence() * 0.4f;
 
 			pAbilityData.setDamageDone((int) siphonDmg);
-			
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mLifeSiphonCost);
+			pAbilityData.setResourceUsed(mLifeSiphonCost);
+
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mLifeSiphonCost);
 
 			return ABILITYFLAGS.DAMAGE_HEAL_SINGLE;
 		} else
@@ -335,8 +337,10 @@ public class ClericClass extends PlayerCharacter {
 			// Revive player at 50% health
 			// Need targeted player
 
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mReviveCost);
+			pAbilityData.setResourceUsed(mReviveCost);
+
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mReviveCost);
 
 			return ABILITYFLAGS.REVIVE;
 		} else
@@ -351,9 +355,10 @@ public class ClericClass extends PlayerCharacter {
 			float healingChantAmount = mMaxResources.getHealth() * 0.60f   + mCurrentStats.getIntelligence() * 0.4f;
 
 			pAbilityData.setHealingDone((int) healingChantAmount);
+			pAbilityData.setResourceUsed(mHealingChantCost);
 
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mHealingChantCost);
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mHealingChantCost);
 
 			return ABILITYFLAGS.HEAL_ALL;
 		} else
@@ -379,9 +384,10 @@ public class ClericClass extends PlayerCharacter {
 
 			pAbilityData.setBuffed(true);
 			pAbilityData.setBuffTurns(5);
+			pAbilityData.setResourceUsed(mEmpowerCost);
 
-			mCurrentResources.setResource(mCurrentResources.getResource()
-					- mEmpowerCost);
+//			mCurrentResources.setResource(mCurrentResources.getResource()
+//					- mEmpowerCost);
 
 			return ABILITYFLAGS.BUFF_ALL;
 		} else
