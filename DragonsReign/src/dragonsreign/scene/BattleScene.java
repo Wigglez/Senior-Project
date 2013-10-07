@@ -3,6 +3,7 @@ package dragonsreign.scene;
 
 import org.andengine.engine.camera.BoundCamera;
 import org.andengine.engine.handler.IUpdateHandler;
+import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
@@ -110,7 +111,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 	/////////////////
 	private int focusPlyrIdx, enemyIdx, enemyCount;
 
-	private Boolean playerTurn;
+	private Boolean playerTurn, firstEnemyUpdatePass;
 	
 	// Ability String Data to output
 	private String[] plyrAbilities;
@@ -246,8 +247,11 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		
 		//Initialize enemyIdx
 		enemyIdx = 0;
+		firstEnemyUpdatePass = true;
+		
 		
 		registerUpdateHandler(new IUpdateHandler() {
+			
 			@Override
 			public void onUpdate(float pSecondsElapsed) {
 				// TODO Auto-generated method stub
@@ -258,8 +262,16 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 					}
 					// Battle Menu visible = false
 					battleMenuChildScene.setVisible(false);
+					battleMenuChildScene.setOnMenuItemClickListener(null);
 					// Focus arrow visible = false
 					focusArrow.setVisible(false);
+					
+					
+					if(firstEnemyUpdatePass){
+						//Exits the update loop to clear the screen
+						firstEnemyUpdatePass = false;
+						return;
+					}
 
 					if (enemyPlyr[enemyIdx] != null && !enemyPlyr[enemyIdx].isDead()
 							&& enemyPlyr[enemyIdx].hasTurn()) {
@@ -290,7 +302,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 						applyAbilityData();
 
 						try {
-							Thread.sleep(2000);
+							Thread.sleep(5000);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -305,6 +317,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 					
 					if(enemyIdx == 3){
 						playerTurn();
+						firstEnemyUpdatePass = true;
 						enemyIdx = 0;
 					}
 				}
@@ -357,6 +370,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			// String data for messages
 			abilityUser = focusedPartyMem.getName();
 			ability = plyrAbilities[0];
+			clearTargetSelection();
 			targetSelect();
 			
 			return true;
@@ -369,6 +383,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			// String data for messages
 			abilityUser = focusedPartyMem.getName();
 			ability = plyrAbilities[1];
+			clearTargetSelection();
 			targetSelect();
 			
 			return true;
@@ -381,6 +396,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			// String data for messages
 			abilityUser = focusedPartyMem.getName();
 			ability = plyrAbilities[2];
+			clearTargetSelection();
 			targetSelect();
 			
 			return true;
@@ -393,6 +409,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			// String data for messages
 			abilityUser = focusedPartyMem.getName();
 			ability = plyrAbilities[3];
+			clearTargetSelection();
 			targetSelect();
 			
 			return true;
@@ -405,6 +422,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			// String data for messages
 			abilityUser = focusedPartyMem.getName();
 			ability = plyrAbilities[4];
+			clearTargetSelection();
 			targetSelect();
 			
 			return true;
@@ -417,6 +435,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			// String data for messages
 			abilityUser = focusedPartyMem.getName();
 			ability = plyrAbilities[5];
+			clearTargetSelection();
 			targetSelect();
 			
 			return true;
@@ -934,13 +953,14 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 	// and how long it lasts (0 or 1 length)
 	// Consider moving elsewhere for other places to use this
 	public void writeToScreen(final CharSequence pText, final int pToastLength) {
+		
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				if(pToastLength == 0)
+				//if(pToastLength == 0)
 					Toast.makeText(activity, pText, Toast.LENGTH_SHORT).show();
 				
-				if(pToastLength >= 1)
-					Toast.makeText(activity, pText, Toast.LENGTH_LONG).show();
+//				if(pToastLength >= 1)
+//					Toast.makeText(activity, pText, Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -1078,6 +1098,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		//Battle Menu visible = true
 		setChildScene(battleMenuChildScene);
 		battleMenuChildScene.setVisible(true);
+		battleMenuChildScene.setOnMenuItemClickListener(this);
 		//focus arrow = true
 		focusArrow.setVisible(true);
 		focusArrow.setPosition(225, (focusPlyrIdx * 100) + 25);
@@ -1359,14 +1380,14 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			if (partyMem[1] != null && !partyMem[1].isDead()) {
 				partyMem[1].recieveAbilityData(abilityData);
 			}
-			
+
 			if (partyMem[2] != null && !partyMem[2].isDead()) {
 				partyMem[2].recieveAbilityData(abilityData);
 			}
-			
+
 			writeToScreen(abilityUser + " used " + ability + " on party.", 1);
 			break;
-			
+
 		// Heals a single party member
 		case HEAL_SINGLE:
 			abilityTarget.recieveAbilityData(abilityData);
@@ -1410,6 +1431,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		
 		// Updates our current stats and resources to reflect what just happened
 		updateInfoText();
+		clearTargetSelection();
 		
 		//TODO
 		//Death Checks

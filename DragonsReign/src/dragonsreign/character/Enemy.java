@@ -282,11 +282,11 @@ public class Enemy extends Character {
 		}
 
 		//Sanity check
-		if(mCurrentStats.getDamage() == 0)
-			mCurrentStats.setDamage(1);
+		if(mCurrentStats.getDamage() < 5)
+			mCurrentStats.setDamage(5);
 		
-		if(mCurrentStats.getArmor() == 0)
-			mCurrentStats.setArmor(1);
+		if(mCurrentStats.getArmor() <5)
+			mCurrentStats.setArmor(5);
 	}
 
 	// ===========================================================
