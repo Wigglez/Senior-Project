@@ -101,7 +101,7 @@ public class InventoryScene extends BaseScene {
 
 		// Create player two
 		if (mPlayer[1] != null) {
-			mPlayerPortrait[1].setPosition(174, 50);
+			mPlayerPortrait[1].setPosition(170, 50);
 			attachChild(mPlayerPortrait[1]);
 
 			mPlayerHealthBar[1] = new Rectangle(0, 0, mPlayer[1].getHealthPercentage(), 20,
@@ -116,9 +116,9 @@ public class InventoryScene extends BaseScene {
 					this.engine.getVertexBufferObjectManager());
 			mPlayerXpBar[1].setColor(0, 1.0f, 1.0f);
 
-			mPlayerHealthBar[1].setPosition(238, 50);
-			mPlayerResourceBar[1].setPosition(238, 70);
-			mPlayerXpBar[1].setPosition(238, 90);
+			mPlayerHealthBar[1].setPosition(230, 50);
+			mPlayerResourceBar[1].setPosition(230, 70);
+			mPlayerXpBar[1].setPosition(230, 90);
 
 			attachChild(mPlayerHealthBar[1]);
 			attachChild(mPlayerResourceBar[1]);
@@ -128,7 +128,7 @@ public class InventoryScene extends BaseScene {
 
 		// Create player three
 		if (mPlayer[2] != null) {
-			mPlayerPortrait[2].setPosition(348, 50);
+			mPlayerPortrait[2].setPosition(340, 50);
 			attachChild(mPlayerPortrait[2]);
 
 			mPlayerHealthBar[2] = new Rectangle(0, 0, mPlayer[2].getHealthPercentage(), 20,
@@ -143,9 +143,9 @@ public class InventoryScene extends BaseScene {
 					this.engine.getVertexBufferObjectManager());
 			mPlayerXpBar[2].setColor(0, 1.0f, 1.0f);
 
-			mPlayerHealthBar[2].setPosition(412, 50);
-			mPlayerResourceBar[2].setPosition(412, 70);
-			mPlayerXpBar[2].setPosition(412, 90);
+			mPlayerHealthBar[2].setPosition(400, 50);
+			mPlayerResourceBar[2].setPosition(400, 70);
+			mPlayerXpBar[2].setPosition(400, 90);
 
 			attachChild(mPlayerHealthBar[2]);
 			attachChild(mPlayerResourceBar[2]);
