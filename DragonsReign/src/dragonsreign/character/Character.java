@@ -191,6 +191,36 @@ public abstract class Character {
 	public void setAbility(String[] pAbility) {
 		this.mAbility = pAbility;
 	}
+	
+	public int getHealthPercentage() {
+		float healthPercentage = 0;
+		
+		healthPercentage = mCurrentResources.getHealth() / (float)mMaxResources.getHealth();
+		
+		healthPercentage *= 100;
+		
+		return (int) healthPercentage;
+	}
+	
+	public int getResourcePercentage() {
+		float resourcePercentage = 0;
+		
+		resourcePercentage = mCurrentResources.getResource() / (float)mMaxResources.getResource();
+		
+		resourcePercentage *= 100;
+		
+		return (int) resourcePercentage;
+	}
+	
+	public int getExperiencePercentage() {
+		float experiencePercentage = 0;
+		
+		experiencePercentage = mCurrentResources.getExperience() / (float)mMaxResources.getExperience();
+		
+		experiencePercentage *= 100;
+		
+		return (int) experiencePercentage;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -263,12 +293,13 @@ public abstract class Character {
 		
 		mCurrentResources.setResource(mCurrentResources.getResource() + resourceDif);
 	}
-	// ===========================================================
-	// Inner and Anonymous Classes
-	// ===========================================================
-
+	
 	public void useResource(int resourceUsed) {
 		mCurrentResources.setResource(mCurrentResources.getResource() - resourceUsed);
 		
 	}
+	
+	// ===========================================================
+	// Inner and Anonymous Classes
+	// ===========================================================
 }

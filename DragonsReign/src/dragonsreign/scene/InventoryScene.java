@@ -34,18 +34,10 @@ public class InventoryScene extends BaseScene {
 
 	private Rectangle mPlayerHealthBar[], mPlayerResourceBar[], mPlayerXpBar[];
 
-	/*
-	 * private Rectangle character1HealthBar, character1ManaBar,
-	 * character1XpBar, character2HealthBar, character2ManaBar, character2XpBar,
-	 * character3HealthBar, character3ManaBar, character3XpBar;
-	 */
-
 	private Text mPlayerInfo[];
 
 	private PlayerCharacter mPlayer[];
 	private int mPlayerSelected;
-
-	private int health, mana, xp;
 
 	// ===========================================================
 	// Constructors
@@ -77,11 +69,6 @@ public class InventoryScene extends BaseScene {
 
 		mPlayerSelected = 0;
 
-		// TODO
-		health = 100;
-		mana = 50;
-		xp = 25;
-
 		// Got here
 		createTouchAreas();
 
@@ -90,15 +77,15 @@ public class InventoryScene extends BaseScene {
 			mPlayerPortrait[0].setPosition(0, 50);
 			attachChild(mPlayerPortrait[0]);
 
-			mPlayerHealthBar[0] = new Rectangle(0, 0, health * 1, 20,
+			mPlayerHealthBar[0] = new Rectangle(0, 0, mPlayer[0].getHealthPercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
 			mPlayerHealthBar[0].setColor(1.0f, 0, 0);
 
-			mPlayerResourceBar[0] = new Rectangle(0, 0, mana * 1, 20,
+			mPlayerResourceBar[0] = new Rectangle(0, 0, mPlayer[0].getResourcePercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
 			mPlayerResourceBar[0].setColor(0, 0, 1.0f);
 
-			mPlayerXpBar[0] = new Rectangle(0, 0, xp * 1, 20,
+			mPlayerXpBar[0] = new Rectangle(0, 0, mPlayer[0].getExperiencePercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
 			mPlayerXpBar[0].setColor(0, 1.0f, 1.0f);
 
@@ -117,15 +104,15 @@ public class InventoryScene extends BaseScene {
 			mPlayerPortrait[1].setPosition(250, 50);
 			attachChild(mPlayerPortrait[1]);
 
-			mPlayerHealthBar[1] = new Rectangle(0, 0, health * 1, 20,
+			mPlayerHealthBar[1] = new Rectangle(0, 0, mPlayer[1].getHealthPercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
 			mPlayerHealthBar[1].setColor(1.0f, 0, 0);
 
-			mPlayerResourceBar[1] = new Rectangle(0, 0, mana * 1, 20,
+			mPlayerResourceBar[1] = new Rectangle(0, 0, mPlayer[1].getResourcePercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
 			mPlayerResourceBar[1].setColor(0, 0, 1.0f);
 
-			mPlayerXpBar[1] = new Rectangle(0, 0, xp * 1, 20,
+			mPlayerXpBar[1] = new Rectangle(0, 0, mPlayer[1].getExperiencePercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
 			mPlayerXpBar[1].setColor(0, 1.0f, 1.0f);
 
@@ -144,15 +131,15 @@ public class InventoryScene extends BaseScene {
 			mPlayerPortrait[2].setPosition(500, 50);
 			attachChild(mPlayerPortrait[2]);
 
-			mPlayerHealthBar[2] = new Rectangle(0, 0, health * 1, 20,
+			mPlayerHealthBar[2] = new Rectangle(0, 0, mPlayer[2].getHealthPercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
 			mPlayerHealthBar[2].setColor(1.0f, 0, 0);
 
-			mPlayerResourceBar[2] = new Rectangle(0, 0, mana * 1, 20,
+			mPlayerResourceBar[2] = new Rectangle(0, 0, mPlayer[2].getResourcePercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
 			mPlayerResourceBar[2].setColor(0, 0, 1.0f);
 
-			mPlayerXpBar[2] = new Rectangle(0, 0, xp * 1, 20,
+			mPlayerXpBar[2] = new Rectangle(0, 0, mPlayer[2].getExperiencePercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
 			mPlayerXpBar[2].setColor(0, 1.0f, 1.0f);
 
