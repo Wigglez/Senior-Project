@@ -68,6 +68,7 @@ public abstract class Character {
 
 		mBaseResources.setHealth(0);
 		mBaseResources.setResource(0);
+		mBaseResources.setExperience(0);
 
 		mBaseStats.setStrength(0);
 		mBaseStats.setDexterity(0);

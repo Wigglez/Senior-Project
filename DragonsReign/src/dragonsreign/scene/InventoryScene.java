@@ -8,362 +8,440 @@ import org.andengine.entity.text.TextOptions;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.HorizontalAlign;
 
+import android.widget.Toast;
 
 import dragonsreign.scene.BaseScene;
 import dragonsreign.character.PlayerCharacter;
+import dragonsreign.character.characterclass.ClericClass;
+import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
 
-public class InventoryScene extends BaseScene
-{
+public class InventoryScene extends BaseScene {
+	// ===========================================================
+	// Constants
+	// ===========================================================
+
+	// ===========================================================
+	// Fields
+	// ===========================================================
 
 	private MenuScene inventoryChildScene;
-	
-	private int health;
-	private int mana;
-	private int xp;
-	
 
-	private Sprite character1Portrait, character2Portrait,character3Portrait, 
-				   inventoryGrid, equipmentArea, statsArea, exitButton;
-	
-	private Rectangle character1HealthBar, character1ManaBar, character1XpBar,
-					  character2HealthBar, character2ManaBar, character2XpBar,
-					  character3HealthBar, character3ManaBar, character3XpBar;
-	
-	private Text strengthText, dexterityText, intelligenceText, 
-				 vitalityText, damageText, armorText;
+	private Sprite mPlayerPortrait[], inventoryArea, equipmentArea, statsArea,
+			exitButton;
 
+	private Rectangle mPlayerHealthBar[], mPlayerResourceBar[], mPlayerXpBar[];
 
-	
-	private PlayerCharacter player;
-	
+	/*
+	 * private Rectangle character1HealthBar, character1ManaBar,
+	 * character1XpBar, character2HealthBar, character2ManaBar, character2XpBar,
+	 * character3HealthBar, character3ManaBar, character3XpBar;
+	 */
+
+	private Text mPlayerInfo[];
+
+	private PlayerCharacter mPlayer[];
+	private int mPlayerSelected;
+
+	private int health, mana, xp;
+
+	// ===========================================================
+	// Constructors
+	// ===========================================================
+
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
+
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
+	// ===========================================================
+
 	@Override
-	public void createScene() 
-	{
+	public void createScene() {
 		camera.setChaseEntity(null);
 		camera.offsetCenter(camera.getCenterX() * -1, camera.getCenterY() * -1);
-		
+
 		inventoryChildScene = new MenuScene(camera);
-		
-		
+		setChildScene(inventoryChildScene);
+
+		// TODO
+		// use imported characters
+		mPlayer = new PlayerCharacter[3];
+
+		mPlayer[0] = new WarriorClass();
+		mPlayer[1] = new RangerClass();
+		mPlayer[2] = new ClericClass();
+
+		mPlayerSelected = 0;
+
+		// TODO
 		health = 100;
 		mana = 50;
 		xp = 25;
-		////////////////////////////////////////////////////////////////////////////////////
-		//Create Touchable Sprites
-		////////////////////////////////////////////////////////////////////////////////////
-		character1Portrait = new Sprite(0, 0, resourcesManager.character1Portrait, this.engine.getVertexBufferObjectManager())
-		{
-            @Override
-            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) 
-            {
-            	switch (pSceneTouchEvent.getAction()) 
-            	{
-                	case TouchEvent.ACTION_DOWN:
-                		
-                		break;
-                	
 
-                }
-                return true;
-           
-            }
-        };
+		// Got here
+		createTouchAreas();
 
-		character2Portrait = new Sprite(0, 0, resourcesManager.character2Portrait, this.engine.getVertexBufferObjectManager())		
-		{
-            @Override
-            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY)
-            {
-            	switch (pSceneTouchEvent.getAction()) 
-            	{         	
-                	case TouchEvent.ACTION_MOVE:
-                		
-                		
-                		strengthText.setText("Str: " + 555);
-                	
-                		
-                		break;
+		// Create player one
+		if (mPlayer[0] != null) {
+			mPlayerPortrait[0].setPosition(0, 50);
+			attachChild(mPlayerPortrait[0]);
 
-                }
-                return true;
-           
-            }
-		};
-		character3Portrait = new Sprite(0, 0, resourcesManager.character3Portrait, this.engine.getVertexBufferObjectManager())
-		{
-            @Override
-            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY)
-            {
-            	switch (pSceneTouchEvent.getAction()) 
-            	{
-                	case TouchEvent.ACTION_DOWN:
-                		strengthText.setText("Str: " + 2000);
-                		break;
+			mPlayerHealthBar[0] = new Rectangle(0, 0, health * 1, 20,
+					this.engine.getVertexBufferObjectManager());
+			mPlayerHealthBar[0].setColor(1.0f, 0, 0);
 
-                }
-                return true;
-           
-            }
-		};
-		
-		exitButton = new Sprite(0, 0, resourcesManager.exitButton, this.engine.getVertexBufferObjectManager())
-		{
-            @Override
-            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY)
-            {
-            	switch (pSceneTouchEvent.getAction()) 
-            	{
-                	case TouchEvent.ACTION_DOWN:
-                		onBackKeyPressed();
-                		
-					break;
+			mPlayerResourceBar[0] = new Rectangle(0, 0, mana * 1, 20,
+					this.engine.getVertexBufferObjectManager());
+			mPlayerResourceBar[0].setColor(0, 0, 1.0f);
 
-                }
-                return true;
-           
-            }
-		};
-		////////////////////////////////////////////////////////////////////////////////////
-		//Register the Touch Areas
-		////////////////////////////////////////////////////////////////////////////////////
-		registerTouchArea(character1Portrait);
-		registerTouchArea(character2Portrait);
-		registerTouchArea(character3Portrait);
-		registerTouchArea(exitButton);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Create Sprites
-		////////////////////////////////////////////////////////////////////////////////////
-		inventoryGrid = new Sprite(0, 0, resourcesManager.inventoryGid, this.engine.getVertexBufferObjectManager());
-		
-		
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Resource Bars
-		////////////////////////////////////////////////////////////////////////////////////
-		character1HealthBar = new Rectangle(0,0,health * 1,20,this.engine.getVertexBufferObjectManager());
-		character1HealthBar.setColor(1.0f, 0, 0);
-		character1ManaBar = new Rectangle(0,0,mana * 1,20,this.engine.getVertexBufferObjectManager());
-		character1ManaBar.setColor(0, 0, 1.0f);
-		character1XpBar = new Rectangle(0,0,xp * 1,20,this.engine.getVertexBufferObjectManager());
-		character1XpBar.setColor(0, 1.0f, 1.0f);
-		
-		character2HealthBar = new Rectangle(0,0,health * 1,20,this.engine.getVertexBufferObjectManager());
-		character2HealthBar.setColor(1.0f, 0, 0);
-		character2ManaBar = new Rectangle(0,0,mana * 1,20,this.engine.getVertexBufferObjectManager());
-		character2ManaBar.setColor(0, 0, 1.0f);
-		character2XpBar = new Rectangle(0,0,xp * 1,20,this.engine.getVertexBufferObjectManager());
-		character2XpBar.setColor(0, 1.0f, 1.0f);
-		
-		character3HealthBar = new Rectangle(0,0,health * 1,20,this.engine.getVertexBufferObjectManager());
-		character3HealthBar.setColor(1.0f, 0, 0);
-		character3ManaBar = new Rectangle(0,0,mana * 1,20,this.engine.getVertexBufferObjectManager());
-		character3ManaBar.setColor(0, 0, 1.0f);
-		character3XpBar = new Rectangle(0,0,xp * 1,20,this.engine.getVertexBufferObjectManager());
-		character3XpBar.setColor(0, 1.0f, 1.0f);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Set Positions
-		////////////////////////////////////////////////////////////////////////////////////
-		character1Portrait.setPosition(0, 50);
-		character2Portrait.setPosition(250, 50);
-		character3Portrait.setPosition(500, 50);
-		
-		inventoryGrid.setPosition(420, 140);
-		
-		character1HealthBar.setPosition(60, 50);
-		character1ManaBar.setPosition(60, 70);
-		character1XpBar.setPosition(60, 90);
-		
-		character2HealthBar.setPosition(310, 50);
-		character2ManaBar.setPosition(310, 70);
-		character2XpBar.setPosition(310, 90);
-		
-		character3HealthBar.setPosition(560, 50);
-		character3ManaBar.setPosition(560, 70);
-		character3XpBar.setPosition(560, 90);
-		
-		exitButton.setPosition(-12,-12);
+			mPlayerXpBar[0] = new Rectangle(0, 0, xp * 1, 20,
+					this.engine.getVertexBufferObjectManager());
+			mPlayerXpBar[0].setColor(0, 1.0f, 1.0f);
+
+			mPlayerHealthBar[0].setPosition(60, 50);
+			mPlayerResourceBar[0].setPosition(60, 70);
+			mPlayerXpBar[0].setPosition(60, 90);
+
+			attachChild(mPlayerHealthBar[0]);
+			attachChild(mPlayerResourceBar[0]);
+			attachChild(mPlayerXpBar[0]);
+
+		}
+
+		// Create player two
+		if (mPlayer[1] != null) {
+			mPlayerPortrait[1].setPosition(250, 50);
+			attachChild(mPlayerPortrait[1]);
+
+			mPlayerHealthBar[1] = new Rectangle(0, 0, health * 1, 20,
+					this.engine.getVertexBufferObjectManager());
+			mPlayerHealthBar[1].setColor(1.0f, 0, 0);
+
+			mPlayerResourceBar[1] = new Rectangle(0, 0, mana * 1, 20,
+					this.engine.getVertexBufferObjectManager());
+			mPlayerResourceBar[1].setColor(0, 0, 1.0f);
+
+			mPlayerXpBar[1] = new Rectangle(0, 0, xp * 1, 20,
+					this.engine.getVertexBufferObjectManager());
+			mPlayerXpBar[1].setColor(0, 1.0f, 1.0f);
+
+			mPlayerHealthBar[1].setPosition(310, 50);
+			mPlayerResourceBar[1].setPosition(310, 70);
+			mPlayerXpBar[1].setPosition(310, 90);
+
+			attachChild(mPlayerHealthBar[1]);
+			attachChild(mPlayerResourceBar[1]);
+			attachChild(mPlayerXpBar[1]);
+
+		}
+
+		// Create player three
+		if (mPlayer[2] != null) {
+			mPlayerPortrait[2].setPosition(500, 50);
+			attachChild(mPlayerPortrait[2]);
+
+			mPlayerHealthBar[2] = new Rectangle(0, 0, health * 1, 20,
+					this.engine.getVertexBufferObjectManager());
+			mPlayerHealthBar[2].setColor(1.0f, 0, 0);
+
+			mPlayerResourceBar[2] = new Rectangle(0, 0, mana * 1, 20,
+					this.engine.getVertexBufferObjectManager());
+			mPlayerResourceBar[2].setColor(0, 0, 1.0f);
+
+			mPlayerXpBar[2] = new Rectangle(0, 0, xp * 1, 20,
+					this.engine.getVertexBufferObjectManager());
+			mPlayerXpBar[2].setColor(0, 1.0f, 1.0f);
+
+			mPlayerHealthBar[2].setPosition(560, 50);
+			mPlayerResourceBar[2].setPosition(560, 70);
+			mPlayerXpBar[2].setPosition(560, 90);
+
+			attachChild(mPlayerHealthBar[2]);
+			attachChild(mPlayerResourceBar[2]);
+			attachChild(mPlayerXpBar[2]);
+		}
+
+		// Exit button
+		exitButton.setPosition(-12, -12);
 		exitButton.setScale(0.5f);
-		////////////////////////////////////////////////////////////////////////////////////
-		//Attach Sprites
-		////////////////////////////////////////////////////////////////////////////////////
-		attachChild(character1Portrait);
-		attachChild(character2Portrait);
-		attachChild(character3Portrait);
-		
-		attachChild(inventoryGrid);
-		
-		attachChild(character1HealthBar);
-		attachChild(character1ManaBar);
-		attachChild(character1XpBar);
-		
-		attachChild(character2HealthBar);
-		attachChild(character2ManaBar);
-		attachChild(character2XpBar);
-		
-		attachChild(character3HealthBar);
-		attachChild(character3ManaBar);
-		attachChild(character3XpBar);
-		
 		attachChild(exitButton);
-		
-		setChildScene(inventoryChildScene);
-		
-		
+
 		createInventoryChildScene();
+
+		inventoryChildScene.attachChild(mPlayerInfo[0]);
+		inventoryChildScene.attachChild(mPlayerInfo[1]);
+		inventoryChildScene.attachChild(mPlayerInfo[2]);
 		
+		// Update the inventory
+		updateInventory();
 	}
 
-	public void createInventoryChildScene()
-	{
-		////////////////////////////////////////////////////////////////////////////////////
-		//Set up Child Scene
-		////////////////////////////////////////////////////////////////////////////////////
-		createTeamMemberOneStatsArea();
-		inventoryChildScene.setPosition(0, 140);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Create Sprites
-		////////////////////////////////////////////////////////////////////////////////////
-		equipmentArea = new Sprite(0, 0, resourcesManager.equipmentArea, this.engine.getVertexBufferObjectManager()); 
-		statsArea = new Sprite(0, 0, resourcesManager.statsArea, this.engine.getVertexBufferObjectManager());
-
-		////////////////////////////////////////////////////////////////////////////////////
-		//Attach entities
-		////////////////////////////////////////////////////////////////////////////////////
-		
-		
-		inventoryChildScene.attachChild(equipmentArea);
-		inventoryChildScene.attachChild(statsArea);
-		
-		
-		inventoryChildScene.setBackgroundEnabled(false);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Set Positions
-		////////////////////////////////////////////////////////////////////////////////////
-		
-		equipmentArea.setPosition(210, 0);
-		statsArea.setPosition(0, 0);
-		
-		showTeamMemberOneStatsArea();
-
-		inventoryChildScene.setVisible(true);
-
-	}
-
-	private void createTeamMemberOneStatsArea()
-	{
-		strengthText = new Text(40,10, resourcesManager.inventoryFont, "" ,150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		strengthText.setText("Str: ");
-		
-		dexterityText = new Text(40,10, resourcesManager.inventoryFont, "" ,150, new TextOptions(), vbom);
-		dexterityText.setText("Dex: ");
-		
-		intelligenceText = new Text(40,10, resourcesManager.inventoryFont, "" ,150, new TextOptions(), vbom);
-		intelligenceText.setText("Int: ");
-		
-		vitalityText = new Text(40,10, resourcesManager.inventoryFont, "" ,150, new TextOptions(), vbom);
-		vitalityText.setText("Vit: ");
-		
-		damageText = new Text(40,10, resourcesManager.inventoryFont, "" ,150, new TextOptions(), vbom);
-		damageText.setText("Dmg: ");
-		
-		armorText = new Text(40,10, resourcesManager.inventoryFont, "" ,150, new TextOptions(), vbom);
-		armorText.setText("Armor: ");
-	}
-	private void createTeamMemberTwoStatsArea()
-	{
-	
-	}
-	private void createTeamMemberThreeStatsArea()
-	{
-	
-	}
-	private void createTeamMemberOneEquipmentArea()
-	{
-	
-	}
-	private void createTeamMemberTwoEquipmentArea()
-	{
-	
-	}
-	private void createTeamMemberThreeEquipmentArea()
-	{
-	
-	}
-	private void showTeamMemberOneStatsArea()
-	{
-		
-		strengthText.setPosition(10, 30);
-		dexterityText.setPosition(10, 80);
-		intelligenceText.setPosition(10, 130);
-		vitalityText.setPosition(10, 180);
-		damageText.setPosition(10, 230);
-		armorText.setPosition(10, 280);
-		
-		
-		
-		
-		inventoryChildScene.attachChild(strengthText);
-		inventoryChildScene.attachChild(dexterityText);
-		inventoryChildScene.attachChild(intelligenceText);
-		inventoryChildScene.attachChild(vitalityText);
-		inventoryChildScene.attachChild(damageText);
-		inventoryChildScene.attachChild(armorText);
-		
-	}
-	private void showTeamMemberTwoStatsArea()
-	{
-		
-	}
-	private void showTeamMemberThreeStatsArea()
-	{
-		
-	}
-	private void showTeamMemberOneEquipmentArea()
-	{
-		
-	}
-	private void showTeamMemberTwoEquipmentArea()
-	{
-		
-	}
-	private void showTeamMemberThreeEquipmentArea()
-	{
-		
-	}
 	@Override
-	public void onBackKeyPressed() 
-	{
+	public void onBackKeyPressed() {
 		SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_GAME);
-		
+
 		camera.setChaseEntity(GameScene.player);
 		camera.updateChaseEntity();
-		
-		
-
 	}
 
 	@Override
-	public SceneType getSceneType() 
-	{
-		// TODO Auto-generated method stub
+	public SceneType getSceneType() {
+
 		return null;
 	}
 
 	@Override
-	public void disposeScene() 
-	{
-		// TODO Auto-generated method stub
-		
+	public void disposeScene() {
 	}
 
-	
-	
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+	public void createInventoryChildScene() {
+		// Set up child scene
+		createPlayerStatsArea();
+
+		inventoryChildScene.setPosition(0, 140);
+
+		// Create sprites
+		statsArea = new Sprite(0, 0, resourcesManager.statsArea,
+				this.engine.getVertexBufferObjectManager());
+		equipmentArea = new Sprite(0, 0, resourcesManager.equipmentArea,
+				this.engine.getVertexBufferObjectManager());
+		inventoryArea = new Sprite(0, 0, resourcesManager.inventoryArea,
+				this.engine.getVertexBufferObjectManager());
+
+		// Attach entities
+		inventoryChildScene.attachChild(equipmentArea);
+		inventoryChildScene.attachChild(statsArea);
+		inventoryChildScene.attachChild(inventoryArea);
+
+		inventoryChildScene.setBackgroundEnabled(false);
+
+		// Set positions
+		statsArea.setPosition(0, 0);
+		equipmentArea.setPosition(210, 0);
+		inventoryArea.setPosition(420, 0);
+		
+		inventoryChildScene.setVisible(true);
+
+	}
+
+	public void createTouchAreas() {
+		mPlayerPortrait = new Sprite[3];
+		mPlayerHealthBar = new Rectangle[3];
+		mPlayerResourceBar = new Rectangle[3];
+		mPlayerXpBar = new Rectangle[3];
+		mPlayerInfo = new Text[3];
+
+		if (mPlayer[0] != null) {
+			mPlayerPortrait[0] = new Sprite(0, 0,
+					resourcesManager.character1Portrait,
+					this.engine.getVertexBufferObjectManager()) {
+				@Override
+				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+						final float pTouchAreaLocalX,
+						final float pTouchAreaLocalY) {
+					switch (pSceneTouchEvent.getAction()) {
+					case TouchEvent.ACTION_DOWN:
+						mPlayerSelected = 0;
+
+						updateInventory();
+
+						break;
+
+					}
+					return true;
+
+				}
+			};
+
+			registerTouchArea(mPlayerPortrait[0]);
+		}
+
+		if (mPlayer[1] != null) {
+			mPlayerPortrait[1] = new Sprite(0, 0,
+					resourcesManager.character2Portrait,
+					this.engine.getVertexBufferObjectManager()) {
+				@Override
+				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+						final float pTouchAreaLocalX,
+						final float pTouchAreaLocalY) {
+					switch (pSceneTouchEvent.getAction()) {
+					case TouchEvent.ACTION_DOWN:
+						mPlayerSelected = 1;
+
+						updateInventory();
+
+						// strengthText.setText("Str: " + 555);
+
+						break;
+
+					}
+					return true;
+
+				}
+			};
+
+			registerTouchArea(mPlayerPortrait[1]);
+		}
+
+		if (mPlayer[2] != null) {
+			mPlayerPortrait[2] = new Sprite(0, 0,
+					resourcesManager.character3Portrait,
+					this.engine.getVertexBufferObjectManager()) {
+				@Override
+				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+						final float pTouchAreaLocalX,
+						final float pTouchAreaLocalY) {
+					switch (pSceneTouchEvent.getAction()) {
+					case TouchEvent.ACTION_DOWN:
+						mPlayerSelected = 2;
+
+						updateInventory();
+
+						// strengthText.setText("Str: " + 2000);
+						break;
+
+					}
+					return true;
+
+				}
+			};
+
+			registerTouchArea(mPlayerPortrait[2]);
+		}
+
+		exitButton = new Sprite(0, 0, resourcesManager.exitButton,
+				this.engine.getVertexBufferObjectManager()) {
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+					final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				switch (pSceneTouchEvent.getAction()) {
+				case TouchEvent.ACTION_DOWN:
+					onBackKeyPressed();
+
+					break;
+
+				}
+				return true;
+
+			}
+		};
+
+		registerTouchArea(exitButton);
+	}
+
+	// ===========================================================
+	// Inner and Anonymous Classes
+	// ===========================================================
+
+	private void updateInventory() {
+		// Name, level, str, dex, int, vit, dmg, armor
+		if (mPlayer[0] != null && mPlayerSelected == 0) {
+			mPlayerInfo[0].setText(mPlayer[0].getName() + "\n" + "Level: "
+					+ mPlayer[0].getLevel() + "\n" + "Str: "
+					+ mPlayer[0].getCurrentStats().getStrength() + "\n"
+					+ "Dex: " + mPlayer[0].getCurrentStats().getDexterity()
+					+ "\n" + "Int: "
+					+ mPlayer[0].getCurrentStats().getIntelligence() + "\n"
+					+ "Vit: " + mPlayer[0].getCurrentStats().getVitality()
+					+ "\n" + "Dmg: " + mPlayer[0].getCurrentStats().getDamage()
+					+ "\n" + "Armor: "
+					+ mPlayer[0].getCurrentStats().getArmor());
+			
+			mPlayerInfo[0].setVisible(true);
+			mPlayerInfo[1].setVisible(false);
+			mPlayerInfo[2].setVisible(false);
+
+		} else if (mPlayer[1] != null && mPlayerSelected == 1) {
+			mPlayerInfo[1].setText(mPlayer[1].getName() + "\n" + "Level: "
+					+ mPlayer[1].getLevel() + "\n" + "Str: "
+					+ mPlayer[1].getCurrentStats().getStrength() + "\n"
+					+ "Dex: " + mPlayer[1].getCurrentStats().getDexterity()
+					+ "\n" + "Int: "
+					+ mPlayer[1].getCurrentStats().getIntelligence() + "\n"
+					+ "Vit: " + mPlayer[1].getCurrentStats().getVitality()
+					+ "\n" + "Dmg: " + mPlayer[1].getCurrentStats().getDamage()
+					+ "\n" + "Armor: "
+					+ mPlayer[1].getCurrentStats().getArmor());
+
+			mPlayerInfo[0].setVisible(false);
+			mPlayerInfo[1].setVisible(true);
+			mPlayerInfo[2].setVisible(false);
+			
+		} else if (mPlayer[2] != null && mPlayerSelected == 2) {
+			mPlayerInfo[2].setText(mPlayer[2].getName() + "\n" + "Level: "
+					+ mPlayer[2].getLevel() + "\n" + "Str: "
+					+ mPlayer[2].getCurrentStats().getStrength() + "\n"
+					+ "Dex: " + mPlayer[2].getCurrentStats().getDexterity()
+					+ "\n" + "Int: "
+					+ mPlayer[2].getCurrentStats().getIntelligence() + "\n"
+					+ "Vit: " + mPlayer[2].getCurrentStats().getVitality()
+					+ "\n" + "Dmg: " + mPlayer[2].getCurrentStats().getDamage()
+					+ "\n" + "Armor: "
+					+ mPlayer[2].getCurrentStats().getArmor());
+
+			mPlayerInfo[0].setVisible(false);
+			mPlayerInfo[1].setVisible(false);
+			mPlayerInfo[2].setVisible(true);
+		}
+
+	}
+
+	private void createPlayerStatsArea() {
+		if (mPlayer[0] != null) {
+			mPlayerInfo[0] = new Text(0, 0, resourcesManager.inventoryFont,
+					"", 150, new TextOptions(HorizontalAlign.LEFT), vbom);
+
+			mPlayerInfo[0].setPosition(10, 10);
+
+			mPlayerInfo[0].setVisible(false);
+		}
+
+		if (mPlayer[1] != null) {
+			mPlayerInfo[1] = new Text(0, 0, resourcesManager.inventoryFont,
+					"", 150, new TextOptions(HorizontalAlign.LEFT), vbom);
+
+			mPlayerInfo[1].setPosition(10, 10);
+
+			mPlayerInfo[1].setVisible(false);
+			
+		}
+
+		if (mPlayer[2] != null) {
+			mPlayerInfo[2] = new Text(0, 0, resourcesManager.inventoryFont,
+					"", 150, new TextOptions(HorizontalAlign.LEFT), vbom);
+
+			mPlayerInfo[2].setPosition(10, 10);
+
+			mPlayerInfo[2].setVisible(false);
+		}
+
+	}
+
+	/*
+	 * private void showTeamMemberOneStatsArea() {
+	 * 
+	 * 
+	 * strengthText.setPosition(10, 30); dexterityText.setPosition(10, 80);
+	 * intelligenceText.setPosition(10, 130); vitalityText.setPosition(10, 180);
+	 * damageText.setPosition(10, 230); armorText.setPosition(10, 280);
+	 * 
+	 * 
+	 * inventoryChildScene.attachChild(strengthText);
+	 * inventoryChildScene.attachChild(dexterityText);
+	 * inventoryChildScene.attachChild(intelligenceText);
+	 * inventoryChildScene.attachChild(vitalityText);
+	 * inventoryChildScene.attachChild(damageText);
+	 * inventoryChildScene.attachChild(armorText);
+	 * 
+	 * }
+	 */
 
 }

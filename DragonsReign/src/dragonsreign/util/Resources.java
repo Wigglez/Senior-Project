@@ -12,6 +12,8 @@ public class Resources {
 	protected int mHealth;
 	
 	protected int mResource;
+	
+	protected int mExperience;
 
 	// ===========================================================
 	// Constructors
@@ -20,11 +22,13 @@ public class Resources {
 	public Resources() {
 		mHealth = 0;
 		mResource = 0;
+		mExperience = 0;
 	}
 	
-	public Resources(int pHealth, int pResource) {
+	public Resources(int pHealth, int pResource, int pExperience) {
 		mHealth = pHealth;
 		mResource = pResource;
+		mExperience = pExperience;
 	}
 	
 	// ===========================================================
@@ -45,6 +49,14 @@ public class Resources {
 
 	public void setResource(int pResource) {
 		this.mResource = pResource;
+	}
+	
+	public int getExperience() {
+		return mExperience;
+	}
+
+	public void setExperience(int pExperience) {
+		this.mExperience = pExperience;
 	}
 
 	// ===========================================================

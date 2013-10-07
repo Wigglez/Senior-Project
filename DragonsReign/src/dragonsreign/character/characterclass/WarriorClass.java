@@ -61,9 +61,11 @@ public class WarriorClass extends PlayerCharacter {
 
 		mBaseResources.setHealth(10 * mCurrentStats.getVitality());
 		mBaseResources.setResource(100);
+		mBaseResources.setExperience(0);
 
 		mCurrentResources.setHealth(mBaseResources.getHealth());
 		mCurrentResources.setResource(mBaseResources.getResource());
+		mCurrentResources.setExperience(mBaseResources.getExperience());
 		
 		mMaxResources.setHealth(mBaseResources.getHealth());
 		mMaxResources.setResource(mBaseResources.getResource());
@@ -109,7 +111,7 @@ public class WarriorClass extends PlayerCharacter {
 
 		// Experience
 		mLevel = 1;
-		mCurrentExperience = 0;
+		mCurrentExperience = mCurrentResources.getExperience();
 		mExperienceToNextLevel = 100;
 	}
 

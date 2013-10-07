@@ -55,7 +55,7 @@ public class ResourceManager
     					  clericCharacter, mageCharacter,
     					  character1Portrait,character2Portrait,
     					  character3Portrait, backPack,
-    					  worldMap, inventoryGid, exitButton,
+    					  worldMap, inventoryArea, exitButton,
     					  equipmentArea, statsArea,itemsButton,abilitiesButton,
     					  swapButton, fleeButton, basicAttackButton,
     					  skillOneButton, skillTwoButton,
@@ -299,7 +299,7 @@ public class ResourceManager
     	character3Portrait = texturePackLibrary.get(GameAssets.PORTRAIT3_ID);
     	
     	exitButton = texturePackLibrary.get(GameAssets.EXIT_ID);
-    	inventoryGid = texturePackLibrary.get(GameAssets.INVENTORY_ID);
+    	inventoryArea = texturePackLibrary.get(GameAssets.INVENTORY_ID);
     	equipmentArea = texturePackLibrary.get(GameAssets.CURRENTEQUIPMENTSLOTS_ID);
     	statsArea = texturePackLibrary.get(GameAssets.STATSAREA_ID);
     	
