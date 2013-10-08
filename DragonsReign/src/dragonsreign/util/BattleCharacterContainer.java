@@ -1,8 +1,14 @@
 package dragonsreign.util;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.provider.Settings.System;
+import android.widget.Toast;
 import dragonsreign.character.Character;
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.item.consumable.Potion;
+import dragonsreign.scene.BattleScene;
+import dragonsreign.scene.DragonsReignActivity;
 import dragonsreign.util.enums.ABILITYFLAGS;
 import dragonsreign.util.enums.HASTE;
 
@@ -14,6 +20,8 @@ public class BattleCharacterContainer {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	static DragonsReignActivity activity;
 
 	private Character mCharacter;
 
@@ -54,6 +62,15 @@ public class BattleCharacterContainer {
 		mCharacter = pCharacter;
 		ClearBattleEffects();
 		hasTurn = true;
+
+	}
+	
+	public BattleCharacterContainer(Character pCharacter, DragonsReignActivity pActivity) {
+		mCharacter = pCharacter;
+		ClearBattleEffects();
+		hasTurn = true;
+		
+		activity = pActivity;
 
 	}
 	
@@ -283,12 +300,13 @@ public class BattleCharacterContainer {
 		if (mBleeding) {
 			// Damage over time
 			mCharacter.TakeDamage(mBleedDamage);
+			writeToScreen(mCharacter.getName() + " is bleeding and recieved " + mBleedDamage + " damage.");
 			mBleedTurns -= 1;
 			if (mBleedTurns == 0) {
 				mBleeding = false;
 				mBleedDamage = 0;
 			}
-
+			
 		}
 		if (mBlinded) {
 			// Chance to miss
@@ -296,6 +314,7 @@ public class BattleCharacterContainer {
 		if (mBurning) {
 			// Damage over time
 			mCharacter.TakeDamage(mBurnDamage);
+			writeToScreen(mCharacter.getName() + " was burned and recieved " + mBurnDamage + " damage.");
 			mBurnTurns -= 1;
 			if (mBurnTurns == 0) {
 				mBurning = false;
@@ -311,6 +330,8 @@ public class BattleCharacterContainer {
 						* -1);
 				mCharacter.AddBuff(mChillArmorReduction);
 				mChilled = false;
+			}else{
+				writeToScreen(mCharacter.getName() + " is chilled and has their armor reduced");
 			}
 		}
 		if (mDazed) {
@@ -322,11 +343,14 @@ public class BattleCharacterContainer {
 						* -1);
 				mCharacter.AddBuff(mDazeDamageReduction);
 				mDazed = false;
+			}else{
+				writeToScreen(mCharacter.getName() + " is dazed and has their damage reduced");
 			}
 		}
 		if (mPoisoned) {
 			// Damage over time
 			mCharacter.TakeDamage(mPoisonDamage);
+			writeToScreen(mCharacter.getName() + " is poisoned and recieved " + mPoisonDamage + " damage.");
 			mPoisonTurns -= 1;
 			if (mBleedTurns == 0) {
 				mPoisoned = false;
@@ -336,6 +360,7 @@ public class BattleCharacterContainer {
 		if (mStunned) {
 			// Blocks Character turn
 			hasTurn = false;
+			writeToScreen(mCharacter.getName() + " is stunned");
 			mStunTurns -= 1;
 			if (mStunTurns == 0) {
 				mStunned = false;
@@ -359,7 +384,18 @@ public class BattleCharacterContainer {
 		}
 		
 	}
+	
+	public void writeToScreen(final CharSequence pText) {
 
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(activity, pText, Toast.LENGTH_SHORT).show();
+
+			}
+		});
+	}
+
+		
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
