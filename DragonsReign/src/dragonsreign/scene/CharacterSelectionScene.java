@@ -29,299 +29,99 @@ import dragonsreign.manager.SceneManager.SceneType;
 
 public class CharacterSelectionScene extends BaseScene implements IOnMenuItemClickListener
 {
-	private HUD characterHUD;
-	private Text warriorText, knightText, 
-				 assassinText, clericText, 
-				 engineerText, mageText, rangerText,
-				 strengthStatText, dexterityStatText,
-				 vitalityStatText, intelligenceStatText, 
-				 warriorButtonText, rangerButtonText,
-				 clericButtonText, knightButtonText,
-				 assassinButtonText, engineerButtonText,
-				 mageButtonText, startButtonText;
+	// ===========================================================
+	// Constants
+	// ===========================================================
+
+	private final int WARRIOR_ID = 0;
+	private final int RANGER_ID = 1;
+	private final int CLERIC_ID = 2;
+	private final int KNIGHT_ID = 3;
+	private final int ASSASSIN_ID = 4;
+	private final int ENGINEER_ID = 5;
+	private final int MAGE_ID = 6;
 	
-	private MenuScene characterChildScene;
-	private Sprite warrior;
-	
-	private WarriorClass mWarriorClass = new WarriorClass();
-//	private RangerClass mRangerClass = new RangerClass();
-//	private ClericClass mClericClass = new ClericClass();
-	
-	private IMenuItem warriorMenuItem, knightMenuItem, 
-    				  assassinMenuItem, clericMenuItem, 
-    				  engineerMenuItem ,mageMenuItem,
-    				  rangerMenuItem, playGameMenuItem;
-    
-	
-	private final int CHARACTER_WARRIOR = 0;
-	private final int CHARACTER_KNIGHT = 1;
-	private final int CHARACTER_ASSASSIN = 2;
-	private final int CHARACTER_CLERIC = 3;
-	private final int CHARACTER_ENGINEER = 4;
-	private final int CHARACTER_MAGE = 5;
-	private final int CHARACTER_RANGER = 6;
 	private final int PLAY_GAME = 7;
 	
 	private static final float AUTOWRAP_WIDTH = 525;
 	
+	// ===========================================================
+	// Fields
+	// ===========================================================
+
+	private HUD characterHUD;
+	private Text playerStats[], classButtonText[], classText[],
+				 startButtonText;
 	
-	//warrior
-	private int warriorStr;
-	private int warriorDex;
-	private int warriorInt;
-	private int warriorVit;
+	private MenuScene characterChildScene;
+	private Sprite classSprite[];
 	
-	//ranger
-	private int rangerStr;
-	private int rangerDex;
-	private int rangerInt;
-	private int rangerVit;
-
-	//cleric
-	private int clericStr;
-	private int clericDex;
-	private int clericInt;
-	private int clericVit;
-
+	private WarriorClass mWarriorClass;
+	private RangerClass mRangerClass;
+	private ClericClass mClericClass;
+	//private KnightClass mKnightClass;
+	//private AssassinClass mAssassinClass;
+	//private EngineerClass mEngineerClass;
+	//private MageClass mMageClass;
 	
-	private void createMenuChildScene()
-	{
-	    characterChildScene = new MenuScene(camera);
-	    characterChildScene.setPosition(0, 0);
-	   
-	    
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    //Character Selection Menu Button Items
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    warriorMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(CHARACTER_WARRIOR, resourcesManager.warriorButton, vbom), 1.2f, 1);
-	    knightMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(CHARACTER_KNIGHT, resourcesManager.knightButton, vbom), 1.2f, 1);
-	    assassinMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(CHARACTER_ASSASSIN, resourcesManager.assassinButton, vbom), 1.2f, 1);
-	    clericMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(CHARACTER_CLERIC, resourcesManager.clericButton, vbom), 1.2f, 1);
-	    engineerMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(CHARACTER_ENGINEER, resourcesManager.engineerButton, vbom), 1.2f, 1);
-	    mageMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(CHARACTER_MAGE, resourcesManager.mageButton, vbom), 1.2f, 1);
-	    rangerMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(CHARACTER_RANGER, resourcesManager.rangerButton, vbom), 1.2f, 1);
-	    playGameMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(PLAY_GAME, resourcesManager.playGameButton, vbom), 1.2f, 1);
-	    
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    //Character Selection Sprite Class Portraits
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    warrior = new Sprite(0, 0, resourcesManager.warriorCharacter, this.engine.getVertexBufferObjectManager());
-	   // final Sprite knight = new Sprite(50, 50, resourcesManager.knightCharacter, this.engine.getVertexBufferObjectManager());
-	    //final Sprite assassin = new Sprite(50, 50, resourcesManager.assassinCharacter, this.engine.getVertexBufferObjectManager());
-	    //final Sprite engineer = new Sprite(50, 50, resourcesManager.engineerCharacter, this.engine.getVertexBufferObjectManager());
-	   // final Sprite cleric = new Sprite(50, 50, resourcesManager.clericCharacter, this.engine.getVertexBufferObjectManager());
-	   //final Sprite mage = new Sprite(50, 50, resourcesManager.mageCharacter, this.engine.getVertexBufferObjectManager());
-	    
-	    /////////////////////////////////////////////////////////////////////////////////////
-	    //Create Button Texts
-	    /////////////////////////////////////////////////////////////////////////////////////
-	    warriorButtonText = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
-		warriorButtonText.setText("Warrior");
-		
-		rangerButtonText = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
-		rangerButtonText.setText("Ranger");
-		
-		clericButtonText = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
-		clericButtonText.setColor(0, 0, 0);
-		clericButtonText.setText("Cleric");
-		
-		knightButtonText = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
-		knightButtonText.setText("Knight");
-
-		assassinButtonText = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
-		assassinButtonText.setText("Assassin");
-		
-		engineerButtonText = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
-		engineerButtonText.setText("Engineer");
-		
-		mageButtonText = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
-		mageButtonText.setText("Mage");
-		
-		startButtonText = new Text(10,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
-		startButtonText.setText("Start Game");
-		
-		////////////////////////////////////////////////////////////////////////////////////
-	    //Add Button Texts to Buttons
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    warriorMenuItem.attachChild(warriorButtonText);
-	    rangerMenuItem.attachChild(rangerButtonText);
-	    clericMenuItem.attachChild(clericButtonText);
-	    knightMenuItem.attachChild(knightButtonText);
-	    assassinMenuItem.attachChild(assassinButtonText);
-	    engineerMenuItem.attachChild(engineerButtonText);
-	    mageMenuItem.attachChild(mageButtonText);
-	    playGameMenuItem.attachChild(startButtonText);
-	    
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    //Add Buttons to Character Selection Scene
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    characterChildScene.addMenuItem(warriorMenuItem);
-	    characterChildScene.addMenuItem(knightMenuItem);
-	    characterChildScene.addMenuItem(assassinMenuItem);
-	    characterChildScene.addMenuItem(clericMenuItem);
-	    characterChildScene.addMenuItem(engineerMenuItem);
-	    characterChildScene.addMenuItem(mageMenuItem);
-	    characterChildScene.addMenuItem(rangerMenuItem);
-	    characterChildScene.addMenuItem(playGameMenuItem);
-	    
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    //Attach Sprite Class Portraits to Character Selection Scene
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    characterChildScene.attachChild(warrior);
-	    //gameChildScene.attachChild(knight);
-	    //gameChildScene.attachChild(assassin);
-	    //gameChildScene.attachChild(engineer);
-	    //gameChildScene.attachChild(cleric);
-	    //gameChildScene.attachChild(mage);
-	    
-	    characterChildScene.buildAnimations();
-	    characterChildScene.setBackgroundEnabled(false);
-	    
-	    
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    //Set Position of Character Selection Buttons
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    warriorMenuItem.setPosition(25, 20);
-	    rangerMenuItem.setPosition(25, 85);
-	    clericMenuItem.setPosition(25, 150);
-	    knightMenuItem.setPosition(25, 215);
-	    assassinMenuItem.setPosition(25, 280);
-	    engineerMenuItem.setPosition(25, 345);
-	    mageMenuItem.setPosition(25, 410);
-	    
-	    playGameMenuItem.setPosition(575, 410);
-	    
-
-	    
-	    
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    //Set Position of Sprite Class Portraits
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    warrior.setPosition(200, 20);
-	    warrior.setVisible(false);
-	   
-	    playGameMenuItem.setVisible(false);
-	    
-	    characterChildScene.setOnMenuItemClickListener(this);
-	    
-	    setChildScene(characterChildScene);
-	}
-
-	private void createBackground()
-	{
-	    setBackground(new Background(Color.BLUE));
-	}
+	private IMenuItem classMenuItem[], playGameMenuItem;
+    
+	private int playerSelected = -1;
 	
-	private void createHUD()
-	{
-		characterHUD = new HUD();
-		
-		
-		////////////////////////////////////////////////////////////////////////////////////
-	    //Create Class Description Texts
-	    ////////////////////////////////////////////////////////////////////////////////////
-		warriorText = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
-		warriorText.setText("This is an auto wrapped text that will be used to describe the Warrior class");
-		
-		knightText = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
-		knightText.setText("This is an auto wrapped text that will be used to describe the Knight class");
-		
-		assassinText = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
-		assassinText.setText("This is an auto wrapped text that will be used to describe the Assassin class");
-		
-		clericText = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
-		clericText.setText("This is an auto wrapped text that will be used to describe the Cleric class");
-		
-		engineerText = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
-		engineerText.setText("This is an auto wrapped text that will be used to describe the Engineer class");
-		
-		mageText = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
-		mageText.setText("This is an auto wrapped text that will be used to describe the Mage class");
-	    
-		rangerText = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
-		rangerText.setText("This is an auto wrapped text that will be used to describe the Ranger class");
-		////////////////////////////////////////////////////////////////////////////////////
-	    //Create Stats Texts
-	    ////////////////////////////////////////////////////////////////////////////////////
-		strengthStatText = new Text(375, 25, resourcesManager.font, "" ,150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		strengthStatText.setText("Strength: ");
-		
-		dexterityStatText = new Text(375, 65, resourcesManager.font, "" ,150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		dexterityStatText.setText("Dexterity: ");
-		
-		vitalityStatText = new Text(375, 105, resourcesManager.font, "" ,150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		vitalityStatText.setText("Vitality: ");
-		
-		intelligenceStatText = new Text(375, 145, resourcesManager.font, "" ,150, new TextOptions(HorizontalAlign.RIGHT), vbom);
-		intelligenceStatText.setText("Intelligence: ");
-		
-		////////////////////////////////////////////////////////////////////////////////////
-	    //Attach Class Description Texts
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    characterHUD.attachChild(warriorText);
-	    characterHUD.attachChild(knightText);
-	    characterHUD.attachChild(assassinText);
-	    characterHUD.attachChild(clericText);
-	    characterHUD.attachChild(engineerText);
-	    characterHUD.attachChild(mageText);
-	    characterHUD.attachChild(rangerText);
-	    
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    //Attach Stats Texts
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    characterHUD.attachChild(intelligenceStatText);
-	    characterHUD.attachChild(vitalityStatText);
-	    characterHUD.attachChild(dexterityStatText);
-	    characterHUD.attachChild(strengthStatText);
-	    
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    //Hide Class Description Texts Until Called
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    warriorText.setVisible(false);
-	    knightText.setVisible(false);
-	    assassinText.setVisible(false);
-	    clericText.setVisible(false);
-	    engineerText.setVisible(false);
-	    mageText.setVisible(false);
-	    rangerText.setVisible(false);
-	    
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    //Hide Class Description Texts Until Called
-	    ////////////////////////////////////////////////////////////////////////////////////
-	    intelligenceStatText.setVisible(false);
-	    vitalityStatText.setVisible(false);
-	    dexterityStatText.setVisible(false);
-	    strengthStatText.setVisible(false);
-	    
-	    camera.setHUD(characterHUD);
-	}
+	// ===========================================================
+	// Constructors
+	// ===========================================================
+
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
+
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
+	// ===========================================================
+
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY)
 	{
 		
 		switch(pMenuItem.getID())
 		{
-	        case CHARACTER_WARRIOR:
-	        	showWarriorText();
+	        case WARRIOR_ID:
+	        	playerSelected = WARRIOR_ID;
+	        	updateHUD();
+	        	
 	            return true;
-	        case CHARACTER_KNIGHT:
-	        	//showKnightText();
+	        case RANGER_ID:
+	        	playerSelected = RANGER_ID;
+	        	updateHUD();
+	        	
+	        	return true;   
+	        case CLERIC_ID:
+	        	playerSelected = CLERIC_ID;
+	        	updateHUD();
+	        	
+	            return true;   
+	        case KNIGHT_ID:
+	        	playerSelected = KNIGHT_ID;
+	        	updateHUD();
+	        	
 	            return true;
-	        case CHARACTER_ASSASSIN:
-	        	//showAssassinText();
+	        case ASSASSIN_ID:
+	        	playerSelected = ASSASSIN_ID;
+	        	updateHUD();
+	        	
 	            return true;
-	        case CHARACTER_CLERIC:
-	        	showClericText();
+	        case ENGINEER_ID:
+	        	playerSelected = ENGINEER_ID;
+	        	updateHUD();
+	        	
 	            return true;
-	        case CHARACTER_ENGINEER:
-	        	//showEngineerText();
-	            return true;
-	        case CHARACTER_MAGE:
-	        	//showMageText();
+	        case MAGE_ID:
+	        	playerSelected = MAGE_ID;
+	        	updateHUD();
+	        	
 	        	return true;
-	        case CHARACTER_RANGER:
-	        	showRangerText();
-	        	return true;
+	       
 	        case PLAY_GAME:
 	        	this.disposeScene();
 	        	ResourceManager.getInstance().unloadMenuTextures();
@@ -334,343 +134,27 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	            return false;
 	    }
 	}
-	private void showWarriorText()
-	{
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Play Button, Warrior Class Description and Image
-		////////////////////////////////////////////////////////////////////////////////////
-		playGameMenuItem.setVisible(true);
-		warriorText.setVisible(true);
-		warrior.setVisible(true);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Stats
-		////////////////////////////////////////////////////////////////////////////////////
-	    strengthStatText.setVisible(true);
-	    dexterityStatText.setVisible(true);
-	    intelligenceStatText.setVisible(true);
-	    vitalityStatText.setVisible(true);
-	    
-	    warriorStr = mWarriorClass.getBaseStats().getStrength();
-	    warriorDex = mWarriorClass.getBaseStats().getDexterity();
-	    warriorInt = mWarriorClass.getBaseStats().getIntelligence();
-	    warriorVit = mWarriorClass.getBaseStats().getVitality();
-	    
-	    strengthStatText.setText("Strength: " + warriorStr);
-	    dexterityStatText.setText("Dexterity: " + warriorDex);
-	    intelligenceStatText.setText("Intelligence: " + warriorInt);
-	    vitalityStatText.setText("Vitality: " + warriorVit);
-	    
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Stats
-		////////////////////////////////////////////////////////////////////////////////////
-
-	    
-	    
-    	if(knightText.isVisible())
-    	{
-    		knightText.setVisible(false);
-    	}
-    	if(assassinText.isVisible())
-    	{
-    		assassinText.setVisible(false);
-    	}
-    	if(clericText.isVisible())
-    	{
-    		clericText.setVisible(false);
-    	}
-    	if(engineerText.isVisible())
-    	{
-    		engineerText.setVisible(false);
-    	}
-    	if(mageText.isVisible())
-    	{
-    		mageText.setVisible(false);
-    	}
-    	if(rangerText.isVisible())
-    	{
-    		rangerText.setVisible(false);
-    	}
-	}
-	private void showKnightText()
-	{
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Play Button, Knight Class Description and Image
-		////////////////////////////////////////////////////////////////////////////////////
-		playGameMenuItem.setVisible(true);
-		knightText.setVisible(true);
-		warrior.setVisible(true);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Stats
-		////////////////////////////////////////////////////////////////////////////////////
-	    intelligenceStatText.setVisible(true);
-	    vitalityStatText.setVisible(true);
-	    dexterityStatText.setVisible(true);
-	    strengthStatText.setVisible(true);
-	    
-    	if(warriorText.isVisible())
-    	{
-    		warriorText.setVisible(false);
-    	}
-    	if(assassinText.isVisible())
-    	{
-    		assassinText.setVisible(false);
-    	}
-    	if(clericText.isVisible())
-    	{
-    		clericText.setVisible(false);
-    	}
-    	if(engineerText.isVisible())
-    	{
-    		engineerText.setVisible(false);
-    	}
-    	if(mageText.isVisible())
-    	{
-    		mageText.setVisible(false);
-    	}
-    	if(rangerText.isVisible())
-    	{
-    		rangerText.setVisible(false);
-    	}
-	}
-	private void showAssassinText()
-	{
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Play Button, Assassin Class Description and Image
-		////////////////////////////////////////////////////////////////////////////////////
-		playGameMenuItem.setVisible(true);
-		assassinText.setVisible(true);
-		warrior.setVisible(true);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Stats
-		////////////////////////////////////////////////////////////////////////////////////
-	    intelligenceStatText.setVisible(true);
-	    vitalityStatText.setVisible(true);
-	    dexterityStatText.setVisible(true);
-	    strengthStatText.setVisible(true);
-    	if(warriorText.isVisible())
-    	{
-    		warriorText.setVisible(false);
-    	}
-    	if(knightText.isVisible())
-    	{
-    		knightText.setVisible(false);
-    	}
-    	if(clericText.isVisible())
-    	{
-    		clericText.setVisible(false);
-    	}
-    	if(engineerText.isVisible())
-    	{
-    		engineerText.setVisible(false);
-    	}
-    	if(mageText.isVisible())
-    	{
-    		mageText.setVisible(false);
-    	}
-    	if(rangerText.isVisible())
-    	{
-    		rangerText.setVisible(false);
-    	}
-	}
-	private void showClericText()
-	{
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Play Button, Cleric Class Description and Image
-		////////////////////////////////////////////////////////////////////////////////////
-		playGameMenuItem.setVisible(true);
-		clericText.setVisible(true);
-		warrior.setVisible(true);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Stats
-		////////////////////////////////////////////////////////////////////////////////////
-	    intelligenceStatText.setVisible(true);
-	    vitalityStatText.setVisible(true);
-	    dexterityStatText.setVisible(true);
-	    strengthStatText.setVisible(true);
-	    
-//	    clericStr = mClericClass.getBaseStats().getStrength();
-//	    clericDex = mClericClass.getBaseStats().getDexterity();
-//	    clericInt = mClericClass.getBaseStats().getIntelligence();
-//	    clericVit = mClericClass.getBaseStats().getVitality();
-	    
-	    strengthStatText.setText("Strength: " + clericStr);
-	    dexterityStatText.setText("Dexterity: " + clericDex);
-	    intelligenceStatText.setText("Intelligence: " + clericInt);
-	    vitalityStatText.setText("Vitality: " + clericVit);
-	    
-    	if(warriorText.isVisible())
-    	{
-    		warriorText.setVisible(false);
-    	}
-    	if(knightText.isVisible())
-    	{
-    		knightText.setVisible(false);
-    	}
-    	if(assassinText.isVisible())
-    	{
-    		assassinText.setVisible(false);
-    	}
-    	if(engineerText.isVisible())
-    	{
-    		engineerText.setVisible(false);
-    	}
-    	if(mageText.isVisible())
-    	{
-    		mageText.setVisible(false);
-    	}
-    	if(rangerText.isVisible())
-    	{
-    		rangerText.setVisible(false);
-    	}
-	}
-	private void showEngineerText()
-	{
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Play Button, Engineer Class Description and Image
-		////////////////////////////////////////////////////////////////////////////////////
-		playGameMenuItem.setVisible(true);
-		engineerText.setVisible(true);
-		warrior.setVisible(true);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Stats
-		////////////////////////////////////////////////////////////////////////////////////
-	    intelligenceStatText.setVisible(true);
-	    vitalityStatText.setVisible(true);
-	    dexterityStatText.setVisible(true);
-	    strengthStatText.setVisible(true);
-    	if(warriorText.isVisible())
-    	{
-    		warriorText.setVisible(false);
-    	}
-    	if(knightText.isVisible())
-    	{
-    		knightText.setVisible(false);
-    	}
-    	if(clericText.isVisible())
-    	{
-    		clericText.setVisible(false);
-    	}
-    	if(assassinText.isVisible())
-    	{
-    		assassinText.setVisible(false);
-    	}
-    	if(mageText.isVisible())
-    	{
-    		mageText.setVisible(false);
-    	}
-    	if(rangerText.isVisible())
-    	{
-    		rangerText.setVisible(false);
-    	}
-	}
-	private void showMageText()
-	{
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Play Button, Mage Class Description and Image
-		////////////////////////////////////////////////////////////////////////////////////
-		playGameMenuItem.setVisible(true);
-		mageText.setVisible(true);
-		warrior.setVisible(true);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Stats
-		////////////////////////////////////////////////////////////////////////////////////
-	    intelligenceStatText.setVisible(true);
-	    vitalityStatText.setVisible(true);
-	    dexterityStatText.setVisible(true);
-	    strengthStatText.setVisible(true);
-    	if(warriorText.isVisible())
-    	{
-    		warriorText.setVisible(false);
-    	}
-    	if(knightText.isVisible())
-    	{
-    		knightText.setVisible(false);
-    	}
-    	if(clericText.isVisible())
-    	{
-    		clericText.setVisible(false);
-    	}
-    	if(engineerText.isVisible())
-    	{
-    		engineerText.setVisible(false);
-    	}
-    	if(assassinText.isVisible())
-    	{
-    		assassinText.setVisible(false);
-    	}
-    	if(rangerText.isVisible())
-    	{
-    		rangerText.setVisible(false);
-    	}
-	}
-	private void showRangerText()
-	{
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Play Button, Mage Class Description and Image
-		////////////////////////////////////////////////////////////////////////////////////
-		playGameMenuItem.setVisible(true);
-		rangerText.setVisible(true);
-		warrior.setVisible(true);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-		//Show Stats
-		////////////////////////////////////////////////////////////////////////////////////
-		intelligenceStatText.setVisible(true);
-		vitalityStatText.setVisible(true);
-		dexterityStatText.setVisible(true);
-		strengthStatText.setVisible(true);
-		
-//		rangerStr = mRangerClass.getBaseStats().getStrength();
-//		rangerDex = mRangerClass.getBaseStats().getDexterity();
-//		rangerInt = mRangerClass.getBaseStats().getIntelligence();
-//		rangerVit = mRangerClass.getBaseStats().getVitality();
-	    
-	    strengthStatText.setText("Strength: " + rangerStr);
-	    dexterityStatText.setText("Dexterity: " + rangerDex);
-	    intelligenceStatText.setText("Intelligence: " + rangerInt);
-	    vitalityStatText.setText("Vitality: " + rangerVit);
-	    
-		if(warriorText.isVisible())
-		{
-			warriorText.setVisible(false);
-		}
-		if(knightText.isVisible())
-		{
-			knightText.setVisible(false);
-		}
-		if(clericText.isVisible())
-		{
-			clericText.setVisible(false);
-		}
-		if(engineerText.isVisible())
-		{
-			engineerText.setVisible(false);
-		}
-		if(assassinText.isVisible())
-		{
-			assassinText.setVisible(false);
-		}
-		if(mageText.isVisible())
-    	{
-    		mageText.setVisible(false);
-    	}
-		
-	}
-
+	
     @Override
     public void createScene()
     {
+    	classText = new Text[7];
+		playerStats = new Text[7];
+		classButtonText = new Text[7];
+		classSprite = new Sprite[7];
+		classMenuItem = new IMenuItem[7];
+    	
+    	mWarriorClass = new WarriorClass();
+    	mRangerClass = new RangerClass();
+    	mClericClass = new ClericClass();
+    	//mKnightClass = new KnightClass();
+    	//mAssassinClass = new AssassinClass();
+    	//mEngineerClass = new EngineerClass();
+    	//mMageClass = new MageClass();
     	
     	createBackground();
-        createHUD();
-        createMenuChildScene();
-
+    	createHUD();
+    	createMenuChildScene();
     }
 
     @Override
@@ -695,5 +179,460 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
         // TODO code responsible for disposing scene
         // removing all game scene objects.
     }
+	
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+	// ===========================================================
+	// Inner and Anonymous Classes
+	// ===========================================================
+	
+	private void createBackground() {
+		setBackground(new Background(Color.BLUE));
+	}
     
+	private void createHUD() {
+		characterHUD = new HUD();
+		
+		////////////////////////////////////////////////////////////////////////////////////
+	    //Create Class Description Texts
+	    ////////////////////////////////////////////////////////////////////////////////////
+		classText[WARRIOR_ID] = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
+		classText[WARRIOR_ID].setText("Master of brute force melee combat, capable of frightening the foe with appearance alone.");
+		
+		classText[RANGER_ID] = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
+		classText[RANGER_ID].setText("Master of ranged attacks, capable of killing with pinpoint precision from afar.");
+		
+		classText[CLERIC_ID] = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
+		classText[CLERIC_ID].setText("Master of healing magics, capable of giving the wounded another chance at life.");
+		
+		classText[KNIGHT_ID] = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
+		classText[KNIGHT_ID].setText("Knight class not yet implemented.");
+		
+		classText[ASSASSIN_ID] = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
+		classText[ASSASSIN_ID].setText("Assassin class not yet implemented.");
+		
+		classText[ENGINEER_ID] = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
+		classText[ENGINEER_ID].setText("Engineer class not yet implemented.");
+		
+		classText[MAGE_ID] = new Text(250, 250, resourcesManager.font, "" ,150, new TextOptions(AutoWrap.WORDS,AUTOWRAP_WIDTH,HorizontalAlign.LEFT), vbom);
+		classText[MAGE_ID].setText("Mage class not yet implemented.");
+	    
+		////////////////////////////////////////////////////////////////////////////////////
+		//Attach Class Description Texts
+		////////////////////////////////////////////////////////////////////////////////////
+		characterHUD.attachChild(classText[WARRIOR_ID]);
+		characterHUD.attachChild(classText[RANGER_ID]);
+		characterHUD.attachChild(classText[CLERIC_ID]);
+		characterHUD.attachChild(classText[KNIGHT_ID]);
+		characterHUD.attachChild(classText[ASSASSIN_ID]);
+		characterHUD.attachChild(classText[ENGINEER_ID]);
+		characterHUD.attachChild(classText[MAGE_ID]);
+		
+		////////////////////////////////////////////////////////////////////////////////////
+		//Hide Class Description Texts Until Called
+		////////////////////////////////////////////////////////////////////////////////////
+		classText[WARRIOR_ID].setVisible(false);
+		classText[RANGER_ID].setVisible(false);
+		classText[CLERIC_ID].setVisible(false);
+		classText[KNIGHT_ID].setVisible(false);
+		classText[ASSASSIN_ID].setVisible(false);
+		classText[ENGINEER_ID].setVisible(false);
+		classText[MAGE_ID].setVisible(false);
+		
+		playerStats[WARRIOR_ID] = new Text(0, 0, resourcesManager.font, "", 150,
+				new TextOptions(HorizontalAlign.LEFT), vbom);
+		playerStats[RANGER_ID] = new Text(0, 0, resourcesManager.font, "", 150,
+				new TextOptions(HorizontalAlign.LEFT), vbom);
+		playerStats[CLERIC_ID] = new Text(0, 0, resourcesManager.font, "", 150,
+				new TextOptions(HorizontalAlign.LEFT), vbom);
+		playerStats[KNIGHT_ID] = new Text(0, 0, resourcesManager.font, "", 150,
+				new TextOptions(HorizontalAlign.LEFT), vbom);
+		playerStats[ASSASSIN_ID] = new Text(0, 0, resourcesManager.font, "", 150,
+				new TextOptions(HorizontalAlign.LEFT), vbom);
+		playerStats[ENGINEER_ID] = new Text(0, 0, resourcesManager.font, "", 150,
+				new TextOptions(HorizontalAlign.LEFT), vbom);
+		playerStats[MAGE_ID] = new Text(0, 0, resourcesManager.font, "", 150,
+				new TextOptions(HorizontalAlign.LEFT), vbom);
+
+		playerStats[WARRIOR_ID].setPosition(250, 10);
+		playerStats[RANGER_ID].setPosition(250, 10);
+		playerStats[CLERIC_ID].setPosition(250, 10);
+		playerStats[KNIGHT_ID].setPosition(250, 10);
+		playerStats[ASSASSIN_ID].setPosition(250, 10);
+		playerStats[ENGINEER_ID].setPosition(250, 10);
+		playerStats[MAGE_ID].setPosition(250, 10);
+		
+		characterHUD.attachChild(playerStats[WARRIOR_ID]);
+		characterHUD.attachChild(playerStats[RANGER_ID]);
+		characterHUD.attachChild(playerStats[CLERIC_ID]);
+		characterHUD.attachChild(playerStats[KNIGHT_ID]);
+		characterHUD.attachChild(playerStats[ASSASSIN_ID]);
+		characterHUD.attachChild(playerStats[ENGINEER_ID]);
+		characterHUD.attachChild(playerStats[MAGE_ID]);
+		
+		playerStats[WARRIOR_ID].setVisible(false);
+		playerStats[RANGER_ID].setVisible(false);
+		playerStats[CLERIC_ID].setVisible(false);
+		playerStats[KNIGHT_ID].setVisible(false);
+		playerStats[ASSASSIN_ID].setVisible(false);
+		playerStats[ENGINEER_ID].setVisible(false);
+		playerStats[MAGE_ID].setVisible(false);
+
+	    camera.setHUD(characterHUD);
+	}
+	
+	private void createMenuChildScene() {
+	    characterChildScene = new MenuScene(camera);
+	    characterChildScene.setPosition(0, 0);
+	   
+	    
+	    ////////////////////////////////////////////////////////////////////////////////////
+	    //Character Selection Menu Button Items
+	    ////////////////////////////////////////////////////////////////////////////////////
+	    classMenuItem[WARRIOR_ID] = new ScaleMenuItemDecorator(new SpriteMenuItem(WARRIOR_ID, resourcesManager.warriorButton, vbom), 1.2f, 1);
+	    classMenuItem[RANGER_ID] = new ScaleMenuItemDecorator(new SpriteMenuItem(RANGER_ID, resourcesManager.rangerButton, vbom), 1.2f, 1);
+	    classMenuItem[CLERIC_ID] = new ScaleMenuItemDecorator(new SpriteMenuItem(CLERIC_ID, resourcesManager.clericButton, vbom), 1.2f, 1);
+	    classMenuItem[KNIGHT_ID] = new ScaleMenuItemDecorator(new SpriteMenuItem(KNIGHT_ID, resourcesManager.knightButton, vbom), 1.2f, 1);
+	    classMenuItem[ASSASSIN_ID] = new ScaleMenuItemDecorator(new SpriteMenuItem(ASSASSIN_ID, resourcesManager.assassinButton, vbom), 1.2f, 1);
+	    classMenuItem[ENGINEER_ID] = new ScaleMenuItemDecorator(new SpriteMenuItem(ENGINEER_ID, resourcesManager.engineerButton, vbom), 1.2f, 1);
+	    classMenuItem[MAGE_ID] = new ScaleMenuItemDecorator(new SpriteMenuItem(MAGE_ID, resourcesManager.mageButton, vbom), 1.2f, 1);
+	   
+	    playGameMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(PLAY_GAME, resourcesManager.playGameButton, vbom), 1.2f, 1);
+	    
+	    ////////////////////////////////////////////////////////////////////////////////////
+	    //Character Selection Sprite Class Portraits
+	    ////////////////////////////////////////////////////////////////////////////////////
+	    classSprite[WARRIOR_ID] = new Sprite(0, 0, resourcesManager.warriorCharacter, this.engine.getVertexBufferObjectManager());
+	    //classSprite[RANGER_ID] = new Sprite(0, 0, resourcesManager.rangerCharacter, this.engine.getVertexBufferObjectManager());
+	    //classSprite[CLERIC_ID] = new Sprite(0, 0, resourcesManager.clericCharacter, this.engine.getVertexBufferObjectManager());
+	    //classSprite[KNIGHT_ID] = new Sprite(0, 0, resourcesManager.knightCharacter, this.engine.getVertexBufferObjectManager());
+	    //classSprite[ASSASSIN_ID] = new Sprite(0, 0, resourcesManager.assassinCharacter, this.engine.getVertexBufferObjectManager());
+	    //classSprite[ENGINEER_ID] = new Sprite(0, 0, resourcesManager.engineerCharacter, this.engine.getVertexBufferObjectManager());
+	    //classSprite[MAGE_ID] = new Sprite(0, 0, resourcesManager.mageCharacter, this.engine.getVertexBufferObjectManager());
+	    
+	    /////////////////////////////////////////////////////////////////////////////////////
+	    //Create Button Texts
+	    /////////////////////////////////////////////////////////////////////////////////////
+	    classButtonText[WARRIOR_ID] = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
+		classButtonText[WARRIOR_ID].setText("Warrior");
+		
+		classButtonText[RANGER_ID] = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
+		classButtonText[RANGER_ID].setText("Ranger");
+		
+		classButtonText[CLERIC_ID] = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
+		classButtonText[CLERIC_ID].setText("Cleric");
+		
+		classButtonText[KNIGHT_ID] = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
+		classButtonText[KNIGHT_ID].setText("Knight");
+
+		classButtonText[ASSASSIN_ID] = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
+		classButtonText[ASSASSIN_ID].setText("Assassin");
+		
+		classButtonText[ENGINEER_ID] = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
+		classButtonText[ENGINEER_ID].setText("Engineer");
+		
+		classButtonText[MAGE_ID] = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
+		classButtonText[MAGE_ID].setText("Mage");
+		
+		startButtonText = new Text(10,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
+		startButtonText.setText("Start Game");
+		
+		////////////////////////////////////////////////////////////////////////////////////
+	    //Add Button Texts to Buttons
+	    ////////////////////////////////////////////////////////////////////////////////////
+		classMenuItem[WARRIOR_ID].attachChild(classButtonText[WARRIOR_ID]);
+		classMenuItem[RANGER_ID].attachChild(classButtonText[RANGER_ID]);
+		classMenuItem[CLERIC_ID].attachChild(classButtonText[CLERIC_ID]);
+		classMenuItem[KNIGHT_ID].attachChild(classButtonText[KNIGHT_ID]);
+		classMenuItem[ASSASSIN_ID].attachChild(classButtonText[ASSASSIN_ID]);
+		classMenuItem[ENGINEER_ID].attachChild(classButtonText[ENGINEER_ID]);
+		classMenuItem[MAGE_ID].attachChild(classButtonText[MAGE_ID]);
+	    
+	    playGameMenuItem.attachChild(startButtonText);
+	    
+	    ////////////////////////////////////////////////////////////////////////////////////
+	    //Add Buttons to Character Selection Scene
+	    ////////////////////////////////////////////////////////////////////////////////////
+	    characterChildScene.addMenuItem(classMenuItem[WARRIOR_ID]);
+	    characterChildScene.addMenuItem(classMenuItem[RANGER_ID]);
+	    characterChildScene.addMenuItem(classMenuItem[CLERIC_ID]);
+	    characterChildScene.addMenuItem(classMenuItem[KNIGHT_ID]);
+	    characterChildScene.addMenuItem(classMenuItem[ASSASSIN_ID]);
+	    characterChildScene.addMenuItem(classMenuItem[ENGINEER_ID]);
+	    characterChildScene.addMenuItem(classMenuItem[MAGE_ID]);
+	    
+	    characterChildScene.addMenuItem(playGameMenuItem);
+	    
+	    ////////////////////////////////////////////////////////////////////////////////////
+	    //Attach Sprite Class Portraits to Character Selection Scene
+	    ////////////////////////////////////////////////////////////////////////////////////
+	    characterChildScene.attachChild(classSprite[WARRIOR_ID]);
+	    //characterChildScene.attachChild(classSprite[RANGER_ID]);
+	    //characterChildScene.attachChild(classSprite[CLERIC_ID]);
+	    //characterChildScene.attachChild(classSprite[KNIGHT_ID]);
+	    //characterChildScene.attachChild(classSprite[ASSASSIN_ID]);
+	    //characterChildScene.attachChild(classSprite[ENGINEER_ID]);
+	    //characterChildScene.attachChild(classSprite[MAGE_ID]);
+	    
+	    characterChildScene.buildAnimations();
+	    characterChildScene.setBackgroundEnabled(false);
+	    
+	    
+	    ////////////////////////////////////////////////////////////////////////////////////
+	    //Set Position of Character Selection Buttons
+	    ////////////////////////////////////////////////////////////////////////////////////
+	    classMenuItem[WARRIOR_ID].setPosition(25, 20);
+	    classMenuItem[RANGER_ID].setPosition(25, 85);
+	    classMenuItem[CLERIC_ID].setPosition(25, 150);
+	    classMenuItem[KNIGHT_ID].setPosition(25, 215);
+	    classMenuItem[ASSASSIN_ID].setPosition(25, 280);
+	    classMenuItem[ENGINEER_ID].setPosition(25, 345);
+	    classMenuItem[MAGE_ID].setPosition(25, 410);
+	    
+	    playGameMenuItem.setPosition(575, 410);
+	    
+	    ////////////////////////////////////////////////////////////////////////////////////
+	    //Set Position of Sprite Class Portraits
+	    ////////////////////////////////////////////////////////////////////////////////////
+	    classSprite[WARRIOR_ID].setPosition(600, 20);
+	    //classSprite[RANGER_ID].setPosition(200, 20);
+	    //classSprite[CLERIC_ID].setPosition(200, 20);
+	    //classSprite[KNIGHT_ID].setPosition(200, 20);
+	    //classSprite[ASSASSIN_ID].setPosition(200, 20);
+	    //classSprite[ENGINEER_ID].setPosition(200, 20);
+	    //classSprite[MAGE_ID].setPosition(200, 20);
+	    
+	    classSprite[WARRIOR_ID].setVisible(false);
+	    //classSprite[RANGER_ID].setVisible(false);
+	    //classSprite[CLERIC_ID].setVisible(false);
+	    //classSprite[KNIGHT_ID].setVisible(false);
+	    //classSprite[ASSASSIN_ID].setVisible(false);
+	    //classSprite[ENGINEER_ID].setVisible(false);
+	    //classSprite[MAGE_ID].setVisible(false);
+	   
+	    playGameMenuItem.setVisible(false);
+	    
+	    characterChildScene.setOnMenuItemClickListener(this);
+	    
+	    setChildScene(characterChildScene);
+	}
+	
+	private void updateHUD() {
+		if (playerSelected == WARRIOR_ID) {
+			playerStats[WARRIOR_ID].setText("Strength: "
+							+ mWarriorClass.getBaseStats().getStrength() + "\n"
+							+ "Dexterity: "
+							+ mWarriorClass.getBaseStats().getDexterity()
+							+ "\n" + "Intelligence: "
+							+ mWarriorClass.getBaseStats().getIntelligence()
+							+ "\n" + "Vitality: "
+							+ mWarriorClass.getBaseStats().getVitality());
+
+			classSprite[WARRIOR_ID].setVisible(true);
+			//classSprite[RANGER_ID].setVisible(false);
+			//classSprite[CLERIC_ID].setVisible(true);
+			//classSprite[KNIGHT_ID].setVisible(false);
+			//classSprite[ASSASSIN_ID].setVisible(false);
+			//classSprite[ENGINEER_ID].setVisible(false);
+			//classSprite[MAGE_ID].setVisible(false);
+			
+			classText[WARRIOR_ID].setVisible(true);
+			classText[RANGER_ID].setVisible(false);
+			classText[CLERIC_ID].setVisible(false);
+			classText[KNIGHT_ID].setVisible(false);
+			classText[ASSASSIN_ID].setVisible(false);
+			classText[ENGINEER_ID].setVisible(false);
+			classText[MAGE_ID].setVisible(false);
+			
+			playerStats[WARRIOR_ID].setVisible(true);
+			playerStats[RANGER_ID].setVisible(false);
+			playerStats[CLERIC_ID].setVisible(false);
+			playerStats[KNIGHT_ID].setVisible(false); 
+			playerStats[ASSASSIN_ID].setVisible(false);
+			playerStats[ENGINEER_ID].setVisible(false);
+			playerStats[MAGE_ID].setVisible(false);
+			
+			playGameMenuItem.setVisible(true);
+			
+		} else if (playerSelected == RANGER_ID) {
+			playerStats[RANGER_ID].setText("Strength: "
+					+ mRangerClass.getBaseStats().getStrength() + "\n"
+					+ "Dexterity: "
+					+ mRangerClass.getBaseStats().getDexterity() + "\n"
+					+ "Intelligence: "
+					+ mRangerClass.getBaseStats().getIntelligence() + "\n"
+					+ "Vitality: " + mRangerClass.getBaseStats().getVitality());
+
+			classSprite[WARRIOR_ID].setVisible(false);
+			//classSprite[RANGER_ID].setVisible(true);
+			//classSprite[CLERIC_ID].setVisible(false);
+			//classSprite[KNIGHT_ID].setVisible(false);
+			//classSprite[ASSASSIN_ID].setVisible(false);
+			//classSprite[ENGINEER_ID].setVisible(false);
+			//classSprite[MAGE_ID].setVisible(false);
+			
+			classText[WARRIOR_ID].setVisible(false);
+			classText[RANGER_ID].setVisible(true);
+			classText[CLERIC_ID].setVisible(false);
+			classText[KNIGHT_ID].setVisible(false);
+			classText[ASSASSIN_ID].setVisible(false);
+			classText[ENGINEER_ID].setVisible(false);
+			classText[MAGE_ID].setVisible(false);
+			
+			playerStats[WARRIOR_ID].setVisible(false);
+			playerStats[RANGER_ID].setVisible(true);
+			playerStats[CLERIC_ID].setVisible(false);
+			playerStats[KNIGHT_ID].setVisible(false); 
+			playerStats[ASSASSIN_ID].setVisible(false);
+			playerStats[ENGINEER_ID].setVisible(false);
+			playerStats[MAGE_ID].setVisible(false);
+			
+			playGameMenuItem.setVisible(true);
+
+		} else if (playerSelected == CLERIC_ID) {
+			playerStats[CLERIC_ID].setText("Strength: "
+					+ mClericClass.getBaseStats().getStrength() + "\n"
+					+ "Dexterity: "
+					+ mClericClass.getBaseStats().getDexterity() + "\n"
+					+ "Intelligence: "
+					+ mClericClass.getBaseStats().getIntelligence() + "\n"
+					+ "Vitality: " + mClericClass.getBaseStats().getVitality());
+
+			classSprite[WARRIOR_ID].setVisible(false);
+			//classSprite[RANGER_ID].setVisible(false);
+			//classSprite[CLERIC_ID].setVisible(true);
+			//classSprite[KNIGHT_ID].setVisible(false);
+			//classSprite[ASSASSIN_ID].setVisible(false);
+			//classSprite[ENGINEER_ID].setVisible(false);
+			//classSprite[MAGE_ID].setVisible(false);
+			
+			classText[WARRIOR_ID].setVisible(false);
+			classText[RANGER_ID].setVisible(false);
+			classText[CLERIC_ID].setVisible(true);
+			classText[KNIGHT_ID].setVisible(false);
+			classText[ASSASSIN_ID].setVisible(false);
+			classText[ENGINEER_ID].setVisible(false);
+			classText[MAGE_ID].setVisible(false);
+			
+			playerStats[WARRIOR_ID].setVisible(false);
+			playerStats[RANGER_ID].setVisible(false);
+			playerStats[CLERIC_ID].setVisible(true);
+			playerStats[KNIGHT_ID].setVisible(false); 
+			playerStats[ASSASSIN_ID].setVisible(false);
+			playerStats[ENGINEER_ID].setVisible(false);
+			playerStats[MAGE_ID].setVisible(false);
+			
+			playGameMenuItem.setVisible(true);
+			
+		} else if (playerSelected == KNIGHT_ID) {
+			classSprite[WARRIOR_ID].setVisible(false);
+			//classSprite[RANGER_ID].setVisible(false);
+			//classSprite[CLERIC_ID].setVisible(false);
+			//classSprite[KNIGHT_ID].setVisible(true);
+			//classSprite[ASSASSIN_ID].setVisible(false);
+			//classSprite[ENGINEER_ID].setVisible(false);
+			//classSprite[MAGE_ID].setVisible(false);
+			
+			classText[WARRIOR_ID].setVisible(false);
+			classText[RANGER_ID].setVisible(false);
+			classText[CLERIC_ID].setVisible(false);
+			classText[KNIGHT_ID].setVisible(true);
+			classText[ASSASSIN_ID].setVisible(false);
+			classText[ENGINEER_ID].setVisible(false);
+			classText[MAGE_ID].setVisible(false);
+			
+			playerStats[WARRIOR_ID].setVisible(false);
+			playerStats[RANGER_ID].setVisible(false);
+			playerStats[CLERIC_ID].setVisible(false);
+			playerStats[KNIGHT_ID].setVisible(false); // will be true
+			playerStats[ASSASSIN_ID].setVisible(false);
+			playerStats[ENGINEER_ID].setVisible(false);
+			playerStats[MAGE_ID].setVisible(false);
+			
+			playGameMenuItem.setVisible(false);
+			
+		} else if (playerSelected == ASSASSIN_ID) {
+			classSprite[WARRIOR_ID].setVisible(false);
+			//classSprite[RANGER_ID].setVisible(false);
+			//classSprite[CLERIC_ID].setVisible(false);
+			//classSprite[KNIGHT_ID].setVisible(false);
+			//classSprite[ASSASSIN_ID].setVisible(true);
+			//classSprite[ENGINEER_ID].setVisible(false);
+			//classSprite[MAGE_ID].setVisible(false);
+			
+			classText[WARRIOR_ID].setVisible(false);
+			classText[RANGER_ID].setVisible(false);
+			classText[CLERIC_ID].setVisible(false);
+			classText[KNIGHT_ID].setVisible(false);
+			classText[ASSASSIN_ID].setVisible(true);
+			classText[ENGINEER_ID].setVisible(false);
+			classText[MAGE_ID].setVisible(false);
+			
+			playerStats[WARRIOR_ID].setVisible(false);
+			playerStats[RANGER_ID].setVisible(false);
+			playerStats[CLERIC_ID].setVisible(false);
+			playerStats[KNIGHT_ID].setVisible(false); 
+			playerStats[ASSASSIN_ID].setVisible(false); // will be true
+			playerStats[ENGINEER_ID].setVisible(false);
+			playerStats[MAGE_ID].setVisible(false);
+			
+			playGameMenuItem.setVisible(false);
+			
+		} else if (playerSelected == ENGINEER_ID) {
+			classSprite[WARRIOR_ID].setVisible(false);
+			//classSprite[RANGER_ID].setVisible(false);
+			//classSprite[CLERIC_ID].setVisible(false);
+			//classSprite[KNIGHT_ID].setVisible(false);
+			//classSprite[ASSASSIN_ID].setVisible(false);
+			//classSprite[ENGINEER_ID].setVisible(true);
+			//classSprite[MAGE_ID].setVisible(false);
+			
+			classText[WARRIOR_ID].setVisible(false);
+			classText[RANGER_ID].setVisible(false);
+			classText[CLERIC_ID].setVisible(false);
+			classText[KNIGHT_ID].setVisible(false);
+			classText[ASSASSIN_ID].setVisible(false);
+			classText[ENGINEER_ID].setVisible(true);
+			classText[MAGE_ID].setVisible(false);
+			
+			playerStats[WARRIOR_ID].setVisible(false);
+			playerStats[RANGER_ID].setVisible(false);
+			playerStats[CLERIC_ID].setVisible(false);
+			playerStats[KNIGHT_ID].setVisible(false); 
+			playerStats[ASSASSIN_ID].setVisible(false); 
+			playerStats[ENGINEER_ID].setVisible(false); // will be true
+			playerStats[MAGE_ID].setVisible(false);
+			
+			playGameMenuItem.setVisible(false);
+			
+		} else if (playerSelected == MAGE_ID) {
+			classSprite[WARRIOR_ID].setVisible(false);
+			//classSprite[RANGER_ID].setVisible(false);
+			//classSprite[CLERIC_ID].setVisible(false);
+			//classSprite[KNIGHT_ID].setVisible(false);
+			//classSprite[ASSASSIN_ID].setVisible(false);
+			//classSprite[ENGINEER_ID].setVisible(false);
+			//classSprite[MAGE_ID].setVisible(true);
+			
+			classText[WARRIOR_ID].setVisible(false);
+			classText[RANGER_ID].setVisible(false);
+			classText[CLERIC_ID].setVisible(false);
+			classText[KNIGHT_ID].setVisible(false);
+			classText[ASSASSIN_ID].setVisible(false);
+			classText[ENGINEER_ID].setVisible(false);
+			classText[MAGE_ID].setVisible(true);
+			
+			playerStats[WARRIOR_ID].setVisible(false);
+			playerStats[RANGER_ID].setVisible(false);
+			playerStats[CLERIC_ID].setVisible(false);
+			playerStats[KNIGHT_ID].setVisible(false); 
+			playerStats[ASSASSIN_ID].setVisible(false); 
+			playerStats[ENGINEER_ID].setVisible(false); 
+			playerStats[MAGE_ID].setVisible(false); // will be true
+			
+			playGameMenuItem.setVisible(false);
+		}
+	}
 }

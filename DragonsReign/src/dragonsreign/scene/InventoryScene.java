@@ -8,6 +8,7 @@ import org.andengine.entity.text.TextOptions;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.HorizontalAlign;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import dragonsreign.scene.BaseScene;
@@ -30,7 +31,7 @@ public class InventoryScene extends BaseScene {
 	private MenuScene inventoryChildScene;
 
 	private Sprite playerPortrait[], inventoryArea, inventorySlot[],
-			equipmentArea, statsArea, exitButton;
+			equipmentArea, equipmentSlot[], statsArea, exitButton;
 
 	private Rectangle playerHealthBar[], playerResourceBar[], playerXpBar[];
 
@@ -78,19 +79,12 @@ public class InventoryScene extends BaseScene {
 		playerXpBar = new Rectangle[3];
 		playerInfo = new Text[3];
 
-		createTouchAreas();
+		createPlayerTouchAreas();
 		createPlayers();
-
-		// Exit button
-		exitButton.setPosition(-12, -12);
-		exitButton.setScale(0.5f);
-		attachChild(exitButton);
-
 		createInventoryChildScene();
-
-		inventoryChildScene.attachChild(playerInfo[0]);
-		inventoryChildScene.attachChild(playerInfo[1]);
-		inventoryChildScene.attachChild(playerInfo[2]);
+		createExitButton();
+		createInventoryTouchAreas();
+		
 
 		// Update the inventory
 		updateInventory();
@@ -146,9 +140,12 @@ public class InventoryScene extends BaseScene {
 
 		inventoryChildScene.setVisible(true);
 
+		inventoryChildScene.attachChild(playerInfo[0]);
+		inventoryChildScene.attachChild(playerInfo[1]);
+		inventoryChildScene.attachChild(playerInfo[2]);
 	}
 
-	public void createTouchAreas() {
+	public void createPlayerTouchAreas() {
 		// Player touch areas
 		playerPortrait = new Sprite[3];
 
@@ -229,7 +226,9 @@ public class InventoryScene extends BaseScene {
 
 			registerTouchArea(playerPortrait[2]);
 		}
-
+	}
+	
+	public void createExitButton() {
 		exitButton = new Sprite(0, 0, resourcesManager.exitButton,
 				this.engine.getVertexBufferObjectManager()) {
 			@Override
@@ -246,20 +245,27 @@ public class InventoryScene extends BaseScene {
 
 			}
 		};
+		
+		// Exit button
+		exitButton.setPosition(-12, -12);
+		exitButton.setScale(0.5f);
+		attachChild(exitButton);
 
 		registerTouchArea(exitButton);
-
+	}
+	
+	public void createInventoryTouchAreas() {
 		// Inventory touch areas
 		inventorySlot = new Sprite[25];
 
-		inventorySlot[0] = new Sprite(0, 0, resourcesManager.exitButton,
+		inventorySlot[0] = new Sprite(0, 0, resourcesManager.heavyHelm,
 				this.engine.getVertexBufferObjectManager()) {
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
 					final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				switch (pSceneTouchEvent.getAction()) {
 				case TouchEvent.ACTION_DOWN:
-
+					Log.e("test", "heavy helm");
 					break;
 
 				}
@@ -267,6 +273,11 @@ public class InventoryScene extends BaseScene {
 
 			}
 		};
+		
+		inventorySlot[0].setPosition(420, 0);
+		inventoryChildScene.attachChild(inventorySlot[0]);
+		
+		registerTouchArea(inventorySlot[0]);
 	}
 
 	public void createPlayers() {

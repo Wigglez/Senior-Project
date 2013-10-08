@@ -44,26 +44,22 @@ public class ResourceManager
     private TexturePackTextureRegionLibrary texturePackLibrary;
     private TexturePack texturePack;
     
-
-    public ITextureRegion menuBackgroundRegion, playButton, optionsButton, 
-    					  companySplashLogo, warriorButton, knightButton, 
-    					  andEngineLogo, assassinButton, engineerButton, 
-    					  clericButton, mageButton, 
-    					  rangerButton, playGameButton, 
-    					  warriorCharacter, knightCharacter, 
-    					  assassinCharacter, engineerCharacter, 
-    					  clericCharacter, mageCharacter,
-    					  character1Portrait,character2Portrait,
-    					  character3Portrait, backPack,
-    					  worldMap, inventoryArea, exitButton,
-    					  equipmentArea, statsArea,itemsButton,abilitiesButton,
-    					  swapButton, fleeButton, basicAttackButton,
-    					  skillOneButton, skillTwoButton,
-    					  skillThreeButton, skillFourButton, skillFiveButton,
-    					  teamMember1, teamMember2, teamMember3, enemy1, enemy2, enemy3, 
-    					  warriorPlayer, DPADBacking, DPADKnob, leftArrow1, leftArrow2, leftArrow3, focusArrow,
-    					  rightArrow1, rightArrow2, rightArrow3, Up_DPAD, Down_DPAD, Left_DPAD, Right_DPAD, Center_DPAD;
-    
+	public ITextureRegion menuBackgroundRegion, playButton, optionsButton,
+			companySplashLogo, warriorButton, knightButton, andEngineLogo,
+			assassinButton, engineerButton, clericButton, mageButton,
+			rangerButton, playGameButton, warriorCharacter, knightCharacter,
+			assassinCharacter, engineerCharacter, clericCharacter,
+			mageCharacter, character1Portrait, character2Portrait,
+			character3Portrait, backPack, worldMap, inventoryArea, exitButton,
+			equipmentArea, statsArea, itemsButton, abilitiesButton, swapButton,
+			fleeButton, basicAttackButton, skillOneButton, skillTwoButton,
+			skillThreeButton, skillFourButton, skillFiveButton, teamMember1,
+			teamMember2, teamMember3, enemy1, enemy2, enemy3, warriorPlayer,
+			DPADBacking, DPADKnob, leftArrow1, leftArrow2, leftArrow3,
+			focusArrow, rightArrow1, rightArrow2, rightArrow3, Up_DPAD,
+			Down_DPAD, Left_DPAD, Right_DPAD, Center_DPAD, amulet, heavyHelm,
+			heavyLower, heavyUpper, lightHelm, lightLower, lightUpper,
+			mediumHelm, mediumLower, mediumUpper, ring, shield;
     
     public Font font, battleFont, inventoryFont;
 
@@ -71,9 +67,6 @@ public class ResourceManager
 
 	private TexturePackTextureRegionLibrary mCharactersTexturePackTextureRegionLibrary;
 
-
-
-    
 
     //////////////////////////////////////////////////////////////////////////
     //Load Resources for Menu Scene
@@ -303,9 +296,19 @@ public class ResourceManager
     	equipmentArea = texturePackLibrary.get(GameAssets.CURRENTEQUIPMENTSLOTS_ID);
     	statsArea = texturePackLibrary.get(GameAssets.STATSAREA_ID);
     	
+    	amulet = texturePackLibrary.get(GameAssets.ARMOR_AMULET_ID);
+    	heavyHelm = texturePackLibrary.get(GameAssets.ARMOR_HEAVYHELM_ID);
+    	heavyLower = texturePackLibrary.get(GameAssets.ARMOR_HEAVYLOWER_ID);
+    	heavyUpper = texturePackLibrary.get(GameAssets.ARMOR_HEAVYUPPER_ID);
+    	lightHelm = texturePackLibrary.get(GameAssets.ARMOR_LIGHTHELM_ID);
+    	lightLower = texturePackLibrary.get(GameAssets.ARMOR_LIGHTLOWER_ID);
+    	lightUpper = texturePackLibrary.get(GameAssets.ARMOR_LIGHTUPPER_ID);
+    	mediumHelm = texturePackLibrary.get(GameAssets.ARMOR_MEDIUMHELM_ID);
+    	mediumLower = texturePackLibrary.get(GameAssets.ARMOR_MEDIUMLOWER_ID);
+    	mediumUpper = texturePackLibrary.get(GameAssets.ARMOR_MEDIUMUPPER_ID);
+    	ring = texturePackLibrary.get(GameAssets.ARMOR_RING_ID);
+    	shield = texturePackLibrary.get(GameAssets.ARMOR_SHIELD_ID);
     	
-    	
-
     }
     
     private void loadInventoryFonts()

@@ -17,6 +17,7 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.WakeLockOptions;
 import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.tmx.TMXLayer;
 import org.andengine.extension.tmx.TMXLoader;
 import org.andengine.extension.tmx.TMXObject;
@@ -27,6 +28,7 @@ import org.andengine.extension.tmx.TMXTileProperty;
 import org.andengine.extension.tmx.TMXTiledMap;
 import org.andengine.extension.tmx.TMXLoader.ITMXTilePropertiesListener;
 import org.andengine.extension.tmx.util.exception.TMXLoadException;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.debug.Debug;
@@ -38,6 +40,7 @@ import dragonsreign.manager.ResourceManager;
 import dragonsreign.manager.SoundManager;
 
 
+import android.util.Log;
 import android.view.KeyEvent;
 import dragonsreign.character.characterclass.ClericClass;
 import dragonsreign.character.characterclass.RangerClass;
@@ -101,8 +104,6 @@ public class DragonsReignActivity extends BaseGameActivity {
 	{
 		// Cannot instantiate abstract class
 		// mCharacterTest = new WarriorClass();
-		
-
 	}
 
 	// ===========================================================
@@ -244,8 +245,11 @@ public class DragonsReignActivity extends BaseGameActivity {
     {
         return INSTANCE ;
     }
+    
+    
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
 
+   
 }
