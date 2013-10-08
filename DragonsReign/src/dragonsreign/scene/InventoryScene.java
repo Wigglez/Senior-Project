@@ -29,15 +29,19 @@ public class InventoryScene extends BaseScene {
 
 	private MenuScene inventoryChildScene;
 
-	private Sprite mPlayerPortrait[], inventoryArea, equipmentArea, statsArea,
-			exitButton;
+	private Sprite playerPortrait[], inventoryArea, inventorySlot[],
+			equipmentArea, statsArea, exitButton;
 
-	private Rectangle mPlayerHealthBar[], mPlayerResourceBar[], mPlayerXpBar[];
+	private Rectangle playerHealthBar[], playerResourceBar[], playerXpBar[];
 
-	private Text mPlayerInfo[];
+	private Text playerInfo[];
 
-	private PlayerCharacter mPlayer[];
-	private int mPlayerSelected;
+	private PlayerCharacter player[];
+	private int playerSelected;
+
+	// Inventory
+	private int usableSlots;
+	private boolean slotOccupied, isFull;
 
 	// ===========================================================
 	// Constructors
@@ -61,96 +65,21 @@ public class InventoryScene extends BaseScene {
 
 		// TODO
 		// use imported characters
-		mPlayer = new PlayerCharacter[3];
+		player = new PlayerCharacter[3];
 
-		mPlayer[0] = new WarriorClass();
-		mPlayer[1] = new RangerClass();
-		mPlayer[2] = new ClericClass();
+		player[0] = new WarriorClass();
+		player[1] = new RangerClass();
+		player[2] = new ClericClass();
 
-		mPlayerSelected = 0;
+		playerSelected = 0;
 
-		// Got here
+		playerHealthBar = new Rectangle[3];
+		playerResourceBar = new Rectangle[3];
+		playerXpBar = new Rectangle[3];
+		playerInfo = new Text[3];
+
 		createTouchAreas();
-
-		// Create player one
-		if (mPlayer[0] != null) {
-			mPlayerPortrait[0].setPosition(0, 50);
-			attachChild(mPlayerPortrait[0]);
-
-			mPlayerHealthBar[0] = new Rectangle(0, 0, mPlayer[0].getHealthPercentage(), 20,
-					this.engine.getVertexBufferObjectManager());
-			mPlayerHealthBar[0].setColor(1.0f, 0, 0);
-
-			mPlayerResourceBar[0] = new Rectangle(0, 0, mPlayer[0].getResourcePercentage(), 20,
-					this.engine.getVertexBufferObjectManager());
-			mPlayerResourceBar[0].setColor(0, 0, 1.0f);
-
-			mPlayerXpBar[0] = new Rectangle(0, 0, mPlayer[0].getExperiencePercentage(), 20,
-					this.engine.getVertexBufferObjectManager());
-			mPlayerXpBar[0].setColor(0, 1.0f, 1.0f);
-
-			mPlayerHealthBar[0].setPosition(60, 50);
-			mPlayerResourceBar[0].setPosition(60, 70);
-			mPlayerXpBar[0].setPosition(60, 90);
-
-			attachChild(mPlayerHealthBar[0]);
-			attachChild(mPlayerResourceBar[0]);
-			attachChild(mPlayerXpBar[0]);
-
-		}
-
-		// Create player two
-		if (mPlayer[1] != null) {
-			mPlayerPortrait[1].setPosition(170, 50);
-			attachChild(mPlayerPortrait[1]);
-
-			mPlayerHealthBar[1] = new Rectangle(0, 0, mPlayer[1].getHealthPercentage(), 20,
-					this.engine.getVertexBufferObjectManager());
-			mPlayerHealthBar[1].setColor(1.0f, 0, 0);
-
-			mPlayerResourceBar[1] = new Rectangle(0, 0, mPlayer[1].getResourcePercentage(), 20,
-					this.engine.getVertexBufferObjectManager());
-			mPlayerResourceBar[1].setColor(0, 0, 1.0f);
-
-			mPlayerXpBar[1] = new Rectangle(0, 0, mPlayer[1].getExperiencePercentage(), 20,
-					this.engine.getVertexBufferObjectManager());
-			mPlayerXpBar[1].setColor(0, 1.0f, 1.0f);
-
-			mPlayerHealthBar[1].setPosition(230, 50);
-			mPlayerResourceBar[1].setPosition(230, 70);
-			mPlayerXpBar[1].setPosition(230, 90);
-
-			attachChild(mPlayerHealthBar[1]);
-			attachChild(mPlayerResourceBar[1]);
-			attachChild(mPlayerXpBar[1]);
-
-		}
-
-		// Create player three
-		if (mPlayer[2] != null) {
-			mPlayerPortrait[2].setPosition(340, 50);
-			attachChild(mPlayerPortrait[2]);
-
-			mPlayerHealthBar[2] = new Rectangle(0, 0, mPlayer[2].getHealthPercentage(), 20,
-					this.engine.getVertexBufferObjectManager());
-			mPlayerHealthBar[2].setColor(1.0f, 0, 0);
-
-			mPlayerResourceBar[2] = new Rectangle(0, 0, mPlayer[2].getResourcePercentage(), 20,
-					this.engine.getVertexBufferObjectManager());
-			mPlayerResourceBar[2].setColor(0, 0, 1.0f);
-
-			mPlayerXpBar[2] = new Rectangle(0, 0, mPlayer[2].getExperiencePercentage(), 20,
-					this.engine.getVertexBufferObjectManager());
-			mPlayerXpBar[2].setColor(0, 1.0f, 1.0f);
-
-			mPlayerHealthBar[2].setPosition(400, 50);
-			mPlayerResourceBar[2].setPosition(400, 70);
-			mPlayerXpBar[2].setPosition(400, 90);
-
-			attachChild(mPlayerHealthBar[2]);
-			attachChild(mPlayerResourceBar[2]);
-			attachChild(mPlayerXpBar[2]);
-		}
+		createPlayers();
 
 		// Exit button
 		exitButton.setPosition(-12, -12);
@@ -159,10 +88,10 @@ public class InventoryScene extends BaseScene {
 
 		createInventoryChildScene();
 
-		inventoryChildScene.attachChild(mPlayerInfo[0]);
-		inventoryChildScene.attachChild(mPlayerInfo[1]);
-		inventoryChildScene.attachChild(mPlayerInfo[2]);
-		
+		inventoryChildScene.attachChild(playerInfo[0]);
+		inventoryChildScene.attachChild(playerInfo[1]);
+		inventoryChildScene.attachChild(playerInfo[2]);
+
 		// Update the inventory
 		updateInventory();
 	}
@@ -214,20 +143,17 @@ public class InventoryScene extends BaseScene {
 		statsArea.setPosition(0, 0);
 		equipmentArea.setPosition(210, 0);
 		inventoryArea.setPosition(420, 0);
-		
+
 		inventoryChildScene.setVisible(true);
 
 	}
 
 	public void createTouchAreas() {
-		mPlayerPortrait = new Sprite[3];
-		mPlayerHealthBar = new Rectangle[3];
-		mPlayerResourceBar = new Rectangle[3];
-		mPlayerXpBar = new Rectangle[3];
-		mPlayerInfo = new Text[3];
+		// Player touch areas
+		playerPortrait = new Sprite[3];
 
-		if (mPlayer[0] != null) {
-			mPlayerPortrait[0] = new Sprite(0, 0,
+		if (player[0] != null) {
+			playerPortrait[0] = new Sprite(0, 0,
 					resourcesManager.character1Portrait,
 					this.engine.getVertexBufferObjectManager()) {
 				@Override
@@ -236,7 +162,7 @@ public class InventoryScene extends BaseScene {
 						final float pTouchAreaLocalY) {
 					switch (pSceneTouchEvent.getAction()) {
 					case TouchEvent.ACTION_DOWN:
-						mPlayerSelected = 0;
+						playerSelected = 0;
 
 						updateInventory();
 
@@ -248,11 +174,11 @@ public class InventoryScene extends BaseScene {
 				}
 			};
 
-			registerTouchArea(mPlayerPortrait[0]);
+			registerTouchArea(playerPortrait[0]);
 		}
 
-		if (mPlayer[1] != null) {
-			mPlayerPortrait[1] = new Sprite(0, 0,
+		if (player[1] != null) {
+			playerPortrait[1] = new Sprite(0, 0,
 					resourcesManager.character2Portrait,
 					this.engine.getVertexBufferObjectManager()) {
 				@Override
@@ -261,7 +187,7 @@ public class InventoryScene extends BaseScene {
 						final float pTouchAreaLocalY) {
 					switch (pSceneTouchEvent.getAction()) {
 					case TouchEvent.ACTION_DOWN:
-						mPlayerSelected = 1;
+						playerSelected = 1;
 
 						updateInventory();
 
@@ -275,11 +201,11 @@ public class InventoryScene extends BaseScene {
 				}
 			};
 
-			registerTouchArea(mPlayerPortrait[1]);
+			registerTouchArea(playerPortrait[1]);
 		}
 
-		if (mPlayer[2] != null) {
-			mPlayerPortrait[2] = new Sprite(0, 0,
+		if (player[2] != null) {
+			playerPortrait[2] = new Sprite(0, 0,
 					resourcesManager.character3Portrait,
 					this.engine.getVertexBufferObjectManager()) {
 				@Override
@@ -288,7 +214,7 @@ public class InventoryScene extends BaseScene {
 						final float pTouchAreaLocalY) {
 					switch (pSceneTouchEvent.getAction()) {
 					case TouchEvent.ACTION_DOWN:
-						mPlayerSelected = 2;
+						playerSelected = 2;
 
 						updateInventory();
 
@@ -301,7 +227,7 @@ public class InventoryScene extends BaseScene {
 				}
 			};
 
-			registerTouchArea(mPlayerPortrait[2]);
+			registerTouchArea(playerPortrait[2]);
 		}
 
 		exitButton = new Sprite(0, 0, resourcesManager.exitButton,
@@ -322,6 +248,116 @@ public class InventoryScene extends BaseScene {
 		};
 
 		registerTouchArea(exitButton);
+
+		// Inventory touch areas
+		inventorySlot = new Sprite[25];
+
+		inventorySlot[0] = new Sprite(0, 0, resourcesManager.exitButton,
+				this.engine.getVertexBufferObjectManager()) {
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+					final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				switch (pSceneTouchEvent.getAction()) {
+				case TouchEvent.ACTION_DOWN:
+
+					break;
+
+				}
+				return true;
+
+			}
+		};
+	}
+
+	public void createPlayers() {
+		// Create player one
+		if (player[0] != null) {
+			playerPortrait[0].setPosition(0, 50);
+			attachChild(playerPortrait[0]);
+
+			playerHealthBar[0] = new Rectangle(0, 0,
+					player[0].getHealthPercentage(), 20,
+					this.engine.getVertexBufferObjectManager());
+			playerHealthBar[0].setColor(1.0f, 0, 0);
+
+			playerResourceBar[0] = new Rectangle(0, 0,
+					player[0].getResourcePercentage(), 20,
+					this.engine.getVertexBufferObjectManager());
+			playerResourceBar[0].setColor(0, 0, 1.0f);
+
+			playerXpBar[0] = new Rectangle(0, 0,
+					player[0].getExperiencePercentage(), 20,
+					this.engine.getVertexBufferObjectManager());
+			playerXpBar[0].setColor(0, 1.0f, 1.0f);
+
+			playerHealthBar[0].setPosition(60, 50);
+			playerResourceBar[0].setPosition(60, 70);
+			playerXpBar[0].setPosition(60, 90);
+
+			attachChild(playerHealthBar[0]);
+			attachChild(playerResourceBar[0]);
+			attachChild(playerXpBar[0]);
+
+		}
+
+		// Create player two
+		if (player[1] != null) {
+			playerPortrait[1].setPosition(170, 50);
+			attachChild(playerPortrait[1]);
+
+			playerHealthBar[1] = new Rectangle(0, 0,
+					player[1].getHealthPercentage(), 20,
+					this.engine.getVertexBufferObjectManager());
+			playerHealthBar[1].setColor(1.0f, 0, 0);
+
+			playerResourceBar[1] = new Rectangle(0, 0,
+					player[1].getResourcePercentage(), 20,
+					this.engine.getVertexBufferObjectManager());
+			playerResourceBar[1].setColor(0, 0, 1.0f);
+
+			playerXpBar[1] = new Rectangle(0, 0,
+					player[1].getExperiencePercentage(), 20,
+					this.engine.getVertexBufferObjectManager());
+			playerXpBar[1].setColor(0, 1.0f, 1.0f);
+
+			playerHealthBar[1].setPosition(230, 50);
+			playerResourceBar[1].setPosition(230, 70);
+			playerXpBar[1].setPosition(230, 90);
+
+			attachChild(playerHealthBar[1]);
+			attachChild(playerResourceBar[1]);
+			attachChild(playerXpBar[1]);
+
+		}
+
+		// Create player three
+		if (player[2] != null) {
+			playerPortrait[2].setPosition(340, 50);
+			attachChild(playerPortrait[2]);
+
+			playerHealthBar[2] = new Rectangle(0, 0,
+					player[2].getHealthPercentage(), 20,
+					this.engine.getVertexBufferObjectManager());
+			playerHealthBar[2].setColor(1.0f, 0, 0);
+
+			playerResourceBar[2] = new Rectangle(0, 0,
+					player[2].getResourcePercentage(), 20,
+					this.engine.getVertexBufferObjectManager());
+			playerResourceBar[2].setColor(0, 0, 1.0f);
+
+			playerXpBar[2] = new Rectangle(0, 0,
+					player[2].getExperiencePercentage(), 20,
+					this.engine.getVertexBufferObjectManager());
+			playerXpBar[2].setColor(0, 1.0f, 1.0f);
+
+			playerHealthBar[2].setPosition(400, 50);
+			playerResourceBar[2].setPosition(400, 70);
+			playerXpBar[2].setPosition(400, 90);
+
+			attachChild(playerHealthBar[2]);
+			attachChild(playerResourceBar[2]);
+			attachChild(playerXpBar[2]);
+		}
 	}
 
 	// ===========================================================
@@ -330,105 +366,103 @@ public class InventoryScene extends BaseScene {
 
 	private void updateInventory() {
 		// Name, level, str, dex, int, vit, dmg, armor
-		if (mPlayer[0] != null && mPlayerSelected == 0) {
-			mPlayerInfo[0].setText(mPlayer[0].getName() + "\n" + "Level: "
-					+ mPlayer[0].getLevel() + "\n" + "Str: "
-					+ mPlayer[0].getCurrentStats().getStrength() + "\n"
-					+ "Dex: " + mPlayer[0].getCurrentStats().getDexterity()
-					+ "\n" + "Int: "
-					+ mPlayer[0].getCurrentStats().getIntelligence() + "\n"
-					+ "Vit: " + mPlayer[0].getCurrentStats().getVitality()
-					+ "\n" + "Dmg: " + mPlayer[0].getCurrentStats().getDamage()
-					+ "\n" + "Armor: "
-					+ mPlayer[0].getCurrentStats().getArmor());
+		if (player[0] != null && playerSelected == 0) {
+			playerInfo[0]
+					.setText(player[0].getName() + "\n" + "Level: "
+							+ player[0].getLevel() + "\n" + "Str: "
+							+ player[0].getCurrentStats().getStrength() + "\n"
+							+ "Dex: "
+							+ player[0].getCurrentStats().getDexterity() + "\n"
+							+ "Int: "
+							+ player[0].getCurrentStats().getIntelligence()
+							+ "\n" + "Vit: "
+							+ player[0].getCurrentStats().getVitality() + "\n"
+							+ "Dmg: " + player[0].getCurrentStats().getDamage()
+							+ "\n" + "Armor: "
+							+ player[0].getCurrentStats().getArmor());
+
+			playerInfo[0].setVisible(true);
+			playerInfo[1].setVisible(false);
+			playerInfo[2].setVisible(false);
 			
-			mPlayerInfo[0].setVisible(true);
-			mPlayerInfo[1].setVisible(false);
-			mPlayerInfo[2].setVisible(false);
+			// TODO
+			// Add warrior equipped items
 
-		} else if (mPlayer[1] != null && mPlayerSelected == 1) {
-			mPlayerInfo[1].setText(mPlayer[1].getName() + "\n" + "Level: "
-					+ mPlayer[1].getLevel() + "\n" + "Str: "
-					+ mPlayer[1].getCurrentStats().getStrength() + "\n"
-					+ "Dex: " + mPlayer[1].getCurrentStats().getDexterity()
-					+ "\n" + "Int: "
-					+ mPlayer[1].getCurrentStats().getIntelligence() + "\n"
-					+ "Vit: " + mPlayer[1].getCurrentStats().getVitality()
-					+ "\n" + "Dmg: " + mPlayer[1].getCurrentStats().getDamage()
-					+ "\n" + "Armor: "
-					+ mPlayer[1].getCurrentStats().getArmor());
+		} else if (player[1] != null && playerSelected == 1) {
+			playerInfo[1]
+					.setText(player[1].getName() + "\n" + "Level: "
+							+ player[1].getLevel() + "\n" + "Str: "
+							+ player[1].getCurrentStats().getStrength() + "\n"
+							+ "Dex: "
+							+ player[1].getCurrentStats().getDexterity() + "\n"
+							+ "Int: "
+							+ player[1].getCurrentStats().getIntelligence()
+							+ "\n" + "Vit: "
+							+ player[1].getCurrentStats().getVitality() + "\n"
+							+ "Dmg: " + player[1].getCurrentStats().getDamage()
+							+ "\n" + "Armor: "
+							+ player[1].getCurrentStats().getArmor());
 
-			mPlayerInfo[0].setVisible(false);
-			mPlayerInfo[1].setVisible(true);
-			mPlayerInfo[2].setVisible(false);
+			playerInfo[0].setVisible(false);
+			playerInfo[1].setVisible(true);
+			playerInfo[2].setVisible(false);
 			
-		} else if (mPlayer[2] != null && mPlayerSelected == 2) {
-			mPlayerInfo[2].setText(mPlayer[2].getName() + "\n" + "Level: "
-					+ mPlayer[2].getLevel() + "\n" + "Str: "
-					+ mPlayer[2].getCurrentStats().getStrength() + "\n"
-					+ "Dex: " + mPlayer[2].getCurrentStats().getDexterity()
-					+ "\n" + "Int: "
-					+ mPlayer[2].getCurrentStats().getIntelligence() + "\n"
-					+ "Vit: " + mPlayer[2].getCurrentStats().getVitality()
-					+ "\n" + "Dmg: " + mPlayer[2].getCurrentStats().getDamage()
-					+ "\n" + "Armor: "
-					+ mPlayer[2].getCurrentStats().getArmor());
+			// TODO
+			// Add ranger equipped items
 
-			mPlayerInfo[0].setVisible(false);
-			mPlayerInfo[1].setVisible(false);
-			mPlayerInfo[2].setVisible(true);
+		} else if (player[2] != null && playerSelected == 2) {
+			playerInfo[2]
+					.setText(player[2].getName() + "\n" + "Level: "
+							+ player[2].getLevel() + "\n" + "Str: "
+							+ player[2].getCurrentStats().getStrength() + "\n"
+							+ "Dex: "
+							+ player[2].getCurrentStats().getDexterity() + "\n"
+							+ "Int: "
+							+ player[2].getCurrentStats().getIntelligence()
+							+ "\n" + "Vit: "
+							+ player[2].getCurrentStats().getVitality() + "\n"
+							+ "Dmg: " + player[2].getCurrentStats().getDamage()
+							+ "\n" + "Armor: "
+							+ player[2].getCurrentStats().getArmor());
+
+			playerInfo[0].setVisible(false);
+			playerInfo[1].setVisible(false);
+			playerInfo[2].setVisible(true);
+			
+			// TODO
+			// Add cleric equipped items
 		}
 
 	}
 
 	private void createPlayerStatsArea() {
-		if (mPlayer[0] != null) {
-			mPlayerInfo[0] = new Text(0, 0, resourcesManager.inventoryFont,
-					"", 150, new TextOptions(HorizontalAlign.LEFT), vbom);
+		if (player[0] != null) {
+			playerInfo[0] = new Text(0, 0, resourcesManager.inventoryFont, "",
+					150, new TextOptions(HorizontalAlign.LEFT), vbom);
 
-			mPlayerInfo[0].setPosition(10, 10);
+			playerInfo[0].setPosition(10, 10);
 
-			mPlayerInfo[0].setVisible(false);
+			playerInfo[0].setVisible(false);
 		}
 
-		if (mPlayer[1] != null) {
-			mPlayerInfo[1] = new Text(0, 0, resourcesManager.inventoryFont,
-					"", 150, new TextOptions(HorizontalAlign.LEFT), vbom);
+		if (player[1] != null) {
+			playerInfo[1] = new Text(0, 0, resourcesManager.inventoryFont, "",
+					150, new TextOptions(HorizontalAlign.LEFT), vbom);
 
-			mPlayerInfo[1].setPosition(10, 10);
+			playerInfo[1].setPosition(10, 10);
 
-			mPlayerInfo[1].setVisible(false);
-			
+			playerInfo[1].setVisible(false);
+
 		}
 
-		if (mPlayer[2] != null) {
-			mPlayerInfo[2] = new Text(0, 0, resourcesManager.inventoryFont,
-					"", 150, new TextOptions(HorizontalAlign.LEFT), vbom);
+		if (player[2] != null) {
+			playerInfo[2] = new Text(0, 0, resourcesManager.inventoryFont, "",
+					150, new TextOptions(HorizontalAlign.LEFT), vbom);
 
-			mPlayerInfo[2].setPosition(10, 10);
+			playerInfo[2].setPosition(10, 10);
 
-			mPlayerInfo[2].setVisible(false);
+			playerInfo[2].setVisible(false);
 		}
 
 	}
-
-	/*
-	 * private void showTeamMemberOneStatsArea() {
-	 * 
-	 * 
-	 * strengthText.setPosition(10, 30); dexterityText.setPosition(10, 80);
-	 * intelligenceText.setPosition(10, 130); vitalityText.setPosition(10, 180);
-	 * damageText.setPosition(10, 230); armorText.setPosition(10, 280);
-	 * 
-	 * 
-	 * inventoryChildScene.attachChild(strengthText);
-	 * inventoryChildScene.attachChild(dexterityText);
-	 * inventoryChildScene.attachChild(intelligenceText);
-	 * inventoryChildScene.attachChild(vitalityText);
-	 * inventoryChildScene.attachChild(damageText);
-	 * inventoryChildScene.attachChild(armorText);
-	 * 
-	 * }
-	 */
-
 }
