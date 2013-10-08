@@ -172,7 +172,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		
 		// TODO
 		// This needs to bring in currently active party members
-		partyMem[0] = new BattleCharacterContainer(new WarriorClass());
+		partyMem[0] = new BattleCharacterContainer(new WarriorClass(), (DragonsReignActivity) activity);
 		partyMem[1] = new BattleCharacterContainer(new RangerClass());
 		partyMem[2] = new BattleCharacterContainer(new ClericClass());
 		
@@ -233,9 +233,11 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		createItemsMenuView();
 		
 		// Determine who is going to go first
-//		hasteCheck();
-		playerTurn = true;
-		focusArrow.setVisible(true);
+		hasteCheck();
+		if(playerTurn){
+			focusArrow.setVisible(true);
+			playerTurn();
+		}
 
 		// If it's not our turn right away, hide the buttons
 		if(!playerTurn){
@@ -279,7 +281,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 						int randPlyrTarget = 0;
 
 						// Random attack
-						AbilityData abilityData = new AbilityData();
+						abilityData = new AbilityData();
 						randAbilityIdx = RandomNumber.generateRandomInt(0, 1);
 						targetFlag = enemyPlyr[enemyIdx].useAbility(randAbilityIdx,
 								abilityData);
@@ -952,15 +954,12 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 	// Ease of use function to create a toast onto the screen based on a string
 	// and how long it lasts (0 or 1 length)
 	// Consider moving elsewhere for other places to use this
-	public void writeToScreen(final CharSequence pText, final int pToastLength) {
+	public void writeToScreen(final CharSequence pText) {
 		
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				//if(pToastLength == 0)
 					Toast.makeText(activity, pText, Toast.LENGTH_SHORT).show();
 				
-//				if(pToastLength >= 1)
-//					Toast.makeText(activity, pText, Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -1052,11 +1051,11 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		
 		if(playerTurn){
 			// Player had a higher or equivalent haste
-			writeToScreen("Your turn.", 0);
+			writeToScreen("Your turn.");
 			focusArrow.setVisible(true);
 		} else {
 			// Enemy had a higher or equivalent haste
-			writeToScreen("Enemy's turn.", 0);
+			writeToScreen("Enemy's turn.");
 		}
 	}
 	
@@ -1238,7 +1237,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		// Not enough resource sends us back to the main battle scene with a
 		// message
 		case NOT_ENOUGH_RESOURCE:
-			writeToScreen("Insufficient resource.", 0);
+			writeToScreen("Insufficient resource.");
 			setChildScene(battleMenuChildScene);
 			break;
 			
@@ -1324,7 +1323,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 
 			}
 			
-			writeToScreen(abilityUser + " used " + ability + " on party.", 1);
+			writeToScreen(abilityUser + " used " + ability + " on party.");
 			break;
 		
 		// AOE damage to all enemies
@@ -1341,7 +1340,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 				enemyPlyr[2].recieveAbilityData(abilityData);
 			}
 			
-			writeToScreen(abilityUser + " used " + ability + " on all enemies.", 1);
+			writeToScreen(abilityUser + " used " + ability + " on all enemies.");
 			break;
 
 		// Life steal mechanic
@@ -1355,14 +1354,14 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 
 			focusedPartyMem.recieveAbilityData(abilityData);
 
-			writeToScreen(abilityUser + " used " + ability + " on " + target + ". ", 1);
+			writeToScreen(abilityUser + " used " + ability + " on " + target + ". ");
 			break;
 			
 		// Deal damage to a single target
 		case DAMAGE_SINGLE:
 			abilityTarget.recieveAbilityData(abilityData);
 			
-			writeToScreen(abilityUser + " used " + ability + " on " + target + ".", 1);
+			writeToScreen(abilityUser + " used " + ability + " on " + target + ".");
 			break;
 		
 		// Unused for demo, will apply in full game
@@ -1385,14 +1384,14 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 				partyMem[2].recieveAbilityData(abilityData);
 			}
 
-			writeToScreen(abilityUser + " used " + ability + " on party.", 1);
+			writeToScreen(abilityUser + " used " + ability + " on party.");
 			break;
 
 		// Heals a single party member
 		case HEAL_SINGLE:
 			abilityTarget.recieveAbilityData(abilityData);
 			
-			writeToScreen(abilityUser+ " used " + ability + " on " + target + ".", 1);
+			writeToScreen(abilityUser+ " used " + ability + " on " + target + ".");
 			break;
 		case NOT_ENOUGH_RESOURCE:
 			break;
@@ -1404,7 +1403,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			// the user to half health
 			abilityTarget.useItem(new Potion(POTIONS.BASIC_REVIVE_POTION));
 			
-			writeToScreen(abilityUser+ " used " + ability + " on " + target + ".", 1);
+			writeToScreen(abilityUser+ " used " + ability + " on " + target + ".");
 			break;
 			
 		// Unused for demo, will apply in full game
@@ -1518,12 +1517,12 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		// If our random number is less than or equal to the chance we have to
 		// flee (based on the average enemy level)
 		if (fleeChanceCalc <= chanceToFlee) {
-			writeToScreen("Successfully fled the battle.", 0);
+			writeToScreen("Successfully fled the battle.");
 
 			// Take us back to the zone
 			onBackKeyPressed();
 		} else {
-			writeToScreen("Failed to flee the battle.", 0);
+			writeToScreen("Failed to flee the battle.");
 
 			// We failed to flee the battle and have lost our turn globally
 			partyMem[0].setHasTurn(false);
