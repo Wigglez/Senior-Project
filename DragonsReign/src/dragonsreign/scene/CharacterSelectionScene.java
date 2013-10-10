@@ -15,8 +15,11 @@ import org.andengine.entity.text.TextOptions;
 import org.andengine.util.HorizontalAlign;
 import org.andengine.util.color.Color;
 
+import android.util.Log;
+
 
 import dragonsreign.scene.BaseScene;
+import dragonsreign.util.PartyContainer;
 import dragonsreign.character.characterclass.ClericClass;
 import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
@@ -56,18 +59,20 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	private MenuScene characterChildScene;
 	private Sprite classSprite[];
 	
-	private WarriorClass mWarriorClass;
-	private RangerClass mRangerClass;
-	private ClericClass mClericClass;
-	//private KnightClass mKnightClass;
-	//private AssassinClass mAssassinClass;
-	//private EngineerClass mEngineerClass;
-	//private MageClass mMageClass;
+	protected WarriorClass warriorClass;
+	protected RangerClass rangerClass;
+	protected ClericClass clericClass;
+	//private KnightClass knightClass;
+	//private AssassinClass assassinClass;
+	//private EngineerClass engineerClass;
+	//private MageClass mageClass;
+	
+	protected int playerSelected = -1;
+	
+	protected PartyContainer party;
 	
 	private IMenuItem classMenuItem[], playGameMenuItem;
     
-	private int playerSelected = -1;
-	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -76,6 +81,23 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	// Getter & Setter
 	// ===========================================================
 
+
+	public WarriorClass getWarriorClass() {
+		return warriorClass;
+	}
+
+	public RangerClass getRangerClass() {
+		return rangerClass;
+	}
+
+	public ClericClass getClericClass() {
+		return clericClass;
+	}
+
+	public int getPlayerSelected() {
+		return playerSelected;
+	}
+	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -123,19 +145,25 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	        	return true;
 	       
 	        case PLAY_GAME:
+	        	Log.e("CharacterSelectionScene", "warriorClass = " + warriorClass);
+                Log.e("CharacterSelectionScene", "rangerClass = " + rangerClass);
+                Log.e("CharacterSelectionScene", "clericClass = " + clericClass);
+                Log.e("CharacterSelectionScene", "playerSelected = " + playerSelected);
+                
 	        	this.disposeScene();
 	        	ResourceManager.getInstance().unloadMenuTextures();
 	        	ResourceManager.getInstance().unloadCharacterSelectGraphics();
 	        	SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_GAME);
 	        	SoundManager.mMenuMusic.stop();
                 SoundManager.mMenuThemeMusic.play();
+                
 	            return true;
 	        default:
 	            return false;
 	    }
 	}
 	
-    @Override
+	@Override
     public void createScene()
     {
     	classText = new Text[7];
@@ -144,9 +172,9 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 		classSprite = new Sprite[7];
 		classMenuItem = new IMenuItem[7];
     	
-    	mWarriorClass = new WarriorClass();
-    	mRangerClass = new RangerClass();
-    	mClericClass = new ClericClass();
+    	warriorClass = new WarriorClass();
+    	rangerClass = new RangerClass();
+    	clericClass = new ClericClass();
     	//mKnightClass = new KnightClass();
     	//mAssassinClass = new AssassinClass();
     	//mEngineerClass = new EngineerClass();
@@ -157,7 +185,7 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
     	createMenuChildScene();
     }
 
-    @Override
+	@Override
     public void onBackKeyPressed()
     {
     	SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_MENU);
@@ -422,13 +450,13 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	private void updateHUD() {
 		if (playerSelected == WARRIOR_ID) {
 			playerStats[WARRIOR_ID].setText("Strength: "
-							+ mWarriorClass.getBaseStats().getStrength() + "\n"
+							+ warriorClass.getBaseStats().getStrength() + "\n"
 							+ "Dexterity: "
-							+ mWarriorClass.getBaseStats().getDexterity()
+							+ warriorClass.getBaseStats().getDexterity()
 							+ "\n" + "Intelligence: "
-							+ mWarriorClass.getBaseStats().getIntelligence()
+							+ warriorClass.getBaseStats().getIntelligence()
 							+ "\n" + "Vitality: "
-							+ mWarriorClass.getBaseStats().getVitality());
+							+ warriorClass.getBaseStats().getVitality());
 
 			classSprite[WARRIOR_ID].setVisible(true);
 			//classSprite[RANGER_ID].setVisible(false);
@@ -458,12 +486,12 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 			
 		} else if (playerSelected == RANGER_ID) {
 			playerStats[RANGER_ID].setText("Strength: "
-					+ mRangerClass.getBaseStats().getStrength() + "\n"
+					+ rangerClass.getBaseStats().getStrength() + "\n"
 					+ "Dexterity: "
-					+ mRangerClass.getBaseStats().getDexterity() + "\n"
+					+ rangerClass.getBaseStats().getDexterity() + "\n"
 					+ "Intelligence: "
-					+ mRangerClass.getBaseStats().getIntelligence() + "\n"
-					+ "Vitality: " + mRangerClass.getBaseStats().getVitality());
+					+ rangerClass.getBaseStats().getIntelligence() + "\n"
+					+ "Vitality: " + rangerClass.getBaseStats().getVitality());
 
 			classSprite[WARRIOR_ID].setVisible(false);
 			//classSprite[RANGER_ID].setVisible(true);
@@ -493,12 +521,12 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 
 		} else if (playerSelected == CLERIC_ID) {
 			playerStats[CLERIC_ID].setText("Strength: "
-					+ mClericClass.getBaseStats().getStrength() + "\n"
+					+ clericClass.getBaseStats().getStrength() + "\n"
 					+ "Dexterity: "
-					+ mClericClass.getBaseStats().getDexterity() + "\n"
+					+ clericClass.getBaseStats().getDexterity() + "\n"
 					+ "Intelligence: "
-					+ mClericClass.getBaseStats().getIntelligence() + "\n"
-					+ "Vitality: " + mClericClass.getBaseStats().getVitality());
+					+ clericClass.getBaseStats().getIntelligence() + "\n"
+					+ "Vitality: " + clericClass.getBaseStats().getVitality());
 
 			classSprite[WARRIOR_ID].setVisible(false);
 			//classSprite[RANGER_ID].setVisible(false);

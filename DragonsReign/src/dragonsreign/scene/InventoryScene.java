@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import dragonsreign.scene.BaseScene;
+import dragonsreign.util.PartyContainer;
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.character.characterclass.ClericClass;
 import dragonsreign.character.characterclass.RangerClass;
@@ -19,7 +20,7 @@ import dragonsreign.character.characterclass.WarriorClass;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
 
-public class InventoryScene extends BaseScene {
+public class InventoryScene extends PartyContainer {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -36,8 +37,9 @@ public class InventoryScene extends BaseScene {
 	private Rectangle playerHealthBar[], playerResourceBar[], playerXpBar[];
 
 	private Text playerInfo[];
-
+	
 	private PlayerCharacter player[];
+	
 	private int playerSelected;
 
 	// Inventory
@@ -47,7 +49,7 @@ public class InventoryScene extends BaseScene {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
+	
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
@@ -63,14 +65,40 @@ public class InventoryScene extends BaseScene {
 
 		inventoryChildScene = new MenuScene(camera);
 		setChildScene(inventoryChildScene);
-
+		
 		// TODO
 		// use imported characters
 		player = new PlayerCharacter[3];
-
+		
 		player[0] = new WarriorClass();
 		player[1] = new RangerClass();
 		player[2] = new ClericClass();
+		
+		/*
+		Log.e("InventoryScene", "getSelectedPlayer = " + getSelectedPlayer());
+		if (getSelectedPlayer() == 0) {
+			player[0] = getWarriorObj();
+			player[1] = getRangerObj();
+			player[2] = getClericObj();
+			Log.e("InventoryScene", "getWarriorObj = " + getWarriorObj());
+			Log.e("InventoryScene", "getRangerObj = " + getRangerObj());
+			Log.e("InventoryScene", "getClericObj = " + getClericObj());
+		} else if (getSelectedPlayer() == 1) {
+			player[0] = getWarriorObj();
+			player[1] = getRangerObj();
+			player[2] = getClericObj();
+			Log.e("InventoryScene", "getWarriorObj = " + getWarriorObj());
+			Log.e("InventoryScene", "getRangerObj = " + getRangerObj());
+			Log.e("InventoryScene", "getClericObj = " + getClericObj());
+		} else if (getSelectedPlayer() == 2) {
+			player[0] = getWarriorObj();
+			player[1] = getRangerObj();
+			player[2] = getClericObj();
+			Log.e("InventoryScene", "getWarriorObj = " + getWarriorObj());
+			Log.e("InventoryScene", "getRangerObj = " + getRangerObj());
+			Log.e("InventoryScene", "getClericObj = " + getClericObj());
+		}
+		*/
 
 		playerSelected = 0;
 
