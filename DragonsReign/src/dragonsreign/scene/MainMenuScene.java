@@ -104,7 +104,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		switch(pMenuItem.getID())
 		{
 	        case MENU_PLAY:
-	        	SoundManager.mPunchSound.play();
+	        	//SoundManager.mPunchSound.play();
 	        	//Load Game Scene!
 	            SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_CHARACTER);
 	            return true;
