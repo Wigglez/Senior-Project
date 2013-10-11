@@ -16,6 +16,7 @@ import org.andengine.engine.camera.hud.controls.DigitalOnScreenControl;
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
@@ -103,6 +104,9 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	private Body mPlayerBody;
 	 private PhysicsWorld mPhysicsWorld;
 	 
+	 private BattleScene battleScene;
+	 private InventoryScene inventoryScene;
+	 
 	//private BoundCamera camera;
 	private enum PlayerDirection
 	{
@@ -174,10 +178,15 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 		switch(pMenuItem.getID())
 		{
 	        case GAME_BACKPACK:
-	        	SceneManager.getInstance().loadInventoryScene(engine);
+	        	//SceneManager.getInstance().loadInventoryScene(engine);
+	        	inventoryScene = new InventoryScene(this);
+	        	setChildScene(inventoryScene);
 	            return true;
 	        case GAME_MAP:
-	        	SceneManager.getInstance().loadBattleScene(engine);
+	        	//SceneManager.getInstance().loadBattleScene(engine);
+	        	battleScene = new BattleScene(this);
+	        	setChildScene(battleScene);
+	        	
 	        	return true;
 	        default:
 	            return false;
@@ -437,4 +446,11 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	    this.attachChild(right);
 	}
     
+	public void goBackToGame(){
+			Scene scene = getChildScene();
+			setChildScene(mDigitalOnScreenControl);
+			scene.detachSelf();
+			scene.dispose();
+			camera.setChaseEntity(player);
+		}
 }

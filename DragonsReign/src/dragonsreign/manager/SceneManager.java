@@ -240,7 +240,7 @@ public class SceneManager
             {
                 mEngine.unregisterUpdateHandler(pTimerHandler);
                 
-                battleScene = new BattleScene();
+                //battleScene = new BattleScene();
                 setScene(battleScene);
                 
             }
@@ -255,7 +255,7 @@ public class SceneManager
             public void onTimePassed(final TimerHandler pTimerHandler) 
             {
                 mEngine.unregisterUpdateHandler(pTimerHandler);
-                inventoryScene = new InventoryScene();
+               // inventoryScene = new InventoryScene();
                 setScene(inventoryScene);
             }
         }));

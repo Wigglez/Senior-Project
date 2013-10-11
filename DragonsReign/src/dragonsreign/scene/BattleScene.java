@@ -113,6 +113,9 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 
 	private Boolean playerTurn, firstEnemyUpdatePass;
 	
+	//Access to game
+	GameScene parent;
+	
 	// Ability String Data to output
 	private String[] plyrAbilities;
 	private String abilityUser, ability, target;
@@ -120,7 +123,10 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
+	BattleScene(GameScene pParentScene) {
+		super();
+		parent = pParentScene;
+	}
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
@@ -321,7 +327,16 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 						playerTurn();
 						firstEnemyUpdatePass = true;
 						enemyIdx = 0;
+						backToGame();
 					}
+				}
+				
+				
+				//TODO
+				if(checkEnemyDeath()){
+					playerWinsBattle();
+				}else if (checkPlayerDeath()){
+					playerLosesBattle();
 				}
 			}
 
@@ -1530,4 +1545,75 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			partyMem[2].setHasTurn(false);
 		}
 	}
+
+	private void backToGame() {
+
+		parent.goBackToGame();
+	}
+	
+	private boolean checkPlayerDeath(){
+		
+		int plrsDead = 0;
+		
+		for(int idx = 0; idx < 3; idx++){
+			if(partyMem[idx] == null || partyMem[idx].isDead()){
+				plrsDead += 1;
+			}
+		}
+		
+		if(plrsDead == 3){
+			return true;
+		} else{
+			return false;
+		}
+			
+	}
+	
+	private boolean checkEnemyDeath(){
+		
+		int enemyDead = 0;
+		
+		for(int idx = 0; idx < enemyCount; idx++){
+			if(enemyPlyr[idx].isDead()){
+				enemyDead += 1;
+			}
+		}
+		
+		if(enemyDead == enemyCount){
+			return true;
+		} else{
+			return false;
+		}
+	}
+	
+	
+	private void playerWinsBattle(){
+		
+		int expEarned = 0;
+		for(int idx = 0; idx < enemyCount; idx++){
+			expEarned += ((Enemy)enemyPlyr[idx].getCharacter()).getExperience();
+		}
+		
+		for(int idx = 0; idx < 3; idx++){
+			if(partyMem[idx] == null){
+				if( !partyMem[idx].isDead()){
+					//Add Experience
+				}else{
+					//Add 1/2 experience
+				}
+				
+			}
+		}
+		
+		//ChildScene with gear and stuff
+		//Add health/resources once characters are persistent
+		
+		
+	}
+	
+	private void playerLosesBattle(){
+		writeToScreen("You lost the battle.");
+		//Back to start
+	}
+	
 }

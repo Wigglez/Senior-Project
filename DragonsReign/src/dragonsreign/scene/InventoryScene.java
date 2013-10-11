@@ -49,10 +49,16 @@ public class InventoryScene extends PartyContainer {
 	private int usableSlots;
 	private boolean slotOccupied, isFull;
 
+	//Access to game
+	GameScene parent;
+		
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+	InventoryScene(GameScene pParentScene) {
+		super();
+		parent = pParentScene;
+	}
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
@@ -125,10 +131,11 @@ public class InventoryScene extends PartyContainer {
 
 	@Override
 	public void onBackKeyPressed() {
-		SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_GAME);
-
-		camera.setChaseEntity(GameScene.player);
-		camera.updateChaseEntity();
+//		SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_GAME);
+//
+//		camera.setChaseEntity(GameScene.player);
+//		camera.updateChaseEntity();
+		parent.goBackToGame();
 	}
 
 	@Override
