@@ -17,6 +17,7 @@ import dragonsreign.character.PlayerCharacter;
 import dragonsreign.character.characterclass.ClericClass;
 import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
+import dragonsreign.item.Inventory;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
 
@@ -39,6 +40,8 @@ public class InventoryScene extends PartyContainer {
 	private Text playerInfo[];
 	
 	private PlayerCharacter player[];
+	
+	private Inventory inventory;
 	
 	private int playerSelected;
 
@@ -106,6 +109,8 @@ public class InventoryScene extends PartyContainer {
 		playerResourceBar = new Rectangle[3];
 		playerXpBar = new Rectangle[3];
 		playerInfo = new Text[3];
+		
+		inventory = new Inventory();
 
 		createPlayerTouchAreas();
 		createPlayers();
@@ -286,26 +291,45 @@ public class InventoryScene extends PartyContainer {
 		// Inventory touch areas
 		inventorySlot = new Sprite[25];
 
-		inventorySlot[0] = new Sprite(0, 0, resourcesManager.heavyHelm,
-				this.engine.getVertexBufferObjectManager()) {
-			@Override
-			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
-					final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				switch (pSceneTouchEvent.getAction()) {
-				case TouchEvent.ACTION_DOWN:
-					Log.e("test", "heavy helm");
-					break;
+		int i = 0;
+		
+		for(int j = 0; j < inventory.getMaxInventorySize() / 5; j++) {
+			for(int k = 0; k < inventory.getMaxInventorySize() / 5; k++) {
+				
+				if(i < inventory.getMaxInventorySize()) {
+					inventorySlot[i] = new Sprite(0, 0, resourcesManager.amulet,
+							this.engine.getVertexBufferObjectManager()) {
+						@Override
+						public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
+								final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+							switch (pSceneTouchEvent.getAction()) {
+							case TouchEvent.ACTION_DOWN:
+								Log.e("test", "heavy helm");
+								break;
 
+							}
+							return true;
+
+						}
+					};
+					
+					
+					if (k == 0 && j == 0) {
+						inventorySlot[i].setPosition(420 + (k * 64), 0 + (j * 64));
+						Log.e("InventoryScene k == 0, j == 0", "i = " + i + ", x = " + inventorySlot[i].getX() + ", y = " + inventorySlot[i].getY());
+					} else {
+						inventorySlot[i].setPosition(420 + (k * 64) + (1 * k), 0 + (j * 64) + (1 * j));
+						Log.e("InventoryScene k > 0 || j > 0", "i = " + i + ", x = " + inventorySlot[i].getX() + ", y = " + inventorySlot[i].getY());
+					} 
+
+					inventoryChildScene.attachChild(inventorySlot[i]);
+					
+					registerTouchArea(inventorySlot[i]);
+					
+					i++;
 				}
-				return true;
-
 			}
-		};
-		
-		inventorySlot[0].setPosition(420, 0);
-		inventoryChildScene.attachChild(inventorySlot[0]);
-		
-		registerTouchArea(inventorySlot[0]);
+		}
 	}
 
 	public void createPlayers() {
