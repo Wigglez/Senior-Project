@@ -327,7 +327,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 						playerTurn();
 						firstEnemyUpdatePass = true;
 						enemyIdx = 0;
-						backToGame();
+						//backToGame();
 					}
 				}
 				
@@ -479,7 +479,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 	@Override
 	public void onBackKeyPressed() {
 		// TODO Auto-generated method stub
-		SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_GAME);
+		//SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_GAME);
+		backToGame();
 
 	}
 
