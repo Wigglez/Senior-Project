@@ -692,7 +692,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		
 		// Players
 		if (partyMem[0] != null) {
-			teamMember1Info = new Text(15,-10, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
+			teamMember1Info = new Text(-10,-10, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
 			teamMember1Info.setScale(.66f);
 			
 			teamMember1.setPosition(125, 0);// 150
@@ -700,7 +700,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			leftArrow1.setVisible(false);
 		}
 		if (partyMem[1] != null) {
-			teamMember2Info = new Text(15,90, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
+			teamMember2Info = new Text(-10,90, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
 			teamMember2Info.setScale(.66f);
 			
 			teamMember2.setPosition(125, 100);
@@ -708,7 +708,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			leftArrow2.setVisible(false);
 		}
 		if (partyMem[2] != null) {
-			teamMember3Info = new Text(15,190, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
+			teamMember3Info = new Text(-10,190, resourcesManager.battleFont, "", 200, new TextOptions(HorizontalAlign.RIGHT), vbom);
 			teamMember3Info.setScale(.66f);
 			
 			teamMember3.setPosition(125, 200);
@@ -1022,27 +1022,27 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 	// Updates the battle scene info of players and enemies
 	private void updateInfoText() {
 		if(partyMem[0] != null){
-			teamMember1Info.setText(partyMem[0].getName() + "\nLvl: " + partyMem[0].getLevel() + "\n" + partyMem[0].getCurrentHealth() + " / " + partyMem[0].getMaxHealth() + "\n" + partyMem[0].getCurrentResource() + " / " + partyMem[0].getMaxResource());
+			teamMember1Info.setText(partyMem[0].getName() + "\nLvl: " + partyMem[0].getLevel() + "\nHP: " + partyMem[0].getCurrentHealth() + " / " + partyMem[0].getMaxHealth() + "\nRP: " + partyMem[0].getCurrentResource() + " / " + partyMem[0].getMaxResource());
 		}
 		if(partyMem[1] != null){
-			teamMember2Info.setText(partyMem[1].getName() + "\nLvl: " + partyMem[1].getLevel() + "\n" + partyMem[1].getCurrentHealth() + " / " + partyMem[1].getMaxHealth() + "\n" + partyMem[1].getCurrentResource() + " / " + partyMem[1].getMaxResource());
+			teamMember2Info.setText(partyMem[1].getName() + "\nLvl: " + partyMem[1].getLevel() + "\nHP: " + partyMem[1].getCurrentHealth() + " / " + partyMem[1].getMaxHealth() + "\nRP: " + partyMem[1].getCurrentResource() + " / " + partyMem[1].getMaxResource());
 		}
 		if(partyMem[2] != null){
-			teamMember3Info.setText(partyMem[2].getName() + "\nLvl: " + partyMem[2].getLevel() + "\n" + partyMem[2].getCurrentHealth() + " / " + partyMem[2].getMaxHealth() + "\n" + partyMem[2].getCurrentResource() + " / " + partyMem[2].getMaxResource());
+			teamMember3Info.setText(partyMem[2].getName() + "\nLvl: " + partyMem[2].getLevel() + "\nHP: " + partyMem[2].getCurrentHealth() + " / " + partyMem[2].getMaxHealth() + "\nRP: " + partyMem[2].getCurrentResource() + " / " + partyMem[2].getMaxResource());
 		}
 		
 		if(enemyPlyr[0] != null){
-			enemy1Info.setText(enemyPlyr[0].getName() + "\nLvl: " + enemyPlyr[0].getLevel() + "\n" + enemyPlyr[0].getCurrentHealth() + " / " + enemyPlyr[0].getMaxHealth());
+			enemy1Info.setText(enemyPlyr[0].getName() + "\nLvl: " + enemyPlyr[0].getLevel() + "\nHP: " + enemyPlyr[0].getCurrentHealth() + " / " + enemyPlyr[0].getMaxHealth());
 			//Log.e("Enemy 1", enemyPlyr[0].getName() + " damage = " + enemyPlyr[0].getCharacter().getCurrentStats().getDamage());
 			//Log.e("Enemy 1", enemyPlyr[0].getName() + " armor = " + enemyPlyr[0].getCharacter().getCurrentStats().getArmor());
 		}
 		if(enemyPlyr[1] != null){
-			enemy2Info.setText(enemyPlyr[1].getName() + "\nLvl: " + enemyPlyr[1].getLevel() + "\n" + enemyPlyr[1].getCurrentHealth() + " / " + enemyPlyr[1].getMaxHealth());
+			enemy2Info.setText(enemyPlyr[1].getName() + "\nLvl: " + enemyPlyr[1].getLevel() + "\nHP: " + enemyPlyr[1].getCurrentHealth() + " / " + enemyPlyr[1].getMaxHealth());
 			//Log.e("Enemy 2", enemyPlyr[1].getName() + " damage = " + enemyPlyr[1].getCharacter().getCurrentStats().getDamage());
 			//Log.e("Enemy 2", enemyPlyr[1].getName() + " armor = " + enemyPlyr[1].getCharacter().getCurrentStats().getArmor());
 		}
 		if(enemyPlyr[2] != null){
-			enemy3Info.setText(enemyPlyr[2].getName() + "\nLvl: " + enemyPlyr[2].getLevel() + "\n" + enemyPlyr[2].getCurrentHealth() + " / " + enemyPlyr[2].getMaxHealth());
+			enemy3Info.setText(enemyPlyr[2].getName() + "\nLvl: " + enemyPlyr[2].getLevel() + "\nHP: " + enemyPlyr[2].getCurrentHealth() + " / " + enemyPlyr[2].getMaxHealth());
 			//Log.e("Enemy 3", enemyPlyr[2].getName() + " damage = " + enemyPlyr[2].getCharacter().getCurrentStats().getDamage());
 			//Log.e("Enemy 3", enemyPlyr[2].getName() + " armor = " + enemyPlyr[2].getCharacter().getCurrentStats().getArmor());
 		}
@@ -1544,6 +1544,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			partyMem[0].setHasTurn(false);
 			partyMem[1].setHasTurn(false);
 			partyMem[2].setHasTurn(false);
+			playerTurn = false;
 		}
 	}
 
