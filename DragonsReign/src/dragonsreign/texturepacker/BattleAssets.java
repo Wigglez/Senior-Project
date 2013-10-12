@@ -12,5 +12,7 @@ public interface BattleAssets
 	public static final int FOCUSARROW_ID = 2;
 	public static final int LEFTARROW_ID = 3;
 	public static final int MENUBUTTON_ID = 4;
-	public static final int RIGHTARROW_ID = 5;
+	public static final int MOUNTAINS_ID = 5;
+	public static final int PLAINS_ID = 6;
+	public static final int RIGHTARROW_ID = 7;
 }

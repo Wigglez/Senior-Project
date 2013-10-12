@@ -1,7 +1,7 @@
 // Definitions for sprite sheet GameAssets.png
 // Created with TexturePacker www.codeandweb.com/texturepacker
 
-// $TexturePacker:SmartUpdate:8c26356d1d5ca4df9f87c65c6cb826c1:1/1$
+// $TexturePacker:SmartUpdate:f6cdbcb3be21bf4ac617c2d8254afd40:1/1$
 
 package Texture;
 
@@ -27,39 +27,42 @@ public interface GameAssets
 	public static final int ARMOR_RING_ID = 17;
 	public static final int ARMOR_SHIELD_ID = 18;
 	public static final int BACKPACK_ID = 19;
-	public static final int CURRENTEQUIPMENTSLOTS_ID = 20;
-	public static final int EXIT_ID = 21;
-	public static final int HERO_ID = 22;
-	public static final int ONSCREEN_CONTROL_BASE_ID = 23;
-	public static final int ONSCREEN_CONTROL_KNOB_ID = 24;
-	public static final int PORTRAIT_ID = 25;
-	public static final int PORTRAIT2_ID = 26;
-	public static final int PORTRAIT3_ID = 27;
-	public static final int POTIONS_FULLREVIVE_ID = 28;
-	public static final int POTIONS_HALFREVIVE_ID = 29;
-	public static final int POTIONS_MAJORHEALTH_ID = 30;
-	public static final int POTIONS_MAJORRESOURCE_ID = 31;
-	public static final int POTIONS_MINORHEALTH_ID = 32;
-	public static final int POTIONS_MINORRESOURCE_ID = 33;
-	public static final int POTIONS_SUPERIORRESOURCE_ID = 34;
-	public static final int POTIONS_SUPIERIORHEALTH_ID = 35;
-	public static final int STATSAREA_ID = 36;
-	public static final int WEAPONS_1HAXE_ID = 37;
-	public static final int WEAPONS_1HMACE_ID = 38;
-	public static final int WEAPONS_1HSWORD_ID = 39;
-	public static final int WEAPONS_2HAXE_ID = 40;
-	public static final int WEAPONS_2HMACE_ID = 41;
-	public static final int WEAPONS_2HSWORD_ID = 42;
-	public static final int WEAPONS_LONGBOW1_ID = 43;
-	public static final int WEAPONS_ARROW_ID = 44;
-	public static final int WEAPONS_BOLT_ID = 45;
-	public static final int WEAPONS_CROSSBOW_ID = 46;
-	public static final int WEAPONS_DAGGER_ID = 47;
-	public static final int WEAPONS_LONGBOW_ID = 48;
-	public static final int WEAPONS_ORB_ID = 49;
-	public static final int WEAPONS_QUIVER_ID = 50;
-	public static final int WEAPONS_SHORTBOW_ID = 51;
-	public static final int WEAPONS_STAFF_ID = 52;
-	public static final int WEAPONS_WAND_ID = 53;
-	public static final int WORLDMAP_ID = 54;
+	public static final int CLERIC_ID = 20;
+	public static final int CURRENTEQUIPMENTSLOTS_ID = 21;
+	public static final int EXIT_ID = 22;
+	public static final int HERO_ID = 23;
+	public static final int ONSCREEN_CONTROL_BASE_ID = 24;
+	public static final int ONSCREEN_CONTROL_KNOB_ID = 25;
+	public static final int PORTRAIT_ID = 26;
+	public static final int PORTRAIT2_ID = 27;
+	public static final int PORTRAIT3_ID = 28;
+	public static final int POTIONS_FULLREVIVE_ID = 29;
+	public static final int POTIONS_HALFREVIVE_ID = 30;
+	public static final int POTIONS_MAJORHEALTH_ID = 31;
+	public static final int POTIONS_MAJORRESOURCE_ID = 32;
+	public static final int POTIONS_MINORHEALTH_ID = 33;
+	public static final int POTIONS_MINORRESOURCE_ID = 34;
+	public static final int POTIONS_SUPERIORRESOURCE_ID = 35;
+	public static final int POTIONS_SUPIERIORHEALTH_ID = 36;
+	public static final int RANGER_ID = 37;
+	public static final int STATSAREA_ID = 38;
+	public static final int WARRIOR_ID = 39;
+	public static final int WEAPONS_1HAXE_ID = 40;
+	public static final int WEAPONS_1HMACE_ID = 41;
+	public static final int WEAPONS_1HSWORD_ID = 42;
+	public static final int WEAPONS_2HAXE_ID = 43;
+	public static final int WEAPONS_2HMACE_ID = 44;
+	public static final int WEAPONS_2HSWORD_ID = 45;
+	public static final int WEAPONS_LONGBOW1_ID = 46;
+	public static final int WEAPONS_ARROW_ID = 47;
+	public static final int WEAPONS_BOLT_ID = 48;
+	public static final int WEAPONS_CROSSBOW_ID = 49;
+	public static final int WEAPONS_DAGGER_ID = 50;
+	public static final int WEAPONS_LONGBOW_ID = 51;
+	public static final int WEAPONS_ORB_ID = 52;
+	public static final int WEAPONS_QUIVER_ID = 53;
+	public static final int WEAPONS_SHORTBOW_ID = 54;
+	public static final int WEAPONS_STAFF_ID = 55;
+	public static final int WEAPONS_WAND_ID = 56;
+	public static final int WORLDMAP_ID = 57;
 }

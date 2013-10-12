@@ -94,7 +94,7 @@ public class ResourceManager
     		Debug.e(e);
     	}
     	
-    	menuBackgroundRegion = texturePackLibrary.get(MenuAssets.BACKGROUND_ID);
+    	menuBackgroundRegion = texturePackLibrary.get(MenuAssets.TITLE_ID);
     	playButton = texturePackLibrary.get(MenuAssets.LARGEMENUBUTTON_ID);
     	optionsButton = texturePackLibrary.get(MenuAssets.LARGEMENUBUTTON_ID);
     	

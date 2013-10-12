@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<texture version="1" file="BattleAssets.png" type="bitmap" width="256" height="256" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
+<texture version="1" file="BattleAssets.png" type="bitmap" width="1024" height="1024" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
     <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
-    <!-- $TexturePacker:SmartUpdate:7b4d458f5954650910f49674556895e0:1/1$ -->
-    <textureregion id="0" src="Enemy.png" x="2" y="153" width="72" height="97" rotated="false" trimmed="true" srcx="16" srcy="0" srcwidth="130" srcheight="97"/>
-    <textureregion id="1" src="Player.png" x="2" y="54" width="72" height="97" rotated="false" trimmed="true" srcx="42" srcy="0" srcwidth="130" srcheight="97"/>
-    <textureregion id="2" src="focusArrow.png" x="76" y="120" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
-    <textureregion id="3" src="leftArrow.png" x="142" y="54" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
-    <textureregion id="4" src="menuButton.png" x="2" y="2" width="200" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="200" srcheight="50"/>
-    <textureregion id="5" src="rightArrow.png" x="76" y="54" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <!-- $TexturePacker:SmartUpdate:b9d1a66ccb51d92ed629daae32581bd3:1/1$ -->
+    <textureregion id="0" src="Enemy.png" x="903" y="54" width="72" height="97" rotated="true" trimmed="true" srcx="16" srcy="0" srcwidth="130" srcheight="97"/>
+    <textureregion id="1" src="Player.png" x="804" y="54" width="72" height="97" rotated="true" trimmed="true" srcx="42" srcy="0" srcwidth="130" srcheight="97"/>
+    <textureregion id="2" src="focusArrow.png" x="936" y="128" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="3" src="leftArrow.png" x="870" y="128" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
+    <textureregion id="4" src="menuButton.png" x="804" y="2" width="200" height="50" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="200" srcheight="50"/>
+    <textureregion id="5" src="mountains.png" x="2" y="484" width="800" height="480" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="800" srcheight="480"/>
+    <textureregion id="6" src="plains.png" x="2" y="2" width="800" height="480" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="800" srcheight="480"/>
+    <textureregion id="7" src="rightArrow.png" x="804" y="128" width="64" height="64" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="64"/>
 </texture>
