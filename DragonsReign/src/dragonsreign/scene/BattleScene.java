@@ -178,9 +178,9 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		
 		// TODO
 		// This needs to bring in currently active party members
-		partyMem[0] = new BattleCharacterContainer(new WarriorClass(), (DragonsReignActivity) activity);
-		partyMem[1] = new BattleCharacterContainer(new RangerClass());
-		partyMem[2] = new BattleCharacterContainer(new ClericClass());
+		partyMem[0] = new BattleCharacterContainer(((DragonsReignActivity) activity).getPartyMember(1), (DragonsReignActivity) activity);
+		partyMem[1] = new BattleCharacterContainer(((DragonsReignActivity) activity).getPartyMember(2));
+		partyMem[2] = new BattleCharacterContainer(((DragonsReignActivity) activity).getPartyMember(3));
 		
 		// Generates random enemies based on our zone and gives us a count
 		generateRandomEnemies();

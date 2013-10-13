@@ -79,9 +79,9 @@ public class InventoryScene extends PartyContainer {
 		// use imported characters
 		player = new PlayerCharacter[3];
 		
-		player[0] = new WarriorClass();
-		player[1] = new RangerClass();
-		player[2] = new ClericClass();
+		player[0] = ((DragonsReignActivity) activity).getPartyMember(1);
+		player[1] = ((DragonsReignActivity) activity).getPartyMember(2);
+		player[2] = ((DragonsReignActivity) activity).getPartyMember(3);
 		
 		/*
 		Log.e("InventoryScene", "getSelectedPlayer = " + getSelectedPlayer());

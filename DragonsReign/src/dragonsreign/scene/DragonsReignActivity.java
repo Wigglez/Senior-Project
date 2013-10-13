@@ -42,6 +42,7 @@ import dragonsreign.manager.SoundManager;
 
 import android.util.Log;
 import android.view.KeyEvent;
+import dragonsreign.character.PlayerCharacter;
 import dragonsreign.character.characterclass.ClericClass;
 import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
@@ -82,11 +83,12 @@ public class DragonsReignActivity extends BaseGameActivity {
 	// Fields
 	// ===========================================================
 
-//  private WarriorClass mWarriorClass = new WarriorClass();
-//	private RangerClass mRangerClass = new RangerClass();
-//	private ClericClass mClericClass = new ClericClass();
+	private WarriorClass mWarrior = new WarriorClass();
+	private RangerClass mRanger = new RangerClass();
+	private ClericClass mCleric = new ClericClass();
 
-
+	private PlayerCharacter[] currentParty = new PlayerCharacter[3];
+	
 	public  BoundCamera mCamera;
 	//private ResourceManager resourceManager;
 
@@ -104,6 +106,9 @@ public class DragonsReignActivity extends BaseGameActivity {
 	{
 		// Cannot instantiate abstract class
 		// mCharacterTest = new WarriorClass();
+		currentParty[0] = mWarrior;
+		currentParty[1]	= mRanger;
+		currentParty[2] = mCleric;
 	}
 
 	// ===========================================================
@@ -246,6 +251,10 @@ public class DragonsReignActivity extends BaseGameActivity {
         return INSTANCE ;
     }
     
+    
+    public PlayerCharacter getPartyMember(int partyMem){
+    	return currentParty[partyMem - 1];
+    }
     
 	// ===========================================================
 	// Inner and Anonymous Classes
