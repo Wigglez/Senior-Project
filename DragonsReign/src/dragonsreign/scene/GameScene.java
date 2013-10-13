@@ -3,18 +3,14 @@ package dragonsreign.scene;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.microedition.khronos.opengles.GL10;
 
 import org.andengine.engine.camera.BoundCamera;
-import org.andengine.engine.camera.Camera;
-import org.andengine.engine.camera.ZoomCamera;
 import org.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.andengine.engine.camera.hud.controls.BaseOnScreenControl.IOnScreenControlListener;
 import org.andengine.engine.camera.hud.controls.DigitalOnScreenControl;
 import org.andengine.engine.handler.physics.PhysicsHandler;
-import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
@@ -24,49 +20,35 @@ import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
 import org.andengine.entity.shape.IAreaShape;
-import org.andengine.entity.shape.Shape;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.tmx.TMXLayer;
 import org.andengine.extension.tmx.TMXLoader;
 import org.andengine.extension.tmx.TMXObject;
 import org.andengine.extension.tmx.TMXObjectGroup;
-import org.andengine.extension.tmx.TMXObjectGroupProperty;
-import org.andengine.extension.tmx.TMXObjectProperty;
 import org.andengine.extension.tmx.TMXProperties;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.extension.tmx.TMXTileProperty;
 import org.andengine.extension.tmx.TMXTiledMap;
-import org.andengine.extension.tmx.util.constants.TMXConstants;
 import org.andengine.extension.tmx.TMXLoader.ITMXTilePropertiesListener;
 import org.andengine.extension.tmx.util.exception.TMXLoadException;
 
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
-import org.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 
-import org.andengine.opengl.texture.TextureManager;
-import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.region.TiledTextureRegion;
-import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.andengine.ui.activity.BaseGameActivity;
-import org.andengine.util.Constants;
 import org.andengine.util.color.Color;
 import org.andengine.util.debug.Debug;
+
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
-import android.content.res.AssetManager;
-import android.util.Log;
-
 import dragonsreign.scene.BaseScene;
 import dragonsreign.manager.ResourceManager;
-import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
 import dragonsreign.scene.DragonsReignActivity;
 
@@ -79,6 +61,10 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	private MenuScene gameChildScene;
 	private ScaleMenuItemDecorator backpackHUDItem, mapHUDItem;
 	private int PLAYER_VELOCITY = 4;
+	
+	public String newMapName = "";
+	private int playerX;
+	private int playerY;
 	
 	public TMXLayer mTMXMapTouchLayer;
 	private TMXLoader TMXloader;
@@ -95,17 +81,23 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	private PhysicsHandler physicsHandler;
 	private TMXLayer layer;
 	
-	private float lastPlayerX;
-	
-	private boolean mCollide = false;
-	
 	
 	public static DigitalOnScreenControl mDigitalOnScreenControl;
 	private Body mPlayerBody;
-	 private PhysicsWorld mPhysicsWorld;
+	private PhysicsWorld mPhysicsWorld;
 	 
-	 private BattleScene battleScene;
-	 private InventoryScene inventoryScene;
+	 
+	private IAreaShape bottom;
+	private IAreaShape top;
+	private IAreaShape left;
+	private IAreaShape right;  
+	private Rectangle rect;
+	
+    private FixtureDef boxFixtureDef; 
+	private FixtureDef wallFixtureDef;
+	
+	private BattleScene battleScene;
+	private InventoryScene inventoryScene;
 	 
 	//private BoundCamera camera;
 	private enum PlayerDirection
@@ -206,104 +198,14 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
     	this.registerUpdateHandler(this.mPhysicsWorld);
     	
     	createGameChildScene();
-//    	mAnimationTiles = new ArrayList<TMXTile>();
-//		mChangingTiles = new ArrayList<TMXTile>();
-//		mCollideTiles = new ArrayList<TMXTile>();
-//		mTMXObjects = new ArrayList<TMXObject>();
-//		TMXGroupObjects = new ArrayList<TMXObjectGroup>();
-		
-	    //////////////////////////////////////////////////////////////////////
-	    //Loads TMX Map
-	    //////////////////////////////////////////////////////////////////////
-		try 
-		{
-			final TMXLoader tmxLoader = new TMXLoader(((DragonsReignActivity)activity).getAssets(), ((DragonsReignActivity)activity).getTextureManager(), ((DragonsReignActivity)activity).getVertexBufferObjectManager(), new ITMXTilePropertiesListener() 
-			{
-				@Override
-	            public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) 
-				{
-					for (int i = 0; i < pTMXTileProperties.size(); i++) 
-					{
-						
-//						if(pTMXTileProperties.get(i).getName().contentEquals("COLLISION") && pTMXLayer.getName().contentEquals("Alpha Layer"))
-//						{
-//							mCollideTiles.add(pTMXTile);
-//						}
-							
-					}
-	            }
-			}); 
-			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/plains.tmx");
-		}
-		catch (final TMXLoadException tmxle)
-		{
-			Debug.e(tmxle);
-			
-		} 
-	    //////////////////////////////////////////////////////////////////////
-	    //Adds TMX Layers To The Scene
-	    //////////////////////////////////////////////////////////////////////
-		for (int i = 0; i < this.mTMXTiledMap.getTMXLayers().size(); i++)
-		{
-            layer = this.mTMXTiledMap.getTMXLayers().get(i);
-            attachChild(layer);
-		}
 
-	    //////////////////////////////////////////////////////////////////////
-	    //Adds Collision shapes around the TMX Layer
-	    //////////////////////////////////////////////////////////////////////
-		this.createUnwalkableObjects(mTMXTiledMap);
-		
-
-	    //////////////////////////////////////////////////////////////////////
-	    //Binds Camera To TMX Layer
-	    //////////////////////////////////////////////////////////////////////
-        ((BoundCamera) this.camera).setBounds(0, 0, layer.getWidth(), layer.getHeight());
-        ((BoundCamera) this.camera).setBoundsEnabled(true);
-        
-		final float centerX = (camera.getWidth() - ResourceManager.getInstance().mPlayerTextureRegion.getWidth()) / 2;
-        final float centerY = (camera.getHeight() - ResourceManager.getInstance().mPlayerTextureRegion.getHeight()) / 2;
-	
-        //////////////////////////////////////////////////////////////////////
-        //Adds Bounds
-        //////////////////////////////////////////////////////////////////////
-        this.addBounds(layer.getWidth(), layer.getHeight());
-        
-        //////////////////////////////////////////////////////////////////////
-        //Creates and Adds the Animated Sprite, Sets Camera Chase Entity
-        //////////////////////////////////////////////////////////////////////
-        player = new AnimatedSprite(7 * 32, 58 * 32, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
-        camera.setChaseEntity(player);
-        final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 0.5f);
-        mPlayerBody = PhysicsFactory.createBoxBody(this.mPhysicsWorld, player, BodyType.DynamicBody, playerFixtureDef);
-        
-        //////////////////////////////////////////////////////////////////////
-        //Register Physics Connector
-        //////////////////////////////////////////////////////////////////////
-        this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(player, mPlayerBody, true, false)
-        {
-	            //////////////////////////////////////////////////////////////////////
-	            //Updates Chase Entity
-	            //////////////////////////////////////////////////////////////////////
-                @Override
-                public void onUpdate(float pSecondsElapsed)
-                {
-                        super.onUpdate(pSecondsElapsed);
-                        camera.updateChaseEntity();
-                }
-        });
-        
-        physicsHandler = new PhysicsHandler(player);
-        player.registerUpdateHandler(physicsHandler);
-        attachChild(player);
-        //player.setZIndex(10);
-        
+        this.LoadTMX("village");
         
         attachControls();
         
 
     
-	    this.setChildScene(this.mDigitalOnScreenControl);
+	    this.setChildScene(mDigitalOnScreenControl);
 	    mDigitalOnScreenControl.setChildScene(gameChildScene);
 	
 	    camera.updateChaseEntity();
@@ -382,24 +284,55 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                         } 
                     }
                     
+//                    if(player.getX() >= 198 && player.getX() <= 260 && player.getY() <= 285 && player.getY() >= 260)
+//                    {
+//                    	detachChild(rect);
+//                    	rect.dispose();
+//
+//						//////////////////////////////////////////////////////////////////////
+//						//Detaches TMX Layers From The Scene
+//						//////////////////////////////////////////////////////////////////////
+//						for (int i = 0; i < mTMXTiledMap.getTMXLayers().size(); i++)
+//						{
+//						    layer = mTMXTiledMap.getTMXLayers().get(i);
+//						    detachChild(layer);
+//						   
+//						}
+//						mPhysicsWorld.reset();
+//						LoadTMX("village");
+//
+//                    }
                     if(player.getX() >= 576 && player.getX() <= 736 && player.getY() <= 672 && player.getY() >= 576)
                     {
-                    	PLAYER_VELOCITY = 4;
-                    	//Log.e("Collision Box", "You are in the Box. Player Velcocity = " + PLAYER_VELOCITY);
+                    	detachChild(rect);
+                    	rect.dispose();
+
+						//////////////////////////////////////////////////////////////////////
+						//Detaches TMX Layers From The Scene
+						//////////////////////////////////////////////////////////////////////
+						for (int i = 0; i < mTMXTiledMap.getTMXLayers().size(); i++)
+						{
+						    layer = mTMXTiledMap.getTMXLayers().get(i);
+						    detachChild(layer);
+						   
+						}
+						LoadTMX("inn");
 
                     }
-                   // Log.e("Player position", "X:" + player.getX() + " Y: " + player.getY());
-                    mPlayerBody.setLinearVelocity(pValueX * PLAYER_VELOCITY, pValueY * PLAYER_VELOCITY);
                     
+                    mPlayerBody.setLinearVelocity(pValueX * PLAYER_VELOCITY, pValueY * PLAYER_VELOCITY);
+                   // Log.e("", "Player X: " + player.getX() + " Player Y: " + player.getY());
             }
         });
-	    this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-	    this.mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
-	    this.mDigitalOnScreenControl.getControlBase().setScaleCenter(0, 128);
-	    this.mDigitalOnScreenControl.getControlBase().setScale(1.25f);
-	    this.mDigitalOnScreenControl.getControlKnob().setScale(1.25f);
-	    this.mDigitalOnScreenControl.refreshControlKnobPosition();
+	    mDigitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+	    mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
+	    mDigitalOnScreenControl.getControlBase().setScaleCenter(0, 128);
+	    mDigitalOnScreenControl.getControlBase().setScale(1.25f);
+	    mDigitalOnScreenControl.getControlKnob().setScale(1.25f);
+	    mDigitalOnScreenControl.refreshControlKnobPosition();
     }
+    
+    
     //////////////////////////////////////////////////////////////////////
     //Adds Collision shapes around COLLISION Objects
     //////////////////////////////////////////////////////////////////////
@@ -412,29 +345,159 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                 {
                         // This is our "wall" layer. Create the boxes from it
                         for(final TMXObject object : group.getTMXObjects()) {
-                               final Rectangle rect = new Rectangle(object.getX(), object.getY(),object.getWidth(), object.getHeight(), ((DragonsReignActivity)activity).getVertexBufferObjectManager());
-                               final FixtureDef boxFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 1f);
+                               rect = new Rectangle(object.getX(), object.getY(),object.getWidth(), object.getHeight(), ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+                               boxFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 1f);
                                PhysicsFactory.createBoxBody(this.mPhysicsWorld, rect, BodyType.StaticBody, boxFixtureDef);
-                               rect.setVisible(false);
+                               rect.setVisible(true);
                                this.attachChild(rect);
                         }
                 }
         }
     }
+	//////////////////////////////////////////////////////////////////////
+	//Load new TMX Map
+	//////////////////////////////////////////////////////////////////////
+    private void LoadTMX(final String mapName)
+    {
+    	if(mapName == "village")
+    	{
+    		newMapName = "tmx/village.tmx";
+    		playerX = 17;
+    		playerY = 42;
+    	}
+    	else if(mapName == "inn")
+    	{
+    		newMapName = "tmx/inn.tmx";
+    		playerX = 7;
+    		playerY = 7;
+    	}
+    	else if(mapName == "mountains")
+    	{
+    		newMapName = "tmx/Mountain.tmx";
+    		playerX = 7;
+    		playerY = 58;
+    	}
+    	else if(mapName == "plains")
+    	{
+    		newMapName =  "tmx/plains.tmx";
+    		playerX = 7;
+    		playerY = 57;
+    	}
+    	else
+    	{
+    		newMapName = "tmx/village.tmx";
+    		playerX = 17;
+    		playerY = 42;
+    	}
+    	
+    					//Use AsyncTask to load TMX map 			 
+
+		//Initializes the TMXLoader and TMX map	
+		try 
+		{
+			TMXloader = new TMXLoader(((DragonsReignActivity)activity).getAssets(), ((DragonsReignActivity)activity).getTextureManager(), ((DragonsReignActivity)activity).getVertexBufferObjectManager(), new ITMXTilePropertiesListener() 
+			{
+				@Override
+	            public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) 
+				{
+					for (int i = 0; i < pTMXTileProperties.size(); i++) 
+					{
+						
+//										if(pTMXTileProperties.get(i).getName().contentEquals("COLLISION") && pTMXLayer.getName().contentEquals("Alpha Layer"))
+//										{
+//											mCollideTiles.add(pTMXTile);
+//										}
+							
+					}
+	            }
+			}); 
+			mTMXTiledMap = TMXloader.loadFromAsset(newMapName);
+		}
+		catch (final TMXLoadException tmxle)
+		{
+			Debug.e(tmxle);
+			
+		} 
+	    //////////////////////////////////////////////////////////////////////
+	    //Adds TMX Layers To The Scene
+	    //////////////////////////////////////////////////////////////////////
+		for (int i = 0; i < mTMXTiledMap.getTMXLayers().size(); i++)
+		{
+            layer = mTMXTiledMap.getTMXLayers().get(i);
+            attachChild(layer);
+		}
+
+
+		 //////////////////////////////////////////////////////////////////////
+	    //Adds Collision shapes around the TMX Layer
+	    //////////////////////////////////////////////////////////////////////
+		createUnwalkableObjects(mTMXTiledMap);
+		
+
+	    //////////////////////////////////////////////////////////////////////
+	    //Binds Camera To TMX Layer
+	    //////////////////////////////////////////////////////////////////////
+        ((BoundCamera) camera).setBounds(0, 0, layer.getWidth(), layer.getHeight());
+        ((BoundCamera) camera).setBoundsEnabled(true);
+        
+//				final float centerX = (camera.getWidth() - ResourceManager.getInstance().mPlayerTextureRegion.getWidth()) / 2;
+//		        final float centerY = (camera.getHeight() - ResourceManager.getInstance().mPlayerTextureRegion.getHeight()) / 2;
+	
+        //////////////////////////////////////////////////////////////////////
+        //Adds Bounds
+        //////////////////////////////////////////////////////////////////////
+        addBounds(layer.getWidth(), layer.getHeight());
+        
+        //////////////////////////////////////////////////////////////////////
+        //Creates and Adds the Animated Sprite, Sets Camera Chase Entity
+        //////////////////////////////////////////////////////////////////////
+        player = new AnimatedSprite(playerX * 32, playerY * 32, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+        camera.setChaseEntity(player);
+        final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 0.5f);
+        mPlayerBody = PhysicsFactory.createBoxBody(mPhysicsWorld, player, BodyType.DynamicBody, playerFixtureDef);
+        
+        //////////////////////////////////////////////////////////////////////
+        //Register Physics Connector
+        //////////////////////////////////////////////////////////////////////
+        mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(player, mPlayerBody, true, false)
+        {
+	            //////////////////////////////////////////////////////////////////////
+	            //Updates Chase Entity
+	            //////////////////////////////////////////////////////////////////////
+                @Override
+                public void onUpdate(float pSecondsElapsed)
+                {
+                        super.onUpdate(pSecondsElapsed);
+                        camera.updateChaseEntity();
+                }
+        });
+        
+        physicsHandler = new PhysicsHandler(player);
+        player.registerUpdateHandler(physicsHandler);
+        attachChild(player);				
+				
+				
+				
+    }	
+			
+			
+		
+  
     //////////////////////////////////////////////////////////////////////
     //Adds Collision shapes around the TMX Layer
     //////////////////////////////////////////////////////////////////////
 	private void addBounds(float width, float height)
-	{
-	    final IAreaShape bottom = new Rectangle(0, height - 2, width, 2, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
-	    bottom.setVisible(false);
-	    final IAreaShape top = new Rectangle(0, 0, width, 2, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
-	    top.setVisible(false);
-	    final IAreaShape left = new Rectangle(0, 0, 2, height, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
-	    left.setVisible(false);
-	    final IAreaShape right = new Rectangle(width - 2, 0, 2, height, ((DragonsReignActivity)activity).getVertexBufferObjectManager());     right.setVisible(false);
+	{ 
+	    bottom = new Rectangle(0, height - 2, width, 2, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+	    bottom.setVisible(true);
+	    top = new Rectangle(0, 0, width, 2, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+	    top.setVisible(true);
+	    left = new Rectangle(0, 0, 2, height, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+	    left.setVisible(true);
+	    right = new Rectangle(width - 2, 0, 2, height, ((DragonsReignActivity)activity).getVertexBufferObjectManager());     
+	    right.setVisible(false);
 	    
-	    final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 1f);
+	    wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 1f);
 	    PhysicsFactory.createBoxBody(this.mPhysicsWorld, bottom, BodyType.StaticBody, wallFixtureDef);
 	    PhysicsFactory.createBoxBody(this.mPhysicsWorld, top, BodyType.StaticBody, wallFixtureDef);
 	    PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
