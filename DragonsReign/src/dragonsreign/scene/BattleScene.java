@@ -1616,8 +1616,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			expEarned += ((Enemy)enemyPlyr[idx].getCharacter()).getExperience();
 		}
 		
-		for(int idx = 0; idx < 3; idx++){
-			if(partyMem[idx] == null){
+		for(int idx = 0; idx < ((DragonsReignActivity)activity).getPartySize(); idx++){
+			if(partyMem[idx] != null){
 				if( !partyMem[idx].isDead()){
 					//Add Experience
 				}else{
