@@ -361,8 +361,14 @@ public class InventoryScene extends PartyContainer {
 			playerResourceBar[0] = new Rectangle(0, 0,
 					player[0].getResourcePercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
-			playerResourceBar[0].setColor(0, 0, 1.0f);
-
+			if(player[0].getClass() == WarriorClass.class) {
+				playerResourceBar[0].setColor(1.0f, 0.4f, 0.4f);
+			} else if(player[0].getClass() == RangerClass.class) {
+				playerResourceBar[0].setColor(1.0f, 1.0f, 0);
+			} else if(player[0].getClass() == ClericClass.class) {
+				playerResourceBar[0].setColor(0, 0, 1.0f);
+			}
+			
 			playerXpBar[0] = new Rectangle(0, 0,
 					player[0].getExperiencePercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
@@ -391,8 +397,14 @@ public class InventoryScene extends PartyContainer {
 			playerResourceBar[1] = new Rectangle(0, 0,
 					player[1].getResourcePercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
-			playerResourceBar[1].setColor(0, 0, 1.0f);
-
+			if(player[1].getClass() == WarriorClass.class) {
+				playerResourceBar[1].setColor(1.0f, 0.4f, 0.4f);
+			} else if(player[1].getClass() == RangerClass.class) {
+				playerResourceBar[1].setColor(1.0f, 1.0f, 0);
+			} else if(player[1].getClass() == ClericClass.class) {
+				playerResourceBar[1].setColor(0, 0, 1.0f);
+			}
+			
 			playerXpBar[1] = new Rectangle(0, 0,
 					player[1].getExperiencePercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
@@ -421,7 +433,13 @@ public class InventoryScene extends PartyContainer {
 			playerResourceBar[2] = new Rectangle(0, 0,
 					player[2].getResourcePercentage(), 20,
 					this.engine.getVertexBufferObjectManager());
-			playerResourceBar[2].setColor(0, 0, 1.0f);
+			if(player[2].getClass() == WarriorClass.class) {
+				playerResourceBar[2].setColor(1.0f, 0.4f, 0.4f);
+			} else if(player[2].getClass() == RangerClass.class) {
+				playerResourceBar[2].setColor(1.0f, 1.0f, 0);
+			} else if(player[2].getClass() == ClericClass.class) {
+				playerResourceBar[2].setColor(0, 0, 1.0f);
+			}
 
 			playerXpBar[2] = new Rectangle(0, 0,
 					player[2].getExperiencePercentage(), 20,
