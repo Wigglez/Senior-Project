@@ -1561,9 +1561,18 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			writeToScreen("Failed to flee the battle.");
 
 			// We failed to flee the battle and have lost our turn globally
-			partyMem[0].setHasTurn(false);
-			partyMem[1].setHasTurn(false);
-			partyMem[2].setHasTurn(false);
+			if(partyMem[0] != null) {
+				partyMem[0].setHasTurn(false);
+			}
+			
+			if(partyMem[1] != null) {
+				partyMem[1].setHasTurn(false);
+			}
+			
+			if(partyMem[2] != null) {
+				partyMem[2].setHasTurn(false);
+			}
+			
 			playerTurn = false;
 		}
 	}
