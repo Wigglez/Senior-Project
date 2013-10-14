@@ -63,6 +63,8 @@ public class DragonsReignActivity extends BaseGameActivity {
 
 	private PlayerCharacter[] currentParty = new PlayerCharacter[3];
 	
+	private int partySize;
+	
 	public  BoundCamera mCamera;
 	//private ResourceManager resourceManager;
 
@@ -75,6 +77,8 @@ public class DragonsReignActivity extends BaseGameActivity {
 		currentParty[0] = null;
 		currentParty[1]	= null;
 		currentParty[2] = null;
+		
+		partySize = 0;
 	}
 
 	// ===========================================================
@@ -89,16 +93,26 @@ public class DragonsReignActivity extends BaseGameActivity {
 		if(pClassChoice == 0) {
 			this.currentParty[0] = mWarrior;
 			this.currentParty[1] = mCleric;
+			
+			partySize = 2;
 		} else if(pClassChoice == 1) {
 			this.currentParty[0] = mRanger;
 			this.currentParty[1] = mCleric;
+			
+			partySize = 2;
 		} else if(pClassChoice == 2) {
 			this.currentParty[0] = mCleric;
 			this.currentParty[1] = mWarrior;
+			
+			partySize = 2;
 		}
 		
 	}
 
+	public int getPartySize() {
+		return partySize;
+	}
+	
 	public WarriorClass getWarrior() {
 		return mWarrior;
 	}

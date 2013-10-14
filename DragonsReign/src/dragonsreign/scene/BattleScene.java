@@ -1485,13 +1485,12 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			focusPlyrIdx += 1;
 			
 			// If the index is higher than the third member, set it back to the first
-			if (focusPlyrIdx > 2)
+			if (focusPlyrIdx > ((DragonsReignActivity)activity).getPartySize() - 1)
 				focusPlyrIdx = 0;
 			
 			// our focused party member is set to whoever our focused index value is
 			focusedPartyMem = partyMem[focusPlyrIdx];
-			
-			
+		
 			// Add on to the players without a turn
 			plyrsWithoutTurn++;
 		} while (plyrsWithoutTurn < 4 && partyMem[focusPlyrIdx] != null && !(focusedPartyMem.hasTurn()) || focusedPartyMem.isDead() );
