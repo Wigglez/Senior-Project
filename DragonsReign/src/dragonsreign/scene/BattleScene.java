@@ -178,10 +178,19 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		
 		// TODO
 		// This needs to bring in currently active party members
-		partyMem[0] = new BattleCharacterContainer(((DragonsReignActivity) activity).getPartyMember(1), (DragonsReignActivity) activity);
-		partyMem[1] = new BattleCharacterContainer(((DragonsReignActivity) activity).getPartyMember(2));
-		partyMem[2] = new BattleCharacterContainer(((DragonsReignActivity) activity).getPartyMember(3));
-		
+		if (((DragonsReignActivity) activity).getPartyMember(0) != null) {
+			partyMem[0] = new BattleCharacterContainer(
+					((DragonsReignActivity) activity).getPartyMember(0),
+					(DragonsReignActivity) activity);
+		}
+		if (((DragonsReignActivity) activity).getPartyMember(1) != null) {
+			partyMem[1] = new BattleCharacterContainer(
+					((DragonsReignActivity) activity).getPartyMember(1));
+		}
+		if (((DragonsReignActivity) activity).getPartyMember(2) != null) {
+			partyMem[2] = new BattleCharacterContainer(
+					((DragonsReignActivity) activity).getPartyMember(2));
+		}
 		// Generates random enemies based on our zone and gives us a count
 		generateRandomEnemies();
 		
@@ -988,9 +997,20 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 	// the draw was
 	private void generateRandomEnemies(){
 		// Create the enemies scaled to the players
-		int accumulativeHealth = partyMem[0].getMaxHealth() + partyMem[1].getMaxHealth() + partyMem[2].getMaxHealth();
-		int accumulativeDmg = partyMem[0].getCharacter().getCurrentStats().getDamage() + partyMem[1].getCharacter().getCurrentStats().getDamage() + partyMem[2].getCharacter().getCurrentStats().getDamage();
-		int accumulativeArmor = partyMem[0].getCharacter().getCurrentStats().getArmor() + partyMem[1].getCharacter().getCurrentStats().getArmor() + partyMem[2].getCharacter().getCurrentStats().getArmor();
+		int accumulativeHealth, accumulativeDmg, accumulativeArmor = 0;
+		
+		if(partyMem[2] != null) {
+			accumulativeHealth = partyMem[0].getCharacter().getMaxResources().getHealth() + partyMem[1].getCharacter().getMaxResources().getHealth() + partyMem[2].getCharacter().getMaxResources().getHealth();
+			accumulativeDmg = partyMem[0].getCharacter().getCurrentStats().getDamage() + partyMem[1].getCharacter().getCurrentStats().getDamage() + partyMem[2].getCharacter().getCurrentStats().getDamage();
+			accumulativeArmor = partyMem[0].getCharacter().getCurrentStats().getArmor() + partyMem[1].getCharacter().getCurrentStats().getArmor() + partyMem[2].getCharacter().getCurrentStats().getArmor();
+			
+		} else {
+			accumulativeHealth = partyMem[0].getCharacter().getMaxResources().getHealth() + partyMem[1].getCharacter().getMaxResources().getHealth();
+			accumulativeDmg = partyMem[0].getCharacter().getCurrentStats().getDamage() + partyMem[1].getCharacter().getCurrentStats().getDamage();
+			accumulativeArmor = partyMem[0].getCharacter().getCurrentStats().getArmor() + partyMem[1].getCharacter().getCurrentStats().getArmor();
+			
+		}
+		
 		int plyrLvl = partyMem[0].getLevel();
 		
 		// Generates a random amount of enemies, in a range of 1-3
@@ -1471,9 +1491,10 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			// our focused party member is set to whoever our focused index value is
 			focusedPartyMem = partyMem[focusPlyrIdx];
 			
+			
 			// Add on to the players without a turn
 			plyrsWithoutTurn++;
-		} while (plyrsWithoutTurn < 4 && !(focusedPartyMem.hasTurn()) || focusedPartyMem.isDead() );
+		} while (plyrsWithoutTurn < 4 && partyMem[focusPlyrIdx] != null && !(focusedPartyMem.hasTurn()) || focusedPartyMem.isDead() );
 
 		// If all players have exhausted their turn, it's now the enemy's turn
 		if(plyrsWithoutTurn == 4){

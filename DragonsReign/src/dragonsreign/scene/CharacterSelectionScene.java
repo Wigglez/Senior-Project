@@ -59,14 +59,6 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	private MenuScene characterChildScene;
 	private Sprite classSprite[];
 	
-	protected WarriorClass warriorClass;
-	protected RangerClass rangerClass;
-	protected ClericClass clericClass;
-	//private KnightClass knightClass;
-	//private AssassinClass assassinClass;
-	//private EngineerClass engineerClass;
-	//private MageClass mageClass;
-	
 	protected int playerSelected = -1;
 	
 	protected PartyContainer party;
@@ -81,23 +73,6 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	// Getter & Setter
 	// ===========================================================
 
-
-	public WarriorClass getWarriorClass() {
-		return warriorClass;
-	}
-
-	public RangerClass getRangerClass() {
-		return rangerClass;
-	}
-
-	public ClericClass getClericClass() {
-		return clericClass;
-	}
-
-	public int getPlayerSelected() {
-		return playerSelected;
-	}
-	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -105,62 +80,65 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY)
 	{
-		
-		switch(pMenuItem.getID())
-		{
-	        case WARRIOR_ID:
-	        	playerSelected = WARRIOR_ID;
-	        	updateHUD();
-	        	
-	            return true;
-	        case RANGER_ID:
-	        	playerSelected = RANGER_ID;
-	        	updateHUD();
-	        	
-	        	return true;   
-	        case CLERIC_ID:
-	        	playerSelected = CLERIC_ID;
-	        	updateHUD();
-	        	
-	            return true;   
-	        case KNIGHT_ID:
-	        	playerSelected = KNIGHT_ID;
-	        	updateHUD();
-	        	
-	            return true;
-	        case ASSASSIN_ID:
-	        	playerSelected = ASSASSIN_ID;
-	        	updateHUD();
-	        	
-	            return true;
-	        case ENGINEER_ID:
-	        	playerSelected = ENGINEER_ID;
-	        	updateHUD();
-	        	
-	            return true;
-	        case MAGE_ID:
-	        	playerSelected = MAGE_ID;
-	        	updateHUD();
-	        	
-	        	return true;
-	       
-	        case PLAY_GAME:
-	        	Log.e("CharacterSelectionScene", "warriorClass = " + warriorClass);
-                Log.e("CharacterSelectionScene", "rangerClass = " + rangerClass);
-                Log.e("CharacterSelectionScene", "clericClass = " + clericClass);
-                Log.e("CharacterSelectionScene", "playerSelected = " + playerSelected);
-                
-	        	this.disposeScene();
-	        	ResourceManager.getInstance().unloadMenuTextures();
-	        	ResourceManager.getInstance().unloadCharacterSelectGraphics();
-	        	SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_GAME);
-	        	SoundManager.mMenuMusic.stop();
-                SoundManager.mMenuThemeMusic.play();
-                
-	            return true;
-	        default:
-	            return false;
-	    }
+
+		switch (pMenuItem.getID()) {
+		case WARRIOR_ID:
+			playerSelected = WARRIOR_ID;
+			updateHUD();
+
+			return true;
+		case RANGER_ID:
+			playerSelected = RANGER_ID;
+			updateHUD();
+
+			return true;
+		case CLERIC_ID:
+			playerSelected = CLERIC_ID;
+			updateHUD();
+
+			return true;
+		case KNIGHT_ID:
+			playerSelected = KNIGHT_ID;
+			updateHUD();
+
+			return true;
+		case ASSASSIN_ID:
+			playerSelected = ASSASSIN_ID;
+			updateHUD();
+
+			return true;
+		case ENGINEER_ID:
+			playerSelected = ENGINEER_ID;
+			updateHUD();
+
+			return true;
+		case MAGE_ID:
+			playerSelected = MAGE_ID;
+			updateHUD();
+
+			return true;
+
+		case PLAY_GAME:
+			if (playerSelected == WARRIOR_ID) {
+				((DragonsReignActivity) activity).setParty(WARRIOR_ID);
+			} else if (playerSelected == RANGER_ID) {
+				((DragonsReignActivity) activity).setParty(RANGER_ID);
+			} else if (playerSelected == CLERIC_ID) {
+				((DragonsReignActivity) activity).setParty(CLERIC_ID);
+			}
+
+			this.disposeScene();
+			ResourceManager.getInstance().unloadMenuTextures();
+			ResourceManager.getInstance().unloadCharacterSelectGraphics();
+			SceneManager.getInstance().setScene(
+					SceneManager.SceneType.SCENE_GAME);
+			SoundManager.mMenuMusic.stop();
+			SoundManager.mMenuThemeMusic.play();
+
+			return true;
+		default:
+			return false;
+		}
 	}
 	
 	@Override
@@ -171,14 +149,6 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 		classButtonText = new Text[7];
 		classSprite = new Sprite[7];
 		classMenuItem = new IMenuItem[7];
-    	
-    	warriorClass = new WarriorClass();
-    	rangerClass = new RangerClass();
-    	clericClass = new ClericClass();
-    	//mKnightClass = new KnightClass();
-    	//mAssassinClass = new AssassinClass();
-    	//mEngineerClass = new EngineerClass();
-    	//mMageClass = new MageClass();
     	
     	createBackground();
     	createHUD();
@@ -450,13 +420,13 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	private void updateHUD() {
 		if (playerSelected == WARRIOR_ID) {
 			playerStats[WARRIOR_ID].setText("Strength: "
-							+ warriorClass.getBaseStats().getStrength() + "\n"
+							+ ((DragonsReignActivity)activity).getWarrior().getBaseStats().getStrength() + "\n"
 							+ "Dexterity: "
-							+ warriorClass.getBaseStats().getDexterity()
+							+ ((DragonsReignActivity)activity).getWarrior().getBaseStats().getDexterity()
 							+ "\n" + "Intelligence: "
-							+ warriorClass.getBaseStats().getIntelligence()
+							+ ((DragonsReignActivity)activity).getWarrior().getBaseStats().getIntelligence()
 							+ "\n" + "Vitality: "
-							+ warriorClass.getBaseStats().getVitality());
+							+ ((DragonsReignActivity)activity).getWarrior().getBaseStats().getVitality());
 
 			classSprite[WARRIOR_ID].setVisible(true);
 			//classSprite[RANGER_ID].setVisible(false);
@@ -486,12 +456,12 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 			
 		} else if (playerSelected == RANGER_ID) {
 			playerStats[RANGER_ID].setText("Strength: "
-					+ rangerClass.getBaseStats().getStrength() + "\n"
+					+ ((DragonsReignActivity)activity).getRanger().getBaseStats().getStrength() + "\n"
 					+ "Dexterity: "
-					+ rangerClass.getBaseStats().getDexterity() + "\n"
+					+ ((DragonsReignActivity)activity).getRanger().getBaseStats().getDexterity() + "\n"
 					+ "Intelligence: "
-					+ rangerClass.getBaseStats().getIntelligence() + "\n"
-					+ "Vitality: " + rangerClass.getBaseStats().getVitality());
+					+ ((DragonsReignActivity)activity).getRanger().getBaseStats().getIntelligence() + "\n"
+					+ "Vitality: " + ((DragonsReignActivity)activity).getRanger().getBaseStats().getVitality());
 
 			classSprite[WARRIOR_ID].setVisible(false);
 			//classSprite[RANGER_ID].setVisible(true);
@@ -521,12 +491,12 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 
 		} else if (playerSelected == CLERIC_ID) {
 			playerStats[CLERIC_ID].setText("Strength: "
-					+ clericClass.getBaseStats().getStrength() + "\n"
+					+ ((DragonsReignActivity)activity).getCleric().getBaseStats().getStrength() + "\n"
 					+ "Dexterity: "
-					+ clericClass.getBaseStats().getDexterity() + "\n"
+					+ ((DragonsReignActivity)activity).getCleric().getBaseStats().getDexterity() + "\n"
 					+ "Intelligence: "
-					+ clericClass.getBaseStats().getIntelligence() + "\n"
-					+ "Vitality: " + clericClass.getBaseStats().getVitality());
+					+ ((DragonsReignActivity)activity).getCleric().getBaseStats().getIntelligence() + "\n"
+					+ "Vitality: " + ((DragonsReignActivity)activity).getCleric().getBaseStats().getVitality());
 
 			classSprite[WARRIOR_ID].setVisible(false);
 			//classSprite[RANGER_ID].setVisible(false);

@@ -79,9 +79,9 @@ public class InventoryScene extends PartyContainer {
 		// use imported characters
 		player = new PlayerCharacter[3];
 		
-		player[0] = ((DragonsReignActivity) activity).getPartyMember(1);
-		player[1] = ((DragonsReignActivity) activity).getPartyMember(2);
-		player[2] = ((DragonsReignActivity) activity).getPartyMember(3);
+		player[0] = ((DragonsReignActivity) activity).getPartyMember(0);
+		player[1] = ((DragonsReignActivity) activity).getPartyMember(1);
+		player[2] = ((DragonsReignActivity) activity).getPartyMember(2);
 		
 		/*
 		Log.e("InventoryScene", "getSelectedPlayer = " + getSelectedPlayer());
@@ -180,9 +180,17 @@ public class InventoryScene extends PartyContainer {
 
 		inventoryChildScene.setVisible(true);
 
-		inventoryChildScene.attachChild(playerInfo[0]);
-		inventoryChildScene.attachChild(playerInfo[1]);
-		inventoryChildScene.attachChild(playerInfo[2]);
+		if(player[0] != null) {
+			inventoryChildScene.attachChild(playerInfo[0]);
+		}
+		
+		if(player[1] != null) {
+			inventoryChildScene.attachChild(playerInfo[1]);
+		}
+		
+		if(player[2] != null) {
+			inventoryChildScene.attachChild(playerInfo[2]);
+		}
 	}
 
 	public void createPlayerTouchAreas() {
@@ -452,8 +460,14 @@ public class InventoryScene extends PartyContainer {
 							+ player[0].getCurrentStats().getArmor());
 
 			playerInfo[0].setVisible(true);
-			playerInfo[1].setVisible(false);
-			playerInfo[2].setVisible(false);
+			
+			if(player[1] != null) {
+				playerInfo[1].setVisible(false);
+			}
+			
+			if(player[2] != null) {
+				playerInfo[2].setVisible(false);
+			}
 			
 			// TODO
 			// Add warrior equipped items
@@ -475,7 +489,10 @@ public class InventoryScene extends PartyContainer {
 
 			playerInfo[0].setVisible(false);
 			playerInfo[1].setVisible(true);
-			playerInfo[2].setVisible(false);
+			
+			if(player[2] != null) {
+				playerInfo[2].setVisible(false);
+			}
 			
 			// TODO
 			// Add ranger equipped items

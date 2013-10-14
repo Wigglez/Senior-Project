@@ -1,11 +1,6 @@
-/*
- * 
- */
 package dragonsreign.scene;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.LimitedFPSEngine;
@@ -17,30 +12,12 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.WakeLockOptions;
 import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.sprite.Sprite;
-import org.andengine.extension.tmx.TMXLayer;
-import org.andengine.extension.tmx.TMXLoader;
-import org.andengine.extension.tmx.TMXObject;
-import org.andengine.extension.tmx.TMXObjectGroup;
-import org.andengine.extension.tmx.TMXProperties;
-import org.andengine.extension.tmx.TMXTile;
-import org.andengine.extension.tmx.TMXTileProperty;
-import org.andengine.extension.tmx.TMXTiledMap;
-import org.andengine.extension.tmx.TMXLoader.ITMXTilePropertiesListener;
-import org.andengine.extension.tmx.util.exception.TMXLoadException;
-import org.andengine.input.touch.TouchEvent;
-import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.ui.activity.BaseGameActivity;
-import org.andengine.util.debug.Debug;
-
-
 
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.ResourceManager;
 import dragonsreign.manager.SoundManager;
 
-
-import android.util.Log;
 import android.view.KeyEvent;
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.character.characterclass.ClericClass;
@@ -52,10 +29,7 @@ public class DragonsReignActivity extends BaseGameActivity {
 	// Constants
 	// ===========================================================
 
-	/** The Constant CAMERA_WIDTH. */
 	protected static final int CAMERA_WIDTH = 800;
-
-	/** The Constant CAMERA_HEIGHT. */
 	protected static final int CAMERA_HEIGHT = 480;
 
 	private static DragonsReignActivity INSTANCE = new DragonsReignActivity();
@@ -92,58 +66,55 @@ public class DragonsReignActivity extends BaseGameActivity {
 	public  BoundCamera mCamera;
 	//private ResourceManager resourceManager;
 
-	
-
-
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	/**
-	 * Instantiates a new dragons reign activity.
-	 */
 	public DragonsReignActivity() 
 	{
-		// Cannot instantiate abstract class
-		// mCharacterTest = new WarriorClass();
-		currentParty[0] = mWarrior;
-		currentParty[1]	= mRanger;
-		currentParty[2] = mCleric;
+		currentParty[0] = null;
+		currentParty[1]	= null;
+		currentParty[2] = null;
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
-//	public WarriorClass getWarriorClass() {
-//		return mWarriorClass;
-//	}
+	public PlayerCharacter getPartyMember(int partyMem){
+    	return currentParty[partyMem];
+    }
 
-//	public void setWarriorClass(WarriorClass pWarriorClass) {
-//		this.mWarriorClass = pWarriorClass;
-//	}
-//
-//	public RangerClass getRangerClass() {
-//		return mRangerClass;
-//	}
-//
-//	public void setRangerClass(RangerClass pRangerClass) {
-//		this.mRangerClass = pRangerClass;
-//	}
-//
-//	public ClericClass getClericClass() {
-//		return mClericClass;
-//	}
-//
-//	public void setClericClass(ClericClass pClericClass) {
-//		this.mClericClass = pClericClass;
-//	}
+	public void setParty(int pClassChoice) {
+		if(pClassChoice == 0) {
+			this.currentParty[0] = mWarrior;
+			this.currentParty[1] = mCleric;
+		} else if(pClassChoice == 1) {
+			this.currentParty[0] = mRanger;
+			this.currentParty[1] = mCleric;
+		} else if(pClassChoice == 2) {
+			this.currentParty[0] = mCleric;
+			this.currentParty[1] = mWarrior;
+		}
+		
+	}
+
+	public WarriorClass getWarrior() {
+		return mWarrior;
+	}
+
+	public RangerClass getRanger() {
+		return mRanger;
+	}
+
+	public ClericClass getCleric() {
+		return mCleric;
+	}
 	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	
 	@Override
 	public Engine onCreateEngine(EngineOptions pEngineOptions) 
 	{
@@ -151,8 +122,49 @@ public class DragonsReignActivity extends BaseGameActivity {
 	    return new LimitedFPSEngine(pEngineOptions, 60);
 	}
 	
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+    {  
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            SceneManager.getInstance().getCurrentScene().onBackKeyPressed();
+        }
+        return false; 
+    }
     
-	public EngineOptions onCreateEngineOptions()
+    @Override
+    protected void onPause()
+    {
+    	super.onPause();
+    	if (this.isGameLoaded())
+    		SoundManager.mMenuThemeMusic.pause();
+          
+    }
+
+    @Override
+    protected synchronized void onResume()
+    {
+    	super.onResume();
+    	if(this.isGameLoaded())
+    		SoundManager.mMenuThemeMusic.resume();
+    }
+    
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+            
+        if (this.isGameLoaded())
+        {
+            System.exit(0);    
+        }
+    }
+	
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+    public EngineOptions onCreateEngineOptions()
 	{
 	    mCamera = new BoundCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 	    EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED,  new FillResolutionPolicy(), this.mCamera);
@@ -205,60 +217,13 @@ public class DragonsReignActivity extends BaseGameActivity {
         pOnPopulateSceneCallback.onPopulateSceneFinished();
         
     }
-    
-    
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) 
-    {  
-        if (keyCode == KeyEvent.KEYCODE_BACK)
-        {
-            SceneManager.getInstance().getCurrentScene().onBackKeyPressed();
-        }
-        return false; 
-    }
-    
-    @Override
-    protected void onPause()
-    {
-    	super.onPause();
-    	if (this.isGameLoaded())
-    		SoundManager.mMenuThemeMusic.pause();
-          
-    }
-
-    @Override
-    protected synchronized void onResume()
-    {
-    	super.onResume();
-    	if(this.isGameLoaded())
-    		SoundManager.mMenuThemeMusic.resume();
-    }
-    
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-            
-        if (this.isGameLoaded())
-        {
-            System.exit(0);    
-        }
-    }
-	
 
     public static DragonsReignActivity getInstance()
     {
         return INSTANCE ;
     }
     
-    
-    public PlayerCharacter getPartyMember(int partyMem){
-    	return currentParty[partyMem - 1];
-    }
-    
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-
-   
 }
