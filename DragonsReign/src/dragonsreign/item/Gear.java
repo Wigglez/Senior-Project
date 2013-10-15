@@ -8,6 +8,7 @@ package dragonsreign.item;
 
 import java.util.Random;
 
+import dragonsreign.manager.ResourceManager;
 import dragonsreign.util.RandomNumber;
 import dragonsreign.util.Stats;
 import dragonsreign.util.enums.ITEMTYPE;
@@ -70,8 +71,9 @@ public class Gear extends Item {
 			isWeapon = false;
 			isArmor = true;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().lightHelm;
 
+			break;
 		case LIGHT_CHESTPLATE:
 			// Light Chest Plate
 			// For Cleric & Mage
@@ -91,8 +93,9 @@ public class Gear extends Item {
 			isWeapon = false;
 			isArmor = true;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().lightUpper;
 
+			break;
 		case LIGHT_LEGS:
 			// Light Leg Armor
 			// For Cleric & Mage
@@ -112,8 +115,9 @@ public class Gear extends Item {
 			isWeapon = false;
 			isArmor = true;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().lightLower;
 
+			break;
 		case MEDIUM_HELMET:
 			// Medium Helmet
 			// For Ranger, Assassin, and Engineer
@@ -134,8 +138,9 @@ public class Gear extends Item {
 			isWeapon = false;
 			isArmor = true;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().mediumHelm;
 
+			break;
 		case MEDIUM_CHESTPLATE:
 			// Meduim Chest Plate
 			// For Ranger, Assassin, and Engineer
@@ -156,8 +161,9 @@ public class Gear extends Item {
 			isWeapon = false;
 			isArmor = true;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().mediumUpper;
 
+			break;
 		case MEDIUM_LEGS:
 			// Meduim Leg Armor
 			// For Ranger, Assassin, and Engineer
@@ -178,8 +184,9 @@ public class Gear extends Item {
 			isWeapon = false;
 			isArmor = true;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().mediumLower;
 
+			break;
 		case HEAVY_HELMET:
 			// Heavy Helmet
 			// For Warrior & Knight
@@ -200,8 +207,9 @@ public class Gear extends Item {
 			isWeapon = false;
 			isArmor = true;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().heavyHelm;
 
+			break;
 		case HEAVY_CHESTPLATE:
 			// Heavy Chest Plate
 			// For Warrior & Knight
@@ -222,8 +230,9 @@ public class Gear extends Item {
 			isWeapon = false;
 			isArmor = true;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().heavyUpper;
 
+			break;
 		case HEAVY_LEGS:
 			// Heavy Leg Armor
 			// For Warrior & Knight
@@ -244,8 +253,9 @@ public class Gear extends Item {
 			isWeapon = false;
 			isArmor = true;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().heavyLower;
 
+			break;
 		case ONE_HANDED_SWORD:
 
 			// One Handed sword
@@ -263,8 +273,9 @@ public class Gear extends Item {
 			isWeapon = true;
 			isArmor = false;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().sword_1h;
 
+			break;
 		case ONE_HANDED_AXE:
 			// One handed axe
 			// For Warrior, Knight, and Assassin
@@ -281,8 +292,9 @@ public class Gear extends Item {
 			isWeapon = true;
 			isArmor = false;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().axe_1h;
 
+			break;
 		case ONE_HANDED_MACE:
 			// One Handed Mace
 			// For Warrior, Knight, and Assassin
@@ -299,8 +311,9 @@ public class Gear extends Item {
 			isWeapon = true;
 			isArmor = false;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().mace_1h;
 
+			break;
 		case TWO_HANDED_SWORD:
 			// Two Handed Sword
 			// For Warrior
@@ -317,8 +330,9 @@ public class Gear extends Item {
 			isWeapon = true;
 			isArmor = false;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().sword_2h;
 
+			break;
 		case TWO_HANDED_AXE:
 			// Two Handed Axe
 			// For Warrior
@@ -335,8 +349,9 @@ public class Gear extends Item {
 			isWeapon = true;
 			isArmor = false;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().axe_2h;
 
+			break;
 		case TWO_HANDED_MACE:
 			// Two Handed Maces
 			// For Warrior
@@ -353,8 +368,9 @@ public class Gear extends Item {
 			isWeapon = true;
 			isArmor = false;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().mace_2h;
 
+			break;
 		case LONGBOW:
 			// Longbow
 			// For Ranger
@@ -371,8 +387,9 @@ public class Gear extends Item {
 			isWeapon = true;
 			isArmor = false;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().longbow1;
 
+			break;
 		case SHORTBOW:
 			// Shortbow
 			// For Ranger
@@ -389,8 +406,9 @@ public class Gear extends Item {
 			isWeapon = true;
 			isArmor = false;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().shortbow;
 
+			break;
 		case CROSSBOW:
 			// Crossbow
 			// For Ranger
@@ -407,8 +425,9 @@ public class Gear extends Item {
 			isWeapon = true;
 			isArmor = false;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().crossbow;
 
+			break;
 		case WAND:
 			// Wand
 			// For Cleric & Mage
@@ -425,8 +444,9 @@ public class Gear extends Item {
 			isWeapon = true;
 			isArmor = false;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().wand;
 
+			break;
 		case ORB:
 			// Orb
 			// For Cleric & Mage
@@ -443,8 +463,9 @@ public class Gear extends Item {
 			isWeapon = true;
 			isArmor = false;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().orb;
 
+			break;
 		case STAFF:
 			// Staff
 			// For Cleric & Mage
@@ -461,8 +482,9 @@ public class Gear extends Item {
 			isWeapon = true;
 			isArmor = false;
 
-			// mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().staff;
 
+			break;
 		}
 	}
 
@@ -499,85 +521,111 @@ public class Gear extends Item {
 			mName = "Light Helmet";
 			mDescription = "";
 
+			mIcon = ResourceManager.getInstance().lightHelm;
+			break;
 		case LIGHT_CHESTPLATE:
 			mName = "Light Chest Plate";
 			mDescription = "";
 
+			mIcon = ResourceManager.getInstance().lightUpper;
+			break;
 		case LIGHT_LEGS:
 			mName = "Light Leg Armor";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().lightLower;
+			break;
 		case MEDIUM_HELMET:
 			mName = "Medium Helmet";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().mediumHelm;
+			break;
 		case MEDIUM_CHESTPLATE:
 			mName = "Meduim Chest Plate";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().mediumUpper;
+			break;
 		case MEDIUM_LEGS:
 			mName = "Meduim Leg Armor";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().mediumLower;
+			break;
 		case HEAVY_HELMET:
 			mName = "Heavy Helmet";
 			mDescription = "";
 
+			mIcon = ResourceManager.getInstance().heavyHelm;
+			break;
 		case HEAVY_CHESTPLATE:
 			mName = "Heavy Chest Plate";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().heavyUpper;
+			break;
 		case HEAVY_LEGS:
 			mName = "Heavy Leg Armor";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().heavyLower;
+			break;
 		case ONE_HANDED_SWORD:
 			mName = "One Handed sword";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().sword_1h;
+			break;
 		case ONE_HANDED_AXE:
 			mName = "One handed axe";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().axe_1h;
+			break;
 		case ONE_HANDED_MACE:
 			mName = "One Handed Mace";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().mace_1h;
+			break;
 		case TWO_HANDED_SWORD:
 			mName = "Two Handed Sword";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().sword_2h;
+			break;
 		case TWO_HANDED_AXE:
 			mName = "Two Handed Axe";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().axe_2h;
+			break;
 		case TWO_HANDED_MACE:
 			mName = "Two Handed Maces";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().mace_2h;
+			break;
 		case LONGBOW:
 			mName = "Longbow";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().longbow1;
+			break;
 		case SHORTBOW:
 			mName = "Shortbow";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().shortbow;
+			break;
 		case CROSSBOW:
 			mName = "Crossbow";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().crossbow;
+			break;
 		case WAND:
 			mName = "Wand";
 			mDescription = "";
-
+			mIcon = ResourceManager.getInstance().wand;
+			break;
 		case ORB:
 			mName = "Orb";
 			mDescription = "";
+			mIcon = ResourceManager.getInstance().orb;
 
+			break;
 		case STAFF:
 			mName = "Staff";
 			mDescription = "";
+			mIcon = ResourceManager.getInstance().staff;
+			break;
 		}
 
 	}

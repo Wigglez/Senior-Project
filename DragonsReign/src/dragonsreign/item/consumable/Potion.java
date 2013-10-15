@@ -1,6 +1,7 @@
 package dragonsreign.item.consumable;
 
 import dragonsreign.item.Item;
+import dragonsreign.manager.ResourceManager;
 import dragonsreign.util.enums.POTIONS;
 
 /**
@@ -41,8 +42,9 @@ public class Potion extends Item {
 			
 			mAmountRestored = 0.25f;
 			
-			//mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().minorHealth;
 
+			break;
 		case MAJOR_HEALTH_POTION:
 			// MAJOR_HEALTH_POTION
 			mName = "Major Health Potion";
@@ -50,8 +52,9 @@ public class Potion extends Item {
 			
 			mAmountRestored = 0.5f;
 			
-			//mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().majorHealth;
 
+			break;
 		case SUPERIOR_HEALTH_POTION:
 			// SUPERIOR_HEALTH_POTION
 			mName = "Superior Health Potion";
@@ -59,8 +62,9 @@ public class Potion extends Item {
 			
 			mAmountRestored = 0.75f;
 			
-			//mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().superiorHealth;
 
+			break;
 		case MINOR_RESOURCE_POTION:
 			// MINOR_RESOURCE_POTION
 			mName = "Minor Resource Potion";
@@ -68,8 +72,9 @@ public class Potion extends Item {
 			
 			mAmountRestored = 0.25f;
 			
-			//mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().minorResource;
 
+			break;
 		case MAJOR_RESOURCE_POTION:
 			// MAJOR_RESOURCE_POTION
 			mName = "Major Resource Potion";
@@ -77,8 +82,9 @@ public class Potion extends Item {
 			
 			mAmountRestored = 0.5f;
 			
-			//mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().majorResource;
 
+			break;
 		case SUPERIOR_RESOURCE_POTION:
 			// SUPERIOR_RESOURCE_POTION
 			mName = "Superior Resource Potion";
@@ -86,8 +92,9 @@ public class Potion extends Item {
 			
 			mAmountRestored = 0.75f;
 			
-			//mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().superiorResource;
 
+			break;
 		case ANTIDOTE_POTION:
 			// ANTIDOTE_POTION
 			mName = "Antidote";
@@ -95,8 +102,10 @@ public class Potion extends Item {
 			
 			mAmountRestored = 0;
 			
-			//mSprite = ResourceManager.do stuff
+			// TODO
+			// get antidote sprite
 
+			break;
 		case BASIC_REVIVE_POTION:
 			// BASIC_REVIVE_POTION
 			mName = "Basic Revive";
@@ -104,8 +113,9 @@ public class Potion extends Item {
 			
 			mAmountRestored = 0.5f;
 			
-			//mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().basicRevive;
 
+			break;
 		case FULL_REVIVE_POTION:
 			// FULL_REVIVE_POTION
 			mName = "Full Revive";
@@ -113,7 +123,8 @@ public class Potion extends Item {
 			
 			mAmountRestored = 1.0f;
 			
-			//mSprite = ResourceManager.do stuff
+			mIcon = ResourceManager.getInstance().fullRevive;
+			break;
 		}
 
 		

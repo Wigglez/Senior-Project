@@ -1,6 +1,7 @@
 package dragonsreign.item;
 
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.texture.region.ITextureRegion;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -19,7 +20,7 @@ public abstract class Item {
 	
 	protected String mDescription;
 	
-	protected Sprite mSprite;
+	protected ITextureRegion mIcon;
 
 	// ===========================================================
 	// Constructors
@@ -44,8 +45,8 @@ public abstract class Item {
 		return mDescription;
 	}
 	
-	public Sprite getSprite(){
-		return mSprite;
+	public ITextureRegion getIcon(){
+		return mIcon;
 	}
 
 	// ===========================================================

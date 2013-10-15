@@ -13,11 +13,15 @@ import android.widget.Toast;
 
 import dragonsreign.scene.BaseScene;
 import dragonsreign.util.PartyContainer;
+import dragonsreign.util.enums.ITEMTYPE;
+import dragonsreign.util.enums.POTIONS;
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.character.characterclass.ClericClass;
 import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
+import dragonsreign.item.Gear;
 import dragonsreign.item.Inventory;
+import dragonsreign.item.consumable.Potion;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
 
@@ -40,8 +44,6 @@ public class InventoryScene extends PartyContainer {
 	private Text playerInfo[];
 	
 	private PlayerCharacter player[];
-	
-	private Inventory inventory;
 	
 	private int playerSelected;
 
@@ -116,8 +118,17 @@ public class InventoryScene extends PartyContainer {
 		playerXpBar = new Rectangle[3];
 		playerInfo = new Text[3];
 		
-		inventory = new Inventory();
-
+		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.HEAVY_HELMET, 1, 10, 3, 2, 4, 0, 11, false));
+		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.CROSSBOW, 1, 10, 3, 2, 4, 0, 11, false));
+		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.MEDIUM_HELMET, 1, 10, 3, 2, 4, 0, 11, false));
+		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.ORB, 1, 10, 3, 2, 4, 0, 11, false));
+		Potion potion1 = new Potion(POTIONS.FULL_REVIVE_POTION);
+		Potion potion2 =  new Potion(POTIONS.MAJOR_RESOURCE_POTION);
+		Potion potion3 = new  Potion(POTIONS.MINOR_HEALTH_POTION);
+		((DragonsReignActivity)activity).getInventory().addItem(potion1);
+		((DragonsReignActivity)activity).getInventory().addItem(potion2);
+		((DragonsReignActivity)activity).getInventory().addItem(potion3);
+		
 		createPlayerTouchAreas();
 		createPlayers();
 		createInventoryChildScene();
@@ -308,18 +319,19 @@ public class InventoryScene extends PartyContainer {
 
 		int i = 0;
 		
-		for(int j = 0; j < inventory.getMaxInventorySize() / 5; j++) {
-			for(int k = 0; k < inventory.getMaxInventorySize() / 5; k++) {
+		for(int j = 0; j < ((DragonsReignActivity)activity).getInventory().getMaxInventorySize() / 5; j++) {
+			for(int k = 0; k < ((DragonsReignActivity)activity).getInventory().getMaxInventorySize() / 5; k++) {
 				
-				if(i < inventory.getMaxInventorySize()) {
-					inventorySlot[i] = new Sprite(0, 0, resourcesManager.amulet,
+				if(i < ((DragonsReignActivity)activity).getInventory().getCurrentInventorySize()) {
+					inventorySlot[i] = new Sprite(0, 0, ((DragonsReignActivity)activity).getInventory().getItem(i).getIcon(),
 							this.engine.getVertexBufferObjectManager()) {
 						@Override
 						public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
 								final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 							switch (pSceneTouchEvent.getAction()) {
 							case TouchEvent.ACTION_DOWN:
-								Log.e("test", "heavy helm");
+								
+								
 								break;
 
 							}

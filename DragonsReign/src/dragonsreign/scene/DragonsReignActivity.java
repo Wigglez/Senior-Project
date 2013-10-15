@@ -14,15 +14,15 @@ import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
 
-import dragonsreign.manager.SceneManager;
-import dragonsreign.manager.ResourceManager;
-import dragonsreign.manager.SoundManager;
-
 import android.view.KeyEvent;
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.character.characterclass.ClericClass;
 import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
+import dragonsreign.item.Inventory;
+import dragonsreign.manager.ResourceManager;
+import dragonsreign.manager.SceneManager;
+import dragonsreign.manager.SoundManager;
 
 public class DragonsReignActivity extends BaseGameActivity {
 	// ===========================================================
@@ -65,6 +65,8 @@ public class DragonsReignActivity extends BaseGameActivity {
 	
 	private int partySize;
 	
+	private Inventory inventory = new Inventory();
+	
 	public  BoundCamera mCamera;
 	//private ResourceManager resourceManager;
 
@@ -88,6 +90,10 @@ public class DragonsReignActivity extends BaseGameActivity {
 	public PlayerCharacter getPartyMember(int partyMem){
     	return currentParty[partyMem];
     }
+	
+	public Inventory getInventory(){
+		return inventory;
+	}
 
 	public void setParty(int pClassChoice) {
 		if(pClassChoice == 0) {

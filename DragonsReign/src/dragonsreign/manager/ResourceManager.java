@@ -57,9 +57,19 @@ public class ResourceManager
 			teamMember2, teamMember3, enemy1, enemy2, enemy3, warriorPlayer,
 			DPADBacking, DPADKnob, leftArrow1, leftArrow2, leftArrow3,
 			focusArrow, rightArrow1, rightArrow2, rightArrow3, Up_DPAD,
-			Down_DPAD, Left_DPAD, Right_DPAD, Center_DPAD, amulet, heavyHelm,
+			Down_DPAD, Left_DPAD, Right_DPAD, Center_DPAD;
+	
+	public ITextureRegion amulet, heavyHelm,
 			heavyLower, heavyUpper, lightHelm, lightLower, lightUpper,
 			mediumHelm, mediumLower, mediumUpper, ring, shield;
+	
+	// weapons
+	public ITextureRegion axe_1h, mace_1h, sword_1h, axe_2h, mace_2h, sword_2h,
+			longbow1, arrow, bolt, crossbow, dagger, longbow2, orb, quiver,
+			shortbow, staff, wand;
+	// potions
+	public ITextureRegion fullRevive, basicRevive, majorHealth, majorResource,
+			minorHealth, minorResource, superiorHealth, superiorResource;
     
     public Font font, battleFont, inventoryFont;
 
@@ -308,6 +318,33 @@ public class ResourceManager
     	mediumUpper = texturePackLibrary.get(GameAssets.ARMOR_MEDIUMUPPER_ID);
     	ring = texturePackLibrary.get(GameAssets.ARMOR_RING_ID);
     	shield = texturePackLibrary.get(GameAssets.ARMOR_SHIELD_ID);
+
+		axe_1h = texturePackLibrary.get(GameAssets.WEAPONS_1HAXE_ID);
+		mace_1h = texturePackLibrary.get(GameAssets.WEAPONS_1HMACE_ID);
+		sword_1h = texturePackLibrary.get(GameAssets.WEAPONS_1HSWORD_ID);
+		axe_2h = texturePackLibrary.get(GameAssets.WEAPONS_2HAXE_ID);
+		mace_2h = texturePackLibrary.get(GameAssets.WEAPONS_2HMACE_ID);
+		sword_2h = texturePackLibrary.get(GameAssets.WEAPONS_2HSWORD_ID);
+		longbow1 = texturePackLibrary.get(GameAssets.WEAPONS_LONGBOW1_ID);
+		arrow = texturePackLibrary.get(GameAssets.WEAPONS_ARROW_ID);
+		bolt = texturePackLibrary.get(GameAssets.WEAPONS_BOLT_ID);
+		crossbow = texturePackLibrary.get(GameAssets.WEAPONS_CROSSBOW_ID);
+		dagger = texturePackLibrary.get(GameAssets.WEAPONS_DAGGER_ID);
+		longbow2 = texturePackLibrary.get(GameAssets.WEAPONS_LONGBOW_ID);
+		orb = texturePackLibrary.get(GameAssets.WEAPONS_ORB_ID);
+		quiver = texturePackLibrary.get(GameAssets.WEAPONS_QUIVER_ID);
+		shortbow = texturePackLibrary.get(GameAssets.WEAPONS_SHORTBOW_ID);
+		staff = texturePackLibrary.get(GameAssets.WEAPONS_STAFF_ID);
+		wand = texturePackLibrary.get(GameAssets.WEAPONS_WAND_ID);
+
+		fullRevive = texturePackLibrary.get(GameAssets.POTIONS_FULLREVIVE_ID);
+		basicRevive = texturePackLibrary.get(GameAssets.POTIONS_HALFREVIVE_ID);
+		majorHealth = texturePackLibrary.get(GameAssets.POTIONS_MAJORHEALTH_ID);
+		majorResource = texturePackLibrary.get(GameAssets.POTIONS_MAJORRESOURCE_ID);
+		minorHealth = texturePackLibrary.get(GameAssets.POTIONS_MINORHEALTH_ID);
+		minorResource = texturePackLibrary.get(GameAssets.POTIONS_MINORRESOURCE_ID);
+		superiorHealth = texturePackLibrary.get(GameAssets.POTIONS_SUPERIORRESOURCE_ID);
+		superiorResource = texturePackLibrary.get(GameAssets.POTIONS_SUPIERIORHEALTH_ID);
     	
     }
     
