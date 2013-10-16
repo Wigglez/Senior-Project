@@ -188,10 +188,10 @@ public class RangerClass extends PlayerCharacter {
 	}
 
 	@Override
-	public boolean equipItem(Gear pGearPiece) {
+	public boolean equipItem(Gear pGearPiece, Gear[] removeItems) {
 
 		boolean equipSuccess = false;
-
+		
 		switch (pGearPiece.getItemType()) {
 		case MEDIUM_HELMET:
 

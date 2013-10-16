@@ -181,13 +181,15 @@ public class WarriorClass extends PlayerCharacter {
 	}
 
 	@Override
-	public boolean equipItem(Gear pGearPiece) {
+	public boolean equipItem(Gear pGearPiece, Gear[] removeItems) {
 
+		
 		boolean equipSuccess = false;
 
 		switch (pGearPiece.getItemType()) {
 		case HEAVY_HELMET:
 
+			removeItems[0] = helmet;
 			// unequip helmet
 			helmet = pGearPiece;
 			equipSuccess = true;

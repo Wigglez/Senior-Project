@@ -2,6 +2,8 @@ package dragonsreign.character;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 import dragonsreign.item.Gear;
 import dragonsreign.item.Item;
 import dragonsreign.item.consumable.Potion;
@@ -35,7 +37,7 @@ public abstract class PlayerCharacter extends Character {
 	protected boolean[] mUnlockedAbility;
 
 	// Items
-	protected ArrayList<Item> mEquippedItems = new ArrayList<Item>();
+	protected ArrayList<Gear> mEquipmentSlots = new ArrayList<Gear>();
 	protected Stats mItemStats;
 
 	protected Gear helmet;
@@ -43,6 +45,7 @@ public abstract class PlayerCharacter extends Character {
 	protected Gear legArmor;
 	protected Gear weaponHand1;
 	protected Gear weaponHand2;
+	protected Gear jewelry;
 
 	// ===========================================================
 	// Constructors
@@ -54,12 +57,31 @@ public abstract class PlayerCharacter extends Character {
 		
 		mBaseStats = new Stats();
 		mItemStats = new Stats();
+		
+		// helmet = 0
+		// chestarmor = 1
+		// leg armor = 2
+		// weaponhand1 = 3
+		// weaponhand2 = 4
+		// jewelry = 5
+		mEquipmentSlots.add(helmet);
+		mEquipmentSlots.add(chestArmor);
+		mEquipmentSlots.add(legArmor);
+		mEquipmentSlots.add(weaponHand1);
+		mEquipmentSlots.add(weaponHand2);
+		mEquipmentSlots.add(jewelry);
+		
+		Log.e("Equipment slots", mEquipmentSlots.toString());
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
+	public ArrayList<Gear> getEquipmentSlots() {
+		  return mEquipmentSlots;
+	}
+	
 	// Experience
 	public int getCurrentExperience() {
 		return mCurrentExperience;
@@ -113,7 +135,7 @@ public abstract class PlayerCharacter extends Character {
 
 	public abstract void levelUp();
 
-	public abstract boolean equipItem(Gear pGearPiece);
+	public abstract boolean equipItem(Gear pGearPiece, Gear[] returnItem);
 
 	// ===========================================================
 	// Methods
@@ -145,37 +167,119 @@ public abstract class PlayerCharacter extends Character {
 	// piece
 	public void updateItemStats() {
 
-		mItemStats.setStrength(helmet.getItemStats().getStrength()
-				+ chestArmor.getItemStats().getStrength()
-				+ legArmor.getItemStats().getStrength()
-				+ weaponHand1.getItemStats().getStrength());
+		mItemStats.setStrength(0);
+		mItemStats.setDexterity(0);
+		mItemStats.setIntelligence(0);
+		mItemStats.setVitality(0);
+		mItemStats.setDamage(0);
+		mItemStats.setArmor(0);
+		
+		// Only add helmet stats if you have something equipped
+		if (helmet != null) {
+			mItemStats.setStrength(mItemStats.getStrength()
+					+ helmet.getItemStats().getStrength());
 
-		mItemStats.setDexterity(helmet.getItemStats().getDexterity()
-				+ chestArmor.getItemStats().getDexterity()
-				+ legArmor.getItemStats().getDexterity()
-				+ weaponHand1.getItemStats().getDexterity());
+			mItemStats.setDexterity(mItemStats.getDexterity()
+					+ helmet.getItemStats().getDexterity());
 
-		mItemStats.setIntelligence(helmet.getItemStats().getIntelligence()
-				+ chestArmor.getItemStats().getIntelligence()
-				+ legArmor.getItemStats().getIntelligence()
-				+ weaponHand1.getItemStats().getIntelligence());
+			mItemStats.setIntelligence(mItemStats.getIntelligence()
+					+ helmet.getItemStats().getIntelligence());
 
-		mItemStats.setVitality(helmet.getItemStats().getVitality()
-				+ chestArmor.getItemStats().getVitality()
-				+ legArmor.getItemStats().getVitality()
-				+ weaponHand1.getItemStats().getVitality());
+			mItemStats.setVitality(mItemStats.getVitality()
+					+ helmet.getItemStats().getVitality());
 
-		mItemStats.setDamage(helmet.getItemStats().getDamage()
-				+ chestArmor.getItemStats().getDamage()
-				+ legArmor.getItemStats().getDamage()
-				+ weaponHand1.getItemStats().getDamage());
+			mItemStats.setDamage(mItemStats.getDamage()
+					+ helmet.getItemStats().getDamage());
 
-		mItemStats.setArmor(helmet.getItemStats().getArmor()
-				+ chestArmor.getItemStats().getArmor()
-				+ legArmor.getItemStats().getArmor()
-				+ weaponHand1.getItemStats().getArmor());
+			mItemStats.setArmor(mItemStats.getArmor()
+					+ helmet.getItemStats().getArmor());
+		}
+		
+		// Only add chestArmor stats if you have something equipped
+		if (chestArmor != null) {
+			mItemStats.setStrength(mItemStats.getStrength()
+					+ chestArmor.getItemStats().getStrength());
 
-		// Only add weaponHand2 stats if you have something equiped
+			mItemStats.setDexterity(mItemStats.getDexterity()
+					+ chestArmor.getItemStats().getDexterity());
+
+			mItemStats.setIntelligence(mItemStats.getIntelligence()
+					+ chestArmor.getItemStats().getIntelligence());
+
+			mItemStats.setVitality(mItemStats.getVitality()
+					+ chestArmor.getItemStats().getVitality());
+
+			mItemStats.setDamage(mItemStats.getDamage()
+					+ chestArmor.getItemStats().getDamage());
+
+			mItemStats.setArmor(mItemStats.getArmor()
+					+ chestArmor.getItemStats().getArmor());
+		}
+		
+		// Only add legArmor stats if you have something equipped
+		if (legArmor != null) {
+			mItemStats.setStrength(mItemStats.getStrength()
+					+ legArmor.getItemStats().getStrength());
+
+			mItemStats.setDexterity(mItemStats.getDexterity()
+					+ legArmor.getItemStats().getDexterity());
+
+			mItemStats.setIntelligence(mItemStats.getIntelligence()
+					+ legArmor.getItemStats().getIntelligence());
+
+			mItemStats.setVitality(mItemStats.getVitality()
+					+ legArmor.getItemStats().getVitality());
+
+			mItemStats.setDamage(mItemStats.getDamage()
+					+ legArmor.getItemStats().getDamage());
+
+			mItemStats.setArmor(mItemStats.getArmor()
+					+ legArmor.getItemStats().getArmor());
+		}
+		
+		// Only add jewelry stats if you have something equipped
+		if (jewelry != null) {
+			mItemStats.setStrength(mItemStats.getStrength()
+					+ jewelry.getItemStats().getStrength());
+
+			mItemStats.setDexterity(mItemStats.getDexterity()
+					+ jewelry.getItemStats().getDexterity());
+
+			mItemStats.setIntelligence(mItemStats.getIntelligence()
+					+ jewelry.getItemStats().getIntelligence());
+
+			mItemStats.setVitality(mItemStats.getVitality()
+					+ jewelry.getItemStats().getVitality());
+
+			mItemStats.setDamage(mItemStats.getDamage()
+					+ jewelry.getItemStats().getDamage());
+
+			mItemStats.setArmor(mItemStats.getArmor()
+					+ jewelry.getItemStats().getArmor());
+		}
+		
+		// Only add weaponHand1 stats if you have something equipped
+		if(weaponHand1 != null) {
+			mItemStats.setStrength(mItemStats.getStrength()
+					+ weaponHand1.getItemStats().getStrength());
+
+			mItemStats.setDexterity(mItemStats.getDexterity()
+					+ weaponHand1.getItemStats().getDexterity());
+
+			mItemStats.setIntelligence(mItemStats.getIntelligence()
+					+ weaponHand1.getItemStats().getIntelligence());
+
+			mItemStats.setVitality(mItemStats.getVitality()
+					+ weaponHand1.getItemStats().getVitality());
+
+			mItemStats.setDamage(mItemStats.getDamage()
+					+ weaponHand1.getItemStats().getDamage());
+
+			mItemStats.setArmor(mItemStats.getArmor()
+					+ weaponHand1.getItemStats().getArmor());
+		}
+
+		// Only add weaponHand2 stats if you have something equipped
 		if (weaponHand2 != null) {
 
 			mItemStats.setStrength(mItemStats.getStrength()

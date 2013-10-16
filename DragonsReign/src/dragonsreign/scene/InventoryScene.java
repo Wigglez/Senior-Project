@@ -8,6 +8,9 @@ import org.andengine.entity.text.TextOptions;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.HorizontalAlign;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
 import dragonsreign.item.Gear;
 import dragonsreign.item.Inventory;
+import dragonsreign.item.Item;
 import dragonsreign.item.consumable.Potion;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
@@ -118,7 +122,7 @@ public class InventoryScene extends PartyContainer {
 		playerXpBar = new Rectangle[3];
 		playerInfo = new Text[3];
 		
-		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.HEAVY_HELMET, 1, 10, 3, 2, 4, 0, 11, false));
+		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.HEAVY_HELMET, 100, 100, 300, 200, 400, 100, 110, false));
 		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.CROSSBOW, 1, 10, 3, 2, 4, 0, 11, false));
 		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.MEDIUM_HELMET, 1, 10, 3, 2, 4, 0, 11, false));
 		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.ORB, 1, 10, 3, 2, 4, 0, 11, false));
@@ -317,20 +321,49 @@ public class InventoryScene extends PartyContainer {
 		// Inventory touch areas
 		inventorySlot = new Sprite[25];
 
+		final Inventory currentInventory = ((DragonsReignActivity)activity).getInventory();
+		
 		int i = 0;
 		
-		for(int j = 0; j < ((DragonsReignActivity)activity).getInventory().getMaxInventorySize() / 5; j++) {
-			for(int k = 0; k < ((DragonsReignActivity)activity).getInventory().getMaxInventorySize() / 5; k++) {
+		for(int j = 0; j < currentInventory.getMaxInventorySize() / 5; j++) {
+			for(int k = 0; k < currentInventory.getMaxInventorySize() / 5; k++) {
 				
-				if(i < ((DragonsReignActivity)activity).getInventory().getCurrentInventorySize()) {
-					inventorySlot[i] = new Sprite(0, 0, ((DragonsReignActivity)activity).getInventory().getItem(i).getIcon(),
-							this.engine.getVertexBufferObjectManager()) {
+				if(i < currentInventory.getCurrentInventorySize()) {
+					final Item currentItem = currentInventory.getItem(i);
+					inventorySlot[i] = new Sprite(0, 0, currentItem.getIcon(), this.engine.getVertexBufferObjectManager()) {
 						@Override
-						public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
-								final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+						public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 							switch (pSceneTouchEvent.getAction()) {
 							case TouchEvent.ACTION_DOWN:
 								
+								if (currentItem.getClass() == Gear.class) {
+									activity.runOnUiThread(new Runnable() {
+										public void run() {
+											AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+											builder.setMessage("Equip " + currentItem.getName() + " on " + player[playerSelected].getName() + "?")
+													.setPositiveButton("Equip",	new DialogInterface.OnClickListener() {
+																public void onClick(DialogInterface dialog,int id) {
+																	Gear[] removeItems = new Gear[2];
+																	if(player[playerSelected].equipItem((Gear)currentItem, removeItems)){
+																		currentInventory.addItem(removeItems[0]);
+																		currentInventory.removeItem(currentItem);
+																		updateInventory();
+//																		player[playerSelected].getEquipmentSlots().contains(currentItem)
+																	} else{
+																		writeToScreen("Cannot Equip Item.");
+																	}
+																}
+															})
+													.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+																public void onClick(DialogInterface dialog,int id) {
+																	//Do Nothing
+																}
+															});
+											AlertDialog dialog = builder.create();
+											dialog.show();
+										}
+									});
+								}
 								
 								break;
 
@@ -581,5 +614,15 @@ public class InventoryScene extends PartyContainer {
 			playerInfo[2].setVisible(false);
 		}
 
+	}
+
+public void writeToScreen(final CharSequence pText) {
+		
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+					Toast.makeText(activity, pText, Toast.LENGTH_SHORT).show();
+				
+			}
+		});
 	}
 }
