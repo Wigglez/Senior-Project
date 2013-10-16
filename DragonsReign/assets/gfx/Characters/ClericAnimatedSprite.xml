@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texture version="1" file="ClericAnimatedSprite.png" type="bitmap" width="128" height="256" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
+    <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
+    <!-- $TexturePacker:SmartUpdate:41befded86da469dadff739b7612cce1:1/1$ -->
+    <textureregion id="0" src="cleric.png" x="2" y="2" width="86" height="126" rotated="false" trimmed="true" srcx="5" srcy="2" srcwidth="96" srcheight="128"/>
+</texture>

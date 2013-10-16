@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <texture version="1" file="MenuAssets.png" type="bitmap" width="512" height="2048" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
     <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
-    <!-- $TexturePacker:SmartUpdate:e0e5e0970880a8ff1ed20276b3f59966:1/1$ -->
+    <!-- $TexturePacker:SmartUpdate:6ab393646f5aec88c4fd83a9eaabf26d:1/1$ -->
     <textureregion id="0" src="AndEngineLogo.jpg" x="104" y="1606" width="225" height="225" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="225" srcheight="225"/>
-    <textureregion id="1" src="Background.jpg" x="2" y="804" width="800" height="480" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="800" srcheight="480"/>
-    <textureregion id="2" src="Title.png" x="2" y="2" width="800" height="480" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="800" srcheight="480"/>
-    <textureregion id="3" src="largeMenuButton.png" x="2" y="1606" width="400" height="100" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="400" srcheight="100"/>
-    <textureregion id="4" src="menuButton.png" x="104" y="1833" width="200" height="50" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="200" srcheight="50"/>
-    <textureregion id="5" src="warriorCharacter.png" x="156" y="1833" width="145" height="194" rotated="false" trimmed="true" srcx="31" srcy="0" srcwidth="259" srcheight="194"/>
+    <textureregion id="1" src="ClericBattleSprite.png" x="331" y="1810" width="96" height="132" rotated="true" trimmed="true" srcx="4" srcy="0" srcwidth="100" srcheight="132"/>
+    <textureregion id="2" src="RangerBattleSprite.png" x="331" y="1708" width="100" height="132" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="100" srcheight="132"/>
+    <textureregion id="3" src="Title.png" x="2" y="804" width="800" height="480" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="800" srcheight="480"/>
+    <textureregion id="4" src="WarriorBattleSprite.png" x="331" y="1606" width="100" height="134" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="100" srcheight="134"/>
+    <textureregion id="5" src="char select.png" x="2" y="2" width="800" height="480" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="800" srcheight="480"/>
+    <textureregion id="6" src="largeMenuButton.png" x="2" y="1606" width="400" height="100" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="400" srcheight="100"/>
+    <textureregion id="7" src="menuButton.png" x="104" y="1833" width="200" height="50" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="200" srcheight="50"/>
 </texture>

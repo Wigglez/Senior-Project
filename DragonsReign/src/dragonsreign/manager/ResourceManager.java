@@ -21,9 +21,12 @@ import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.e
 import android.graphics.Color;
 
 import dragonsreign.texturepacker.AnimatedCharacter;
+import dragonsreign.texturepacker.ClericAnimatedSprite;
 import dragonsreign.texturepacker.MenuAssets;
 import dragonsreign.texturepacker.GameAssets;
 import dragonsreign.texturepacker.BattleAssets;
+import dragonsreign.texturepacker.RangerAnimatedSprite;
+import dragonsreign.texturepacker.WarriorAnimatedSprite;
 
 import dragonsreign.scene.DragonsReignActivity;;
 
@@ -73,9 +76,9 @@ public class ResourceManager
     
     public Font font, battleFont, inventoryFont;
 
-	public TiledTextureRegion mPlayerTextureRegion;
+	public TiledTextureRegion mWarriorTextureRegion, mClericTextureRegion, mRangerTextureRegion;
 
-	private TexturePackTextureRegionLibrary mCharactersTexturePackTextureRegionLibrary;
+	private TexturePackTextureRegionLibrary mWarriorTexturePackTextureRegionLibrary, mClericTexturePackTextureRegionLibrary, mRangerTexturePackTextureRegionLibrary;
 
 
     //////////////////////////////////////////////////////////////////////////
@@ -168,7 +171,7 @@ public class ResourceManager
 		/////////////////////////////////////////////////////////////////////////////
 		//Character Sprites
 		/////////////////////////////////////////////////////////////////////////////
-    	warriorCharacter = texturePackLibrary.get(MenuAssets.WARRIORCHARACTER_ID);
+    	warriorCharacter = texturePackLibrary.get(MenuAssets.WARRIORBATTLESPRITE_ID);
     	//knightCharacter = 
     	//assassinCharacter = 
     	//engineerCharacter = 
@@ -207,36 +210,53 @@ public class ResourceManager
     		texturePack = new TexturePackLoader(activity.getTextureManager(), "gfx/game/").loadFromAsset(activity.getAssets(), "GameAssets.xml");
             texturePack.loadTexture();
             texturePackLibrary = texturePack.getTexturePackTextureRegionLibrary();
-    		
-			//Characters texture packer
-			TexturePack spriteSheetCharactersTexturePack = new TexturePackLoader(activity.getTextureManager(), "gfx/Characters/").loadFromAsset(activity.getAssets(), "CharactersTexturePacker.xml");
-			spriteSheetCharactersTexturePack.loadTexture();
-			mCharactersTexturePackTextureRegionLibrary = spriteSheetCharactersTexturePack.getTexturePackTextureRegionLibrary();
+           
+			//Warrior texture packer
+			TexturePack spriteSheetWarriorTexturePack = new TexturePackLoader(activity.getTextureManager(), "gfx/Characters/").loadFromAsset(activity.getAssets(), "WarriorAnimatedSprite.xml");
+			spriteSheetWarriorTexturePack.loadTexture();
+			mWarriorTexturePackTextureRegionLibrary = spriteSheetWarriorTexturePack.getTexturePackTextureRegionLibrary();
+			
+			//Cleric texture packer
+			TexturePack spriteSheetClericTexturePack = new TexturePackLoader(activity.getTextureManager(), "gfx/Characters/").loadFromAsset(activity.getAssets(), "ClericAnimatedSprite.xml");
+			spriteSheetClericTexturePack.loadTexture();
+			mClericTexturePackTextureRegionLibrary = spriteSheetClericTexturePack.getTexturePackTextureRegionLibrary();
+			
+			//Ranger texture packer
+			TexturePack spriteSheetRangerTexturePack = new TexturePackLoader(activity.getTextureManager(), "gfx/Characters/").loadFromAsset(activity.getAssets(), "RangerAnimatedSprite.xml");
+			spriteSheetRangerTexturePack.loadTexture();
+			mRangerTexturePackTextureRegionLibrary = spriteSheetRangerTexturePack.getTexturePackTextureRegionLibrary();
     	}
     	catch(final TexturePackParseException e)
     	{
     		Debug.e(e);
     	}
     	
-    	//Creating tiled region 
-		TexturePackerTextureRegion HeroTextureRegion = mCharactersTexturePackTextureRegionLibrary.get(AnimatedCharacter.HERO_ID);
+    	//Creating Warrior tiled region 
+		TexturePackerTextureRegion WarriorTextureRegion = mWarriorTexturePackTextureRegionLibrary.get(WarriorAnimatedSprite.WARYAR_ID);
 		
-		mPlayerTextureRegion = TiledTextureRegion.create(HeroTextureRegion.getTexture(),
-		(int)HeroTextureRegion.getTextureX(), (int)HeroTextureRegion.getTextureY(), (int)HeroTextureRegion.getWidth(), (int)HeroTextureRegion.getHeight(), 3, 4, HeroTextureRegion.isRotated());
+		mWarriorTextureRegion = TiledTextureRegion.create(WarriorTextureRegion.getTexture(),
+		(int)WarriorTextureRegion.getTextureX(), (int)WarriorTextureRegion.getTextureY(), (int)WarriorTextureRegion.getWidth(), (int)WarriorTextureRegion.getHeight(), 3, 4, WarriorTextureRegion.isRotated());
     	
+		//Creating Cleric tiled region 
+		TexturePackerTextureRegion ClericTextureRegion = mClericTexturePackTextureRegionLibrary.get(ClericAnimatedSprite.CLERIC_ID);
+		
+		mClericTextureRegion = TiledTextureRegion.create(ClericTextureRegion.getTexture(),
+		(int)ClericTextureRegion.getTextureX(), (int)ClericTextureRegion.getTextureY(), (int)ClericTextureRegion.getWidth(), (int)ClericTextureRegion.getHeight(), 3, 4, ClericTextureRegion.isRotated());
+		
+		//Creating Ranger tiled region 
+		TexturePackerTextureRegion RangerTextureRegion = mRangerTexturePackTextureRegionLibrary.get(RangerAnimatedSprite.RANGER_ID);
+		
+		mRangerTextureRegion = TiledTextureRegion.create(RangerTextureRegion.getTexture(),
+		(int)RangerTextureRegion.getTextureX(), (int)RangerTextureRegion.getTextureY(), (int)RangerTextureRegion.getWidth(), (int)RangerTextureRegion.getHeight(), 3, 4, RangerTextureRegion.isRotated());
+
     	
     	backPack = texturePackLibrary.get(GameAssets.BACKPACK_ID);
     	
     	worldMap = texturePackLibrary.get(GameAssets.WORLDMAP_ID);
     	
-    	warriorPlayer = texturePackLibrary.get(GameAssets.HERO_ID);
+    	
     
     	
-    	Up_DPAD = texturePackLibrary.get(GameAssets.UP_DPAD_ID);
-    	Down_DPAD = texturePackLibrary.get(GameAssets.DOWN_DPAD_ID);
-    	Left_DPAD = texturePackLibrary.get(GameAssets.LEFT_DPAD_ID);
-    	Right_DPAD = texturePackLibrary.get(GameAssets.RIGHT_DPAD_ID);
-    	Center_DPAD = texturePackLibrary.get(GameAssets.CENTER_DPAD_ID);
     	 
     	DPADBacking = texturePackLibrary.get(GameAssets.ONSCREEN_CONTROL_BASE_ID);
     	
@@ -296,56 +316,56 @@ public class ResourceManager
     	
     	
     	
-    	character1Portrait = texturePackLibrary.get(GameAssets.PORTRAIT_ID);
+    	character1Portrait = texturePackLibrary.get(GameAssets.WARRIOR_PORTRAIT_ID);
     	
     	
-    	character2Portrait = texturePackLibrary.get(GameAssets.PORTRAIT2_ID);
-    	character3Portrait = texturePackLibrary.get(GameAssets.PORTRAIT3_ID);
+    	character2Portrait = texturePackLibrary.get(GameAssets.CLERIC_PORTRAIT_ID);
+    	character3Portrait = texturePackLibrary.get(GameAssets.RANGER_PORTRAIT_ID);
     	
     	exitButton = texturePackLibrary.get(GameAssets.EXIT_ID);
     	inventoryArea = texturePackLibrary.get(GameAssets.INVENTORY_ID);
     	equipmentArea = texturePackLibrary.get(GameAssets.CURRENTEQUIPMENTSLOTS_ID);
     	statsArea = texturePackLibrary.get(GameAssets.STATSAREA_ID);
     	
-    	amulet = texturePackLibrary.get(GameAssets.ARMOR_AMULET_ID);
-    	heavyHelm = texturePackLibrary.get(GameAssets.ARMOR_HEAVYHELM_ID);
-    	heavyLower = texturePackLibrary.get(GameAssets.ARMOR_HEAVYLOWER_ID);
-    	heavyUpper = texturePackLibrary.get(GameAssets.ARMOR_HEAVYUPPER_ID);
-    	lightHelm = texturePackLibrary.get(GameAssets.ARMOR_LIGHTHELM_ID);
-    	lightLower = texturePackLibrary.get(GameAssets.ARMOR_LIGHTLOWER_ID);
-    	lightUpper = texturePackLibrary.get(GameAssets.ARMOR_LIGHTUPPER_ID);
-    	mediumHelm = texturePackLibrary.get(GameAssets.ARMOR_MEDIUMHELM_ID);
-    	mediumLower = texturePackLibrary.get(GameAssets.ARMOR_MEDIUMLOWER_ID);
-    	mediumUpper = texturePackLibrary.get(GameAssets.ARMOR_MEDIUMUPPER_ID);
-    	ring = texturePackLibrary.get(GameAssets.ARMOR_RING_ID);
-    	shield = texturePackLibrary.get(GameAssets.ARMOR_SHIELD_ID);
+    	amulet = texturePackLibrary.get(GameAssets.AMULET_ID);
+    	heavyHelm = texturePackLibrary.get(GameAssets.HEAVYHELM_ID);
+    	heavyLower = texturePackLibrary.get(GameAssets.HEAVYLOWER_ID);
+    	heavyUpper = texturePackLibrary.get(GameAssets.HEAVYUPPER_ID);
+    	lightHelm = texturePackLibrary.get(GameAssets.LIGHTHELM_ID);
+    	lightLower = texturePackLibrary.get(GameAssets.LIGHTLOWER_ID);
+    	lightUpper = texturePackLibrary.get(GameAssets.LIGHTUPPER_ID);
+    	mediumHelm = texturePackLibrary.get(GameAssets.MEDIUMHELM_ID);
+    	mediumLower = texturePackLibrary.get(GameAssets.MEDIUMLOWER_ID);
+    	mediumUpper = texturePackLibrary.get(GameAssets.MEDIUMUPPER_ID);
+    	ring = texturePackLibrary.get(GameAssets.RING_ID);
+    	shield = texturePackLibrary.get(GameAssets.SHIELD_ID);
 
-		axe_1h = texturePackLibrary.get(GameAssets.WEAPONS_1HAXE_ID);
-		mace_1h = texturePackLibrary.get(GameAssets.WEAPONS_1HMACE_ID);
-		sword_1h = texturePackLibrary.get(GameAssets.WEAPONS_1HSWORD_ID);
-		axe_2h = texturePackLibrary.get(GameAssets.WEAPONS_2HAXE_ID);
-		mace_2h = texturePackLibrary.get(GameAssets.WEAPONS_2HMACE_ID);
-		sword_2h = texturePackLibrary.get(GameAssets.WEAPONS_2HSWORD_ID);
-		longbow1 = texturePackLibrary.get(GameAssets.WEAPONS_LONGBOW1_ID);
-		arrow = texturePackLibrary.get(GameAssets.WEAPONS_ARROW_ID);
-		bolt = texturePackLibrary.get(GameAssets.WEAPONS_BOLT_ID);
-		crossbow = texturePackLibrary.get(GameAssets.WEAPONS_CROSSBOW_ID);
-		dagger = texturePackLibrary.get(GameAssets.WEAPONS_DAGGER_ID);
-		longbow2 = texturePackLibrary.get(GameAssets.WEAPONS_LONGBOW_ID);
-		orb = texturePackLibrary.get(GameAssets.WEAPONS_ORB_ID);
-		quiver = texturePackLibrary.get(GameAssets.WEAPONS_QUIVER_ID);
-		shortbow = texturePackLibrary.get(GameAssets.WEAPONS_SHORTBOW_ID);
-		staff = texturePackLibrary.get(GameAssets.WEAPONS_STAFF_ID);
-		wand = texturePackLibrary.get(GameAssets.WEAPONS_WAND_ID);
+		axe_1h = texturePackLibrary.get(GameAssets.WEAPON1HAXE_ID);
+		mace_1h = texturePackLibrary.get(GameAssets.WEAPON1HMACE_ID);
+		sword_1h = texturePackLibrary.get(GameAssets.WEAPON1HSWORD_ID);
+		axe_2h = texturePackLibrary.get(GameAssets.WEAPON2HAXE_ID);
+		mace_2h = texturePackLibrary.get(GameAssets.WEAPON2HMACE_ID);
+		sword_2h = texturePackLibrary.get(GameAssets.WEAPON2HSWORD_ID);
+		longbow1 = texturePackLibrary.get(GameAssets.LONGBOW1_ID);
+		arrow = texturePackLibrary.get(GameAssets.ARROW_ID);
+		bolt = texturePackLibrary.get(GameAssets.BOLT_ID);
+		crossbow = texturePackLibrary.get(GameAssets.CROSSBOW_ID);
+		dagger = texturePackLibrary.get(GameAssets.DAGGER_ID);
+		longbow2 = texturePackLibrary.get(GameAssets.LONGBOW_ID);
+		orb = texturePackLibrary.get(GameAssets.ORB_ID);
+		quiver = texturePackLibrary.get(GameAssets.QUIVER_ID);
+		shortbow = texturePackLibrary.get(GameAssets.SHORTBOW_ID);
+		staff = texturePackLibrary.get(GameAssets.STAFF_ID);
+		wand = texturePackLibrary.get(GameAssets.WAND_ID);
 
-		fullRevive = texturePackLibrary.get(GameAssets.POTIONS_FULLREVIVE_ID);
-		basicRevive = texturePackLibrary.get(GameAssets.POTIONS_HALFREVIVE_ID);
-		majorHealth = texturePackLibrary.get(GameAssets.POTIONS_MAJORHEALTH_ID);
-		majorResource = texturePackLibrary.get(GameAssets.POTIONS_MAJORRESOURCE_ID);
-		minorHealth = texturePackLibrary.get(GameAssets.POTIONS_MINORHEALTH_ID);
-		minorResource = texturePackLibrary.get(GameAssets.POTIONS_MINORRESOURCE_ID);
-		superiorHealth = texturePackLibrary.get(GameAssets.POTIONS_SUPERIORRESOURCE_ID);
-		superiorResource = texturePackLibrary.get(GameAssets.POTIONS_SUPIERIORHEALTH_ID);
+		fullRevive = texturePackLibrary.get(GameAssets.FULLREVIVE_ID);
+		basicRevive = texturePackLibrary.get(GameAssets.HALFREVIVE_ID);
+		majorHealth = texturePackLibrary.get(GameAssets.MAJORHEALTH_ID);
+		majorResource = texturePackLibrary.get(GameAssets.MAJORRESOURCE_ID);
+		minorHealth = texturePackLibrary.get(GameAssets.MINORHEALTH_ID);
+		minorResource = texturePackLibrary.get(GameAssets.MINORRESOURCE_ID);
+		superiorHealth = texturePackLibrary.get(GameAssets.SUPERIORRESOURCE_ID);
+		superiorResource = texturePackLibrary.get(GameAssets.SUPIERIORHEALTH_ID);
     	
     }
     

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texture version="1" file="RangerAnimatedSprite.png" type="bitmap" width="128" height="256" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
+    <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
+    <!-- $TexturePacker:SmartUpdate:408f0f494c362853dfb616cce4fb39e4:1/1$ -->
+    <textureregion id="0" src="ranger.png" x="2" y="2" width="88" height="126" rotated="false" trimmed="true" srcx="5" srcy="2" srcwidth="96" srcheight="128"/>
+</texture>

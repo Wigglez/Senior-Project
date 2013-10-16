@@ -8,9 +8,11 @@ package dragonsreign.texturepacker;
 public interface MenuAssets
 {
 	public static final int ANDENGINELOGO_ID = 0;
-	public static final int BACKGROUND_ID = 1;
-	public static final int TITLE_ID = 2;
-	public static final int LARGEMENUBUTTON_ID = 3;
-	public static final int MENUBUTTON_ID = 4;
-	public static final int WARRIORCHARACTER_ID = 5;
+	public static final int CLERICBATTLESPRITE_ID = 1;
+	public static final int RANGERBATTLESPRITE_ID = 2;
+	public static final int TITLE_ID = 3;
+	public static final int WARRIORBATTLESPRITE_ID = 4;
+	public static final int CHAR_SELECT_ID = 5;
+	public static final int LARGEMENUBUTTON_ID = 6;
+	public static final int MENUBUTTON_ID = 7;
 }

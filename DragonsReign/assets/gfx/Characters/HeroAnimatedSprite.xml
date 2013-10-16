@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texture version="1" file="HeroAnimatedSprite.png" type="bitmap" width="128" height="256" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
+    <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
+    <!-- $TexturePacker:SmartUpdate:51476714cd3e2565ce97a2b8c52610dc:1/1$ -->
+    <textureregion id="0" src="hero.png" x="2" y="2" width="92" height="128" rotated="false" trimmed="true" srcx="2" srcy="0" srcwidth="96" srcheight="128"/>
+</texture>

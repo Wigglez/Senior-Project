@@ -297,7 +297,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 						    detachChild(layer);
 						   
 						}
-						
+
 						LoadTMX("village");
 
                     }
@@ -480,7 +480,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
         //////////////////////////////////////////////////////////////////////
         //Creates and Adds the Animated Sprite, Sets Camera Chase Entity
         //////////////////////////////////////////////////////////////////////
-        player = new AnimatedSprite(playerX * 32, playerY * 32, ResourceManager.getInstance().mPlayerTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+        player = new AnimatedSprite(playerX * 32, playerY * 32, ResourceManager.getInstance().mWarriorTextureRegion, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
         camera.setChaseEntity(player);
         final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 0.5f);
         mPlayerBody = PhysicsFactory.createBoxBody(mPhysicsWorld, player, BodyType.DynamicBody, playerFixtureDef);
@@ -501,11 +501,11 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                 }
         });
         
-        physicsHandler = new PhysicsHandler(player);
+        physicsHandler = new PhysicsHandler(player); 
         player.registerUpdateHandler(physicsHandler);
         attachChild(player);				
 				
-				
+        
 				
     }	
 			
