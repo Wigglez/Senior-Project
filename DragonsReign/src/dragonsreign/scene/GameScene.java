@@ -49,12 +49,12 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 import dragonsreign.scene.BaseScene;
 import dragonsreign.manager.ResourceManager;
+import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SceneManager.SceneType;
 import dragonsreign.scene.DragonsReignActivity;
 
 public class GameScene extends BaseScene implements IOnMenuItemClickListener, IOnScreenControlListener
 {
-	
 	private final int GAME_BACKPACK = 0;
 	private final int GAME_MAP = 1;
 
@@ -92,7 +92,6 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	private IAreaShape left;
 	private IAreaShape right;  
 	private Rectangle rect;
-	
     private FixtureDef boxFixtureDef; 
 	private FixtureDef wallFixtureDef;
 	
@@ -199,7 +198,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
     	
     	createGameChildScene();
 
-        this.LoadTMX("village");
+        this.LoadTMX("inn");
         
         attachControls();
         
@@ -284,25 +283,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                         } 
                     }
                     
-//                    if(player.getX() >= 198 && player.getX() <= 260 && player.getY() <= 285 && player.getY() >= 260)
-//                    {
-//                    	detachChild(rect);
-//                    	rect.dispose();
-//
-//						//////////////////////////////////////////////////////////////////////
-//						//Detaches TMX Layers From The Scene
-//						//////////////////////////////////////////////////////////////////////
-//						for (int i = 0; i < mTMXTiledMap.getTMXLayers().size(); i++)
-//						{
-//						    layer = mTMXTiledMap.getTMXLayers().get(i);
-//						    detachChild(layer);
-//						   
-//						}
-//						mPhysicsWorld.reset();
-//						LoadTMX("village");
-//
-//                    }
-                    if(player.getX() >= 576 && player.getX() <= 736 && player.getY() <= 672 && player.getY() >= 576)
+                    if(player.getX() >= 198 && player.getX() <= 260 && player.getY() <= 285 && player.getY() >= 260)
                     {
                     	detachChild(rect);
                     	rect.dispose();
@@ -316,9 +297,52 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 						    detachChild(layer);
 						   
 						}
-						LoadTMX("inn");
+						
+						LoadTMX("village");
 
                     }
+                    if(player.getX() >= 992 && player.getX() <= 1056 && player.getY() <= 64 && player.getY() >= 0)
+                    {
+                    	detachChild(rect);
+                    	rect.dispose();
+
+						//////////////////////////////////////////////////////////////////////
+						//Detaches TMX Layers From The Scene
+						//////////////////////////////////////////////////////////////////////
+						for (int i = 0; i < mTMXTiledMap.getTMXLayers().size(); i++)
+						{
+						    layer = mTMXTiledMap.getTMXLayers().get(i);
+						    detachChild(layer);
+						   
+						}
+						
+						LoadTMX("mountains");
+
+                    }
+                    
+//                    if(player.getX() >= 576 && player.getX() <= 736 && player.getY() <= 672 && player.getY() >= 576)
+//                    {
+////                    	detachChild(rect);
+////                    	rect.dispose();
+//                    	for(int i = 0; i < rectArray.length;)
+//                    	{
+//                    		detachChild(rectArray[i]);
+//                    		i++;
+//                    	}
+//						//////////////////////////////////////////////////////////////////////
+//						//Detaches TMX Layers From The Scene
+//						//////////////////////////////////////////////////////////////////////
+//						for (int i = 0; i < mTMXTiledMap.getTMXLayers().size(); i++)
+//						{
+//						    layer = mTMXTiledMap.getTMXLayers().get(i);
+//						    detachChild(layer);
+//						   
+//						}
+//						
+//
+//						LoadTMX("inn");
+//
+//                    }
                     
                     mPlayerBody.setLinearVelocity(pValueX * PLAYER_VELOCITY, pValueY * PLAYER_VELOCITY);
                    // Log.e("", "Player X: " + player.getX() + " Player Y: " + player.getY());
@@ -344,17 +368,22 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                 if(group.getTMXObjectGroupProperties().containsTMXProperty("COLLISION", "true"))
                 {
                         // This is our "wall" layer. Create the boxes from it
-                        for(final TMXObject object : group.getTMXObjects()) {
-                               rect = new Rectangle(object.getX(), object.getY(),object.getWidth(), object.getHeight(), ((DragonsReignActivity)activity).getVertexBufferObjectManager());
-                               boxFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 1f);
-                               PhysicsFactory.createBoxBody(this.mPhysicsWorld, rect, BodyType.StaticBody, boxFixtureDef);
-                               rect.setVisible(false);
-                               this.attachChild(rect);
+                        for(final TMXObject object : group.getTMXObjects()) 
+                        {
+                        	
+                        	
+							rect = new Rectangle(object.getX(), object.getY(),object.getWidth(), object.getHeight(), ((DragonsReignActivity)activity).getVertexBufferObjectManager());
+							rect.setVisible(false);
+							boxFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 1f);
+							PhysicsFactory.createBoxBody(this.mPhysicsWorld, rect, BodyType.StaticBody, boxFixtureDef);
+							rect.setVisible(false);
+							this.attachChild(rect);
                         }
+                        
                 }
         }
     }
-	//////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////// 
 	//Load new TMX Map
 	//////////////////////////////////////////////////////////////////////
     private void LoadTMX(final String mapName)
@@ -362,20 +391,20 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
     	if(mapName == "village")
     	{
     		newMapName = "tmx/village.tmx";
-    		playerX = 17;
-    		playerY = 42;
+    		playerX = 10; 
+    		playerY = 17;
     	}
     	else if(mapName == "inn")
     	{
     		newMapName = "tmx/inn.tmx";
-    		playerX = 7;
-    		playerY = 7;
+    		playerX = 3;
+    		playerY = 3;
     	}
     	else if(mapName == "mountains")
     	{
     		newMapName = "tmx/Mountain.tmx";
-    		playerX = 7;
-    		playerY = 58;
+    		playerX = 5;
+    		playerY = 65;
     	}
     	else if(mapName == "plains")
     	{
@@ -386,8 +415,8 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
     	else
     	{
     		newMapName = "tmx/village.tmx";
-    		playerX = 17;
-    		playerY = 42;
+    		playerX = 10;
+    		playerY = 17;
     	}
     	
     					//Use AsyncTask to load TMX map 			 

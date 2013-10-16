@@ -219,10 +219,10 @@ public class ResourceManager
     	}
     	
     	//Creating tiled region 
-		TexturePackerTextureRegion HeroTextureRegion = mCharactersTexturePackTextureRegionLibrary.get(AnimatedCharacter.WARYAR_ID);
+		TexturePackerTextureRegion HeroTextureRegion = mCharactersTexturePackTextureRegionLibrary.get(AnimatedCharacter.HERO_ID);
 		
 		mPlayerTextureRegion = TiledTextureRegion.create(HeroTextureRegion.getTexture(),
-		(int)HeroTextureRegion.getTextureX(), (int)HeroTextureRegion.getTextureY(), (int)HeroTextureRegion.getWidth(), (int)HeroTextureRegion.getHeight(), 4, 3, HeroTextureRegion.isRotated());
+		(int)HeroTextureRegion.getTextureX(), (int)HeroTextureRegion.getTextureY(), (int)HeroTextureRegion.getWidth(), (int)HeroTextureRegion.getHeight(), 3, 4, HeroTextureRegion.isRotated());
     	
     	
     	backPack = texturePackLibrary.get(GameAssets.BACKPACK_ID);

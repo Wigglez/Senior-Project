@@ -125,7 +125,7 @@
  </tileset>
  <layer name="Ground Layer" width="45" height="45">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3YQQrDMAwEQIPbFzT9QJL+/4v1oQIjHGOKpOyCDntMGLaKnHQvpeyZ5dSWR8sTwLKaV8vW8gawpBkraU5zlFl2p8Rjh1qbj9/9+li7PWbD2+01z17u2t3vY2y2dstzIvfx3BkW7qquP506tnJrr7d15p79tv2+vMt75R51fccc/DMnG1CvM/d5YUf0rnSO6pXImRaxd736ZjHrvlm+p3szQ9d6J6ObtRd5b+j3NJQzj93KNgfai9zryItuleR/KLFmpnN55fsEMaxupneKUdcsZt01y3ywzjWrO5/HuESfj19LvvV6pB8AAA==
+   H4sIAAAAAAAAC+3YUQ6DMAgG4Br1BOoFdLv/FdcmJWGMZZ0pCIaH//3zF0u3PaW0R5oz5kw5swFLa5acNWczYAmzrYQ5zFrmgYlHc2+3lrmnXWqepcxj9ZY8O5t/dX7GOiGv5JnRw4y7LXkIddyra+qVtEKWE+4hfc6ClhfM2x9m8GrNwTfzWjvjMpNnkD4XWnLUrriADT/D1V78vrk5ONL7vFrxtrwH7PVyV8NuL+YS+FZLvPyexmYPXdNdZ91MvZbPDW43X7Hz7mb1NgfUa7lXzmvdCon/UHTNnvYyvbuFWzae7hRc117MtGsv8+F1rr2643vUi/Z+fAE1jYripB8AAA==
   </data>
  </layer>
  <layer name="Alpha Layer" width="45" height="45">
@@ -133,7 +133,7 @@
    <property name="wall" value="true"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+WZaVIUMRiG2z/oCZQTiDeQG+Bl5AZ4F0UF+efGNvxBQVxABRdwYVUQkMUNAfeHKlKmQtKTL530jPJWPTU1qZnJO2+S7uTrSpZllX0GavCaBXznAYzW8DUL+I7+f+tdZs6hegWvjbYGOArHCvyuTa6cz8MFaIeLcAkuQwd0whXo0j7/HtaM3z4OJ6Ax0NsYPIRH8Fhrd+V8Fa7BdbgBN6EbeqAX+qBf+/x3+GH0eRKa4FSg52mYgVmY09pdOQ/CLbgNQzAMd2AE7sI9uB/oxVfrsAGb8EFrd+U8DhPwBJ7CM3gOkzAFL+Cl0INrrF36Cb/g996bI3/bXTnPwwK8gbewCEvwDpZhBVaFnl1jLZUr54/wCT7DF9iCr7ANO7AL34R9ucZaqjKvz66xlirW9blMpcg59ZilyDn1mLlyPgutCfuVyPTiyrkNzpXoK0+ml8O8rytT0pxTjodtP5vnwTfnlONh28/medDzk+5lYsm2n7XJlnOsvYxN6uxiw/c8Y8s51l7GJnV2seF7nrHl7LuX8V0zsT0XuT77rhldqXL2le+a0VXrnENk83wamrODnqXn7lSyeW6BM9lBz9JzdypJ5ob03J1KquZhw6yDSM/d9SyfnOvt//jkHGPehNx/XCprPofcf5TM+mpezjFrsSH3HyWzvpqXc9FabCyZ9dW8nIvWYlPpfz8Pxlz7e3LVUKr1I8m5yNq3yVVDqdaPJOcia1+iav38y/M59lxNKeVVzaEiz35NpXrOrLyqOVTk2a+pVM+Zldc/RZOzwqQfAAA=
+   H4sIAAAAAAAAC9WZWVIUQRRF0x9wBeIKwB3oDnQzsgPYC+KEfyoCgj8IiAPOM044gQoKDgg4HyK6gorkZfFy6i5vxInuzujuun0zO+PlqzFjzFiDCy14NAGfuQYzLXw0AZ8p/966y845VE/gqTXWBu2wO+J7JVXlLPlwaRGWrLE90AF7A71dhxtwE26Vxqtylny49BN+WWOd0AX7fM029AyewwuYK41X5Sz58Mk+Vh/hEyzDSmncdz37ZG/LNdcu/YY/8Hfzxa6tcd99Q8peK9dc+yrVvqGRa6591cz92TXXvmpmzqmkybkPjkA/HIVjcBxOwEkYgFOl9+eeM03Op+EMnIVBOAdDMAwjcB5GS+/PPWeunA9Dd+P5OFyECZiEKbgE03AZrsDVjB7LXoxx59wDvY3nt+EO3IV7cB8ewEN4BI9hNqPnshdjdOv5JbyC1/AG3sI8LMA7eA8fMvmVpFnPn+ELfIVvsArfYQ3WYQN+ZHe6pTrVz9papk77s7aWkXL2rWVSSVvLSDmnqmUkFWcXCe15Rso5VS0jqTi7SGjPM1LO2lompP5P4Tlm3wip/3PlrFVI/d/qnEMked4PB8x2zyHn7hySPB+EQ2a755Bzdw75rI1U5+5YFT0PCbsPkurcXQdpcq7b79HknGLdpOw/NWs9x/Sf7P5qVc4pe7Ex/Se7v1qVc2wvNpXs/mpVzrG92Fyq0zlFK5/9OXXv2e5baK/jk3PMf1+S3bfQXscn55j/vo92us7/vJ6beZ8kVoXXYg3F3Pu1les+c+G1WEMx935t5brPXHj9Bz6nLK6kHwAA
   </data>
  </layer>
  <objectgroup name="Exit Tiles" width="45" height="45">
@@ -142,7 +142,9 @@
   </properties>
   <object name="Exit b" x="1023" y="31" width="33" height="33"/>
   <object name="Exit a" x="512" y="1375" width="159" height="33"/>
-  <object name="Exit c" x="345" y="411" width="66" height="33"/>
+  <object name="Exit c" x="338" y="521" width="66" height="33"/>
+  <object x="319" y="198" width="61" height="88"/>
+  <object x="163" y="132" width="61" height="88"/>
  </objectgroup>
  <objectgroup name="Collision" width="45" height="45">
   <properties>
@@ -158,7 +160,7 @@
   <object x="512" y="104" width="61" height="88"/>
   <object x="617" y="389" width="45" height="59"/>
   <object x="132" y="459" width="53" height="49"/>
-  <object x="328" y="578" width="49" height="64"/>
+  <object x="319" y="200" width="64" height="87"/>
   <object x="412" y="740" width="71" height="91"/>
   <object x="233" y="995" width="49" height="61"/>
   <object x="173" y="1105" width="70" height="62"/>
@@ -172,9 +174,10 @@
   <object x="1053" y="578" width="64" height="95"/>
   <object x="1253" y="459" width="53" height="49"/>
   <object x="691" y="112" width="65" height="62"/>
-  <object x="143" y="137" width="291" height="162"/>
+  <object x="234" y="396" width="291" height="162"/>
   <object x="1197" y="126" width="96" height="124"/>
   <object x="134" y="721" width="53" height="43"/>
   <object x="110" y="643" width="96" height="76"/>
+  <object x="159" y="138" width="64" height="87"/>
  </objectgroup>
 </map>
