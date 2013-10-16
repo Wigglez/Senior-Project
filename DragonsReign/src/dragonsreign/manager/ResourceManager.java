@@ -47,10 +47,10 @@ public class ResourceManager
     private TexturePackTextureRegionLibrary texturePackLibrary;
     private TexturePack texturePack;
     
-	public ITextureRegion menuBackgroundRegion, playButton, optionsButton,
+	public ITextureRegion menuBackgroundRegion, characterSelectBackground, playButton, optionsButton,
 			companySplashLogo, warriorButton, knightButton, andEngineLogo,
 			assassinButton, engineerButton, clericButton, mageButton,
-			rangerButton, playGameButton, warriorCharacter, knightCharacter,
+			rangerButton, playGameButton, warriorCharacter, rangerCharacter, knightCharacter,
 			assassinCharacter, engineerCharacter, clericCharacter,
 			mageCharacter, character1Portrait, character2Portrait,
 			character3Portrait, backPack, worldMap, inventoryArea, exitButton,
@@ -172,13 +172,15 @@ public class ResourceManager
 		//Character Sprites
 		/////////////////////////////////////////////////////////////////////////////
     	warriorCharacter = texturePackLibrary.get(MenuAssets.WARRIORBATTLESPRITE_ID);
+    	clericCharacter = texturePackLibrary.get(MenuAssets.CLERICBATTLESPRITE_ID);
+    	rangerCharacter = texturePackLibrary.get(MenuAssets.RANGERBATTLESPRITE_ID);
     	//knightCharacter = 
     	//assassinCharacter = 
     	//engineerCharacter = 
     	//clericCharacter = 
     	//mageCharacter = 
     	
-    	
+    	characterSelectBackground = texturePackLibrary.get(MenuAssets.CHAR_SELECT_ID);
     	
     }
     public void unloadCharacterSelectGraphics()
@@ -191,6 +193,8 @@ public class ResourceManager
     	mageButton  = null;
     	rangerButton  = null;
     	warriorCharacter = null;
+    	rangerCharacter = null;
+    	clericCharacter = null;
     }
     //////////////////////////////////////////////////////////////////////////
     //Load Resources for Game Scene
