@@ -169,10 +169,9 @@ public class SceneManager
     }
     public void loadMenuScene(final Engine mEngine)
     {
-    	
+    	LoadScenes(mEngine);
     	createLoadingScene();
        	createMenuScene();
-    	LoadScenes(mEngine);
         ResourceManager.getInstance().unloadSplashScreen();
         mEngine.registerUpdateHandler(new TimerHandler(0.1f, new ITimerCallback() 
         {

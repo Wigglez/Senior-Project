@@ -26,7 +26,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	private final int MENU_EXIT = 1;
 	
 	private Text playButtonText, exitButtonText;
-	
+	private Sprite title;
 	
 	private void createMenuChildScene()
 	{
@@ -60,15 +60,18 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	}
 	private void createBackground()
 	{
-	    attachChild(new Sprite(0, 0, resourcesManager.menuBackgroundRegion, vbom)
-	    {
-	        @Override
-	        protected void preDraw(GLState pGLState, Camera pCamera) 
-	        {
-	            super.preDraw(pGLState, pCamera);
-	            pGLState.enableDither();
-	        }
-	    });
+		camera.setChaseEntity(null);
+		title = new Sprite(0, 0, resourcesManager.menuBackgroundRegion, vbom)
+		{
+    	    @Override
+    	    protected void preDraw(GLState pGLState, Camera pCamera) 
+    	    {
+    	       super.preDraw(pGLState, pCamera);
+    	       pGLState.enableDither();
+    	    }
+    	};
+    	title.setPosition(0, 0);
+    	attachChild(title);
 	}
 
 	@Override

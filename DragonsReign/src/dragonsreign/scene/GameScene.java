@@ -348,7 +348,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
                                rect = new Rectangle(object.getX(), object.getY(),object.getWidth(), object.getHeight(), ((DragonsReignActivity)activity).getVertexBufferObjectManager());
                                boxFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 1f);
                                PhysicsFactory.createBoxBody(this.mPhysicsWorld, rect, BodyType.StaticBody, boxFixtureDef);
-                               rect.setVisible(true);
+                               rect.setVisible(false);
                                this.attachChild(rect);
                         }
                 }
@@ -489,11 +489,11 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
 	private void addBounds(float width, float height)
 	{ 
 	    bottom = new Rectangle(0, height - 2, width, 2, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
-	    bottom.setVisible(true);
+	    bottom.setVisible(false);
 	    top = new Rectangle(0, 0, width, 2, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
-	    top.setVisible(true);
+	    top.setVisible(false);
 	    left = new Rectangle(0, 0, 2, height, ((DragonsReignActivity)activity).getVertexBufferObjectManager());
-	    left.setVisible(true);
+	    left.setVisible(false);
 	    right = new Rectangle(width - 2, 0, 2, height, ((DragonsReignActivity)activity).getVertexBufferObjectManager());     
 	    right.setVisible(false);
 	    

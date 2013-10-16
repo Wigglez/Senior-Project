@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<texture version="1" file="CharactersTexturePacker.png" type="bitmap" width="98" height="130" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="true">
-    <!-- Created with TexturePacker http://texturepacker.com -->
-    <!-- $TexturePacker:SmartUpdate:bda071e326ccb894b1293350b9e4216c$ -->
-    <textureregion id="0" src="hero.png" x="1" y="1" width="96" height="128" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="96" srcheight="128"/>
+<texture version="1" file="CharactersTexturePacker.png" type="bitmap" width="256" height="256" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="false">
+    <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker -->
+    <!-- $TexturePacker:SmartUpdate:fe65e87145fdf766596724a5bf90761c:1/1$ -->
+    <textureregion id="0" src="cleric.png" x="130" y="92" width="86" height="126" rotated="false" trimmed="true" srcx="5" srcy="2" srcwidth="96" srcheight="128"/>
+    <textureregion id="1" src="hero.png" x="2" y="2" width="92" height="128" rotated="false" trimmed="true" srcx="2" srcy="0" srcwidth="96" srcheight="128"/>
+    <textureregion id="2" src="ranger.png" x="96" y="2" width="88" height="126" rotated="true" trimmed="true" srcx="5" srcy="2" srcwidth="96" srcheight="128"/>
+    <textureregion id="3" src="waryar.png" x="2" y="132" width="90" height="126" rotated="true" trimmed="true" srcx="3" srcy="2" srcwidth="96" srcheight="128"/>
 </texture>
