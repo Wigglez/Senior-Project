@@ -33,6 +33,18 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    menuChildScene = new MenuScene(camera);
 	    menuChildScene.setPosition(0, 0);
 	    
+	    title = new Sprite(0, 0, resourcesManager.menuBackgroundRegion, vbom)
+		{
+    	    @Override
+    	    protected void preDraw(GLState pGLState, Camera pCamera) 
+    	    {
+    	       super.preDraw(pGLState, pCamera);
+    	       pGLState.enableDither();
+    	    }
+    	};
+    	title.setPosition(0, 0);
+    	menuChildScene.attachChild(title);
+	    
 	    final IMenuItem playMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_PLAY, resourcesManager.playButton, vbom), 1.2f, 1);
 	    final IMenuItem exitMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_EXIT, resourcesManager.optionsButton, vbom), 1.2f, 1);
 	    
@@ -58,27 +70,12 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    
 	    setChildScene(menuChildScene);
 	}
-	private void createBackground()
-	{
-		camera.setChaseEntity(null);
-		title = new Sprite(0, 0, resourcesManager.menuBackgroundRegion, vbom)
-		{
-    	    @Override
-    	    protected void preDraw(GLState pGLState, Camera pCamera) 
-    	    {
-    	       super.preDraw(pGLState, pCamera);
-    	       pGLState.enableDither();
-    	    }
-    	};
-    	title.setPosition(0, 0);
-    	attachChild(title);
-	}
 
 	@Override
 	public void createScene() 
 	{
-		createBackground();
 		createMenuChildScene();
+		
 		//SoundManager.mMenuMusic.play();
 	}
 
