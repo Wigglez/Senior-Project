@@ -189,7 +189,7 @@ public class WarriorClass extends PlayerCharacter {
 		switch (pGearPiece.getItemType()) {
 		case HEAVY_HELMET:
 
-			removeItems[0] = helmet;
+			removeItems[0] = new Gear(helmet);
 			// unequip helmet
 			helmet = pGearPiece;
 			equipSuccess = true;
@@ -199,6 +199,8 @@ public class WarriorClass extends PlayerCharacter {
 		case HEAVY_CHESTPLATE:
 
 			// unequip chest piece
+			removeItems[0] = new Gear(chestArmor);
+			
 			chestArmor = pGearPiece;
 			equipSuccess = true;
 

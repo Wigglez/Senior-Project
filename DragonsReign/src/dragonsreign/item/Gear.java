@@ -488,8 +488,7 @@ public class Gear extends Item {
 		}
 	}
 
-	public Gear(ITEMTYPE pItemType, int pItemLevel, int pStr, int pDex,
-			int pInt, int pVit, int pDmg, int pArmor, boolean pIsWeapon) {
+	public Gear(ITEMTYPE pItemType, int pItemLevel, int pStr, int pDex,	int pInt, int pVit, int pDmg, int pArmor, boolean pIsWeapon) {
 
 		// Set ItemType
 		mItemType = pItemType;
@@ -630,6 +629,14 @@ public class Gear extends Item {
 
 	}
 
+	//Copy Constructor
+	public Gear(Gear pGear){
+		this(pGear.getItemType(), pGear.getItemLevel(), pGear.getItemStats()
+				.getStrength(), pGear.getItemStats().getDexterity(), pGear
+				.getItemStats().getIntelligence(), pGear.getItemStats()
+				.getVitality(), pGear.getItemStats().getDamage(), pGear
+				.getItemStats().getArmor(), pGear.isWeapon);
+	}
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
@@ -642,6 +649,10 @@ public class Gear extends Item {
 		return mItemStats;
 	}
 
+	public int getItemLevel(){
+		return mItemLevel;
+	}
+	
 	public boolean isArmor() {
 		return isArmor;
 	}

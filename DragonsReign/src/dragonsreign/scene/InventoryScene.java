@@ -132,6 +132,7 @@ public class InventoryScene extends PartyContainer {
 		((DragonsReignActivity)activity).getInventory().addItem(potion1);
 		((DragonsReignActivity)activity).getInventory().addItem(potion2);
 		((DragonsReignActivity)activity).getInventory().addItem(potion3);
+		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.HEAVY_CHESTPLATE, 100, 100, 300, 200, 400, 100, 110, false));
 		
 		createPlayerTouchAreas();
 		createPlayers();
@@ -332,7 +333,7 @@ public class InventoryScene extends PartyContainer {
 					final Item currentItem = currentInventory.getItem(i);
 					inventorySlot[i] = new Sprite(0, 0, currentItem.getIcon(), this.engine.getVertexBufferObjectManager()) {
 						@Override
-						public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+						public boolean onAreaTouched(TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 							switch (pSceneTouchEvent.getAction()) {
 							case TouchEvent.ACTION_DOWN:
 								
@@ -348,6 +349,7 @@ public class InventoryScene extends PartyContainer {
 																		currentInventory.addItem(removeItems[0]);
 																		currentInventory.removeItem(currentItem);
 																		updateInventory();
+																		createInventoryTouchAreas();
 //																		player[playerSelected].getEquipmentSlots().contains(currentItem)
 																	} else{
 																		writeToScreen("Cannot Equip Item.");
