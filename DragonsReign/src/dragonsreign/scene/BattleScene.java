@@ -2,6 +2,7 @@ package dragonsreign.scene;
 
 
 import org.andengine.engine.camera.BoundCamera;
+import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.background.Background;
@@ -14,6 +15,7 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.text.TextOptions;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.util.GLState;
 import org.andengine.util.HorizontalAlign;
 import org.andengine.util.color.Color;
 
@@ -105,6 +107,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			teamMember3Info, enemy1Info, enemy2Info, enemy3Info;
 
 	private BoundCamera mcamera;
+	
+	private Sprite background;
 
 	/////////////////
 	// Basic datatypes
@@ -143,6 +147,11 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		
 		mcamera = new BoundCamera(0, 0, ((DragonsReignActivity)activity).CAMERA_WIDTH, ((DragonsReignActivity)activity).CAMERA_HEIGHT);
 	    
+		//////////////////////
+		// Create Background
+		//////////////////////
+		createBattleView();
+		
 		//////////////////////
 	    // Create ChildScenes
 	    //////////////////////
@@ -242,7 +251,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		//////////////////////
 		//Create the Child Scenes
 		//////////////////////
-		createBattleView();
+		
 		createBattleMenuView();
 		createAbilitiesMenuView();
 		createItemsMenuView();
@@ -319,7 +328,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 						applyAbilityData();
 
 						try {
-							Thread.sleep(5000);
+							Thread.sleep(3000);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -532,7 +541,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		
 		if (partyMem[0] != null) {
 			//teamMember1 = partyMem1.getCharacter().getSprite();
-			teamMember1 = new Sprite(0, 0, resourcesManager.teamMember1,
+			teamMember1 = new Sprite(0, 0, partyMem[0].getCharacter().getSprite(),
 					this.engine.getVertexBufferObjectManager()) {
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
@@ -556,7 +565,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 
 		if (partyMem[1] != null) {
 			// teamMember2 = partyMem2.getCharacter().getSprite();
-			teamMember2 = new Sprite(0, 0, resourcesManager.teamMember2,
+			teamMember2 = new Sprite(0, 0, partyMem[1].getCharacter().getSprite(),
 					this.engine.getVertexBufferObjectManager()) {
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
@@ -581,7 +590,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 
 		if (partyMem[2] != null) {
 			// teamMember3 = partyMem3.getCharacter().getSprite();
-			teamMember3 = new Sprite(0, 0, resourcesManager.teamMember3,
+			teamMember3 = new Sprite(0, 0, partyMem[2].getCharacter().getSprite(),
 					this.engine.getVertexBufferObjectManager()) {
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
@@ -605,7 +614,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 
 		if (enemyPlyr[0] != null) {
 			// enemy1 = enemyPlyr1.getCharacter().getSprite();
-			enemy1 = new Sprite(0, 0, resourcesManager.enemy1,
+			enemy1 = new Sprite(0, 0, enemyPlyr[0].getCharacter().getSprite(),
 					this.engine.getVertexBufferObjectManager()) {
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
@@ -631,7 +640,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		
 		if (enemyPlyr[1] != null) {
 			// enemy2 = enemyPlyr2.getCharacter().getSprite();
-			enemy2 = new Sprite(0, 0, resourcesManager.enemy2,
+			enemy2 = new Sprite(0, 0, enemyPlyr[1].getCharacter().getSprite(),
 					this.engine.getVertexBufferObjectManager()) {
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
@@ -656,7 +665,7 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		
 		if (enemyPlyr[2] != null) {
 			// enemy3 = enemyPlyr3.getCharacter().getSprite();
-			enemy3 = new Sprite(0, 0, resourcesManager.enemy3,
+			enemy3 = new Sprite(0, 0, enemyPlyr[2].getCharacter().getSprite(),
 					this.engine.getVertexBufferObjectManager()) {
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
@@ -791,7 +800,18 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 	
 	// Sets up the background view
 	public void createBattleView() {
-		setBackground(new Background(Color.CYAN));
+		//setBackground(new Background(Color.CYAN));
+		background = new Sprite(0, 0, resourcesManager.plainsBattleBackground, vbom)
+		{
+    	    @Override
+    	    protected void preDraw(GLState pGLState, Camera pCamera) 
+    	    {
+    	       super.preDraw(pGLState, pCamera);
+    	       pGLState.enableDither();
+    	    }
+    	};
+    	background.setPosition(0, 0);
+    	attachChild(background);
 	}
 	
 	public void createBattleMenuView() {

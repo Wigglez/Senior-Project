@@ -2,6 +2,7 @@ package dragonsreign.character.characterclass;
 
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.item.Gear;
+import dragonsreign.manager.ResourceManager;
 import dragonsreign.util.AbilityData;
 import dragonsreign.util.RandomNumber;
 import dragonsreign.util.enums.ABILITYFLAGS;
@@ -40,6 +41,8 @@ public class ClericClass extends PlayerCharacter {
 		// loadClericSprite
 
 		mName = "Cleric";
+		mSprite = ResourceManager.getInstance().clericCharacter;
+		mPortrait = ResourceManager.getInstance().clericPortrait;
 
 		mBaseStats.setStrength(2);
 		mBaseStats.setDexterity(2);

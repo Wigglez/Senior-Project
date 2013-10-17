@@ -57,15 +57,15 @@ public class DragonsReignActivity extends BaseGameActivity {
 	// Fields
 	// ===========================================================
 
-	private WarriorClass mWarrior = new WarriorClass();
-	private RangerClass mRanger = new RangerClass();
-	private ClericClass mCleric = new ClericClass();
+	private WarriorClass mWarrior;
+	private RangerClass mRanger;
+	private ClericClass mCleric;
 
 	private PlayerCharacter[] currentParty = new PlayerCharacter[3];
 	
 	private int partySize;
 	
-	private Inventory inventory = new Inventory();
+	private Inventory inventory;
 	
 	public  BoundCamera mCamera;
 	//private ResourceManager resourceManager;
@@ -213,6 +213,8 @@ public class DragonsReignActivity extends BaseGameActivity {
 
     public void onPopulateScene(Scene pScene, OnPopulateSceneCallback pOnPopulateSceneCallback) throws IOException
     {
+    	
+    	
     	//Create Splash Scene
     	mEngine.registerUpdateHandler(new TimerHandler(2f, new ITimerCallback() 
         {
@@ -243,6 +245,16 @@ public class DragonsReignActivity extends BaseGameActivity {
         return INSTANCE ;
     }
     
+    public void characterSetup(){
+    	
+		mWarrior = new WarriorClass();
+		
+		mRanger = new RangerClass();
+    	
+		mCleric = new ClericClass();
+    	
+		inventory = new Inventory();
+    }
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

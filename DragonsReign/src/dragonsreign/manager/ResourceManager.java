@@ -54,7 +54,6 @@ public class ResourceManager
 			mageButton, rangerButton, playGameButton, warriorCharacter,
 			rangerCharacter, knightCharacter, assassinCharacter,
 			engineerCharacter, clericCharacter, mageCharacter,
-			character1Portrait, character2Portrait, character3Portrait,
 			backPack, worldMap, inventoryArea, exitButton, equipmentArea,
 			statsArea, itemsButton, abilitiesButton, swapButton, fleeButton,
 			basicAttackButton, skillOneButton, skillTwoButton,
@@ -75,6 +74,12 @@ public class ResourceManager
 	// potions
 	public ITextureRegion fullRevive, basicRevive, majorHealth, majorResource,
 			minorHealth, minorResource, superiorHealth, superiorResource;
+	//Portraits
+	public ITextureRegion warriorPortrait, clericPortrait, rangerPortrait;
+	//Enemies
+	public ITextureRegion airElemental, cheetah, lion, maggot, dwarf, eskimo,
+			iceElemental, mammoth, wolf, yeti, rhino, tribesman, wasp;
+	
     
     public Font font, whiteFont, battleFont, inventoryFont;
 
@@ -325,11 +330,11 @@ public class ResourceManager
     	
     	
     	
-    	character1Portrait = texturePackLibrary.get(GameAssets.WARRIOR_PORTRAIT_ID);
+    	warriorPortrait = texturePackLibrary.get(GameAssets.WARRIOR_PORTRAIT_ID);
     	
     	
-    	character2Portrait = texturePackLibrary.get(GameAssets.CLERIC_PORTRAIT_ID);
-    	character3Portrait = texturePackLibrary.get(GameAssets.RANGER_PORTRAIT_ID);
+    	clericPortrait = texturePackLibrary.get(GameAssets.CLERIC_PORTRAIT_ID);
+    	rangerPortrait = texturePackLibrary.get(GameAssets.RANGER_PORTRAIT_ID);
     	
     	exitButton = texturePackLibrary.get(GameAssets.EXIT_ID);
     	inventoryArea = texturePackLibrary.get(GameAssets.INVENTORY_ID);
@@ -376,6 +381,21 @@ public class ResourceManager
 		superiorHealth = texturePackLibrary.get(GameAssets.SUPERIORRESOURCE_ID);
 		superiorResource = texturePackLibrary.get(GameAssets.SUPIERIORHEALTH_ID);
     	
+		
+		//Enemies
+    	airElemental =  texturePackLibrary.get(GameAssets.AIRELEMENTAL_ID);
+    	cheetah = texturePackLibrary.get(GameAssets.CHEETAH_ID);
+    	lion = texturePackLibrary.get(GameAssets.LION_ID); 
+    	maggot = texturePackLibrary.get(GameAssets.MAGGOT_ID);
+    	dwarf = texturePackLibrary.get(GameAssets.MOUNTAINENEMYSPRITES_DWARF_ID);
+    	eskimo = texturePackLibrary.get(GameAssets.MOUNTAINENEMYSPRITES_ESKIMO_ID);
+    	iceElemental =  texturePackLibrary.get(GameAssets.MOUNTAINENEMYSPRITES_ICEELEMENTAL_ID);
+    	mammoth =  texturePackLibrary.get(GameAssets.MOUNTAINENEMYSPRITES_MAMMOTH_ID);
+    	wolf =  texturePackLibrary.get(GameAssets.MOUNTAINENEMYSPRITES_WOLF_ID);
+    	yeti = texturePackLibrary.get(GameAssets.MOUNTAINENEMYSPRITES_YETI_ID);
+    	rhino =  texturePackLibrary.get(GameAssets.RHINO_ID);
+    	tribesman = texturePackLibrary.get(GameAssets.TRIBESMAN_ID);
+    	wasp = texturePackLibrary.get(GameAssets.WASP_ID);
     }
     
     private void loadInventoryFonts()
@@ -460,6 +480,8 @@ public class ResourceManager
     	
     	plainsBattleBackground = texturePackLibrary.get(BattleAssets.PLAINS_ID);
     	mountainsBattleBackground = texturePackLibrary.get(BattleAssets.MOUNTAINS_ID);
+    
+    	
     }
    
     

@@ -2,6 +2,7 @@ package dragonsreign.character.characterclass;
 
 import dragonsreign.character.PlayerCharacter;
 import dragonsreign.item.Gear;
+import dragonsreign.manager.ResourceManager;
 import dragonsreign.util.AbilityData;
 import dragonsreign.util.RandomNumber;
 import dragonsreign.util.enums.ABILITYFLAGS;
@@ -45,6 +46,8 @@ public class RangerClass extends PlayerCharacter {
 		// loadRangerSprite
 
 		mName = "Ranger";
+		mSprite = ResourceManager.getInstance().rangerCharacter;
+		mPortrait = ResourceManager.getInstance().rangerPortrait;
 		
 		mBaseStats.setStrength(2);
 		mBaseStats.setDexterity(9);

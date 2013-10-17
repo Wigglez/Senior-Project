@@ -2,6 +2,11 @@ package dragonsreign.item;
 
 import java.util.ArrayList;
 
+import dragonsreign.item.consumable.Potion;
+import dragonsreign.scene.DragonsReignActivity;
+import dragonsreign.util.enums.ITEMTYPE;
+import dragonsreign.util.enums.POTIONS;
+
 public class Inventory {
 	// ===========================================================
 	// Constants
@@ -18,7 +23,14 @@ public class Inventory {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
+	public Inventory() {
+		addItem(new Gear(ITEMTYPE.HEAVY_HELMET, 100, 100, 300, 200, 400, 100, 110, false));
+		addItem(new Gear(ITEMTYPE.CROSSBOW, 1, 10, 3, 2, 4, 0, 11, false));
+		addItem(new Gear(ITEMTYPE.MEDIUM_HELMET, 1, 10, 3, 2, 4, 0, 11, false));
+		addItem(new Gear(ITEMTYPE.ORB, 1, 10, 3, 2, 4, 0, 11, false));
+		addItem(new Potion(POTIONS.FULL_REVIVE_POTION));
+		addItem(new Gear(ITEMTYPE.HEAVY_CHESTPLATE, 100, 100, 300, 200, 400, 100, 110, false));
+	}
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================

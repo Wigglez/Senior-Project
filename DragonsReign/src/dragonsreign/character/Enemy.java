@@ -1,5 +1,6 @@
 package dragonsreign.character;
 
+import dragonsreign.manager.ResourceManager;
 import dragonsreign.util.AbilityData;
 import dragonsreign.util.RandomNumber;
 import dragonsreign.util.Resources;
@@ -95,6 +96,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.10f, .15f)));
 
+			mSprite = ResourceManager.getInstance().tribesman;
 			break;
 
 		case ENEMY_MAGGOT:
@@ -109,6 +111,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.20f, .35f)));
 
+			mSprite = ResourceManager.getInstance().maggot;
 			break;
 
 		case ENEMY_LION:
@@ -123,6 +126,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.15f, .20f)));
 
+			mSprite = ResourceManager.getInstance().lion;
 			break;
 
 		case ENEMY_CHEETAH:
@@ -137,6 +141,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.04f, .07f)));
 
+			mSprite = ResourceManager.getInstance().cheetah;
 			break;
 
 		case ENEMY_RHINO:
@@ -151,6 +156,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.45f, .50f)));
 
+			mSprite = ResourceManager.getInstance().rhino;
 			break;
 
 		case ENEMY_WASP:
@@ -165,6 +171,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.07f, .15f)));
 
+			mSprite = ResourceManager.getInstance().wasp;
 			break;
 
 		case ENEMY_AIR_ELEMENTAL:
@@ -179,6 +186,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.10f, .15f)));
 
+			mSprite = ResourceManager.getInstance().airElemental;
 			break;
 
 		// MOUNTAINS [20-39]
@@ -194,6 +202,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.15f, .20f)));
 
+			mSprite = ResourceManager.getInstance().eskimo;
 			break;
 
 		case ENEMY_YETI:
@@ -208,6 +217,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.20f, .25f)));
 
+			mSprite = ResourceManager.getInstance().yeti;
 			break;
 
 		case ENEMY_MAMMOTH:
@@ -222,6 +232,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.35f, .40f)));
 
+			mSprite = ResourceManager.getInstance().mammoth;
 			break;
 
 		case ENEMY_DIRE_WOLF:
@@ -236,6 +247,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.07f, .11f)));
 
+			mSprite = ResourceManager.getInstance().wolf;
 			break;
 
 		case ENEMY_DWARF:
@@ -250,6 +262,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.10f, .15f)));
 
+			mSprite = ResourceManager.getInstance().dwarf;
 			break;
 
 		case ENEMY_RAM:
@@ -264,6 +277,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.09f, .13f)));
 
+			//TODO get Ram sprite
 			break;
 
 		case ENEMY_ICE_ELEMENTAL:
@@ -278,6 +292,7 @@ public class Enemy extends Character {
 			mCurrentStats.setArmor((int) (pPlayerArmor * RandomNumber
 					.generateRandomFloat(.20f, .25f)));
 
+			mSprite = ResourceManager.getInstance().iceElemental;
 			break;
 		}
 

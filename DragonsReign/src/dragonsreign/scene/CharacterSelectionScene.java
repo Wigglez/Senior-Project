@@ -26,6 +26,7 @@ import dragonsreign.util.PartyContainer;
 import dragonsreign.character.characterclass.ClericClass;
 import dragonsreign.character.characterclass.RangerClass;
 import dragonsreign.character.characterclass.WarriorClass;
+import dragonsreign.item.Inventory;
 import dragonsreign.manager.ResourceManager;
 import dragonsreign.manager.SceneManager;
 import dragonsreign.manager.SoundManager;
@@ -73,7 +74,7 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
+	
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
@@ -150,6 +151,10 @@ public class CharacterSelectionScene extends BaseScene implements IOnMenuItemCli
 	@Override
     public void createScene()
     {
+		//Create all the classes/inventory for game
+		((DragonsReignActivity)activity).characterSetup();
+		
+		
     	classText = new Text[7];
 		playerStats = new Text[7];
 		classButtonText = new Text[7];

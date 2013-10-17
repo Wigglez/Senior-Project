@@ -1,5 +1,7 @@
 package dragonsreign.character;
 
+import org.andengine.opengl.texture.region.ITextureRegion;
+
 import dragonsreign.util.AbilityData;
 import dragonsreign.util.RandomNumber;
 import dragonsreign.util.Resources;
@@ -22,7 +24,7 @@ public abstract class Character {
 	protected int mID;
 	
 	//Sprite
-	protected int mSpriteID;
+	protected ITextureRegion mSprite;
 
 	
 	// All players and enemies have a name
@@ -94,8 +96,8 @@ public abstract class Character {
 	}
 
 	// Sprite ID
-	public int getSpriteID() {
-		return mSpriteID;
+	public ITextureRegion getSprite() {
+		return mSprite;
 	}
 
 	// Name

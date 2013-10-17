@@ -2,6 +2,8 @@ package dragonsreign.character;
 
 import java.util.ArrayList;
 
+import org.andengine.opengl.texture.region.ITextureRegion;
+
 import android.util.Log;
 
 import dragonsreign.item.Gear;
@@ -26,6 +28,8 @@ public abstract class PlayerCharacter extends Character {
 	// Fields
 	// ===========================================================
 
+	//Portrait
+	protected ITextureRegion mPortrait;
 	// Experience
 	protected int mCurrentExperience;
 	protected int mExperienceToNextLevel;
@@ -82,6 +86,9 @@ public abstract class PlayerCharacter extends Character {
 		  return mEquipmentSlots;
 	}
 	
+	public ITextureRegion getPortrait(){
+		return mPortrait;
+	}
 	// Experience
 	public int getCurrentExperience() {
 		return mCurrentExperience;

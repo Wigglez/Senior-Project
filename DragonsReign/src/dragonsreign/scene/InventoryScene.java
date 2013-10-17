@@ -122,12 +122,7 @@ public class InventoryScene extends PartyContainer {
 		playerXpBar = new Rectangle[3];
 		playerInfo = new Text[3];
 		
-		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.HEAVY_HELMET, 100, 100, 300, 200, 400, 100, 110, false));
-		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.CROSSBOW, 1, 10, 3, 2, 4, 0, 11, false));
-		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.MEDIUM_HELMET, 1, 10, 3, 2, 4, 0, 11, false));
-		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.ORB, 1, 10, 3, 2, 4, 0, 11, false));
-		((DragonsReignActivity)activity).getInventory().addItem(new Potion(POTIONS.FULL_REVIVE_POTION));
-		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.HEAVY_CHESTPLATE, 100, 100, 300, 200, 400, 100, 110, false));
+		
 		
 		createPlayerTouchAreas();
 		createPlayers();
@@ -210,7 +205,7 @@ public class InventoryScene extends PartyContainer {
 
 		if (player[0] != null) {
 			playerPortrait[0] = new Sprite(0, 0,
-					resourcesManager.character1Portrait,
+					player[0].getPortrait(),
 					this.engine.getVertexBufferObjectManager()) {
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
@@ -235,7 +230,7 @@ public class InventoryScene extends PartyContainer {
 
 		if (player[1] != null) {
 			playerPortrait[1] = new Sprite(0, 0,
-					resourcesManager.character2Portrait,
+					player[1].getPortrait(),
 					this.engine.getVertexBufferObjectManager()) {
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
@@ -262,7 +257,7 @@ public class InventoryScene extends PartyContainer {
 
 		if (player[2] != null) {
 			playerPortrait[2] = new Sprite(0, 0,
-					resourcesManager.character3Portrait,
+					player[2].getPortrait(),
 					this.engine.getVertexBufferObjectManager()) {
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent,
