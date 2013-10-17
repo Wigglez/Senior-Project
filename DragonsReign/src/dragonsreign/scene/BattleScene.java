@@ -396,82 +396,105 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.BASIC_ATTACK.getValue()) {
-			
-			abilityData = new AbilityData();
-						
-			// Determine what we just did in the battle using ability 0
-			targetFlag = focusedPartyMem.useAbility(0, abilityData);
-			
-			// String data for messages
-			abilityUser = focusedPartyMem.getName();
-			ability = plyrAbilities[0];
-			clearTargetSelection();
-			targetSelect();
+			if(focusedPartyMem.getLevel() >= 1) {
+				abilityData = new AbilityData();
+				
+				// Determine what we just did in the battle using ability 0
+				targetFlag = focusedPartyMem.useAbility(0, abilityData);
+				
+				// String data for messages
+				abilityUser = focusedPartyMem.getName();
+				ability = plyrAbilities[0];
+				clearTargetSelection();
+				targetSelect();
+			} else {
+				writeToScreen("Must be level 1 to use this ability.");
+			}
 			
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_ONE.getValue()) {
-			abilityData = new AbilityData();
-			
-			// Determine what we just did in the battle using ability 1
-			targetFlag = focusedPartyMem.useAbility(1, abilityData);
-			
-			// String data for messages
-			abilityUser = focusedPartyMem.getName();
-			ability = plyrAbilities[1];
-			clearTargetSelection();
-			targetSelect();
+			if(focusedPartyMem.getLevel() >= 1) {
+				abilityData = new AbilityData();
+				
+				// Determine what we just did in the battle using ability 1
+				targetFlag = focusedPartyMem.useAbility(1, abilityData);
+				
+				// String data for messages
+				abilityUser = focusedPartyMem.getName();
+				ability = plyrAbilities[1];
+				clearTargetSelection();
+				targetSelect();
+			} else {
+				writeToScreen("Must be level 1 to use this ability.");
+			}
 			
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_TWO.getValue()) {
-			abilityData = new AbilityData();
-			
-			// Determine what we just did in the battle using ability 2
-			targetFlag = focusedPartyMem.useAbility(2, abilityData);
-			
-			// String data for messages
-			abilityUser = focusedPartyMem.getName();
-			ability = plyrAbilities[2];
-			clearTargetSelection();
-			targetSelect();
+			if(focusedPartyMem.getLevel() >= 10) {
+				abilityData = new AbilityData();
+				
+				// Determine what we just did in the battle using ability 2
+				targetFlag = focusedPartyMem.useAbility(2, abilityData);
+				
+				// String data for messages
+				abilityUser = focusedPartyMem.getName();
+				ability = plyrAbilities[2];
+				clearTargetSelection();
+				targetSelect();
+			} else {
+				writeToScreen("Must be level 10 to use this ability.");
+			}
 			
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_THREE.getValue()) {
-			abilityData = new AbilityData();
-			
-			// Determine what we just did in the battle using ability 3
-			targetFlag = focusedPartyMem.useAbility(3, abilityData);
-			
-			// String data for messages
-			abilityUser = focusedPartyMem.getName();
-			ability = plyrAbilities[3];
-			clearTargetSelection();
-			targetSelect();
+			if(focusedPartyMem.getLevel() >= 10) {
+				abilityData = new AbilityData();
+				
+				// Determine what we just did in the battle using ability 3
+				targetFlag = focusedPartyMem.useAbility(3, abilityData);
+				
+				// String data for messages
+				abilityUser = focusedPartyMem.getName();
+				ability = plyrAbilities[3];
+				clearTargetSelection();
+				targetSelect();
+			} else {
+				writeToScreen("Must be level 10 to use this ability.");
+			}
 			
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_FOUR.getValue()) {
-			abilityData = new AbilityData();
-			
-			// Determine what we just did in the battle using ability 4
-			targetFlag = focusedPartyMem.useAbility(4, abilityData);
-			
-			// String data for messages
-			abilityUser = focusedPartyMem.getName();
-			ability = plyrAbilities[4];
-			clearTargetSelection();
-			targetSelect();
+			if(focusedPartyMem.getLevel() >= 20) {
+				abilityData = new AbilityData();
+				
+				// Determine what we just did in the battle using ability 4
+				targetFlag = focusedPartyMem.useAbility(4, abilityData);
+				
+				// String data for messages
+				abilityUser = focusedPartyMem.getName();
+				ability = plyrAbilities[4];
+				clearTargetSelection();
+				targetSelect();
+			} else {
+				writeToScreen("Must be level 20 to use this ability.");
+			}
 			
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.SKILL_FIVE.getValue()) {
-			abilityData = new AbilityData();
-			
-			// Determine what we just did in the battle using ability 5
-			targetFlag = focusedPartyMem.useAbility(5, abilityData);
-			
-			// String data for messages
-			abilityUser = focusedPartyMem.getName();
-			ability = plyrAbilities[5];
-			clearTargetSelection();
-			targetSelect();
+			if(focusedPartyMem.getLevel() >= 20) {
+				abilityData = new AbilityData();
+				
+				// Determine what we just did in the battle using ability 5
+				targetFlag = focusedPartyMem.useAbility(5, abilityData);
+				
+				// String data for messages
+				abilityUser = focusedPartyMem.getName();
+				ability = plyrAbilities[5];
+				clearTargetSelection();
+				targetSelect();
+			} else {
+				writeToScreen("Must be level 20 to use this ability.");
+			}
 			
 			return true;
 		} else if (pMenuItem.getID() == BUTTONS.ITEM_1.getValue()) {
@@ -1319,6 +1342,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		// Unused for demo
 		case SELF_CAST:
 			break;
+		default:
+			break;
 		}
 	}
 	
@@ -1464,6 +1489,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 			
 		// Unused for demo, will apply in full game
 		case SELF_CAST:
+			break;
+		default:
 			break;
 
 		}
