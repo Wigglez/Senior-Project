@@ -199,6 +199,9 @@ public class RangerClass extends PlayerCharacter {
 		case MEDIUM_HELMET:
 
 			// unequip helmet
+			if (helmet != null)
+				removeItems[0] = new Gear(helmet);
+
 			helmet = pGearPiece;
 			equipSuccess = true;
 
@@ -207,6 +210,9 @@ public class RangerClass extends PlayerCharacter {
 		case MEDIUM_CHESTPLATE:
 
 			// unequip chest piece
+			if (chestArmor != null)
+				removeItems[0] = new Gear(chestArmor);
+
 			chestArmor = pGearPiece;
 			equipSuccess = true;
 
@@ -215,6 +221,9 @@ public class RangerClass extends PlayerCharacter {
 		case MEDIUM_LEGS:
 
 			// Unequip legs
+			if (legArmor != null)
+				removeItems[0] = new Gear(legArmor);
+
 			legArmor = pGearPiece;
 			equipSuccess = true;
 
@@ -223,6 +232,9 @@ public class RangerClass extends PlayerCharacter {
 		case SHORTBOW:
 
 			// Unequip shortbow
+			if (weaponHand1 != null)
+				removeItems[0] = new Gear(weaponHand1);
+
 			weaponHand1 = pGearPiece;
 			equipSuccess = true;
 
@@ -231,6 +243,9 @@ public class RangerClass extends PlayerCharacter {
 		case LONGBOW:
 
 			// Unequip Longbow
+			if (weaponHand1 != null)
+				removeItems[0] = new Gear(weaponHand1);
+
 			weaponHand1 = pGearPiece;
 			equipSuccess = true;
 
@@ -239,6 +254,9 @@ public class RangerClass extends PlayerCharacter {
 		case CROSSBOW:
 
 			// Unequip crossbow
+			if (weaponHand1 != null)
+				removeItems[0] = new Gear(weaponHand1);
+
 			weaponHand1 = pGearPiece;
 			equipSuccess = true;
 

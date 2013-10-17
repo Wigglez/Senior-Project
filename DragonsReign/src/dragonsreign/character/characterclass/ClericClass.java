@@ -173,6 +173,9 @@ public class ClericClass extends PlayerCharacter {
 		case LIGHT_HELMET:
 
 			// unequip helmet
+			if (helmet != null)
+				removeItems[0] = new Gear(helmet);
+
 			helmet = pGearPiece;
 			equipSuccess = true;
 
@@ -181,6 +184,9 @@ public class ClericClass extends PlayerCharacter {
 		case LIGHT_CHESTPLATE:
 
 			// unequip chestplate
+			if (chestArmor != null)
+				removeItems[0] = new Gear(chestArmor);
+
 			chestArmor = pGearPiece;
 			equipSuccess = true;
 
@@ -189,6 +195,9 @@ public class ClericClass extends PlayerCharacter {
 		case LIGHT_LEGS:
 
 			// unequip legs
+			if (legArmor != null)
+				removeItems[0] = new Gear(legArmor);
+
 			legArmor = pGearPiece;
 			equipSuccess = true;
 
@@ -197,6 +206,9 @@ public class ClericClass extends PlayerCharacter {
 		case WAND:
 
 			// unequip wand
+			if (weaponHand1 != null)
+				removeItems[0] = new Gear(weaponHand1);
+
 			weaponHand1 = pGearPiece;
 			equipSuccess = true;
 
@@ -205,6 +217,9 @@ public class ClericClass extends PlayerCharacter {
 		case ORB:
 
 			// unequip orb
+			if (weaponHand2 != null)
+				removeItems[0] = new Gear(weaponHand2);
+
 			weaponHand2 = pGearPiece;
 			equipSuccess = true;
 
@@ -214,11 +229,16 @@ public class ClericClass extends PlayerCharacter {
 
 			if (weaponHand2 == null) {
 				// unequip weaponHand1
+				removeItems[0] = new Gear(weaponHand1);
+				
 				weaponHand1 = pGearPiece;
 				equipSuccess = true;
 
 			} else {
 				// unequip weaponHand1 &weaponHand2
+				removeItems[0] = new Gear(weaponHand1);
+				removeItems[1] = new Gear(weaponHand2);
+				
 				weaponHand1 = pGearPiece;
 				equipSuccess = true;
 			}

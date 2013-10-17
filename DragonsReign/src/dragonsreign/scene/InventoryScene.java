@@ -336,7 +336,12 @@ public class InventoryScene extends PartyContainer {
 																public void onClick(DialogInterface dialog,int id) {
 																	Gear[] removeItems = new Gear[2];
 																	if(player[playerSelected].equipItem((Gear)currentItem, removeItems)){
-																		currentInventory.addItem(removeItems[0]);
+																		
+																		if(removeItems[0] != null)
+																			currentInventory.addItem(removeItems[0]);
+																		if(removeItems[1] != null)
+																			currentInventory.addItem(removeItems[1]);
+																		
 																		currentInventory.removeItem(currentItem);
 																		updateInventory();
 																		createInventoryTouchAreas();
