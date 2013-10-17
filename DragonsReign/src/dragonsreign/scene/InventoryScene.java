@@ -126,12 +126,7 @@ public class InventoryScene extends PartyContainer {
 		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.CROSSBOW, 1, 10, 3, 2, 4, 0, 11, false));
 		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.MEDIUM_HELMET, 1, 10, 3, 2, 4, 0, 11, false));
 		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.ORB, 1, 10, 3, 2, 4, 0, 11, false));
-		Potion potion1 = new Potion(POTIONS.FULL_REVIVE_POTION);
-		Potion potion2 =  new Potion(POTIONS.MAJOR_RESOURCE_POTION);
-		Potion potion3 = new  Potion(POTIONS.MINOR_HEALTH_POTION);
-		((DragonsReignActivity)activity).getInventory().addItem(potion1);
-		((DragonsReignActivity)activity).getInventory().addItem(potion2);
-		((DragonsReignActivity)activity).getInventory().addItem(potion3);
+		((DragonsReignActivity)activity).getInventory().addItem(new Potion(POTIONS.FULL_REVIVE_POTION));
 		((DragonsReignActivity)activity).getInventory().addItem(new Gear(ITEMTYPE.HEAVY_CHESTPLATE, 100, 100, 300, 200, 400, 100, 110, false));
 		
 		createPlayerTouchAreas();
