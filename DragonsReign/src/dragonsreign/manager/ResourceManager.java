@@ -46,16 +46,18 @@ public class ResourceManager
     
     private TexturePackTextureRegionLibrary texturePackLibrary;
     private TexturePack texturePack;
-    
-	public ITextureRegion menuBackgroundRegion, characterSelectBackground, playButton, optionsButton,
-			companySplashLogo, warriorButton, knightButton, andEngineLogo,
-			assassinButton, engineerButton, clericButton, mageButton,
-			rangerButton, playGameButton, warriorCharacter, rangerCharacter, knightCharacter,
-			assassinCharacter, engineerCharacter, clericCharacter,
-			mageCharacter, character1Portrait, character2Portrait,
-			character3Portrait, backPack, worldMap, inventoryArea, exitButton,
-			equipmentArea, statsArea, itemsButton, abilitiesButton, swapButton,
-			fleeButton, basicAttackButton, skillOneButton, skillTwoButton,
+
+	public ITextureRegion menuBackgroundRegion, characterSelectBackground,
+			plainsBattleBackground, mountainsBattleBackground, playButton,
+			optionsButton, companySplashLogo, warriorButton, knightButton,
+			andEngineLogo, assassinButton, engineerButton, clericButton,
+			mageButton, rangerButton, playGameButton, warriorCharacter,
+			rangerCharacter, knightCharacter, assassinCharacter,
+			engineerCharacter, clericCharacter, mageCharacter,
+			character1Portrait, character2Portrait, character3Portrait,
+			backPack, worldMap, inventoryArea, exitButton, equipmentArea,
+			statsArea, itemsButton, abilitiesButton, swapButton, fleeButton,
+			basicAttackButton, skillOneButton, skillTwoButton,
 			skillThreeButton, skillFourButton, skillFiveButton, teamMember1,
 			teamMember2, teamMember3, enemy1, enemy2, enemy3, warriorPlayer,
 			DPADBacking, DPADKnob, leftArrow1, leftArrow2, leftArrow3,
@@ -74,7 +76,7 @@ public class ResourceManager
 	public ITextureRegion fullRevive, basicRevive, majorHealth, majorResource,
 			minorHealth, minorResource, superiorHealth, superiorResource;
     
-    public Font font, battleFont, inventoryFont;
+    public Font font, whiteFont, battleFont, inventoryFont;
 
 	public TiledTextureRegion mWarriorTextureRegion, mClericTextureRegion, mRangerTextureRegion;
 
@@ -110,8 +112,7 @@ public class ResourceManager
     	menuBackgroundRegion = texturePackLibrary.get(MenuAssets.TITLE_ID);
     	playButton = texturePackLibrary.get(MenuAssets.LARGEMENUBUTTON_ID);
     	optionsButton = texturePackLibrary.get(MenuAssets.LARGEMENUBUTTON_ID);
-    	
-    	
+    
     }
     private void loadMenuAudio()
     {
@@ -121,9 +122,13 @@ public class ResourceManager
     {
         FontFactory.setAssetBasePath("font/");
         final ITexture mainFontTexture = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
+        final ITexture secondFontTexture = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+        
         font = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "Zwiebelfisch.ttf", 30, true, Color.BLACK, 2, Color.BLACK);
         font.load();
+        
+        whiteFont = FontFactory.createStrokeFromAsset(activity.getFontManager(), secondFontTexture, activity.getAssets(), "Zwiebelfisch.ttf", 30, true, Color.WHITE, 0, Color.WHITE);
+        whiteFont.load();
     }
 
 	//////////////////////////////////////////////////////////////////////////
@@ -452,6 +457,9 @@ public class ResourceManager
     	leftArrow3 = texturePackLibrary.get(BattleAssets.LEFTARROW_ID);
     	focusArrow = texturePackLibrary.get(BattleAssets.FOCUSARROW_ID);
     	
+    	
+    	plainsBattleBackground = texturePackLibrary.get(BattleAssets.PLAINS_ID);
+    	mountainsBattleBackground = texturePackLibrary.get(BattleAssets.MOUNTAINS_ID);
     }
    
     
