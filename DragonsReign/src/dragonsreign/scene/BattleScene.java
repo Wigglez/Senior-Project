@@ -1057,7 +1057,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		int plyrLvl = partyMem[0].getLevel();
 		
 		// Generates a random amount of enemies, in a range of 1-3
-		enemyCount = RandomNumber.generateRandomInt(1, 3);
+		enemyCount = 3;
+				//RandomNumber.generateRandomInt(1, 3);
 		
 		// If we have an enemy, we fill out their array, otherwise they are null
 		switch (enemyCount) {
@@ -1588,13 +1589,13 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		// Base all of the calculation on the first party member
 		if (partyMem[0].getLevel() > avgEnemyLevel) {
 			// 75% chance to flee
-			chanceToFlee = 75;
+			chanceToFlee = 100;
 		} else if (partyMem[0].getLevel() == avgEnemyLevel) {
 			// 50% chance to flee
-			chanceToFlee = 50;
+			chanceToFlee = 100;
 		} else if (partyMem[0].getLevel() < avgEnemyLevel) {
 			// 25% chance to flee
-			chanceToFlee = 25;
+			chanceToFlee = 100;
 		}
 
 		// If our random number is less than or equal to the chance we have to
