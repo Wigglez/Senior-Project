@@ -397,8 +397,8 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener, IO
     	else if(mapName == "inn")
     	{
     		newMapName = "tmx/inn.tmx";
-    		playerX = 3;
-    		playerY = 3;
+    		playerX = 7;
+    		playerY = 4;
     	}
     	else if(mapName == "mountains")
     	{

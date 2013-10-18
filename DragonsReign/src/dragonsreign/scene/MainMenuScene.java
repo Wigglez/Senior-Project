@@ -48,11 +48,13 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    final IMenuItem playMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_PLAY, resourcesManager.playButton, vbom), 1.2f, 1);
 	    final IMenuItem exitMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_EXIT, resourcesManager.optionsButton, vbom), 1.2f, 1);
 	    
-	    playButtonText = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
+	    playButtonText = new Text(0,0, resourcesManager.font, "" ,150, new TextOptions(), vbom);
 	    playButtonText.setText("Play");
+	    playButtonText.setPosition(165, 30);
 		
-	    exitButtonText = new Text(40,10, resourcesManager.font, "" ,150, new TextOptions(), vbom);
+	    exitButtonText = new Text(0,0, resourcesManager.font, "" ,150, new TextOptions(), vbom);
 	    exitButtonText.setText("Exit");
+	    exitButtonText.setPosition(165, 30);
 		
 	    menuChildScene.addMenuItem(playMenuItem);
 	    menuChildScene.addMenuItem(exitMenuItem);
