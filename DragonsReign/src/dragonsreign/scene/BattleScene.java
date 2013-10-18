@@ -257,7 +257,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		createItemsMenuView();
 		
 		// Determine who is going to go first
-		hasteCheck();
+		//hasteCheck();
+		playerTurn = true;
 		if(playerTurn){
 			focusArrow.setVisible(true);
 			playerTurn();
