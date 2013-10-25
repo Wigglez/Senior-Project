@@ -98,10 +98,9 @@ public class DragonsReignActivity extends BaseGameActivity {
 	public void setParty(int pClassChoice) {
 		if(pClassChoice == 0) {
 			this.currentParty[0] = mWarrior;
-			this.currentParty[1] = mRanger;
-			this.currentParty[2] = mCleric;
+			this.currentParty[1] = mCleric;
 			
-			partySize = 3;
+			partySize = 2;
 		} else if(pClassChoice == 1) {
 			this.currentParty[0] = mRanger;
 			this.currentParty[1] = mCleric;

@@ -256,9 +256,10 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		createAbilitiesMenuView();
 		createItemsMenuView();
 		
-		// Determine who is going to go first
-		//hasteCheck();
 		playerTurn = true;
+		// Determine who is going to go first
+		hasteCheck();
+		//;
 		if(playerTurn){
 			focusArrow.setVisible(true);
 			playerTurn();
@@ -1058,8 +1059,8 @@ public class BattleScene extends BaseScene implements IOnMenuItemClickListener {
 		int plyrLvl = partyMem[0].getLevel();
 		
 		// Generates a random amount of enemies, in a range of 1-3
-		enemyCount = 3;
-				//RandomNumber.generateRandomInt(1, 3);
+		//enemyCount = 3;
+		enemyCount = RandomNumber.generateRandomInt(1, 3);
 		
 		// If we have an enemy, we fill out their array, otherwise they are null
 		switch (enemyCount) {
